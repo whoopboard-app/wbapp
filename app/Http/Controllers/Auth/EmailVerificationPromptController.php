@@ -18,4 +18,22 @@ class EmailVerificationPromptController extends Controller
                     ? redirect()->intended(route('dashboard', absolute: false))
                     : view('auth.verify-email');
     }
+
+    /**
+     * Verify the email using a verification code.
+     */
+    public function verifyCode(Request $request): RedirectResponse
+    {       
+        $user = $request->user();  
+
+        if ($user->remember_token === $request->input('code')) {
+            $user->email_verified_at = now();
+            $user->remember_token = null; // Clear the token after verification
+            $user->save();
+
+            return redirect()->route('dashboard', absolute: false)->with('status', 'Email verified successfully.');
+        }
+
+        return redirect()->back()->withErrors(['code' => 'The provided verification code is invalid.']);
+    }
 }
