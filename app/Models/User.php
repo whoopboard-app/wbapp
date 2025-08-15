@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Notifications\VerifyEmailWithCode;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -59,12 +60,17 @@ class User extends Authenticatable implements MustVerifyEmail
             && now()->greaterThan($this->verify_code_expire_at);
     }
 
-    public function clearExpiredVerifyCode(): void
+    public function clearVerifyCode(): void
     {
-        if ($this->isVerifyCodeExpired()) {
-            $this->verify_code = null;
-            $this->verify_code_expire_at = null;
-            $this->save();
-        }
+        $this->verify_code = null;
+        $this->verify_code_expire_at = null;
+        $this->save();
+    }
+    
+    public function generateVerifyCode(int $hours = 24): void
+    {
+        $this->verify_code = Str::random(6);
+        $this->verify_code_expire_at = now()->addHours($hours);
+        $this->save();
     }
 }

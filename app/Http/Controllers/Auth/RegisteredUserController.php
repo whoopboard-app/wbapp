@@ -42,9 +42,7 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        $user->verify_code = Str::random(6);
-        $user->verify_code_expire_at = now()->addHours(24);
-        $user->save();
+        $user->generateVerifyCode();
 
         event(new Registered($user));
 

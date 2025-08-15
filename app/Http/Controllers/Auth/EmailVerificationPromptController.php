@@ -42,12 +42,10 @@ class EmailVerificationPromptController extends Controller
         }
 
         if ($user->verify_code === $validdata['code'] &&
-            now()->lessThanOrEqualTo($user->verify_code_expire_at)) {
-        
+            $user->isVerifyCodeExpired() === false) {
+       
             $user->email_verified_at = now();
-            $user->verify_code = null; // Clear the token after verification
-            $user->verify_code_expire_at = null; // Clear the expiration time
-            $user->save();
+            $user->clearVerifyCode();
 
             return redirect()->intended(route('dashboard', absolute: false));
             

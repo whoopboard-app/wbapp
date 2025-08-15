@@ -18,7 +18,7 @@ class ClearExpiredVerifyCodes extends Command
         $count = User::whereNotNull('verify_code_expire_at')
             ->where('verify_code_expire_at', '<', now())
             ->get()
-            ->each->clearExpiredVerifyCode();
+            ->each->clearVerifyCode();
 
         $this->info("Expired verification codes cleared. ({$count} users updated)");
     }
