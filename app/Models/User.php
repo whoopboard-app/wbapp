@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Notifications\VerifyEmailWithCode;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -45,5 +46,25 @@ class User extends Authenticatable implements MustVerifyEmail
             'password' => 'hashed',
             'verify_code_expire_at' => 'datetime',
         ];
+    }
+
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new VerifyEmailWithCode());
+    }
+
+    public function isVerifyCodeExpired(): bool
+    {
+        return $this->verify_code_expire_at !== null 
+            && now()->greaterThan($this->verify_code_expire_at);
+    }
+
+    public function clearExpiredVerifyCode(): void
+    {
+        if ($this->isVerifyCodeExpired()) {
+            $this->verify_code = null;
+            $this->verify_code_expire_at = null;
+            $this->save();
+        }
     }
 }

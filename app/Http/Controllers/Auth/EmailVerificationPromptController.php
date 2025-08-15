@@ -29,16 +29,28 @@ class EmailVerificationPromptController extends Controller
     /**
      * Verify the email using a verification code.
      */
+    
     public function verifyCode(Request $request): RedirectResponse
     {       
         $user = $request->user();  
+        $validdata = $request->validate([
+            'code' => 'required|string|size:6'
+        ]);
 
-        if ($user->remember_token === $request->input('code')) {
+        if ($user->isVerifyCodeExpired()) {
+            return back()->withErrors(['code' => 'Your verification code has expired.']);
+        }
+
+        if ($user->verify_code === $validdata['code'] &&
+            now()->lessThanOrEqualTo($user->verify_code_expire_at)) {
+        
             $user->email_verified_at = now();
-            $user->remember_token = null; // Clear the token after verification
+            $user->verify_code = null; // Clear the token after verification
+            $user->verify_code_expire_at = null; // Clear the expiration time
             $user->save();
 
-            return redirect()->route('dashboard', absolute: false)->with('status', 'Email verified successfully.');
+            return redirect()->intended(route('dashboard', absolute: false));
+            
         }
 
         return redirect()->back()->withErrors(['code' => 'The provided verification code is invalid.']);
