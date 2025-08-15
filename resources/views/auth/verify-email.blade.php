@@ -3,6 +3,16 @@
         {{ __('Please enter the 6-digit verification code sent to your email address.') }}
     </div>
 
+    <div 
+        x-data="countdownTimer({{ $expiresAt }})" 
+        x-init="startTimer()" 
+        class="my-2 text-sm text-gray-600"
+    >
+        Code expires in: 
+        <span class="font-semibold text-red-600" x-text="timeLeft"></span>
+    </div>
+
+
     @if (session('status') == 'verification-link-sent')
         <div class="mb-4 font-medium text-sm text-green-600">
             {{ __('A new code has been sent to the email address you provided during registration.') }}
@@ -51,6 +61,36 @@
                 </button>
             </form>
         </div>
+        <script>
+            function countdownTimer(expiryTimestamp) {
+                return {
+                    timeLeft: '',
+                    startTimer() {
+                        const expiresAt = expiryTimestamp * 1000;
+
+                        const update = () => {
+                            const now = new Date().getTime();
+                            const distance = expiresAt - now;
+
+                            if (distance <= 0) {
+                                this.timeLeft = 'Expired';
+                                return;
+                            }
+
+                            const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
+                            const minutes = Math.floor((distance / (1000 * 60)) % 60);
+                            const seconds = Math.floor((distance / 1000) % 60);
+
+                            this.timeLeft = `${hours}h ${minutes}m ${seconds}s`;
+                        };
+
+                        update();
+                        setInterval(update, 1000);
+                    }
+                };
+            }
+        </script>
+
   <script>
 document.addEventListener("DOMContentLoaded", function () {
     let inputs = document.querySelectorAll(".otp-input");
