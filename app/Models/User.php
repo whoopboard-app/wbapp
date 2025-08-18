@@ -71,7 +71,7 @@ class User extends Authenticatable implements MustVerifyEmail
     
     public function generateVerifyCode(int $hours = 24): void
     {
-        $this->verify_code = Str::random(6);
+        $this->verify_code = random_int(100000, 999999);
         $this->verify_code_expire_at = now()->addHours($hours);
         $this->save();
     }
