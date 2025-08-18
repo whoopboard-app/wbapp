@@ -34,7 +34,7 @@ class EmailVerificationPromptController extends Controller
     {       
         $user = $request->user();  
         $validdata = $request->validate([
-            'code' => 'required|string|size:6'
+            'code' => 'required|digits:6'
         ]);
 
         if ($user->isVerifyCodeExpired()) {

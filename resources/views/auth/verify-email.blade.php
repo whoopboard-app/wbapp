@@ -24,7 +24,7 @@
                 <label for="code" class="block font-medium text-sm text-gray-700">Verification Code</label>
                <div class="flex justify-between gap-3 mt-4">
                     @for ($i = 0; $i < 6; $i++)
-                        <input type="text" maxlength="1" 
+                        <input type="text" maxlength="1" inputmode="numeric" pattern="\d*"
                             required
                             class="w-12 h-12 text-center border border-gray-300 rounded-lg text-lg font-semibold focus:outline-none focus:ring-2 focus:ring-blue-500 otp-input">
                     @endfor
@@ -93,14 +93,18 @@
 
   <script>
 document.addEventListener("DOMContentLoaded", function () {
-    let inputs = document.querySelectorAll(".otp-input");
-    let hiddenInput = document.getElementById("code");
+    const inputs = document.querySelectorAll(".otp-input");
+    const hiddenInput = document.getElementById("code");
 
     inputs.forEach((input, index) => {
-        input.addEventListener("input", function () {
-            if (this.value.length === 1 && index < inputs.length - 1) {
+        input.addEventListener("input", function (e) {
+            const value = this.value.replace(/\D/g, ""); // Remove non-digits
+            this.value = value;
+
+            if (value && index < inputs.length - 1) {
                 inputs[index + 1].focus();
             }
+
             updateHidden();
         });
 
@@ -108,6 +112,15 @@ document.addEventListener("DOMContentLoaded", function () {
             if (e.key === "Backspace" && this.value === "" && index > 0) {
                 inputs[index - 1].focus();
             }
+        });
+
+        input.addEventListener("paste", function (e) {
+            e.preventDefault();
+            const pasteData = (e.clipboardData || window.clipboardData).getData("text").replace(/\D/g, "");
+            pasteData.split("").forEach((char, i) => {
+                if (inputs[i]) inputs[i].value = char;
+            });
+            updateHidden();
         });
     });
 
