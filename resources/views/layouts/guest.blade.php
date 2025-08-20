@@ -29,10 +29,10 @@
             </div>
 
             <!-- Right Column -->
-            <div class="basis-[40%] flex flex-col justify-center items-center pt-6 px-6 bg-[#fbfaf8]">
+            <div class="basis-[40%] flex flex-col justify-center items-center pt-6 pl-6 bg-[#fbfaf8]">
                 <!-- Put your right column content here -->
                 <div class="signup-right d-flex flex-column justify-content-between">
-                    <div class="testimonial-slider swiper w-full max-w-md">
+                    <div class="testimonial-slider swiper w-full max-w-md mt-4">
                         <div class="swiper-wrapper">
                             <!-- Slide 1 -->
                             <div class="swiper-slide p-4 rounded-lg">
@@ -64,7 +64,7 @@
                         <!-- Pagination -->
                         <div class="testimonial-slider-pagination swiper-pagination pg-top mt-4" ></div>
                     </div>
-                    <div class="signup-thumb">
+                    <div class="signup-thumb relative top-[22px]">
                         <img src="{{ asset('images/site-thumb.png') }}" alt="signup thumb" class="w-100">
                     </div>
                 </div>

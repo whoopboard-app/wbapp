@@ -59,7 +59,7 @@
     </form>
     <div class="text-center mt-5">
         <span class="text-gray-600 text-sm">Don't have an account?</span>
-        <a href="{{ route('register') }}" class="ml-2 underline text-sm text-blue-600 hover:text-gray-900 font-medium">
+        <a href="{{ route('register') }}" class="ml-1 underline text-sm text-blue-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
             Sign up
         </a>
     </div>

@@ -62,13 +62,13 @@
     <div class="text-center mt-5">
         <span class="text-gray-600 text-sm">Sign up
             By clicking the button above, you agree to our
-            <a href="/" class="underline text-sm text-blue-600 hover:text-gray-900 font-medium">Terms of Use</a> and <a href="/" class="underline text-sm text-blue-600 hover:text-gray-900 font-medium">Privacy Policy</a>.
+            <a href="/" class="underline text-sm text-blue-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Terms of Use</a> and <a href="/" class="underline text-sm text-blue-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Privacy Policy</a>.
         </span>
     </div>
     
     <div class="text-center mt-5">
         <span class="text-gray-600 text-sm">Already have an account?</span>
-        <a href="{{ route('login') }}" class="ml-2 underline text-sm text-blue-600 hover:text-gray-900 font-medium">
+        <a href="{{ route('login') }}" class="ml-1 underline text-sm text-blue-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
             Sign in
         </a>
     </div>
