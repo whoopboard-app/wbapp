@@ -21,7 +21,7 @@
     </div>--}}
     <div class="text-left mb-6">
          <div class="mb-3">
-            <a href="/">
+            <a href="/" class="inline-flex items-center">
                 <x-application-logo class="w-20 h-20 fill-current" />
             </a>
         </div>
