@@ -12,7 +12,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 use Illuminate\Support\Str;
-
+use Stevebauman\Location\Facades\Location;
+use App\Models\Tenant;
 class RegisteredUserController extends Controller
 {
     /**
@@ -35,11 +36,30 @@ class RegisteredUserController extends Controller
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
-
+        $fullName = trim($request->name);
+        $parts = preg_split('/\s+/', $fullName);
+        $lastName = array_pop($parts);
+        $firstName = implode(' ', $parts);
+        $position = Location::get($request->ip());
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'name'       => $request->name,
+            'last_name'  => $lastName,
+            'email'      => $request->email,
+            'password'   => Hash::make($request->password),
+            'timezone'   => $position->timezone ?? 'UTC',
+            'user_type'  => $request->user_type ?? 'User',
+            'tenant_id'  => null,
+        ]);
+        $tenant = Tenant::create([
+            'client_full_name'    => $fullName,
+            'status'              => 'Active Account',
+            'subscription_status' => 'Active',
+            'client_user_id'      => $user->id,
+            'date_of_registration'=> now()->toDateString(),
+            'time_of_registration'=> now()->toTimeString(),
+        ]);
+        $user->update([
+            'tenant_id' => $tenant->tenant_id, // assuming PK is tenant_id
         ]);
 
         $user->generateVerifyCode();

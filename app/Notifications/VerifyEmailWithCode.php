@@ -42,7 +42,7 @@ class VerifyEmailWithCode extends Notification
             ->line(__('Thank you for registering with us. To complete your registration, please use the verification code below:'))
             ->line(new HtmlString(
                 '<div style="text-align:center; margin:20px 0;">
-                    <span style="display:inline-block; background:#f4f4f4; padding:15px 25px; 
+                    <span style="display:inline-block; background:#f4f4f4; padding:15px 25px;
                         border-radius:8px; font-size:24px; letter-spacing:4px; font-weight:bold; color:#333;">
                         ' . $notifiable->verify_code . '
                     </span>

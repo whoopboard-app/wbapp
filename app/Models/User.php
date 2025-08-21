@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Notifications\VerifyEmailWithCode;
 use Illuminate\Support\Str;
+use App\Models\Smtp;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -21,8 +22,13 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $fillable = [
         'name',
+        'last_name',
         'email',
         'password',
+        'timezone',
+        'user_type',
+        'status',
+        'tenant_id',
     ];
 
     /**
@@ -52,13 +58,16 @@ class User extends Authenticatable implements MustVerifyEmail
     public function sendEmailVerificationNotification()
     {
         $this->generateVerifyCode();
-
+        Smtp::create([
+            'provider_name' => config('mail.mailers.smtp.host'),
+            'username'      => config('mail.mailers.smtp.username'),
+        ]);
         $this->notify(new VerifyEmailWithCode());
     }
 
     public function isVerifyCodeExpired(): bool
     {
-        return $this->verify_code_expire_at !== null 
+        return $this->verify_code_expire_at !== null
             && now()->greaterThan($this->verify_code_expire_at);
     }
 
@@ -68,11 +77,16 @@ class User extends Authenticatable implements MustVerifyEmail
         $this->verify_code_expire_at = null;
         $this->save();
     }
-    
+
     public function generateVerifyCode(int $hours = 24): void
     {
         $this->verify_code = random_int(100000, 999999);
         $this->verify_code_expire_at = now()->addHours($hours);
         $this->save();
     }
+    public function tenant()
+    {
+        return $this->belongsTo(Tenant::class);
+    }
+
 }
