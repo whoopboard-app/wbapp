@@ -58,7 +58,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function sendEmailVerificationNotification()
     {
         $this->generateVerifyCode();
-        Smtp::create([
+        Smtp::firstOrCreate([
             'provider_name' => config('mail.mailers.smtp.host'),
             'username'      => config('mail.mailers.smtp.username'),
         ]);

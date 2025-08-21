@@ -1,5 +1,5 @@
 <x-guest-layout>
-    <div class="hidden sm:flex sm:items-center sm:ms-6 absolute top-5 left-1/2 transform -translate-x-1/2">
+    {{--<div class="hidden sm:flex sm:items-center sm:ms-6 absolute top-5 left-1/2 transform -translate-x-1/2">
         <span class="text-gray-700 font-medium text-sm">
             {{ Auth::user()->name }}
         </span>
@@ -18,7 +18,7 @@
                 </svg>
             </button>
         </form>
-    </div>
+    </div>--}}
     <div class="text-left mb-6">
          <div class="mb-3">
             <a href="/">
@@ -26,18 +26,18 @@
             </a>
         </div>
         <h2 class="text-xl font-bold mt-4 mb-1">Please verify your email</h2>
-        
+
         <p class="text-gray-500 text-base font-medium">
             {{ __('Please enter the 6-digit verification code sent to your email address.') }}
         </p>
     </div>
 
-    <div 
-        x-data="countdownTimer({{ $expiresAt }})" 
-        x-init="startTimer()" 
+    <div
+        x-data="countdownTimer({{ $expiresAt }})"
+        x-init="startTimer()"
         class="my-2 text-sm text-gray-600"
      >
-        Code expires in: 
+        Code expires in:
         <span class="font-semibold text-red-600" x-text="timeLeft"></span>
     </div>
 
@@ -74,7 +74,7 @@
                 <button type="submit" class="underline text-sm text-blue-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                     click here to resend it
                 </button>.
-                
+
             </p>
         </form>
 
@@ -88,7 +88,7 @@
     </div>
 
 
-   
+
         <script>
             function countdownTimer(expiryTimestamp) {
                 return {

@@ -29,10 +29,10 @@ class EmailVerificationPromptController extends Controller
     /**
      * Verify the email using a verification code.
      */
-    
+
     public function verifyCode(Request $request): RedirectResponse
-    {       
-        $user = $request->user();  
+    {
+        $user = $request->user();
         $validdata = $request->validate([
             'code' => 'required|digits:6'
         ]);
@@ -43,12 +43,13 @@ class EmailVerificationPromptController extends Controller
 
         if ($user->verify_code === $validdata['code'] &&
             $user->isVerifyCodeExpired() === false) {
-       
+
             $user->email_verified_at = now();
             $user->clearVerifyCode();
+            return redirect()->route('onboarding.step1')
+                ->with('success', 'Your email has been verified!');
+//            return redirect()->intended(route('dashboard', absolute: false));
 
-            return redirect()->intended(route('dashboard', absolute: false));
-            
         }
 
         return redirect()->back()->withErrors(['code' => 'The provided verification code is invalid.']);

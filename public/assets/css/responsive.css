@@ -1,0 +1,355 @@
+@media (max-width: 1439px) {
+   .signup-right {
+      width: 550px;
+   }
+   .header {
+      padding: 14px 24px;
+   }
+   .sidebar {
+      width: 270px;
+   }
+   .sidebar-menu-link {
+      padding: 8px 12px 8px 24px;
+      font-size: 15px;
+   }
+   .sidebar-menu-title {
+      padding: 0 12px 0 24px;
+   }
+   .main-content {
+      padding: 65px 60px;
+   }
+   .section-title p {
+      font-size: 18px;
+   }
+   .setting-wrapper {
+      padding-right: 0;
+   }
+   .rating-btn {
+      min-width: 140px;
+   }
+   .persona-view {
+      padding: 35px 24px 100px;
+   }
+}
+
+@media (max-width: 1199px) {
+   .signup-right {
+      width: 50%;
+      padding: 30px 0 0 24px;
+   }
+   .testimonial-slider-container {
+      padding: 0 24px 13px 20px;
+   }
+   .testimonial-review {
+      font-size: 16px;
+      line-height: 24px;
+   }
+   .sidebar {
+      position: fixed;
+      top: 0;
+      height: 100%;
+      z-index: 1040;
+      left: -300px;
+      padding-top: 0;
+   }
+   .sidebar.active {
+      left: 0;
+   }
+   .main-content {
+      padding: 65px 40px;
+   }
+   .persona-view {
+      padding: 35px 24px 100px;
+   }
+}
+
+@media (max-width: 991px) {
+   .signup-form {
+      max-width: 100%;
+   }
+   .signup-wrapper-left {
+      width: 50%;
+   }
+   .signup-right {
+      padding: 30px 0 0 16px;
+   }
+   .testimonial-review {
+      font-size: 14px;
+      line-height: 22px;
+   }
+   .testimonial-slider-container {
+      padding: 0 16px 13px 10px;
+   }
+   .testimonial-reviewer {
+      font-size: 14px;
+   }
+   .verify-account .signup-right {
+      padding: 20% 20px 20px 40px;
+   }
+   .main-content {
+      padding: 50px 24px;
+   }
+   .dashboard-widget {
+      padding: 20px;
+   }
+   .dashboard-widget-wrapper .row {
+      --bs-gutter-x: 16px;
+      --bs-gutter-y: 16px;
+   }
+   .widget-item {
+      padding: 16px;
+   }
+   .section-title p {
+      font-size: 16px;
+   }
+   .modal-dialog {
+      max-width: 700px;
+   }
+   .changelog-detail-item {
+      gap: 24px;
+   }
+   .changelog-detail-item-list {
+      gap: 24px;
+   }
+   .rating-btn img {
+      width: 20px;
+   }
+   .rating-btn {
+      min-width: 120px;
+   }
+   .subscribe-list-table tr th,
+   .subscribe-list-table tr td {
+      font-size: 14px;
+   }
+   .persona-view {
+      padding: 35px 24px 80px;
+   }
+   .persona-view-wrapper .row {
+      --bs-gutter-x: 20px;
+   }
+   .persona-view-widget {
+      padding: 16px;
+   }
+}
+
+@media (max-width: 767px) {
+   .signup-wrapper-left {
+      width: 100%;
+   }
+   .signup-form {
+      gap: 24px;
+   }
+   .signup-right {
+      width: 100%;
+   }
+   .toast-container {
+      top: 20px;
+      right: 16px;
+      margin-left: 16px;
+      max-width: calc(100% - 32px);
+   }
+   .header {
+      padding: 14px 15px;
+   }
+   .step-section {
+      padding: 50px 0;
+   }
+   .step-form .form-title p {
+      font-size: 16px;
+   }
+   .main-content {
+      padding: 40px 16px;
+   }
+   .dashboard-widget {
+      padding: 20px 16px;
+   }
+   .knowledge-widget-wrapper .widget-item {
+      max-width: 48%;
+   }
+   .widget-item {
+      padding: 12px;
+   }
+   .widget-item-title {
+      font-size: 14px;
+   }
+   .widget-item-count {
+      font-size: 26px;
+   }
+   .team-widget {
+      padding: 16px;
+      margin-bottom: 24px;
+   }
+   .member-list-widget .team-widget-title {
+      padding: 10px 16px;
+   }
+   .single-member {
+      padding: 10px 16px;
+   }
+   .widget .widget-item-title {
+      font-size: 18px;
+   }
+   .widget-item-desc {
+      font-size: 14px;
+   }
+   .modal-dialog {
+      width: calc(100% - 40px);
+   }
+   .modal-header {
+      padding: 20px;
+   }
+   .modal-body {
+      padding: 0 20px 20px;
+   }
+   .modal-footer {
+      padding: 16px 20px;
+   }
+   .modal-close {
+      top: 20px;
+      right: 16px;
+   }
+   .announcement.empty .announcement-wrapper {
+      padding-top: 40px;
+   }
+   .header-title {
+      font-size: 20px;
+   }
+   .changelog-textarea {
+      height: 360px;
+   }
+   .changelog-detail-item.style-2 .changelog-detail-item-content {
+      width: 100%;
+   }
+   .changelog-detail-item.style-2 .changelog-detail-item-thumb {
+      width: 100%;
+   }
+   .reaction-btn.fs-6 {
+      font-size: 12px !important;
+   }
+   .rating-btn img {
+      width: 16px;
+   }
+   .rating-btn {
+      min-width: 80px;
+   }
+   .subscribe-list-table tr th,
+   .subscribe-list-table tr td {
+      font-size: 13px;
+   }
+   .subscribe-list-table-container {
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+   }
+
+   .subscribe-list-table-container::-webkit-scrollbar {
+      display: none;
+   }
+   .article-category {
+      width: 160px;
+   }
+   .thumb-up {
+      width: 110px;
+   }
+   .thumb-down {
+      width: 130px;
+   }
+   .action {
+      width: 80px;
+   }
+   .dt-layout-table {
+      margin-top: 24px !important;
+   }
+   .search-filter {
+      margin-top: 50px;
+   }
+   .widget-wrapper {
+      padding-bottom: 80px;
+   }
+   .subscribe-list-table-container {
+      padding-bottom: 80px;
+   }
+   .knowledge-board-card-wrapper {
+      padding-bottom: 80px;
+   }
+   .header-dropdown .dropdown-menu {
+      width: 220px;
+   }
+   .persona-view {
+      padding: 35px 16px 60px;
+   }
+}
+
+@media (max-width: 575px) {
+   .header-logo.logo img {
+      width: 100px;
+   }
+   .profile-container {
+      gap: 20px;
+   }
+   .profile-img {
+      width: 30px;
+      height: 30px;
+   }
+   .profile-info span,
+   .profile-info h6 {
+      font-size: 12px;
+   }
+   .profile {
+      min-width: auto;
+   }
+   .profile-info {
+      display: none;
+   }
+   .member-info {
+      width: 100%;
+   }
+   .card {
+      padding: 16px;
+   }
+   .changelog-item {
+      padding: 10px 16px;
+   }
+   .form-condition label {
+      padding: 10px 16px;
+      gap: 14px;
+   }
+   .reaction-btn img {
+      max-width: 36px;
+   }
+   .reaction-item {
+      padding: 16px;
+      min-height: 90px;
+   }
+   .modal-header .section-title h2 {
+      font-size: 20px;
+      letter-spacing: 0;
+   }
+   .page-link {
+      font-size: 12px;
+      line-height: 18px;
+      padding: 5px 8px;
+      min-width: 26px;
+      min-height: 28px;
+   }
+   .header-title {
+      font-size: 16px;
+      letter-spacing: -0.5px;
+   }
+   .form-footer {
+      padding: 16px;
+   }
+   .report-card .reaction-btn {
+      width: auto;
+   }
+   .card-footer {
+      padding: 15px 0px;
+   }
+   .header-dropdown .dropdown-menu {
+      margin-top: 21px !important;
+   }
+   .theme-accordion .accordion-button {
+      font-size: 16px;
+   }
+   .theme-accordion .accordion-body {
+      padding: 16px;
+   }
+}

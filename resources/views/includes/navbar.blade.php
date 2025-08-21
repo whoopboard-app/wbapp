@@ -1,56 +1,55 @@
-<header class="bg-white shadow flex items-center justify-between px-6 py-3">
-    <!-- Project Name -->
-    <div class="text-xl font-bold">
-        {{ config('app.name', 'My Project') }}
-    </div>
+<header class="header sticky-top bg-white shadow">
+    <div class="header-wrapper d-flex align-items-center justify-content-between gap-4 px-4 py-2">
 
-    <!-- User + Logout -->
-    <!-- Settings Dropdown -->
-    <div class="hidden sm:flex sm:items-center sm:ms-6">
-        <x-dropdown align="right" width="48">
-            <x-slot name="trigger">
-                <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-                    <div>{{ Auth::user()->name }}</div>
+        <!-- Project Name / Logo -->
+        <a href="{{ url('/') }}" class="header-logo logo d-inline-block">
+            <img src="{{ asset('assets/img/logo.svg') }}" alt="logo" class="h-8">
+        </a>
 
-                    <div class="ms-1">
-                        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                        </svg>
+        <!-- Right Side (Profile + Logout) -->
+        <div class="profile-container d-flex align-items-center justify-content-end pb-0">
+
+            <div class="profile d-flex align-items-center gap-0 gap-sm-3">
+                <!-- Profile Image -->
+                <img src="{{ asset('assets/img/profile-img.png') }}" alt="profile-img"
+                     class="profile-img rounded-circle object-fit-cover">
+
+                <!-- User Info + Dropdown -->
+                <div class="profile-wrapper d-flex align-items-end gap-2">
+                    <div class="profile-info">
+                        <span class="d-block">Welcome</span>
+                        <h6 class="fw-semibold mb-0">{{ Auth::user()->name }}</h6>
                     </div>
-                </button>
-            </x-slot>
+                    <!-- Dropdown -->
+                    <div class="header-dropdown dropdown">
+                        <button type="button" title="action" data-bs-toggle="dropdown" aria-expanded="false"
+                                class="header-dropdown-toggle dropdown-toggle d-inline-flex bg-transparent border-0">
+                            <i class="fa-solid fa-caret-down"></i>
+                        </button>
+                        <ul class="dropdown-menu rounded-0 border-top-0 border-bottom-0">
+                            <li>
+                                <a class="dropdown-item" href="{{ route('profile.edit') }}">Update Profile</a>
+                            </li>
+                            <li>
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <button type="submit" class="dropdown-item">Log Out</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
 
+                    <!-- Logout Button (Tooltip Icon) -->
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" title="Log out" data-bs-toggle="tooltip" data-bs-title="Log out"
+                                class="logout-btn d-flex align-items-center justify-content-center bg-transparent border-0 ms-3">
+                            <i class="fa-regular fa-arrow-right-from-bracket"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
 
-            <x-slot name="content">
-                <x-dropdown-link :href="route('profile.edit')">
-                    {{ __('Profile') }}
-                </x-dropdown-link>
-
-                <!-- Authentication -->
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <x-dropdown-link :href="route('logout')"
-                                     onclick="event.preventDefault();
-                                                this.closest('form').submit();">
-                        {{ __('Log Out') }}
-                    </x-dropdown-link>
-                </form>
-            </x-slot>
-        </x-dropdown>
-        <form method="POST" action="{{ route('logout') }}">
-            @csrf
-            <button type="submit" title="Logout" class="text-gray-500 hover:text-red-600 p-2">
-                <!-- Heroicon for logout -->
-                <svg xmlns="http://www.w3.org/2000/svg"
-                     fill="none"
-                     viewBox="0 0 24 24"
-                     stroke-width="1.5"
-                     stroke="currentColor"
-                     class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                          d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6A2.25 2.25 0 005.25 5.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3-3h-9m9 0l-3-3m3 3l-3 3" />
-                </svg>
-            </button>
-        </form>
+        </div>
     </div>
 </header>
