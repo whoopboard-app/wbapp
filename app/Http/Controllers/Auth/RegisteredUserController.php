@@ -51,17 +51,16 @@ class RegisteredUserController extends Controller
             'tenant_id'  => null,
         ]);
         $tenant = Tenant::create([
-            'client_full_name'    => $fullName,
-            'status'              => 'Active Account',
-            'subscription_status' => 'Active',
-            'client_user_id'      => $user->id,
-            'date_of_registration'=> now()->toDateString(),
-            'time_of_registration'=> now()->toTimeString(),
+            'client_full_name'     => $fullName,
+            'status'               => 'Active Account',
+            'subscription_status'  => 'Active',
+            'client_user_id'       => $user->id,
+            'date_of_registration' => now()->toDateString(),
+            'time_of_registration' => now()->toTimeString(),
         ]);
         $user->update([
-            'tenant_id' => $tenant->tenant_id, // assuming PK is tenant_id
+            'tenant_id' => $tenant->tenant_id, // use the PK from tenants
         ]);
-
         $user->generateVerifyCode();
 
         event(new Registered($user));

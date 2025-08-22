@@ -15,10 +15,10 @@ return new class extends Migration
             $table->string('last_name')->after('name')->nullable();
             $table->string('timezone')->after('password')->nullable();
             $table->enum('user_type', [
-                'Account Owner', 
-                'Administration', 
-                'User', 
-                'Editor', 
+                'Account Owner',
+                'Administration',
+                'User',
+                'Editor',
                 'Manager'
             ])->after('timezone')->default('User');
 
@@ -29,7 +29,7 @@ return new class extends Migration
             ])->after('user_type')->default('Active');
 
             $table->unsignedBigInteger('tenant_id')->after('status')->nullable();
-            $table->foreign('tenant_id')->references('id')->on('tenants')->onDelete('set null');
+            $table->foreign('tenant_id')->references('tenant_id')->on('tenants')->onDelete('set null');
             $table->string('verify_code')->nullable()->after('remember_token');
             $table->timestamp('verify_code_expire_at')->nullable()->after('verify_code');
         });
@@ -49,7 +49,7 @@ return new class extends Migration
             $table->dropColumn('tenant_id');
             $table->dropColumn('verify_code');
             $table->dropColumn('verify_code_expire_at');
-         
+
         });
     }
 };

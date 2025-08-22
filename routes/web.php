@@ -21,6 +21,7 @@ Route::post('/onboarding/step1', [OnboardingController::class, 'storeStep1'])->n
 
 Route::get('/onboarding/step2', [OnboardingController::class, 'step2'])->name('onboarding.step2');
 Route::post('/onboarding/step2', [OnboardingController::class, 'storeStep2'])->name('onboarding.storeStep2');
+Route::post('/check-domain', [OnboardingController::class, 'checkDomain'])->name('check.domain');
 
 
 

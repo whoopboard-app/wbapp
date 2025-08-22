@@ -40,6 +40,8 @@
                                        class="input-field input-btn rounded rounded-start-0 flex-grow-1 text-start"
                                        value="insighthq.app" disabled>
                             </div>
+                            <p id="subdomain-error" class="text-danger"></p>
+                            <p id="subdomain-success" class="text-success"></p>
                         </div>
 
                         <div class="form-input border-0">
@@ -53,4 +55,32 @@
             </div>
         </div>
     </section>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('#subdomain').on('blur', function(){
+                let subdomain = $(this).val();
+                $('#subdomain-error').text('');
+                $('#subdomain-success').text('');
+
+                if(subdomain.length > 0){
+                    $.ajax({
+                        url: "{{ route('check.domain') }}",
+                        method: "POST",
+                        data: {
+                            _token: "{{ csrf_token() }}",
+                            subdomain: subdomain
+                        },
+                        success: function(response){
+                            if(response.available){
+                                $('#subdomain-success').text(response.message);
+                            } else {
+                                $('#subdomain-error').text(response.message);
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    </script>
 @endsection
