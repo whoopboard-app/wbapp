@@ -1,4 +1,15 @@
 <x-guest-layout>
+    <div class="text-left mb-6">
+         <div class="mb-3">
+            <a href="/" class="inline-flex items-center">
+                <x-application-logo class="w-20 h-20 fill-current" />
+            </a>
+        </div>
+        <h2 class="text-2xl font-bold mt-4 mb-1">Reset your password</h2>
+        <p class="text-gray-500 text-base font-medium">
+            Please enter your new password below to regain access to your account.
+        </p>
+    </div>
     <form method="POST" action="{{ route('password.store') }}">
         @csrf
 

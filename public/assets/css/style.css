@@ -456,7 +456,7 @@ input.spectrum.with-add-on:focus {
    padding-bottom: 105px;
 }
 .profile {
-   min-width: 200px;
+   min-width: 170px;
 }
 .profile-img {
    width: 35px;
@@ -465,7 +465,7 @@ input.spectrum.with-add-on:focus {
 .profile-info span,
 .profile-info h6 {
    font-size: 14px;
-   line-height: normal;
+   line-height: 1.2;
    color: var(--fgColor-muted);
 }
 .logout-btn {
