@@ -39,7 +39,7 @@
                             name="password"
                             required autocomplete="new-password" placeholder="Placeholder" />
 
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+            <x-input-error :messages="$errors->first('password')" class="mt-2" />
         </div>
 
         <!-- Confirm Password -->

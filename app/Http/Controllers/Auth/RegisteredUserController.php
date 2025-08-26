@@ -14,6 +14,8 @@ use Illuminate\View\View;
 use Illuminate\Support\Str;
 use Stevebauman\Location\Facades\Location;
 use App\Models\Tenant;
+use Illuminate\Validation\Rules\Password;
+
 class RegisteredUserController extends Controller
 {
     /**
@@ -34,8 +36,15 @@ class RegisteredUserController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', Rules\Password::defaults()],
+            'password' => [
+                'required',
+                Password::min(8)
+                    ->mixedCase()  
+                    ->numbers()    
+                    ->symbols(),   
+            ],
         ]);
+        
         $fullName = trim($request->name);
         $parts = preg_split('/\s+/', $fullName);
         $lastName = array_pop($parts);
