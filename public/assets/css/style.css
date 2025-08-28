@@ -468,6 +468,9 @@ input.spectrum.with-add-on:focus {
    line-height: 1.2;
    color: var(--fgColor-muted);
 }
+.filter-blue {
+    filter: brightness(0) saturate(100%) invert(26%) sepia(97%) saturate(3610%) hue-rotate(203deg) brightness(94%) contrast(93%);
+}
 .logout-btn {
    width: 24px;
    height: 24px;
