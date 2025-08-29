@@ -39,12 +39,12 @@ class RegisteredUserController extends Controller
             'password' => [
                 'required',
                 Password::min(8)
-                    ->mixedCase()  
-                    ->numbers()    
-                    ->symbols(),   
+                    ->mixedCase()
+                    ->numbers()
+                    ->symbols(),
             ],
         ]);
-        
+
         $fullName = trim($request->name);
         $parts = preg_split('/\s+/', $fullName);
         $lastName = array_pop($parts);
@@ -75,8 +75,7 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
 
         Auth::login($user);
-
-        return redirect(route('dashboard', absolute: false));
+        return redirect()->route('verification.notice');
     }
 
 }
