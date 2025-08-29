@@ -18,7 +18,7 @@
                 <div class="profile-wrapper d-flex align-items-end gap-2">
                     <div class="profile-info">
                         <span class="d-block">Welcome</span>
-                        <h6 class="fw-semibold mb-0">{{ optional(Auth::user())->name }}</h6>
+                        <h6 class="fw-semibold mb-0">{{ Auth::user()->name }}</h6>
                     </div>
                     <!-- Dropdown -->
                     <div class="header-dropdown dropdown">
