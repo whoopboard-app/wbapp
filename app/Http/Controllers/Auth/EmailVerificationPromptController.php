@@ -48,10 +48,10 @@ class EmailVerificationPromptController extends Controller
             $user->clearVerifyCode();
             return redirect()->route('onboarding.step1')
                 ->with('success', 'Your email has been verified!');
-//            return redirect()->intended(route('dashboard', absolute: false));
+            //            return redirect()->intended(route('dashboard', absolute: false));
 
         }
-
-        return redirect()->back()->withErrors(['code' => 'The provided verification code is invalid.']);
+        return redirect()->back()->with('error', 'The provided verification code is invalid!');
+        // return redirect()->back()->withErrors(['code' => '']);
     }
 }
