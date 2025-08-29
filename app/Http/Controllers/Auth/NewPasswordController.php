@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
-use Illuminate\Validation\Rules\Password;
+use Illuminate\Validation\Rules\Password as RulesPassword;
 
 class NewPasswordController extends Controller
 {
@@ -37,7 +37,7 @@ class NewPasswordController extends Controller
             'password' => [
                 'required', 
                 'confirmed', 
-                Password::min(8)
+                RulesPassword::min(8)
                         ->mixedCase()  
                         ->numbers()    
                         ->symbols(),
