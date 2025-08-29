@@ -62,7 +62,6 @@ class OnboardingController extends Controller
                 'page_publish'     => 1,
                 'status'           => 'Active Account',
                 'subscription_status' => 'Active',
-                'time_of_registration' => now()->toTimeString(),
             ]
         );
         $user = Auth::user();
@@ -81,7 +80,7 @@ class OnboardingController extends Controller
             ]
         );
 
-        return redirect()->route('tenant.dashboard', ['tenant' => $tenant->custom_url])
+        return redirect()->route('dashboard')
             ->with('success', 'Onboarding Completed!');
     }
     public function checkDomain(Request $request)
