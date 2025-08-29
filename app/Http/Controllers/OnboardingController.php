@@ -41,7 +41,8 @@ class OnboardingController extends Controller
     // STEP 2 - Show form
     public function step2()
     {
-        return view('onboarding.step2');
+        $user = Auth::user();
+        return view('onboarding.step2', compact('user'));
     }
 
     // STEP 2 - Save Product & User Info
@@ -66,6 +67,7 @@ class OnboardingController extends Controller
         );
         $user = Auth::user();
         $user->tenant_id = $tenant->tenant_id;
+        $user->name = $request->full_name;
         $user->save();
         $tenant->save();
         // Update onboarding record

@@ -43,11 +43,10 @@
                             <p id="subdomain-error" class="text-danger"></p>
                             <p id="subdomain-success" class="text-success"></p>
                         </div>
-
                         <div class="form-input border-0">
                             <label for="full_name" class="input-label mb-1 fw-medium">Your full name</label>
                             <input type="text" id="full_name" name="full_name" class="input-field w-100 rounded"
-                                   placeholder="John Doe" required>
+                                   value="{{ $user->name ?? '' }}" required>
                         </div>
                     </div>
                     <button type="submit" class="form-btn theme-btn fw-semibold w-100 rounded border-0">Continue</button>
