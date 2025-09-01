@@ -17,7 +17,7 @@
             x-data="{ show: true }" 
             x-show="show" 
             x-init="setTimeout(() => show = false, 5000)" 
-            class="fixed bottom-6 left-6 z-50"
+            class="fixed bottom-6 left-6 z-[9999]"
         >
             <div class="{{ $class }} px-4 py-3 rounded-lg shadow-lg border">
                 <span class="font-medium">{{ $message }}</span>
