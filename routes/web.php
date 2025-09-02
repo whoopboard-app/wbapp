@@ -2,6 +2,7 @@
 
     use App\Http\Controllers\ProfileController;
     use App\Http\Controllers\OnboardingController;
+    use App\Http\Controllers\ChangelogCategoryController;
     use Illuminate\Support\Facades\Route;
     use Illuminate\Http\Request;
 
@@ -14,7 +15,39 @@
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+    Route::get('/guide_setup', function () {
+        return view('guide_setup');
+    })->name('guide_setup');
 
+    // Branding
+    Route::get('/guide_setup/themes', function () {
+        return view('guide_setup.themes');
+    })->name('guide.setup.themes');
+
+    Route::get('/guide_setup/system-config', function () {
+        return view('guide_setup.system_config');
+    })->name('guide.setup.system_config');
+
+    // Changelog
+    // Changelog Category Routes
+    Route::get('/guide_setup/changelog/category', [ChangelogCategoryController::class, 'index'])
+        ->name('guide.setup.changelog.category');
+
+    Route::post('/guide_setup/changelog/category', [ChangelogCategoryController::class, 'store'])
+        ->name('categories.store');
+
+    Route::get('/guide_setup/changelog/tags', function () {
+        return view('guide_setup.changelog_tags');
+    })->name('guide.setup.changelog.tags');
+
+    // Knowledge Base
+    Route::get('/guide_setup/kb/category', function () {
+        return view('guide_setup.kb_category');
+    })->name('guide.setup.kb.category');
+
+    Route::get('/guide_setup/kb/tags', function () {
+        return view('guide_setup.kb_tags');
+    })->name('guide.setup.kb.tags');
 
     Route::middleware('auth')->group(function () {
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

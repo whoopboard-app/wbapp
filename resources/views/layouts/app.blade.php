@@ -17,7 +17,7 @@
 <script src="{{ asset('assets/js/swiper-bundle.min.js') }}"></script>
 <script src="{{ asset('assets/js/main.js') }}"></script>
 
-<body class="bg-gray-100 font-sans antialiased">
+<body class="bg-white-100 font-sans antialiased">
 
 <div class="min-h-screen flex flex-col">
     {{-- Top Navbar --}}
