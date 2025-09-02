@@ -19,6 +19,21 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans text-gray-900 antialiased">
+        @if (session('success'))
+            <x-alert type="success" :message="session('success')" />
+        @endif
+
+        @if (session('error'))
+            <x-alert type="error" :message="session('error')" />
+        @endif
+
+        @if (session('info'))
+            <x-alert type="info" :message="session('info')" />
+        @endif
+
+        @if (session('warning'))
+            <x-alert type="warning" :message="session('warning')" />
+        @endif
         <div class="flex min-h-screen">
             <!-- Left Column -->
             <div class="basis-[60%] flex flex-col justify-center items-center px-6">

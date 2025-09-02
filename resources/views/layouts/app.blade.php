@@ -31,6 +31,23 @@
         <main class="flex-1 p-6">
             @yield('content')
         </main>
+
+        @if (session('success'))
+            <x-alert type="success" :message="session('success')" />
+        @endif
+
+        @if (session('error'))
+            <x-alert type="error" :message="session('error')" />
+        @endif
+
+        @if (session('info'))
+            <x-alert type="info" :message="session('info')" />
+        @endif
+
+        @if (session('warning'))
+            <x-alert type="warning" :message="session('warning')" />
+        @endif
+        
     </div>
 </div>
 
