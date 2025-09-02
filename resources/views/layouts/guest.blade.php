@@ -8,6 +8,7 @@
         <title>{{ config('app.name', 'Laravel') }}</title>
 
         <!-- Fonts -->
+         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
         <style>
@@ -36,7 +37,7 @@
         @endif
         <div class="flex min-h-screen">
             <!-- Left Column -->
-            <div class="basis-[60%] flex flex-col justify-center items-center px-6">
+            <div class="basis-[57%] flex flex-col items-center p-6 relative">
 
                 <div class="w-full max-w-md px-6 py-4 bg-white overflow-hidden rounded-lg">
                     {{ $slot }}
@@ -44,7 +45,7 @@
             </div>
 
             <!-- Right Column -->
-            <div class="basis-[40%] flex flex-col justify-center items-center pt-6 pl-6 bg-[#fbfaf8]">
+            <div class="basis-[43%] flex flex-col justify-center items-center pt-6 pl-6 bg-[#fbfaf8]">
                 <!-- Put your right column content here -->
                 <div class="signup-right d-flex flex-column justify-content-between">
                     <div class="testimonial-slider swiper w-full max-w-md mt-4">
