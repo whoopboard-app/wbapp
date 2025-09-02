@@ -29,7 +29,7 @@
         <div class="mt-5">
             <div class="flex items-center gap-2">
                 <x-input-label for="email" :value="__('Your email address')" />
-                <i class="fa fa-question-circle text-gray-300 cursor-pointer" title="Use a valid email address."></i>
+                <i class="fa-solid fa-circle-question text-gray-400 cursor-pointer" title="Use a valid email address."></i>
             </div>
             <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" placeholder="Placeholder"/>
             <x-input-error :messages="$errors->get('email')" class="mt-1" />
