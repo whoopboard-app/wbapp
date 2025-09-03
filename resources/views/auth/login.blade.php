@@ -1,5 +1,5 @@
 <x-guest-layout>
-      <div class="p-3 absolute right-0 top-0">
+    <div class="p-3 absolute right-0 top-0">
         <p class="text-gray-600">New here?
             <a href="{{ route('register') }}" class="ml-1 underline text-blue-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                 Create an Account
@@ -29,7 +29,23 @@
         <div class="mt-5">
             <div class="flex items-center gap-2">
                 <x-input-label for="email" :value="__('Your email address')" />
-                <i class="fa-solid fa-circle-question text-gray-400 cursor-pointer" title="Use a valid email address."></i>
+                <i class="fa-solid fa-circle-question cursor-pointer relative"
+                    x-data="{ show: false }"
+                    @mouseenter="show = true" 
+                    @mouseleave="show = false"
+                    :class="show ? 'text-blue-600' : 'text-gray-300'">
+                    
+                        <!-- Icon -->
+                        
+                        <!-- Tooltip -->
+                        <div x-show="show"
+                            x-transition
+                            class="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 bg-black text-white text-sm px-2 py-2 border border-gray-700 rounded-lg font-medium shadow-lg z-50 font-sans whitespace-normal inline-block min-w-[200px] max-w-xs">
+                            Use a valid email address.
+                            <div class="absolute top-[50] left-1/2 -translate-x-1/2 w-3 h-3 bg-black rotate-45"></div>
+                        </div>
+
+                </i>
             </div>
             <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" placeholder="Placeholder"/>
             <x-input-error :messages="$errors->get('email')" class="mt-1" />
@@ -39,7 +55,23 @@
         <div class="mt-6">
             <div class="flex items-center gap-2">
                 <x-input-label for="password" :value="__('Password')" />
-                <i class="fa fa-question-circle text-gray-300 cursor-pointer" title="Password must be at least 8 characters with letters, numbers & a special character."></i>
+                <i class="fa-solid fa-circle-question cursor-pointer relative"
+                    x-data="{ show: false }"
+                    @mouseenter="show = true" 
+                    @mouseleave="show = false"
+                    :class="show ? 'text-blue-600' : 'text-gray-300'">
+                    
+                        <!-- Icon -->
+                        
+                        <!-- Tooltip -->
+                          <div x-show="show"
+                            x-transition
+                            class="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 bg-black text-white text-sm px-2 py-2 border border-gray-700 rounded-lg shadow-lg font-medium z-50 font-sans whitespace-normal inline-block min-w-[200px] max-w-xs">
+                            Password must be at least 8 characters with letters, numbers & a special character.
+                            <div class="absolute top-[50] left-1/2 -translate-x-1/2 w-3 h-3 bg-black rotate-45"></div>
+                        </div>
+                </i>
+               
             </div>
             <x-text-input id="password" class="block mt-1 w-full"
                             type="password"
