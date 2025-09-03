@@ -562,9 +562,10 @@ input.spectrum.with-add-on:focus {
    max-width: 624px;
 }
 .step-form .form-title p {
-   font-size: 20px;
+   font-size: 17px;
    letter-spacing: -0.8px;
 }
+
 .form-msg-container {
    margin-top: 18px;
 }

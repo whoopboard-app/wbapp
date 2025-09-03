@@ -15,14 +15,18 @@
         @if (session('warning'))
             <x-alert type="warning" :message="session('warning')" />
         @endif
-    <section class="step-section bg-white">
+    <section class="step-section bg-white pt-4">
         <div class="container-fluid">
             <div class="step-section-wrapper d-flex flex-column">
-                <form action="{{ route('onboarding.storeStep1') }}" method="POST" class="step-form form d-flex flex-column mx-auto">
+                <form action="{{ route('onboarding.storeStep1') }}" method="POST" class="step-form form d-flex flex-column mx-auto w-full max-w-lg px-14">
                     @csrf
                     <div class="form-title">
-                        <h2 class="fw-bold mb-1 text-dark fs-2">What’s your main goal today</h2>
-                        <p class="fw-medium mb-0">Select all the functionalities you’d like to get started with in InsightHQ</p>
+                        <h1 class="text-3xl font-bold text-gray-900 mb-2 tracking-wide">
+                           ✨ Welcome, <span class="capitalize ">{{ Auth::user()->name }}</span>!
+                        </h1>
+                        <p class="font-normal text-gray-500">
+                          Let’s make this easy — choose the modules you’re most excited about, and we’ll set things up.
+                        </p>
                     </div>
                     <div class="onboard-steps d-flex flex-column gap-3">
                         @foreach($products as $product)
