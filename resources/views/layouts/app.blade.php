@@ -47,7 +47,7 @@
         @if (session('warning'))
             <x-alert type="warning" :message="session('warning')" />
         @endif
-        
+
     </div>
 </div>
 

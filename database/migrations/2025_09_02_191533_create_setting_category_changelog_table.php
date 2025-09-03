@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('tenant_id');
             $table->string('category_name');
             $table->string('color_hex')->nullable();
-            $table->tinyInteger('status')->default(0); // 0=draft, 1=active, 2=inactive
+            $table->tinyInteger('status')->default(0); // 0=inactive, 1=active, 2=draft
             $table->timestamps();
             $table->foreign('tenant_id')->references('id')->on('tenants')->onDelete('cascade');
         });

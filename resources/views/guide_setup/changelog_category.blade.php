@@ -1,6 +1,9 @@
 @extends('layouts.navbar-layout')
 
 @section('content')
+    @if (session('success'))
+        <x-alert type="success" :message="session('success')" />
+    @endif
     <main class="category-setting">
         <section class="section-content-center">
             <div class="container mx-auto py-8">
@@ -15,9 +18,11 @@
 
                 <!-- Form Section -->
                 <div class="form-section card bg-white w-3/5 mx-auto">
-                    <form action="{{ route('categories.store') }}" method="POST" class="space-y-4">
+                    <form action="{{ isset($category) ? route('categories.update', $category->id) : route('categories.store') }}" method="POST" class="space-y-4">
                         @csrf
-
+                        @if(isset($category))
+                            @method('PUT')
+                        @endif
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <!-- Category Name -->
                             <div>
@@ -31,6 +36,7 @@
                                     type="text"
                                     id="category-name"
                                     name="category_name"
+                                    value="{{ $category->category_name ?? old('category_name') }}"
                                     class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                                     placeholder="Enter category name"
                                     required
@@ -42,14 +48,13 @@
                                 <label for="brand-color" class="block text-md font-medium text-gray-700">
                                     Brand Color
                                 </label>
-
                                 <div class="relative flex items-center">
                                     <!-- Circle color picker -->
                                     <input
                                         type="color"
                                         id="brand-color"
                                         class="absolute left-3 w-6 h-6 rounded-full border-0 cursor-pointer p-0 appearance-none"
-                                        value="#f44336"
+                                        value="{{ $category->color_hex ?? old('color_hex', '#f44336') }}"
                                         onchange="document.getElementById('color_hex').value = this.value"
                                     >
 
@@ -58,11 +63,12 @@
                                         type="text"
                                         id="color_hex"
                                         name="color_hex"
+                                        value="{{ $category->color_hex ?? old('color_hex', '#f44336') }}"
                                         class="w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 pl-12 pr-3 py-2 text-base"
-                                        value="#f44336"
                                         onchange="document.getElementById('brand-color').value = this.value"
                                     >
                                 </div>
+
                             </div>
                         </div>
 
@@ -77,23 +83,19 @@
                             <select
                                 id="status"
                                 name="status"
-                                class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-gray-400 focus:ring-0"
                                 required
                             >
-                                <option value="">Select</option>
-                                <option value="1">Active</option>
-                                <option value="2">Inactive</option>
-                                <option value="0">Draft</option>
+                                <option value="1" {{ (isset($category) && $category->status == 1) ? 'selected' : '' }}>Active</option>
+                                <option value="0" {{ (isset($category) && $category->status == 0) ? 'selected' : '' }}>Inactive</option>
+                                <option value="2" {{ (isset($category) && $category->status == 2) ? 'selected' : '' }}>Draft</option>
                             </select>
                         </div>
 
                         <!-- Submit -->
                         <div>
-                            <button
-                                type="submit"
-                                class="px-4 py-2 bg-indigo-600 text-white rounded-lg shadow hover:bg-indigo-700"
-                            >
-                                Add Category
+                            <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-lg shadow hover:bg-indigo-700">
+                                {{ isset($category) ? 'Update Category' : 'Add Category' }}
                             </button>
                         </div>
                     </form>
@@ -102,17 +104,18 @@
 
                 <!-- Table Section -->
                 <div class="bg-white shadow rounded-lg p-6 mt-8 w-3/5 mx-auto">
-                    <h6 class="text-lg font-semibold mb-4">Categories ({{ $categories->count() }})</h6>
+                    <h6 class="text-lg font-semibold mb-4">List of Categories</h6>
 
-                    <div class="relative mb-4">
-                        <input type="search" placeholder="Search"
+                    <form method="GET" action="{{ route('guide.setup.changelog.category') }}" class="relative mb-4">
+                        <input type="search" name="search" placeholder="Search"
+                               value="{{ request('search') }}"
                                class="w-full rounded-lg border-gray-300 pl-10 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                         <svg class="w-5 h-5 absolute left-3 top-3 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none"
                              viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                   d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1110.5 3a7.5 7.5 0 016.15 13.65z" />
                         </svg>
-                    </div>
+                    </form>
 
                     <div class="overflow-x-auto">
                         <table class="min-w-full divide-y divide-gray-200 border rounded-lg">
@@ -135,14 +138,14 @@
                                     <td class="px-4 py-2">
                                         @php
                                             $statusClasses = [
-                                                2 => 'bg-gray-200 text-gray-700',    // Inactive
+                                                0 => 'bg-gray-200 text-gray-700',    // Inactive
                                                 1 => 'bg-green-100 text-green-700',  // Active
-                                                0 => 'bg-yellow-100 text-yellow-700' // Draft
+                                                2 => 'bg-yellow-100 text-yellow-700' // Draft
                                             ];
                                             $statusLabels = [
-                                                2 => 'Inactive',
+                                                0 => 'Inactive',
                                                 1 => 'Active',
-                                                0 => 'Draft'
+                                                2 => 'Draft'
                                             ];
                                         @endphp
                                         <span class="px-2 py-1 text-xs font-medium rounded {{ $statusClasses[$category->status] ?? 'bg-gray-200 text-gray-700' }}">
@@ -150,13 +153,26 @@
                         </span>
                                     </td>
                                     <td class="px-4 py-2">
-                                        <button class="text-indigo-600 hover:underline">Edit</button> |
-                                        <button class="text-red-600 hover:underline">Delete</button>
+                                        <button class="text-indigo-600 hover:underline">
+                                            <a href="{{ route('categories.edit', $category->id) }}">
+                                                <i class="fa fa-pencil-alt mr-1"></i>Edit</a>
+                                        </button>
+                                    <a> | </a>
+                                        <form action="{{ route('categories.destroy', $category->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Are you sure you want to delete this category?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="text-red-600 hover:underline">
+                                                <i class="fa fa-trash-alt mr-1"></i>Delete</button>
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach
                             </tbody>
                         </table>
+                        <!-- Pagination links -->
+                        <div class="mt-4">
+                            {{ $categories->links('pagination::tailwind') }}
+                        </div>
                     </div>
                 </div>
 

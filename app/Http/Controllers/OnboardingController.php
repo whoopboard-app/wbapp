@@ -82,7 +82,7 @@ class OnboardingController extends Controller
             ]
         );
 
-        return redirect()->route('dashboard')
+        return redirect()->route('guide_setup')
             ->with('success', 'Onboarding Completed!');
     }
     public function checkDomain(Request $request)

@@ -3,6 +3,7 @@
     use App\Http\Controllers\ProfileController;
     use App\Http\Controllers\OnboardingController;
     use App\Http\Controllers\ChangelogCategoryController;
+    use App\Http\Controllers\ChangelogTagController;
     use Illuminate\Support\Facades\Route;
     use Illuminate\Http\Request;
 
@@ -28,17 +29,34 @@
         return view('guide_setup.system_config');
     })->name('guide.setup.system_config');
 
-    // Changelog
     // Changelog Category Routes
     Route::get('/guide_setup/changelog/category', [ChangelogCategoryController::class, 'index'])
         ->name('guide.setup.changelog.category');
 
     Route::post('/guide_setup/changelog/category', [ChangelogCategoryController::class, 'store'])
         ->name('categories.store');
+    Route::get('/guide_setup/changelog/category/{category}/edit', [ChangelogCategoryController::class, 'edit'])
+        ->name('categories.edit');
+    Route::put('/guide_setup/changelog/category/{category}', [ChangelogCategoryController::class, 'update'])
+        ->name('categories.update');
+    Route::delete('/categories/{category}', [ChangelogCategoryController::class, 'destroy'])->name('categories.destroy');
+    //Changelog tags
+    Route::get('/guide_setup/changelog/tags', [ChangelogTagController::class, 'index'])
+        ->name('guide.setup.changelog.tags');
 
-    Route::get('/guide_setup/changelog/tags', function () {
-        return view('guide_setup.changelog_tags');
-    })->name('guide.setup.changelog.tags');
+    Route::post('/guide_setup/changelog/tags', [ChangelogTagController::class, 'store'])
+        ->name('tags.store');
+
+    Route::get('/guide_setup/changelog/tags/{tag}/edit', [ChangelogTagController::class, 'edit'])
+        ->name('tags.edit');
+
+    Route::put('/guide_setup/changelog/tags/{tag}', [ChangelogTagController::class, 'update'])
+        ->name('tags.update');
+
+    Route::delete('/guide_setup/changelog/tags/{tag}', [ChangelogTagController::class, 'destroy'])
+        ->name('tags.destroy');
+    Route::get('/tags/check-name', [ChangelogTagController::class, 'checkName'])->name('tags.checkName');
+
 
     // Knowledge Base
     Route::get('/guide_setup/kb/category', function () {
