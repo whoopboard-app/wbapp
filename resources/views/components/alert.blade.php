@@ -31,7 +31,7 @@
             class="fixed top-6 left-1/2 -translate-x-1/2 z-[9999] w-full max-w-lg"
             role="alert" aria-live="assertive" aria-atomic="true"
             >
-            <div class="flex items-center bg-white shadow-lg rounded-lg overflow-hidden border">
+            <div class="flex items-stretch bg-white shadow-lg rounded-lg overflow-hidden border">
                 <!-- Left colored icon section -->
                 <div class="{{ $class }} flex items-center justify-center text-white px-4 py-3 hover:bg-black transition-colors duration-300">
                     <i class="{{ $icon }} text-xl"></i>

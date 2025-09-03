@@ -1,4 +1,7 @@
 <x-guest-layout>
+    @if ($errors->any())
+        <x-alert type="error" :message="$errors->first()" />
+    @endif
     <div class="p-3 absolute right-0 top-0">
         <p class="text-gray-600">Already have an account?
             <a href="{{ route('login') }}" class="ml-1 underline text-blue-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
@@ -74,7 +77,7 @@
                 </i>
             </div>
             <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" placeholder="Placeholder"/>
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+            <!-- <x-input-error :messages="$errors->get('email')" class="mt-2" /> -->
         </div>
 
         <!-- Password -->
@@ -106,7 +109,7 @@
                         placeholder="Enter password"
                         required autocomplete="new-password" />
 
-            <x-input-error :messages="$errors->first('password')" class="mt-2" />
+            <!-- <x-input-error :messages="$errors->first('password')" class="mt-2" /> -->
 
             <!-- Password Requirements -->
             <ul class="my-8 text-sm text-gray-500 space-y-1">
@@ -116,11 +119,11 @@
                 <li class="flex items-center" :class="/[A-Z]/.test(password) ? 'text-green-500' : 'text-gray-500'">
                     <i class="fa-regular fa-circle-check mr-2" :class="/[A-Z]/.test(password) ? 'text-green-500' : 'text-gray-500'"></i> At least one uppercase letter
                 </li>
-                <li class="flex items-center" :class="/[0-9]/.test(password) ? 'text-green-500' : 'text-gray-500'">
-                    <i class="fa-regular fa-circle-check mr-2" :class="/[0-9]/.test(password) ? 'text-green-500' : 'text-gray-500'"></i> At least one number
-                </li>
                 <li class="flex items-center" :class="/[\W_]/.test(password) ? 'text-green-500' : 'text-gray-500'">
                     <i class="fa-regular fa-circle-check mr-2" :class="/[\W_]/.test(password) ? 'text-green-500' : 'text-gray-500'"></i> At least one special character
+                </li>
+                <li class="flex items-center" :class="/[0-9]/.test(password) ? 'text-green-500' : 'text-gray-500'">
+                    <i class="fa-regular fa-circle-check mr-2" :class="/[0-9]/.test(password) ? 'text-green-500' : 'text-gray-500'"></i> At least one number
                 </li>
             </ul>
         </div>
