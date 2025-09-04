@@ -1,4 +1,4 @@
-@extends('layouts.navbar-layout')
+@extends('layouts.navbar-cross')
 
 @section('content')
     @if (session('success'))
@@ -7,18 +7,14 @@
     <main class="category-setting">
         <section class="section-content-center">
             <div class="container mx-auto py-8">
-                <div class="header bg-white w-3/5 mx-auto p-0">
+                <div class="header bg-white w-3/5 mx-auto p-0 border-b-0">
                     <div class="flex items-center justify-between">
                         <!-- Header Text on Left -->
                         <h4 class="text-2xl md:text-2xl font-bold text-gray-900">
                             Manage Changelog Categories
                         </h4>
-                        <!-- Close Button on Right -->
-                        <a href="{{route('guide_setup')}}" class="px-4 py-2 bg-blue-500 text-white rounded-lg shadow hover:bg-gray-600 inline-flex items-center">
-                            <i class="fa fa-times mr-1"></i>
-                        </a>
                     </div>
-                <p class="text-gray-500 text-md mt-z my-2">
+                <p class="text-gray-600 text mt-z my-2">
                     Create and organize categories to group your product updates. Categories make it easier for users to browse updates by topic or type.
                 </p>
                 </div>
@@ -93,6 +89,7 @@
                                 class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-gray-400 focus:ring-0"
                                 required
                             >
+                                <option value="" disabled selected>Select Status</option>
                                 <option value="1" {{ (isset($category) && $category->status == 1) ? 'selected' : '' }}>Active</option>
                                 <option value="0" {{ (isset($category) && $category->status == 0) ? 'selected' : '' }}>Inactive</option>
                                 <option value="2" {{ (isset($category) && $category->status == 2) ? 'selected' : '' }}>Draft</option>
@@ -110,7 +107,7 @@
                 </div>
 
                 <!-- Table Section -->
-                <div class="bg-white shadow rounded-lg p-6 mt-8 w-3/5 mx-auto">
+                <div class="bg-white border rounded-lg p-6 mt-4 w-3/5 mx-auto">
                     <h6 class="text-lg font-semibold mb-4">List of Categories</h6>
 
                     <form method="GET" action="{{ route('guide.setup.changelog.category') }}" class="relative mb-4">
@@ -128,10 +125,10 @@
                         <table class="min-w-full divide-y divide-gray-200 border rounded-lg">
                             <thead class="bg-gray-50">
                             <tr>
-                                <th class="px-4 py-2 text-left text-sm font-semibold text-gray-600">Category Name</th>
-                                <th class="px-4 py-2 text-left text-sm font-semibold text-gray-600">Color Code</th>
-                                <th class="px-4 py-2 text-left text-sm font-semibold text-gray-600">Status</th>
-                                <th class="px-4 py-2 text-left text-sm font-semibold text-gray-600">Action</th>
+                                <th class="px-4 py-2 text-left text-md font-bold text-black-600">Category Name</th>
+                                <th class="px-4 py-2 text-left text-md font-bold text-black-600">Color Code</th>
+                                <th class="px-4 py-2 text-left text-md font-bold text-black-600">Status</th>
+                                <th class="px-4 py-2 text-left text-md font-bold text-black-600">Action</th>
                             </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-100">

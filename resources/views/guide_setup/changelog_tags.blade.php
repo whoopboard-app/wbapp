@@ -1,5 +1,4 @@
-@extends('layouts.navbar-layout')
-
+@extends('layouts.navbar-cross')
 @section('content')
     @if (session('success'))
         <x-alert type="success" :message="session('success')" />
@@ -7,19 +6,15 @@
     <main class="tag-setting">
         <section class="section-content-center">
             <div class="container mx-auto py-8">
-                <div class="header bg-white w-3/5 mx-auto p-0">
+                <div class="header bg-white w-3/5 mx-auto p-0 border-b-0">
                     <div class="flex items-center justify-between">
                         <!-- Header Text on Left -->
                         <h4 class="text-2xl md:text-2xl font-bold text-gray-900">
                             Add New Tag
                         </h4>
-                        <!-- Close Button on Right -->
-                        <a href="{{route('guide_setup')}}" class="px-4 py-2 bg-blue-500 text-white rounded-lg shadow hover:bg-gray-600 inline-flex items-center">
-                            <i class="fa fa-times mr-1"></i>
-                        </a>
                     </div>
 
-                    <p class="text-gray-500 text-md mt-z my-2">
+                    <p class="text-gray-500 text text-md mt-z my-2">
                         Create tags to organize content across modules — including Changelog, Knowledge Board, Feedback, and Research. Tags help users quickly find related items.
                     </p>
                 </div>
@@ -51,7 +46,7 @@
                         </div>
 
                         <!-- Module Group -->
-                        <div >
+                        <div>
                             <label for="functionality_id" class="block text-md font-medium text-gray-700">
                                 Module Group
                                 <i class="fa fa-question-circle"></i>
@@ -59,10 +54,10 @@
                             <select
                                 id="functionality_id"
                                 name="functionality_id[]"
-                                multiple
                                 placeholder="Select Module Group"
                                 class="form-select mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                                 required
+                                multiple
                             >
                                 @foreach($functionalities as $func)
                                     <option value="{{ $func->id }}"
@@ -148,7 +143,7 @@
                                     </td>
 
                                     <!-- Action -->
-                                    <td class="px-4 py-2 w-1/5">
+                                    <td class="px-4 py-2">
                                         <a href="{{ route('tags.edit', $tag->id) }}" class="text-indigo-600 hover:underline">
                                             <i class="fa fa-pencil-alt mr-1"></i>Edit
                                         </a>

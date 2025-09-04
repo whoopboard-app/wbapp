@@ -3,7 +3,7 @@
 
         <!-- Project Name / Logo -->
         <a href="{{ url('/') }}" class="header-logo logo d-inline-block">
-            <img src="{{ asset('assets/img/logo.svg') }}" alt="logo" class="h-8">
+            <img src="{{ asset('assets/img/logo.svg') }}" alt="logo" class="h-12">
         </a>
 
         <!-- Right Side (Profile + Logout) -->
@@ -39,7 +39,7 @@
                     </ul>
                 </div>
 
-                
+
             </div>
         </div>
 

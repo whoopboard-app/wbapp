@@ -14,7 +14,7 @@ class ChangelogCategoryController extends Controller
             $search = $request->search;
             $query->where('category_name', 'like', "%{$search}%");
         }
-        $categories = $query->orderBy('id', 'desc')->paginate(3)->withQueryString();
+        $categories = $query->orderBy('id', 'desc')->paginate(10)->withQueryString();
         return view('guide_setup.changelog_category', compact('categories'));
     }
 
@@ -44,7 +44,7 @@ class ChangelogCategoryController extends Controller
     {
         $categories = SettingCategoryChangelog::where('tenant_id', auth()->user()->tenant_id)
             ->orderBy('id', 'desc')
-            ->paginate(3);
+            ->paginate(10);
         return view('guide_setup.changelog_category', compact('category', 'categories'));
     }
     public function update(Request $request, SettingCategoryChangelog $category)
