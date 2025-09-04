@@ -52,14 +52,13 @@ class OnboardingController extends Controller
             'product_name' => 'required|string',
             'current_url'  => 'nullable|string|max:255',
             'subdomain'    => 'required|string|max:255',
-            'full_name'    => 'required|string|max:255',
         ]);
         $tenant = Tenant::updateOrCreate(
             ['client_user_id' => Auth::id()],
             [
                 'website_url'      => $request->current_url ? 'https://www.' . $request->current_url : null,
                 'custom_url'       => $request->subdomain,
-                'client_full_name' => $request->full_name,
+                'client_full_name' => Auth::user()->name,
                 'page_publish'     => 1,
                 'status'           => 'Active Account',
                 'subscription_status' => 'Active',
@@ -67,7 +66,7 @@ class OnboardingController extends Controller
         );
         $user = Auth::user();
         $user->tenant_id = $tenant->tenant_id;
-        $user->name = $request->full_name;
+        $user->name = Auth::user()->name;
         $user->save();
         $tenant->save();
         // Update onboarding record
@@ -77,7 +76,7 @@ class OnboardingController extends Controller
                 'product_name'     => $request->product_name,
                 'website_url'      => $request->current_url ? 'https://www.' . $request->current_url : null,
                 'custom_url'       => $request->subdomain,
-                'client_full_name' => $request->full_name,
+                'client_full_name' => Auth::user()->name,
                 'page_publish'     => 1,
             ]
         );

@@ -205,7 +205,7 @@ a {
    padding: 26px 20px;
 }
 .form {
-   gap: 32px;
+   gap: 20px;
 }
 .signup-form {
    width: 400px;
@@ -559,7 +559,7 @@ input.spectrum.with-add-on:focus {
    visibility: visible;
 }
 .step-form {
-   max-width: 624px;
+   max-width: 404px;
 }
 .step-form .form-title p {
    font-size: 17px;
