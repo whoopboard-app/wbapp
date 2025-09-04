@@ -6,7 +6,7 @@
     <div class="py-1 ">
         <div class="max-w-5xl justify-content-center align-items-center min-vh-100">
             <div class="max-w-full mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden sm:rounded-lg p-6 space-y-6 w-full ml-40">
+                <div class="bg-white overflow-hidden sm:rounded-lg p-6 space-y-6 w-100 mx-28">
 
                     <!-- Breadcrumb -->
                     <nav class="text-md-center text-black mb-3 text-base">
