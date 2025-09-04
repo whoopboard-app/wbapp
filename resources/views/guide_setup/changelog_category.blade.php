@@ -8,9 +8,16 @@
         <section class="section-content-center">
             <div class="container mx-auto py-8">
                 <div class="header bg-white w-3/5 mx-auto p-0">
-                    <h4 class="text-2xl md:text-2xl font-bold text-gray-900">
-                        Manage Changelog Categories
-                    </h4>
+                    <div class="flex items-center justify-between">
+                        <!-- Header Text on Left -->
+                        <h4 class="text-2xl md:text-2xl font-bold text-gray-900">
+                            Manage Changelog Categories
+                        </h4>
+                        <!-- Close Button on Right -->
+                        <a href="{{route('guide_setup')}}" class="px-4 py-2 bg-blue-500 text-white rounded-lg shadow hover:bg-gray-600 inline-flex items-center">
+                            <i class="fa fa-times mr-1"></i>
+                        </a>
+                    </div>
                 <p class="text-gray-500 text-md mt-z my-2">
                     Create and organize categories to group your product updates. Categories make it easier for users to browse updates by topic or type.
                 </p>
