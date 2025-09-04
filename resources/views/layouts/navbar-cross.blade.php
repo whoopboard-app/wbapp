@@ -30,6 +30,12 @@
     <main class="flex-1 p-6 bg-white">
         @yield('content')
     </main>
+    {{-- Footer --}}
+    <footer class="bg-white text-center py-2 border-t">
+        <p class="text-md font-bold text-gray-600">
+            © 2025 <span class="font-bold">InsightHQ</span>. All rights reserved.
+        </p>
+    </footer>
 </div>
 <script src="{{ asset('assets/js/jquery-3.7.1.min.js') }}"></script>
 <script src="{{ asset('assets/js/popper.min.js') }}"></script>

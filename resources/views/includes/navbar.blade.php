@@ -46,10 +46,10 @@
             <!-- Logout Button (Tooltip Icon) -->
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
-                <button type="submit" title="Log out" data-bs-toggle="tooltip" data-bs-title="Log out"
-                        class="logout-btn d-flex align-items-center justify-content-center bg-transparent border-0 ms-3">
-                    <i class="fa-regular fa-arrow-right-from-bracket"></i>
-                </button>
+
+                <a href="{{route('guide_setup')}}">
+                    <img src="{{ asset('assets/img/icon/logout.svg') }}" alt="logo" class="h-7">
+                </a>
             </form>
         </div>
     </div>

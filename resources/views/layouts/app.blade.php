@@ -50,6 +50,11 @@
 
     </div>
 </div>
-
+{{-- Footer --}}
+<footer class="bg-white text-center py-2 border-t">
+    <p class="text-md font-bold text-gray-600">
+        © 2025 <span class="font-bold">InsightHQ</span>. All rights reserved.
+    </p>
+</footer>
 </body>
 </html>

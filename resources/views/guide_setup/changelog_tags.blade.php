@@ -111,7 +111,7 @@
 
 
                 <!-- Table Section -->
-                <div class="bg-white shadow rounded-lg p-6 mt-8 w-3/5 mx-auto">
+                <div class="bg-white border rounded-lg p-6 mt-4 w-3/5 mx-auto">
                     <h6 class="text-lg font-semibold mb-4">List of Tags</h6>
 
                     <form method="GET" action="{{ route('guide.setup.changelog.tags') }}" class="relative mb-4">
@@ -129,9 +129,9 @@
                         <table class="min-w-full divide-y divide-gray-200 border rounded-lg">
                             <thead class="bg-gray-50">
                             <tr>
-                                <th class="px-4 py-2 text-left text-sm font-semibold text-gray-600">Tag Name</th>
-                                <th class="px-4 py-2 text-left text-sm font-semibold text-gray-600">Module Group</th>
-                                <th class="px-4 py-2 text-left text-sm font-semibold text-gray-600">Action</th>
+                                <th class="px-4 py-2 text-left text-md font-bold text-black-600">Tag Name</th>
+                                <th class="px-4 py-2 text-left text-md font-bold text-black-600">Module Group</th>
+                                <th class="px-4 py-2 text-left text-md font-bold text-black-600">Action</th>
                             </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-100">
