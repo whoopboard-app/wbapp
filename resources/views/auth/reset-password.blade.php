@@ -1,6 +1,6 @@
 <x-guest-layout>
-    <div class="text-left mb-6">
-         <div class="mb-3">
+    <div class="text-left mb-8">
+         <div class="mb-7 mt-16">
             <a href="/" class="inline-flex items-center">
                 <x-application-logo class="w-20 h-20 fill-current" />
             </a>

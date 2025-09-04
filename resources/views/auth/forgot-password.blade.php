@@ -1,4 +1,11 @@
 <x-guest-layout>
+    @if (session('success'))
+    <x-alert type="success" :message="session('success')" />
+    @endif
+
+    @if (session('error'))
+        <x-alert type="error" :message="session('error')" />
+    @endif
     <div class="text-left mb-8">
          <div class="mb-7 mt-16">
             <a href="/" class="inline-flex items-center">
