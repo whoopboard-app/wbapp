@@ -75,7 +75,7 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
 
         Auth::login($user);
-        return redirect()->route('verification.notice');
+        return redirect()->route('verification.notice')->with('success', 'Success! Team member invite has been sent.');
     }
 
 }
