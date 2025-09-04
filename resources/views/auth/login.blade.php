@@ -13,7 +13,7 @@
                 <x-application-logo class="w-20 h-20 fill-current" />
             </a>
         </div>
-        <h2 class="text-xl font-bold mt-3 mb-1">Sign in to your account</h2>
+        <h2 class="text-xl font-bold mt-3 mb-1 tracking-tight">Sign in to your account</h2>
         <p class="text-gray-500 text-base font-medium tracking-[0.5px]">
             Welcome back! Sign in to access your account and continue where you left off. Secure, seamless, and personalized just for you.
         </p>

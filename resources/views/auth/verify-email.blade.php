@@ -41,8 +41,8 @@
                 </a>
             </div>
             
-            <h2 class="text-xl fw-bold text-gray-800 mt-6 mb-2 flex items-center gap-2">
-                <span class="text-indigo-600">🔐</span>
+            <h2 class="text-xl fw-bold text-gray-800 mt-6 mb-2 flex items-center gap-2 tracking-tight">
+                <span>🔐</span>
                 Verify your identity
             </h2>
             <p class="text-gray-500 text-base font-normal tracking-tight">

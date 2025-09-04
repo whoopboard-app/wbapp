@@ -16,7 +16,7 @@
                 <x-application-logo class="w-20 h-20 fill-current" />
             </a>
         </div>
-        <h2 class="text-xl font-bold mt-4 mb-1">Sign up to start your free trial</h2>
+        <h2 class="text-xl font-bold mt-4 mb-1 tracking-tight">Sign up to start your free trial</h2>
         <p class="text-gray-500 text-base font-medium">
             Try Insighthq free, cancel anytime.
         </p>
