@@ -1,9 +1,21 @@
 @extends('layouts.navbar-cross')
 
 @section('content')
-    @if (session('success'))
-        <x-alert type="success" :message="session('success')" />
-    @endif
+        @if (session('success'))
+            <x-alert type="success" :message="session('success')" />
+        @endif
+
+        @if (session('error'))
+            <x-alert type="error" :message="session('error')" />
+        @endif
+
+        @if (session('info'))
+            <x-alert type="info" :message="session('info')" />
+        @endif
+
+        @if (session('warning'))
+            <x-alert type="warning" :message="session('warning')" />
+        @endif
     <main class="category-setting">
         <section class="section-content-center">
             <div class="container mx-auto py-8">

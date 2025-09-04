@@ -18,7 +18,7 @@
     <section class="step-section bg-white pt-4">
         <div class="container-fluid">
             <div class="step-section-wrapper d-flex flex-column">
-                <form action="{{ route('onboarding.storeStep1') }}" method="POST" class="step-form form d-flex flex-column mx-auto w-full max-w-lg px-14">
+                <form action="{{ route('onboarding.storeStep1') }}" method="POST" class="step-form form d-flex flex-column mx-auto w-full px-1">
                     @csrf
                     <div class="form-title">
                         <h1 class="text-3xl font-bold text-gray-900 mb-2 tracking-wide">
