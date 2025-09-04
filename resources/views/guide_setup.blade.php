@@ -1,5 +1,7 @@
 @extends('layouts.app')
-
+@php
+    $disableSidebar = true;
+@endphp
 @section('content')
     <div class="py-1 ">
         <div class="max-w-5xl justify-content-center align-items-center min-vh-100">

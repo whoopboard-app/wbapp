@@ -139,13 +139,11 @@
                                 <tr>
                                     <!-- Tag Name -->
                                     <td class="px-4 py-2 w-1/5 whitespace-normal">{{ $tag->tag_name }}</td>
-
-
                                     <!-- Module Group -->
                                     <td class="px-4 py-2">
                                         @if($tag->functionalities->count())
                                             @foreach($tag->functionalities as $func)
-                                                <span class="inline-block bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded mr-1 font-bold">
+                                                <span class="inline-block bg-gray-100 text-gray-800 text-sm px-2 py-1 rounded mr-1 font-bold">
                                 {{ $func->name }}
                             </span>
                                             @endforeach
@@ -155,7 +153,7 @@
                                     </td>
 
                                     <!-- Action -->
-                                    <td class="px-4 py-2">
+                                    <td class="px-4 py-2 w-48">
                                         <a href="{{ route('tags.edit', $tag->id) }}" class="text-indigo-600 hover:underline">
                                             <i class="fa fa-pencil-alt mr-1"></i>Edit
                                         </a>
