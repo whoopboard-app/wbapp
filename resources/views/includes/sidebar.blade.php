@@ -7,7 +7,16 @@
             <h6 class="sidebar-menu-title fw-semibold text-uppercase">Navigation</h6>
             <ul class="sidebar-menu-list">
                 <li class="sidebar-menu-item">
-                    <a href="{{ route('dashboard') }}" class="sidebar-menu-link d-flex align-items-center active">
+                    <a href="{{ route('guide_setup') }}"
+                       class="sidebar-menu-link d-flex align-items-center {{ request()->routeIs('guide_setup') ? 'active text-primary' : 'text-gray-600' }}">
+                        <img src="assets/img/icon/home.png" alt="home" class="sidebar-menu-link-icon flex-shrink-0">
+                        <span class="sidebar-menu-link-text">Quick Setup</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-menu-item">
+                    <a href="{{ route('dashboard') }}"
+                       class="sidebar-menu-link d-flex align-items-center {{ request()->routeIs('dashboard') ? 'active text-primary' : 'text-gray-600' }}">
                         <img src="assets/img/icon/home.png" alt="home" class="sidebar-menu-link-icon flex-shrink-0">
                         <span class="sidebar-menu-link-text">Dashboard</span>
                     </a>

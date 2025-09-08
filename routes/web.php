@@ -40,6 +40,7 @@
     Route::put('/guide_setup/changelog/category/{category}', [ChangelogCategoryController::class, 'update'])
         ->name('categories.update');
     Route::delete('/categories/{category}', [ChangelogCategoryController::class, 'destroy'])->name('categories.destroy');
+    Route::get('/categories/check-name', [ChangelogCategoryController::class, 'checkName'])->name('categories.checkName');
     //Changelog tags
     Route::get('/guide_setup/changelog/tags', [ChangelogTagController::class, 'index'])
         ->name('guide.setup.changelog.tags');

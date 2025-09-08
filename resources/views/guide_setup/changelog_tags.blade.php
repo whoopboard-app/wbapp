@@ -43,14 +43,14 @@
                         <div>
                             <label for="tag-name" class="block text-md font-medium text-gray-700">
                                 Tag Name
-                                <i class="fa fa-question-circle"></i>
+                                <span class="fa fa-question-circle" data-bs-toggle="tooltip" title="Add Tag name">
                             </label>
                             <input
                                 type="text"
                                 id="tag-name"
                                 name="tag_name"
                                 value="{{ $tag->tag_name ?? old('tag_name') }}"
-                                class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                class="mt-1 block w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
                                 placeholder="Enter tag name"
                                 required
                             >
@@ -61,13 +61,13 @@
                         <div>
                             <label for="functionality_id" class="block text-md font-medium text-gray-700">
                                 Module Group
-                                <i class="fa fa-question-circle"></i>
+                                <span class="fa fa-question-circle" data-bs-toggle="tooltip" title="Add Module Group">
                             </label>
                             <select
                                 id="functionality_id"
                                 name="functionality_id[]"
                                 placeholder="Select Module Group"
-                                class="form-select mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                class="mt-1 block w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
                                 required
                                 multiple
                             >
@@ -86,8 +86,7 @@
                         <div>
                             <label for="description" class="block text-md font-medium text-gray-700">
                                 Short Description
-                                <span class="tooltip-icon" data-bs-toggle="tooltip" title="Add category description">
-                    <i class="fa fa-question-circle"></i>
+                                <span class="fa fa-question-circle" data-bs-toggle="tooltip" title="Add Tag description">
                 </span>
                             </label>
                             <textarea
@@ -95,17 +94,25 @@
                                 name="short_description"
                                 value="{{ $tag->short_description ?? old('short_description') }}"
                                 rows="3"
-                                class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                class="mt-1 block w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
                                 placeholder="Enter Tag Short Description"
+                                required
                             >{{ $tag->short_description ?? old('short_description') }}</textarea>
                         </div>
 
                         <!-- Submit -->
                         <div>
-                            <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-lg shadow hover:bg-indigo-700">
-                                {{ isset($tag) ? 'Update tag' : 'Add tag' }}
+                            <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-semibold"
+                                    style="background-color: #0969da;">
+                                {{ isset($tag) ? 'Update tag' : 'Add Tag' }}
+                            </button>
+                            <!-- Cancel -->
+                            <button type="reset"
+                                    class="px-4 py-2 bg-gray-100 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-100 font-semibold">
+                                Cancel
                             </button>
                         </div>
+
                     </form>
                 </div>
 
@@ -117,7 +124,7 @@
                     <form method="GET" action="{{ route('guide.setup.changelog.tags') }}" class="relative mb-4">
                         <input type="search" name="search" placeholder="Search"
                                value="{{ request('search') }}"
-                               class="w-full rounded-lg border-gray-300 pl-10 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                               class="w-full rounded-lg border-gray-300 pl-10 focus:border-indigo-500 focus:ring-indigo-500">
                         <svg class="w-5 h-5 absolute left-3 top-3 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none"
                              viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -135,6 +142,13 @@
                             </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-100">
+                            @if($tags->isEmpty())
+                                <tr>
+                                    <td colspan="4" class="px-4 py-4 text-center text-gray-500">
+                                        No record found
+                                    </td>
+                                </tr>
+                            @else
                             @foreach($tags as $tag)
                                 <tr>
                                     <!-- Tag Name -->
@@ -143,7 +157,7 @@
                                     <td class="px-4 py-2">
                                         @if($tag->functionalities->count())
                                             @foreach($tag->functionalities as $func)
-                                                <span class="inline-block bg-gray-100 text-gray-800 text-sm px-2 py-1 rounded mr-1 font-bold">
+                                                <span class="inline-block bg-gray-100 text-gray-600 text-sm px-2 py-1 rounded mr-1 font-bold">
                                 {{ $func->name }}
                             </span>
                                             @endforeach
@@ -153,21 +167,44 @@
                                     </td>
 
                                     <!-- Action -->
-                                    <td class="px-4 py-2 w-48">
-                                        <a href="{{ route('tags.edit', $tag->id) }}" class="text-indigo-600 hover:underline">
-                                            <i class="fa fa-pencil-alt mr-1"></i>Edit
-                                        </a>
-                                        <span> | </span>
-                                        <form action="{{ route('tags.destroy', $tag->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Are you sure you want to delete this tag?');">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="text-red-600 hover:underline">
-                                                <i class="fa fa-trash-alt mr-1"></i>Delete
+                                    <td class="px-4 py-2 text-left relative w-32">
+                                        <div x-data="{ open: false }" class="inline-block relative">
+                                            <!-- Three dots button -->
+                                            <button @click="open = !open"
+                                                    class="p-2 rounded-full hover:bg-gray-100 focus:outline-none font-bold">
+                                                &#x2026;
                                             </button>
-                                        </form>
+
+                                            <!-- Dropdown (slides in from LEFT side) -->
+                                            <div x-show="open"
+                                                 @click.away="open = false"
+                                                 x-transition:enter="transition ease-out duration-200"
+                                                 x-transition:enter-start="opacity-0 -translate-x-2"
+                                                 x-transition:enter-end="opacity-100 translate-x-0"
+                                                 x-transition:leave="transition ease-in duration-150"
+                                                 x-transition:leave-start="opacity-100 translate-x-0"
+                                                 x-transition:leave-end="opacity-0 -translate-x-2"
+                                                 class="absolute left-0 top-1/2 -translate-y-1/2 mr-2 w-24 bg-white border border-gray-200 rounded-lg z-10">
+
+                                                <a href="{{ route('tags.edit', $tag->id) }}"
+                                                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                                    Edit
+                                                </a>
+                                                <form action="{{ route('tags.destroy', $tag->id) }}" method="POST"
+                                                      onsubmit="return confirm('Are you sure you want to delete this Tag ?');">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit"
+                                                            class="w-full text-left block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">
+                                                        Delete
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach
+                            @endif
                             </tbody>
                         </table>
 

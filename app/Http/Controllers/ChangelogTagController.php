@@ -35,8 +35,8 @@ class ChangelogTagController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'tag_name' => 'required|string|max:255|unique:changelog_tags,tag_name',
-            'short_description' => 'nullable|string',
+            'tag_name' => 'required|string|max:255',
+            'short_description' => 'required|nullable|string',
             'functionality_id' => 'required|array',
         ]);
         $tenantId = auth()->user()->tenant_id;

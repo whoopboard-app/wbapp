@@ -43,8 +43,7 @@
                             <div>
                                 <label for="category-name" class="block text-md font-medium text-gray-700">
                                     Category Name
-                                    <span class="tooltip-icon" data-bs-toggle="tooltip" title="Add category name">
-                    <i class="fa fa-question-circle"></i>
+                                    <span class="fa fa-question-circle" data-bs-toggle="tooltip" title="Add category name">
                 </span>
                                 </label>
                                 <input
@@ -52,10 +51,11 @@
                                     id="category-name"
                                     name="category_name"
                                     value="{{ $category->category_name ?? old('category_name') }}"
-                                    class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                    class="mt-1 block w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
                                     placeholder="Enter category name"
                                     required
                                 >
+                                <p id="category-error" class="text-red-500 text-sm mt-1 hidden">Category name already exists.</p>
                             </div>
 
                             <!-- Brand Color -->
@@ -79,7 +79,7 @@
                                         id="color_hex"
                                         name="color_hex"
                                         value="{{ $category->color_hex ?? old('color_hex', '#f44336') }}"
-                                        class="w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 pl-12 pr-3 py-2 text-base"
+                                        class="w-full rounded-md border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 pl-12 pr-3 py-2 text-base"
                                         onchange="document.getElementById('brand-color').value = this.value"
                                     >
                                 </div>
@@ -98,7 +98,7 @@
                             <select
                                 id="status"
                                 name="status"
-                                class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-gray-400 focus:ring-0"
+                                class="mt-1 block w-full rounded-lg border-gray-300 focus:border-gray-400 focus:ring-0"
                                 required
                             >
                                 <option value="" disabled selected>Select Status</option>
@@ -110,22 +110,22 @@
 
                         <!-- Submit -->
                         <div>
-                            <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-lg shadow hover:bg-indigo-700">
+                            <button type="submit"
+                                    class="px-4 py-2 text-white rounded-lg hover:opacity-90 font-semibold"
+                                    style="background-color: #0969da;">
                                 {{ isset($category) ? 'Update Category' : 'Add Category' }}
                             </button>
                         </div>
-                    </form>
 
                 </div>
 
                 <!-- Table Section -->
                 <div class="bg-white border rounded-lg p-6 mt-4 w-3/5 mx-auto">
                     <h6 class="text-lg font-semibold mb-4">List of Categories</h6>
-
                     <form method="GET" action="{{ route('guide.setup.changelog.category') }}" class="relative mb-4">
                         <input type="search" name="search" placeholder="Search"
                                value="{{ request('search') }}"
-                               class="w-full rounded-lg border-gray-300 pl-10 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                               class="w-full rounded-lg border-gray-300 pl-10 focus:border-indigo-500 focus:ring-indigo-500">
                         <svg class="w-5 h-5 absolute left-3 top-3 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none"
                              viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -144,6 +144,13 @@
                             </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-100">
+                            @if($categories->isEmpty())
+                                <tr>
+                                    <td colspan="4" class="px-4 py-4 text-center text-gray-500">
+                                        No record found
+                                    </td>
+                                </tr>
+                            @else
                             @foreach($categories as $category)
                                 <tr>
                                     <td class="px-4 py-2">{{ $category->category_name }}</td>
@@ -168,21 +175,44 @@
                             {{ $statusLabels[$category->status] ?? 'Unknown' }}
                         </span>
                                     </td>
-                                    <td class="px-4 py-2">
-                                        <button class="text-indigo-600 hover:underline">
-                                            <a href="{{ route('categories.edit', $category->id) }}">
-                                                <i class="fa fa-pencil-alt mr-1"></i>Edit</a>
-                                        </button>
-                                    <a> | </a>
-                                        <form action="{{ route('categories.destroy', $category->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Are you sure you want to delete this category?');">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="text-red-600 hover:underline">
-                                                <i class="fa fa-trash-alt mr-1"></i>Delete</button>
-                                        </form>
+                                    <td class="px-4 py-2 text-left relative w-32">
+                                        <div x-data="{ open: false }" class="inline-block relative">
+                                            <!-- Three dots button -->
+                                            <button @click="open = !open"
+                                                    class="p-2 rounded-full hover:bg-gray-100 focus:outline-none font-bold">
+                                                &#x2026;
+                                            </button>
+
+                                            <!-- Dropdown (slides in from LEFT side) -->
+                                            <div x-show="open"
+                                                 @click.away="open = false"
+                                                 x-transition:enter="transition ease-out duration-200"
+                                                 x-transition:enter-start="opacity-0 -translate-x-2"
+                                                 x-transition:enter-end="opacity-100 translate-x-0"
+                                                 x-transition:leave="transition ease-in duration-150"
+                                                 x-transition:leave-start="opacity-100 translate-x-0"
+                                                 x-transition:leave-end="opacity-0 -translate-x-2"
+                                                 class="absolute left-0 top-1/2 -translate-y-1/2 mr-2 w-24 bg-white border border-gray-200 rounded-lg z-10">
+
+                                                <a href="{{ route('categories.edit', $category->id) }}"
+                                                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                                    Edit
+                                                </a>
+                                                <form action="{{ route('categories.destroy', $category->id) }}" method="POST"
+                                                      onsubmit="return confirm('Are you sure you want to delete this Category ?');">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit"
+                                                            class="w-full text-left block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">
+                                                        Delete
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach
+                            @endif
                             </tbody>
                         </table>
                         <!-- Pagination links -->
@@ -196,4 +226,28 @@
             </div>
         </section>
     </main>
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                const categoryInput = document.getElementById('category-name');
+                const errorMsg = document.getElementById('category-error');
+
+                categoryInput.addEventListener('input', () => {
+                    const value = categoryInput.value.trim();
+                    if (value.length === 0) {
+                        errorMsg.classList.add('hidden');
+                        return;
+                    }
+
+                    fetch(`{{ route('categories.checkName') }}?category_name=${encodeURIComponent(value)}`)
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.exists) {
+                                errorMsg.classList.remove('hidden');
+                            } else {
+                                errorMsg.classList.add('hidden');
+                            }
+                        });
+                });
+            });
+        </script>
 @endsection

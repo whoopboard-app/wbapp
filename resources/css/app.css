@@ -4,3 +4,25 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+/* Tom Select overrides */
+.ts-control {
+    @apply h-12 rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500;
+    font-size: 15px !important;
+    border-radius: 0.5rem !important;
+    line-height: 1.5 !important;
+    min-height: 48px;
+}
+
+.ts-control input {
+    @apply focus:outline-none;
+    font-size: 15px !important;
+    line-height: 1.5 !important;
+}
+
+.ts-dropdown {
+    font-size: 15px !important;
+    line-height: 1.5 !important;
+}
+.fa-question-circle {
+    color: #9ca3af;
+}

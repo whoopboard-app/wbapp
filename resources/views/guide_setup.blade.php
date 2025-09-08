@@ -12,10 +12,12 @@
                     <nav class="text-md-center text-black mb-3 text-base">
                         <ol class="list-reset flex space-x-2">
                             <li>
-                                <a href="#" class="hover:text-black">Dashboard</a>
+                                Dashboard
                                 <span>/</span>
                             </li>
-                            <li class="text-black">Quick Setup</li>
+                            <li class="text-black">
+                                <a class="hover:text-black">Quick Setup</a>
+                                </li>
                         </ol>
                     </nav>
 

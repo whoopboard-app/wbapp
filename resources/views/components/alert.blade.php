@@ -23,11 +23,11 @@
     @endphp
 
     @if ($message)
-        <div 
-            x-data="{ show: true }" 
-            x-show="show" 
-            x-init="setTimeout(() => show = false, 5000)" 
-            x-transition 
+        <div
+            x-data="{ show: true }"
+            x-show="show"
+            x-init="setTimeout(() => show = false, 5000)"
+            x-transition
             class="fixed top-6 left-1/2 -translate-x-1/2 z-[9999] w-full max-w-lg"
             role="alert" aria-live="assertive" aria-atomic="true"
             >
@@ -43,8 +43,8 @@
                 </div>
 
                 <!-- Close button -->
-                <button 
-                    @click="show = false" 
+                <button
+                    @click="show = false"
                     class="text-gray-500 hover:text-gray-800 px-4 focus:outline-none"
                 >
                     <i class="fas fa-times"></i>

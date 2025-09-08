@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\ChangelogTag;
 use Illuminate\Http\Request;
 use App\Models\SettingCategoryChangelog;
 
@@ -71,6 +72,14 @@ class ChangelogCategoryController extends Controller
 
         return redirect()->route('guide.setup.changelog.category')
             ->with('success', 'Category deleted successfully!');
+    }
+    public function checkName(Request $request)
+    {
+        $tenantId = auth()->user()->tenant_id;
+        $exists = SettingCategoryChangelog::where('tenant_id', $tenantId)
+            ->whereRaw('LOWER(category_name) = ?', [strtolower($request->category_name)])
+            ->exists();
+        return response()->json(['exists' => $exists]);
     }
 
 }
