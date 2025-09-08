@@ -869,7 +869,7 @@ input.spectrum.with-add-on:focus {
 
 /* pricing section start */
 .card {
-   border: 1px solid #d8dee3;
+   /* border: 1px solid #d8dee3; */
    background-color: rgba(216, 222, 227, 0.2);
    padding: 20px;
 }
@@ -952,9 +952,10 @@ input.spectrum.with-add-on:focus {
 .widget-item-desc {
    color: var(--fgColor-muted);
 }
+
 .widget-item-btn {
    font-size: 14px;
-   line-height: 20px;
+   /* line-height: 20px; */
    padding: 5px 12px;
    box-shadow: 0px 1px 0px 0px rgba(31, 35, 40, 0.04);
    border: 1px solid #d1d9e0;
@@ -1686,3 +1687,11 @@ input.spectrum.with-add-on:focus {
 /* persona view section end */
 
 /* main content end */
+ @media (min-width:992px)
+    {
+    .section-content-center
+      {
+         max-width: 983px;
+         margin: 0 auto;
+      }
+    }

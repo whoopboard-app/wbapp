@@ -4,6 +4,7 @@
     use App\Http\Controllers\OnboardingController;
     use App\Http\Controllers\ChangelogCategoryController;
     use App\Http\Controllers\ChangelogTagController;
+    use App\Http\Controllers\ChangelogController;
     use Illuminate\Support\Facades\Route;
     use Illuminate\Http\Request;
 
@@ -16,6 +17,9 @@
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+    Route::get('/announcement', function () {
+        return view('announcement');
+    })->name('announcement');
     Route::get('/guide_setup', function () {
         return view('guide_setup');
     })->name('guide_setup');
@@ -90,6 +94,9 @@
             return view('dashboard', compact('tenantData'));
         })->name('tenant.dashboard')->withoutMiddleware(['auth', 'verified']);
     });
+
+    Route::get('/add_Changelog', [ChangelogController::class, 'index'])
+        ->name('add_changelog');
 
 
 
