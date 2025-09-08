@@ -115,6 +115,11 @@
                                     style="background-color: #0969da;">
                                 {{ isset($category) ? 'Update Category' : 'Add Category' }}
                             </button>
+                            <!-- Cancel -->
+                            <button type="reset"
+                                    class="px-4 py-2 bg-gray-100 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-100 font-semibold">
+                                Cancel
+                            </button>
                         </div>
 
                 </div>

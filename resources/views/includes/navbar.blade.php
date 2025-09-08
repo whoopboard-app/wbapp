@@ -28,7 +28,12 @@
                     </button>
                     <ul class="dropdown-menu rounded-0 border-top-0 border-bottom-0">
                         <li>
-                            <a class="dropdown-item" href="{{ route('profile.edit') }}">Update Profile</a>
+                            <a class="dropdown-item" href="{{ route('profile.edit') }}">Update Profile</a><br>
+                            @php
+                                echo 'User ID : '. \Illuminate\Support\Facades\Auth::user()->id;
+                                echo '<br>';
+                                echo 'tenant ID : '.auth()->user()->tenant_id;
+                            @endphp
                         </li>
                         <li>
                             <form method="POST" action="{{ route('logout') }}">
