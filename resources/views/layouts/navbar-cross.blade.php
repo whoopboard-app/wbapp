@@ -30,6 +30,21 @@
     <main class="flex-1 p-6 bg-white">
         @yield('content')
     </main>
+    @if (session('success'))
+        <x-alert type="success" :message="session('success')" />
+    @endif
+
+    @if (session('error'))
+        <x-alert type="error" :message="session('error')" />
+    @endif
+
+    @if (session('info'))
+        <x-alert type="info" :message="session('info')" />
+    @endif
+
+    @if (session('warning'))
+        <x-alert type="warning" :message="session('warning')" />
+    @endif
     {{-- Footer --}}
     <footer class="bg-white text-center py-2 border-t">
         <p class="text-md font-bold text-gray-600">

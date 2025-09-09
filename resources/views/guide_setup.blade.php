@@ -37,7 +37,7 @@
                             Upload your logo and choose a theme color to make your board feel like home for your users.
                         </p>
                         <div class="flex flex-wrap gap-2">
-                            <a href="#"
+                            <a href="{{ route('themes.index') }}"
                                class="px-3 py-1.5 bg-white text-black border border-gray-300 rounded-md text-base font-medium flex items-center gap-1 hover:bg-gray-100">
                                 Select Themes
                                 <img src="{{ asset('assets/img/icon/enlarge.svg') }}" alt="">
@@ -52,19 +52,19 @@
 
                     <!-- Changelog -->
                     <div class="border bg-indigo-50 rounded-lg p-4 w-100">
-                        <h6 class="font-semibold text-gray-900 text-base">Change log / Announcement</h6>
+                        <h6 class="font-semibold text-gray-900 text-base">@label('Announcement')</h6>
                         <p class="text-base text-gray-600 mb-3 text-lg">
                             Organize your product updates with categories and tags so users can easily explore new releases.
                         </p>
                         <div class="flex flex-wrap gap-2">
                             <a href="{{ route('guide.setup.changelog.category') }}"
                                class="px-3 py-1.5 bg-white text-black border border-gray-300 rounded-md text-base font-medium flex items-center gap-1 hover:bg-gray-100">
-                                Create Category for Change log
+                                Create Category for @label('Announcement')
                                 <img src="{{ asset('assets/img/icon/enlarge.svg') }}" alt="">
                             </a>
                             <a href="{{ route('guide.setup.changelog.tags') }}"
                                class="px-3 py-1.5 bg-white text-black border border-gray-300 rounded-md text-base font-medium flex items-center gap-1 hover:bg-gray-100">
-                                Changelog Tags
+                                @label('Announcement') Tags
                                 <img src="{{ asset('assets/img/icon/enlarge.svg') }}" alt="">
                             </a>
                             <a href="#"

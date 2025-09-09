@@ -158,7 +158,7 @@
                                         @if($tag->functionalities->count())
                                             @foreach($tag->functionalities as $func)
                                                 <span class="inline-block bg-gray-100 text-gray-600 text-sm px-2 py-1 rounded mr-1 font-bold">
-                                {{ $func->name }}
+                                @label($func->name)
                             </span>
                                             @endforeach
                                         @else

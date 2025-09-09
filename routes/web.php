@@ -4,9 +4,17 @@
     use App\Http\Controllers\OnboardingController;
     use App\Http\Controllers\ChangelogCategoryController;
     use App\Http\Controllers\ChangelogTagController;
+    use App\Http\Controllers\GuideSetupController;
     use Illuminate\Support\Facades\Route;
     use Illuminate\Http\Request;
+    use App\Http\Controllers\ThemeController;
 
+    Route::middleware(['auth'])->group(function () {
+        Route::get('/themes', [ThemeController::class, 'index'])->name('themes.index');
+        Route::post('/themes/select', [ThemeController::class, 'selectTheme'])->name('themes.select');
+        Route::post('/themes/customize', [ThemeController::class, 'customize'])->name('themes.customize');
+
+    });
     Route::get('/', function () {
         return redirect()->route('login');
     });
@@ -16,9 +24,7 @@
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
-    Route::get('/guide_setup', function () {
-        return view('guide_setup');
-    })->name('guide_setup');
+    Route::get('/guide_setup', [GuideSetupController::class, 'index'])->name('guide_setup');
 
     // Branding
     Route::get('/guide_setup/themes', function () {

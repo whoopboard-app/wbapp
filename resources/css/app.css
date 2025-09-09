@@ -1,5 +1,5 @@
 @import "@fortawesome/fontawesome-free/css/all.min.css";
-
+@import "bootstrap/dist/css/bootstrap.min.css";
 
 @tailwind base;
 @tailwind components;
@@ -26,3 +26,4 @@
 .fa-question-circle {
     color: #9ca3af;
 }
+

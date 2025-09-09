@@ -24,7 +24,7 @@
                 <li class="sidebar-menu-item">
                     <a href="changelog.html" class="sidebar-menu-link d-flex align-items-center">
                         <img src="assets/img/icon/megaphone.png" alt="megaphone" class="sidebar-menu-link-icon flex-shrink-0">
-                        <span class="sidebar-menu-link-text">Announcement</span>
+                        <span class="sidebar-menu-link-text">@label('Announcement')</span>
                     </a>
                 </li>
                 <li class="sidebar-menu-item">

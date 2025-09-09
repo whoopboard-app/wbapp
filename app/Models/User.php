@@ -88,5 +88,10 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->belongsTo(Tenant::class, 'tenant_id', 'tenant_id');
     }
+    public function theme()
+    {
+        return $this->hasOne(UserTheme::class);
+    }
+
 
 }

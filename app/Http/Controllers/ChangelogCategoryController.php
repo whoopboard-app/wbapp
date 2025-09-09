@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ChangelogTag;
+use App\Models\UserTheme;
 use Illuminate\Http\Request;
 use App\Models\SettingCategoryChangelog;
 
@@ -9,6 +10,10 @@ class ChangelogCategoryController extends Controller
 {
     public function index(Request $request)
     {
+        $userTheme = UserTheme::where('user_id', auth()->id())->first();
+        $labels = $userTheme && $userTheme->module_labels
+            ? json_decode($userTheme->module_labels, true)
+            : [];
         $query = SettingCategoryChangelog::where('tenant_id', auth()->user()->tenant_id);
 
         if ($request->has('search') && $request->search != '') {
@@ -16,7 +21,7 @@ class ChangelogCategoryController extends Controller
             $query->where('category_name', 'like', "%{$search}%");
         }
         $categories = $query->orderBy('id', 'desc')->paginate(10)->withQueryString();
-        return view('guide_setup.changelog_category', compact('categories'));
+        return view('guide_setup.changelog_category', compact('categories','labels'));
     }
 
     // Store new category
