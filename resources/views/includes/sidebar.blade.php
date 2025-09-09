@@ -16,13 +16,13 @@
 
                 <li class="sidebar-menu-item">
                     <a href="{{ route('dashboard') }}"
-                       class="sidebar-menu-link d-flex align-items-center {{ request()->routeIs('dashboard') ? 'active text-primary' : 'text-gray-600' }}">
+                       class="sidebar-menu-link d-flex align-items-center {{ request()->routeIs('dashboard') ? 'active text-blue-600' : 'text-gray-600' }}">
                         <img src="assets/img/icon/home.png" alt="home" class="sidebar-menu-link-icon flex-shrink-0">
                         <span class="sidebar-menu-link-text">Dashboard</span>
                     </a>
                 </li>
                 <li class="sidebar-menu-item">
-                    <a href="changelog.html" class="sidebar-menu-link d-flex align-items-center">
+                    <a href="{{ route('announcement') }}" class="sidebar-menu-link d-flex align-items-center {{ request()->routeIs('announcement') ? 'active text-blue-600' : 'text-gray-600' }}">
                         <img src="assets/img/icon/megaphone.png" alt="megaphone" class="sidebar-menu-link-icon flex-shrink-0">
                         <span class="sidebar-menu-link-text">@label('Announcement')</span>
                     </a>
