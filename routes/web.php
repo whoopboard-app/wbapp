@@ -25,7 +25,9 @@
         return view('dashboard');
     })->name('dashboard');
     Route::get('/guide_setup', [GuideSetupController::class, 'index'])->name('guide_setup');
-
+    Route::get('/announcement', function () {
+        return view('announcement');
+    })->name('announcement');
     // Branding
     Route::get('/guide_setup/themes', function () {
         return view('guide_setup.themes');
