@@ -3,19 +3,21 @@
 
 <div class="mt-4 mx-auto w-100">    
     <!-- breadcrumbs start -->
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb mb-2">
-            <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-            <li class="breadcrumb-item text-black" aria-current="page">Announcement Listings</li>
-        </ol>
-    </nav>       
+    
+    <div class="max-w-6xl mx-auto px-4">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-2">
+                <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                <li class="breadcrumb-item text-black" aria-current="page">Announcement Listings</li>
+            </ol>
+        </nav>       
+        <h2 class="fw-bold text-xl">Changelog</h2>
+        <p class="text-gray-800 mt-1 mb-3">
+            Keep track of all product updates in one place. Search, filter, and manage your changelog entries with ease.
+        </p>
+    </div>
 
-    <h2 class="fw-bold text-xl">Changelog</h2>
-    <p class="text-gray-800 mt-1 mb-3">
-        Keep track of all product updates in one place. Search, filter, and manage your changelog entries with ease.
-    </p>
-
-    <div class="announcement-wrapper mx-auto max-w-[638px] w-full">
+    <div class="announcement-wrapper mx-auto max-w-2xl w-full">
         <div class="btn-wrapper d-flex align-items-center justify-content-center gap-2 flex-wrap mb-4">
             <a href="{{ route('add_changelog')}}" class="theme-btn sm fw-semibold rounded d-inline-block">
                 <i class="fa fa-plus"></i> Add Your First Changelog
