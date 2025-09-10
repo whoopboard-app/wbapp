@@ -9,7 +9,7 @@
     {{-- Changelog Section --}}
     <section class="section-content-center py-4">
         <div class="container">
-            <h4 class="fw-bold text-2xl">Add @label('Changelog')</h4>
+            <h4 class="fw-bold text-2xl">Add Changelog</h4>
             <p class="text-muted label mt-1 mb-3">
                 Create a new changelog entry to keep your users informed about product updates, improvements, and fixes.
             </p>
