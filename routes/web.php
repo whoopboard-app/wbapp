@@ -8,6 +8,7 @@
     use Illuminate\Support\Facades\Route;
     use Illuminate\Http\Request;
     use App\Http\Controllers\ThemeController;
+    use App\Http\Controllers\ChangelogController;
 
     Route::middleware(['auth'])->group(function () {
         Route::get('/themes', [ThemeController::class, 'index'])->name('themes.index');
@@ -101,7 +102,10 @@
     });
 
 
-
+    Route::get('/add_Changelog', [ChangelogController::class, 'index'])
+        ->name('add_changelog');
+    Route::POST('/changelog_store', [ChangelogController::class, 'store'])
+    ->name('changelog.store');
 
 
     require __DIR__.'/auth.php';
