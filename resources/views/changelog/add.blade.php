@@ -1,23 +1,11 @@
 @extends('layouts.add_changelog')
 
 @section('content')
-    {{-- Flash Messages --}}
-    @if (session('success'))
-        <x-alert type="success" :message="session('success')" />
-    @endif
-
-    @if (session('error'))
-        <x-alert type="error" :message="session('error')" />
-    @endif
-
-    @if (session('info'))
-        <x-alert type="info" :message="session('info')" />
-    @endif
-
-    @if (session('warning'))
-        <x-alert type="warning" :message="session('warning')" />
-    @endif
-
+@if ($errors->any())
+    @foreach ($errors->all() as $error)
+        <x-alert type="error" :message="$errors->first()" />
+    @endforeach
+@endif
     {{-- Changelog Section --}}
     <section class="section-content-center py-4">
         <div class="container">

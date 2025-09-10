@@ -50,15 +50,16 @@ class ChangelogController extends Controller
         
         $action = $validatedData['action'];
         if ($action === 'publish') {
+            $validatedData['status'] = 'active';
             $changelog = Changelog::create($validatedData);
-            return redirect()->route('announcement')->with('success', 'Changelog published successfully!');
+            return redirect()->route('announcement')->with('success', 'Changelog saved and published successfully!');
         } elseif ($action === 'draft') {
-            dd('Save as Draft logic here');
+            $validatedData['status'] = 'draft';
+            $changelog = Changelog::create($validatedData);
+            return redirect()->route('announcement')->with('success', 'Changelog saved as draft successfully!');
         } elseif ($action === 'schedule') {
             dd('Schedule Publish logic here');
         }
-        // return redirect()->route('announcement')->with('success', 'Changelog saved successfully!');
-
         
     }
         
