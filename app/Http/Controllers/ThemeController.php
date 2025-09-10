@@ -33,6 +33,7 @@ class ThemeController extends Controller
 
     public function customize(Request $request)
     {
+/*        dd($request->all());*/
         if(empty($request->brand_color)){
             $request->brand_color = '0';
         }
@@ -41,7 +42,7 @@ class ThemeController extends Controller
             : null;
         $request->validate([
             'brand_color'       => 'nullable|string|max:20',
-            'page_title'        => 'nullable|string|max:255',
+            'theme_title'        => 'nullable|string|max:255',
             'welcome_message'   => 'nullable|string|max:500',
             'short_description' => 'nullable|string|max:500',
             'module_labels'     => 'nullable|array',
@@ -61,7 +62,7 @@ class ThemeController extends Controller
             [
                 'theme_id'         => '0',
                 'brand_color'      => $request->brand_color,
-                'page_title'       => $request->page_title,
+                'theme_title'       => $request->theme_title,
                 'welcome_message'  => $request->welcome_message,
                 'short_description'=> $request->short_description,
                 'module_labels'    => $moduleLabels ? json_encode($moduleLabels) : null,

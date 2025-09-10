@@ -24,37 +24,37 @@
                 <li class="sidebar-menu-item">
                     <a href="{{ route('announcement') }}" class="sidebar-menu-link d-flex align-items-center {{ request()->routeIs('announcement') ? 'active text-blue-600' : 'text-gray-600' }}">
                         <img src="assets/img/icon/megaphone.png" alt="megaphone" class="sidebar-menu-link-icon flex-shrink-0">
-                        <span class="sidebar-menu-link-text">@label('Announcement')</span>
+                        <span class="sidebar-menu-link-text">@customLabel('Announcement')</span>
                     </a>
                 </li>
                 <li class="sidebar-menu-item">
                     <a href="#" class="sidebar-menu-link d-flex align-items-center">
                         <img src="assets/img/icon/feedback.png" alt="feedback" class="sidebar-menu-link-icon flex-shrink-0">
-                        <span class="sidebar-menu-link-text">Feedback</span>
+                        <span class="sidebar-menu-link-text">@customLabel('Feedback')</span>
                     </a>
                 </li>
                 <li class="sidebar-menu-item">
                     <a href="#" class="sidebar-menu-link d-flex align-items-center">
                         <img src="assets/img/icon/roadmap.png" alt="roadmap" class="sidebar-menu-link-icon flex-shrink-0">
-                        <span class="sidebar-menu-link-text">Product Roadmap</span>
+                        <span class="sidebar-menu-link-text">@customLabel('Product Road Map')</span>
                     </a>
                 </li>
                 <li class="sidebar-menu-item">
                     <a href="#" class="sidebar-menu-link d-flex align-items-center">
                         <img src="assets/img/icon/star-comment.png" alt="star-comment" class="sidebar-menu-link-icon flex-shrink-0">
-                        <span class="sidebar-menu-link-text">Testimonials</span>
+                        <span class="sidebar-menu-link-text">@customLabel('Testimonials')</span>
                     </a>
                 </li>
                 <li class="sidebar-menu-item">
                     <a href="help-center.html" class="sidebar-menu-link d-flex align-items-center">
                         <img src="assets/img/icon/book.png" alt="book" class="sidebar-menu-link-icon flex-shrink-0">
-                        <span class="sidebar-menu-link-text">Knowledge Board</span>
+                        <span class="sidebar-menu-link-text">@customLabel('Knowledge Board')</span>
                     </a>
                 </li>
                 <li class="sidebar-menu-item">
                     <a href="#" class="sidebar-menu-link d-flex align-items-center">
                         <img src="assets/img/icon/research-repository.svg" alt="research-repository" class="sidebar-menu-link-icon flex-shrink-0">
-                        <span class="sidebar-menu-link-text">Research Repo</span>
+                        <span class="sidebar-menu-link-text">@customLabel('Research Repo')</span>
                     </a>
                 </li>
             </ul>

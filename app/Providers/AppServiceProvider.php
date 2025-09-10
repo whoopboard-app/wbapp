@@ -33,7 +33,7 @@ class AppServiceProvider extends ServiceProvider
 
             $view->with('globalLabels', $labels);
         });
-        Blade::directive('label', function ($expression) {
+        Blade::directive('customLabel', function ($expression) {
             return "<?php echo \$globalLabels[$expression] ?? ucfirst($expression); ?>";
         });
     }

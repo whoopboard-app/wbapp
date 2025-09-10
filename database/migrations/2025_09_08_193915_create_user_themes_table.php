@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('theme_id')->constrained()->cascadeOnDelete();
             $table->string('brand_color', 10)->default('#f44336');
-            $table->string('page_title')->nullable();
+            $table->string('theme_title')->nullable();
             $table->string('welcome_message')->nullable();
             $table->string('short_description')->nullable();
             $table->json('module_labels')->nullable();

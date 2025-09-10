@@ -32,6 +32,7 @@
     Route::get('/guide_setup/themes', function () {
         return view('guide_setup.themes');
     })->name('guide.setup.themes');
+    Route::post('/themes/update-setting', [ThemeController::class, 'updateSetting'])->name('themes.updateSetting');
 
     Route::get('/guide_setup/system-config', function () {
         return view('guide_setup.system_config');

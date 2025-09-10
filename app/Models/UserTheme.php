@@ -18,6 +18,9 @@ class UserTheme extends Model
         'meta_description',
         'meta_keywords',
         'google_analytics',
+        'is_visible',
+        'is_password_protected',
+        'password',
     ];
 
     protected $casts = [

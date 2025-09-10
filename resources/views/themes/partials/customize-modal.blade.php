@@ -13,10 +13,10 @@
                     </p>
                     <div class="form-input border-0">
                         <label for="page-title" class="input-label mb-1 fw-medium">Page Title</label>
-                        <input type="text" id="page-title" name="page_title"
+                        <input type="text" id="page-title" name="theme_title"
                                class="input-field w-100 rounded"
                                placeholder="Placeholder"
-                               value="{{ old('page_title', $usertheme->page_title ?? '') }}">
+                               value="{{ old('theme_title', $usertheme->theme_title ?? '') }}">
                     </div>
 
                     <div class="form-input border-0">
@@ -24,6 +24,7 @@
                         <input type="text" id="welcome" name="welcome_message"
                                class="input-field w-100 rounded"
                                placeholder="Placeholder"
+                               maxlength="191"
                                value="{{ old('welcome_message', $usertheme->welcome_message ?? '') }}">
                     </div>
 
