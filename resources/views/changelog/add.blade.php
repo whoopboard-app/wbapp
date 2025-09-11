@@ -6,6 +6,24 @@
         <x-alert type="error" :message="$errors->first()" />
     @endforeach
 @endif
+<style>
+    .hover-blue:hover {
+        color: #0d6efd; /* Bootstrap primary blue */
+        cursor: pointer;
+    }
+    .theme-btn{
+        line-height: unset !important;
+        font-size: 15px !important;
+    }
+     @media (min-width:992px)
+    {
+    .section-content-center
+      {
+         max-width: 983px;
+         margin: 0 auto;
+      }
+    }
+</style>
     {{-- Changelog Section --}}
     <section class="section-content-center py-4">
         <div class="container">
@@ -20,13 +38,14 @@
                 {{-- Feature Banner --}}
                 <div class="card bg-white mb-3">
                     <div class="upload-input">
-                        <input type="file" class="visually-hidden" id="feature-banner" name="feature_banner">
+                        <input type="file" class="visually-hidden" id="feature-banner" name="feature_banner" onchange="showFileName(event)">
                         <label for="feature-banner" class="d-block text-center rounded-3">
                             <span class="upload-btn widget-item-btn d-inline-block rounded fw-semibold mb-2">
                                 Upload Features Banner
                             </span>
                             <span class="upload-input-text d-block">Recommended size 600 / 400</span>
                         </label>
+                        <span id="file-name" class="d-block mt-2 text-muted"></span>
                     </div>
                 </div>
 
@@ -66,10 +85,11 @@
                                         <i class="fa fa-question-circle hover-blue"></i>
                                     </span>
                                 </label>
+                                
                                 <select class="form-select w-100 rounded text-sm" id="categorySelect" name="category[]" multiple>
-                                    <option value="1">cat 1</option>
-                                    <option value="2">cat 2</option>
-                                    <option value="3">cat 3</option>
+                                    @foreach($categories as $category)
+                                        <option value="{{ $category->id }}">{{ $category->category_name }}</option>
+                                    @endforeach
                                 </select>
                                 @error('category')
                                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -106,23 +126,20 @@
                     <!-- Checkboxes -->
                     <div class="d-flex flex-column gap-3 mb-3 pb-1 border-bottom-0">
                         <div class="text-sm border p-2 rounded">
-                            <input type="checkbox" class="visually-hidden" id="show-widget" name="show_widget">
-                            <label for="show-widget" class="d-flex align-items-center gap-2 rounded">
-                                <span class="checkbox d-flex align-items-center justify-content-center rounded-1 text-white">
-                                    <i class="fa-regular fa-check"></i>
-                                </span>
-                                Show from website &amp; widgets
-                            </label>
+                            <div class="form-check">
+                                <input type="checkbox" id="show-widget" name="show_widget" class="form-check-input">
+                                <label for="show-widget" class="form-check-label">Show from website & widgets
+                                </label>
+                            </div>
                         </div>
 
                         <div class="text-sm border p-2 rounded">
-                            <input type="checkbox" class="visually-hidden" id="send-email" name="send_email" disabled>
-                            <label for="send-email" class="d-flex align-items-center gap-2 rounded">
-                                <span class="checkbox d-flex align-items-center justify-content-center rounded-1 text-white">
-                                    <i class="fa-regular fa-check"></i>
-                                </span>
-                                Send email to 450 subscriber
-                            </label>
+                            <div class="form-check">
+                                <input type="checkbox" id="send-email" name="send_email" class="form-check-input">
+                                <label for="send-email" class="form-check-label">
+                                    Send email to 450 subscriber
+                                </label>
+                            </div>
                         </div>
                     </div>
 
@@ -155,9 +172,9 @@
                         </label>
                         <select class="form-select w-100 rounded text-sm" id="feedbackRequest" name="feedbackRequest">
                             <option value="">Select</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                            <option value="draft">Draft</option>
                         </select>
                         @error('feedbackRequest')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -233,17 +250,25 @@
 
            
                 <div class="d-inline-flex gap-2 mt-3">
-                    <button type="submit" name="action" value="publish" class="theme-btn fw-bold rounded">
+                    <button type="submit" name="action" value="publish" class="theme-btn fw-semibold rounded">
                         Save &amp; Publish
                     </button>
-                    <button type="submit" name="action" value="draft" class="theme-btn secondary fw-bold rounded">
+                    <button type="submit" name="action" value="draft" class="theme-btn secondary fw-semibold rounded">
                         Save as Draft
                     </button>
-                    <button type="submit" name="action" value="schedule" class="theme-btn secondary fw-bold rounded">
+                    <button type="submit" name="action" value="schedule" class="theme-btn secondary fw-semibold rounded">
                         Schedule Publish
                     </button>
                 </div>
             </form>
         </div>
     </section>
+
+    <script>
+        function showFileName(event) {
+            const input = event.target;
+            const fileName = input.files.length > 0 ? input.files[0].name : "";
+            document.getElementById("file-name").textContent = fileName;
+        }
+    </script>
 @endsection

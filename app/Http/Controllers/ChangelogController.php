@@ -4,13 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Changelog;
+use App\Models\SettingCategoryChangelog;
 
 class ChangelogController extends Controller
 {
     public function index()
     {
+        $categories = SettingCategoryChangelog::where('tenant_id', auth()->user()->tenant_id)
+            ->where('status', '1')
+            ->get();
+        
         // This will return the view file
-        return view('changelog.add');
+        return view('changelog.add', compact('categories'));
     }
 
     public function store(Request $request)
