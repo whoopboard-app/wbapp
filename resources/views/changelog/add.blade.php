@@ -15,7 +15,15 @@
         line-height: unset !important;
         font-size: 15px !important;
     }
-     @media (min-width:992px)
+    
+    .ts-wrapper {
+        padding: 0 !important;
+    }
+    .ts-control {
+        border: none !important; 
+        
+    }
+    @media (min-width:992px)
     {
     .section-content-center
       {
@@ -127,15 +135,21 @@
                     <div class="d-flex flex-column gap-3 mb-3 pb-1 border-bottom-0">
                         <div class="text-sm border p-2 rounded">
                             <div class="form-check">
-                                <input type="checkbox" id="show-widget" name="show_widget" class="form-check-input">
+                                <!-- Hidden field for unchecked value -->
+                                <input type="hidden" name="show_widget" value="0">
+
+                                <!-- Actual checkbox -->
+                                <input type="checkbox" id="show-widget" name="show_widget" value="1" class="form-check-input">
                                 <label for="show-widget" class="form-check-label">Show from website & widgets
                                 </label>
                             </div>
                         </div>
 
                         <div class="text-sm border p-2 rounded">
-                            <div class="form-check">
-                                <input type="checkbox" id="send-email" name="send_email" class="form-check-input">
+                            <input type="hidden" name="send_email" value="0">
+
+                            <!-- Actual checkbox -->
+                            <input type="checkbox" id="send-email" name="send_email" value="1" class="form-check-input">
                                 <label for="send-email" class="form-check-label">
                                     Send email to 450 subscriber
                                 </label>
@@ -201,10 +215,10 @@
                                 <i class="fa fa-question-circle hover-blue"></i>
                             </span>
                         </label>
-                        <select id="tags" name="tagsSelect[]" class="form-select w-100 rounded text-sm" multiple>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
+                        <select id="tagsSelect" name="tagsSelect[]" class="form-select w-100 rounded text-sm" multiple>
+                            @foreach($tags as $id => $name)
+                                <option value="{{ $id }}">{{ $name }}</option>
+                            @endforeach
                         </select>
                         @error('tagsSelect')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -265,10 +279,19 @@
     </section>
 
     <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            new TomSelect("#categorySelect", {
+                plugins: ['remove_button'],
+                create: false,
+                placeholder: "Select Categories"
+            });
+        });
         function showFileName(event) {
             const input = event.target;
             const fileName = input.files.length > 0 ? input.files[0].name : "";
             document.getElementById("file-name").textContent = fileName;
         }
+        
     </script>
+
 @endsection
