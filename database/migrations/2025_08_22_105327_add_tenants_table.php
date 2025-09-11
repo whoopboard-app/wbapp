@@ -30,7 +30,7 @@ return new class extends Migration
             $table->unsignedBigInteger('client_user_id')->index();
 
             $table->date('date_of_registration')->nullable();
-            $table->time('time_of_registration');
+            $table->time('time_of_registration')->nullable();
 
             $table->timestamps();
 

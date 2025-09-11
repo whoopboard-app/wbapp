@@ -33,9 +33,8 @@ class ThemeController extends Controller
 
     public function customize(Request $request)
     {
-/*        dd($request->all());*/
         if(empty($request->brand_color)){
-            $request->brand_color = '0';
+            $request->brand_color = '#f44336';
         }
         $moduleLabels = $request->filled('module_labels')
             ? array_map(fn($label) => ucfirst($label), $request->module_labels)
@@ -56,7 +55,6 @@ class ThemeController extends Controller
             'password'          => 'nullable|string|max:255',
         ]);
         $user = auth()->user();
-
         $userTheme = UserTheme::updateOrCreate(
             ['user_id' => $user->id],
             [

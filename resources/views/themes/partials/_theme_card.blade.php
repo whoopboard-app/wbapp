@@ -79,17 +79,36 @@
             <label class="form-label fw-semibold fs-5">Website Visibility</label>
             <div class="form-check form-switch">
                 @if($isEditable)
-                    <input type="checkbox" name="is_visible" value="1"
+                    <input type="checkbox" id="isVisibleSwitch" name="is_visible" value="1"
                            class="form-check-input"
                         {{ $theme->is_visible ? 'checked' : '' }}>
                 @else
-                    <input type="checkbox" class="form-check-input" disabled {{ $theme->is_visible ? 'checked' : '' }}>
+                    <input type="checkbox" id="isVisibleSwitch" class="form-check-input" disabled {{ $theme->is_visible ? 'checked' : '' }}>
                 @endif
-                <label class="form-check-label">
-                    {{ $theme->is_visible ? 'On — Your board is live and accessible at [subdomain]' : 'Off — Your board is hidden' }}
+
+                <label class="form-check-label" id="visibilityLabel">
+                    {{ $theme->is_visible
+                        ? 'On (Published — Your board is live and accessible at [subdomain])'
+                        : 'Off (Not Published — Your board is not live and accessible at [subdomain])' }}
                 </label>
             </div>
         </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const checkbox = document.getElementById('isVisibleSwitch');
+                const label = document.getElementById('visibilityLabel');
+
+                checkbox.addEventListener('change', function () {
+                    if (this.checked) {
+                        label.textContent = 'On (Published — Your board is live and accessible at [subdomain])';
+                    } else {
+                        label.textContent = 'Off (Not Published — Your board is not live and accessible at [subdomain])';
+                    }
+                });
+            });
+        </script>
+
 
         <!-- Password Protection -->
         <div class="mb-3">
@@ -122,7 +141,7 @@
                 <textarea name="welcome_message"
                           class="form-control alert alert-light border mt-2 py-2 small fs-6 lh-lg"
                           rows="2"
-                          maxlength="191">{{ $theme->welcome_message ?? 'Enable password protection to keep your board private.' }}</textarea>
+                          maxlength="191">{{ $theme->welcome_message ?? 'Enable password protection to keep your board private. Subscribers will be verified by email, and only those with access will receive a secure link to view your subdomain.' }}</textarea>
             @else
                 <div class="alert alert-light border mt-2 py-2 small fs-6 lh-lg">
                     {{ $theme->welcome_message ?? 'No welcome message added yet.' }}

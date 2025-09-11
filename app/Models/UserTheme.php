@@ -9,8 +9,8 @@ class UserTheme extends Model
     protected $fillable = [
         'user_id',
         'theme_id',
+        'theme_title',
         'brand_color',
-        'page_title',
         'welcome_message',
         'short_description',
         'module_labels',

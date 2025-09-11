@@ -1687,11 +1687,4 @@ input.spectrum.with-add-on:focus {
 /* persona view section end */
 
 /* main content end */
- @media (min-width:992px)
-    {
-    .section-content-center
-      {
-         max-width: 983px;
-         margin: 0 auto;
-      }
-    }
+
