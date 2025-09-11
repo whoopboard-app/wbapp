@@ -32,4 +32,16 @@ document.addEventListener("DOMContentLoaded", () => {
             hideSelected: true,
         });
     }
+    new TomSelect("#categorySelect", {
+        plugins: ['remove_button'],
+        persist: false,
+        create: false,
+        hideSelected: true,
+    });
+    new TomSelect("#tagsSelect", {
+        plugins: ['remove_button'],
+        persist: false,
+        create: false,
+        hideSelected: true,
+    });
 });

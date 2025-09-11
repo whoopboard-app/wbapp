@@ -1,6 +1,23 @@
 @extends('layouts.app')
 @section('content')
-
+<style>
+    .breadcrumb-item {
+        font-size: 15px !important;
+    }
+    .p-text {
+        font-size: 17px !important;
+    }
+    .theme-btn {
+        line-height: unset !important;
+    }
+    .widget-item-btn 
+    {
+        line-height: unset !important;
+    }
+    .card{
+        padding: 20px 35px 20px 20px !important;
+    }
+</style>
 <div class="mt-4 mx-auto w-100">    
     <!-- breadcrumbs start -->
     
@@ -11,8 +28,8 @@
                 <li class="breadcrumb-item text-black" aria-current="page">Announcement Listings</li>
             </ol>
         </nav>       
-        <h2 class="fw-bold text-xl">Changelog</h2>
-        <p class="text-gray-800 mt-1 mb-3">
+        <h2 class="fw-semibold fs-4">Changelog</h2>
+        <p class="text-gray-900 mt-1 mb-3 p-text">
             Keep track of all product updates in one place. Search, filter, and manage your changelog entries with ease.
         </p>
     </div>
@@ -31,8 +48,8 @@
 
         <div class="get-started-changelog">
             <div class="mb-4">
-                <h6 class="fw-semibold mb-2 pb-1">Get started with the Changelog</h6>
-                <p class="mb-0 text-gray-600">Here is a list of recommended actions to help you get the most out of our Changelog module.</p>
+                <h6 class="fw-semibold mb-1 pb-1">Get started with the Changelog</h6>
+                <p class="mb-0 text-gray-600 p-text">Here is a list of recommended actions to help you get the most out of our Changelog module.</p>
             </div>
 
             <div class="get-started-card-wrapper">

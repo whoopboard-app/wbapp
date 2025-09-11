@@ -4,13 +4,28 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Changelog;
+use App\Models\SettingCategoryChangelog;
+use App\Models\ChangelogTag;
+use Illuminate\Support\Facades\DB;
 
 class ChangelogController extends Controller
 {
     public function index()
     {
+        $tenentId = auth()->user()->tenant_id;
+        $categories = SettingCategoryChangelog::where('tenant_id', $tenentId)
+            ->where('status', '1')
+            ->get();
+        $log_tags = ChangelogTag::where('tenant_id', $tenentId)
+            ->first();
+        $selectedIds = explode(',', $log_tags->functionality_group);
+            
+        $tags = DB::table('functionalities')
+            ->whereIn('id', $selectedIds)
+            ->pluck('name', 'id');
+
         // This will return the view file
-        return view('changelog.add');
+        return view('changelog.add', compact('categories', 'tags'));
     }
 
     public function store(Request $request)
