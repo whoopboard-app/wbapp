@@ -1,4 +1,7 @@
-@php $disableSidebar = true; @endphp
+@php
+if($user->guide_setup = '0'){
+        $disableSidebar = true;
+} @endphp
 @extends('layouts.app')
 @section('content')
     <div class="py-1 ">
@@ -50,19 +53,19 @@
 
                     <!-- Changelog -->
                     <div class="border bg-indigo-50 rounded-lg p-4 w-100">
-                        <h6 class="font-semibold text-gray-900 text-base">@label('Announcement')</h6>
+                        <h6 class="font-semibold text-gray-900 text-base">@customLabel('Announcement')</h6>
                         <p class="text-base text-gray-600 mb-3 text-lg">
                             Organize your product updates with categories and tags so users can easily explore new releases.
                         </p>
                         <div class="flex flex-wrap gap-2">
                             <a href="{{ route('guide.setup.changelog.category') }}"
                                class="px-3 py-1.5 bg-white text-black border border-gray-300 rounded-md text-base font-medium flex items-center gap-1 hover:bg-gray-100">
-                                Create Category for @label('Announcement')
+                                Create Category for @customLabel('Announcement')
                                 <img src="{{ asset('assets/img/icon/enlarge.svg') }}" alt="">
                             </a>
                             <a href="{{ route('guide.setup.changelog.tags') }}"
                                class="px-3 py-1.5 bg-white text-black border border-gray-300 rounded-md text-base font-medium flex items-center gap-1 hover:bg-gray-100">
-                                @label('Announcement') Tags
+                                @customLabel('Announcement') Tags
                                 <img src="{{ asset('assets/img/icon/enlarge.svg') }}" alt="">
                             </a>
 {{--                            <a href="#"
@@ -101,11 +104,19 @@
 
                     <!-- Continue Button -->
                     <div>
-                        <button
-                            class="px-4 py-2 bg-indigo-600 text-white rounded-md font-semibold text-base hover:bg-indigo-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
-                            disabled>
-                            Update & Continue
-                        </button>
+                        @php
+                            $disableSidebar = $user->quick_setup == '0';
+                        @endphp
+                        <form method="POST" action="{{ route('guide.setup.completed') }}">
+                            @csrf
+                            <button
+                                type="submit"
+                                class="px-4 py-2 bg-indigo-600 text-white rounded-md font-semibold text-base hover:bg-indigo-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
+                                @if($disableSidebar) disabled @endif
+                            >
+                                Update & Continue
+                            </button>
+                        </form>
                     </div>
 
                 </div>

@@ -39,13 +39,16 @@ class ChangelogTagController extends Controller
             'short_description' => 'required|nullable|string',
             'functionality_id' => 'required|array',
         ]);
-        $tenantId = auth()->user()->tenant_id;
+        $user = auth()->user();
+        $tenantId = $user->tenant_id;
         $tag = ChangelogTag::create([
             'tenant_id' => $tenantId,
             'tag_name' => $request->tag_name,
             'short_description' => $request->short_description,
             'functionality_group' => implode(',', $request->functionality_id),
         ]);
+        $user->quick_setup = '1';
+        $user->save();
         // Attach functionalities (pivot table)
         $tag->functionalities()->sync($request->functionality_id ?? []);
 

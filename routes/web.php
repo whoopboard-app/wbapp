@@ -26,6 +26,7 @@
         return view('dashboard');
     })->name('dashboard');
     Route::get('/guide_setup', [GuideSetupController::class, 'index'])->name('guide_setup');
+    Route::post('/guide_setup/completed', [GuideSetupController::class, 'completed'])->name('guide.setup.completed');
     Route::get('/announcement', function () {
         return view('announcement');
     })->name('announcement');
