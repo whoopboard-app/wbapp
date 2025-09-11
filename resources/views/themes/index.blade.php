@@ -11,40 +11,29 @@
                     <p class="text-muted">
                         Make your board truly yours. Pick a theme that matches your brand’s style — you can always change it later.
                     </p>
-    @php
-        $defaultTheme = $themes->first(); // assuming the first theme is default
-    @endphp
-    {{-- Default Theme Form --}}
-    <form id="customizeThemeForm" method="POST" action="{{ route('themes.customize') }}">
-        @csrf
-        <input type="hidden" name="theme_id" value="{{ $defaultTheme->id }}">
-        <input type="hidden" name="theme_title" value="{{ $defaultTheme->name }}">
-        <input type="hidden" name="short_description" value="{{ $defaultTheme->description }}">
-        @include('themes.partials._theme_card',['theme' => $defaultTheme, 'isEditable' => true])
-    </form>
+                    @php
+                    $defaultTheme = $themes->first();
+                    $activeTheme = $userTheme ?? $defaultTheme;
+                    $isCustomized = !is_null($userTheme);
+                    @endphp
+                    <form id="customizeThemeForm_{{ $activeTheme->id }}" method="POST" action="{{ route('themes.customize') }}">
+                        @csrf
+                        <input type="hidden" name="theme_id" value="{{ $activeTheme->id }}">
+                        <input type="hidden" name="theme_title" value="{{ $activeTheme->theme_title }}">
+                        <input type="hidden" name="short_description" value="{{ $activeTheme->short_description ?? $activeTheme->description }}">
+                        <input type="hidden" name="welcome_message" value="{{ $activeTheme->welcome_message }}">
+                        <input type="hidden" name="theme_flag" value="{{ $activeTheme->theme_flag ?? 0 }}">
 
-    {{-- User Theme (if exists) --}}
-    @if($userTheme)
-    <form id="customizeThemeForm" method="POST" action="{{ route('themes.customize') }}">
-        @csrf
-        <input type="hidden" name="theme_id" value="{{ $userTheme->id }}">
-        <input type="hidden" name="theme_title" value="{{ $userTheme->name }}">
-        <input type="hidden" name="short_description" value="{{ $userTheme->short_description }}">
-        @include('themes.partials._theme_card', ['theme' => $userTheme, 'isEditable' => true])
-    </form>
-    @endif
+                        @include('themes.partials._theme_card', [
+                            'theme' => $activeTheme,
+                            'isEditable' => true,
+                            'isCustomized' => $isCustomized
+                        ])
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-    <div class="theme-setting-wrapper rounded" style="margin-left: 17%; width: 70%;">
-        <!-- Customize Button -->
-        <button class="theme-btn rounded border-0 btn-sm fw-bold" data-bs-toggle="modal" data-bs-target="#customizeTheme">Customize Theme</button>
-        <button class="theme-btn rounded border-0 btn-sm fw-bold" data-bs-toggle="modal" data-bs-target="#baseConfiguration">Add Base Configuration</button>
-    </div>
-    {{-- Include the customize modal but keep it hidden initially --}}
-    @include('themes.partials.customize-modal', ['userTheme' => $defaultTheme])
-    @include('themes.partials.customize-modal', ['userTheme' => $userTheme])
 @endsection
 
 @section('scripts')

@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('themes', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->text('description')->nullable();
+            $table->string('brand_color', 10)->default('#f44336');
+            $table->string('theme_title')->nullable();
+            $table->string('welcome_message')->nullable();
+            $table->string('short_description')->nullable();
             $table->string('preview_image')->nullable();
-            $table->string('default_color', 10)->default('#f44336');
-            $table->boolean('is_default')->default(false);
             $table->timestamps();
         });
     }

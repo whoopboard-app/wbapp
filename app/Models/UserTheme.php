@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class UserTheme extends Model
 {
     protected $fillable = [
+        'tenant_id',
         'user_id',
         'theme_id',
         'theme_title',
@@ -21,6 +22,7 @@ class UserTheme extends Model
         'is_visible',
         'is_password_protected',
         'password',
+        'theme_flag',
     ];
 
     protected $casts = [

@@ -33,12 +33,31 @@ class ThemeController extends Controller
 
     public function customize(Request $request)
     {
-        if(empty($request->brand_color)){
-            $request->brand_color = '#f44336';
+        $themes = Theme::first();
+        if (empty($request->theme_title)) {
+            $request->merge([
+                'theme_title'       => $themes->theme_title,
+                'short_description' => $themes->short_description,
+                'welcome_message'   => $themes->welcome_message,
+            ]);
         }
-        $moduleLabels = $request->filled('module_labels')
-            ? array_map(fn($label) => ucfirst($label), $request->module_labels)
-            : null;
+        if (empty($request->brand_color)) {
+            $request->merge([
+                'brand_color'       => $themes->brand_color,
+                'theme_flag'        => '1',
+            ]);
+        }
+        $moduleLabels = [];
+        if ($request->filled('module_labels') && is_array($request->module_labels)) {
+            foreach ($request->module_labels as $key => $label) {
+                $defaultLabel = $defaultTheme->module_labels[$key] ?? null;
+                $moduleLabels[$key] = ($label !== $defaultLabel && $label !== null && $label !== '')
+                    ? ucfirst($label)
+                    : null;
+            }
+        } else {
+            $moduleLabels = null;
+        }
         $request->validate([
             'brand_color'       => 'nullable|string|max:20',
             'theme_title'        => 'nullable|string|max:255',
@@ -58,6 +77,7 @@ class ThemeController extends Controller
         $userTheme = UserTheme::updateOrCreate(
             ['user_id' => $user->id],
             [
+                'tenant_id' => $user->tenant->tenant_id,
                 'theme_id'         => '0',
                 'brand_color'      => $request->brand_color,
                 'theme_title'       => $request->theme_title,
@@ -70,7 +90,8 @@ class ThemeController extends Controller
                 'google_analytics' => $request->google_analytics,
                 'is_visible'       => $request->boolean('is_visible'),
                 'is_password_protected' => $request->boolean('is_password_protected'),
-                'password'         => $request->is_password_protected ? $request->password : null,
+                'password'         => $request->password,
+                'theme_flag' => $request->theme_flag ? 1 : 0,
             ]
         );
 
@@ -86,6 +107,26 @@ class ThemeController extends Controller
             : $functionality;
         return $labels[$id] ?? ($functionality instanceof \App\Models\Functionality ? $functionality->name : null);
     }
+    public function select(Request $request)
+    {
+        $theme = Theme::findOrFail($request->theme_id);
+
+        // Copy this theme's data to user_theme table
+        auth()->user()->userTheme()->updateOrCreate(
+            ['user_id' => auth()->id()],
+            [
+                'name' => $theme->name,
+                'short_description' => $theme->short_description ?? $theme->description,
+                'brand_color' => $theme->brand_color,
+                'is_visible' => $theme->is_visible,
+                'is_password_protected' => $theme->is_password_protected,
+                'welcome_message' => $theme->welcome_message
+            ]
+        );
+
+        return back()->with('success', 'Theme selected successfully!');
+    }
+
 
 
 }

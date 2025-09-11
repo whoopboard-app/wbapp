@@ -11,7 +11,6 @@
                 <label for="brand-color" class="input-label mb-1 fw-medium">Brand Color</label>
                 <div class="input-group align-items-center">
                     <div class="position-relative">
-
                         <!-- Circle preview (clickable in editable mode) -->
                         <label for="brandColorPicker_{{ $theme->id ?? 'new' }}"
                                class="position-absolute top-50 start-0 translate-middle-y ms-2 rounded-circle overflow-hidden"
@@ -46,35 +45,47 @@
         </div>
 
         <!-- Action buttons -->
-        @if($isEditable)
-            <button class="btn btn-success fw-semibold rounded btn-md">Save & Publish</button>
-        @else
-            <button class="btn btn-success fw-semibold rounded btn-md" disabled>
+        @if($theme->theme_flag)
+            <button class="btn btn-success fw-semibold rounded btn-md disabled" style="width: 200px;">
                 Customized Theme (Active)
+            </button>
+        @else
+            @if(!empty($isCustomized) && $isCustomized)
+                <button class="btn btn-success fw-semibold rounded btn-md disabled" style="width: 200px;">
+                    Default Theme (Active)
+                </button>
+            @else
+                <button class="btn btn-primary fw-semibold rounded btn-md mt-2" style="width: 200px;"
+                        type="submit">
+                    Select Default Theme
+                </button>
+
+            @endif
+        @endif
+        <br>
+        <!-- New: Customize Theme Button -->
+        @if($isEditable)
+            <button class="btn btn-primary fw-semibold rounded btn-md mt-2" style="width: 200px;"
+                    type="button"
+                    data-bs-toggle="modal"
+                    data-bs-target="#customizeThemeModal_{{ $theme->id }}">
+                Customize Theme
             </button>
         @endif
     </div>
 
     <!-- Right Content -->
-    <div class="flex-grow-1">
+    <div class="flex-grow-1" style="width: 300px">
         <!-- Description -->
         <div class="mb-3">
             <label class="form-label fw-semibold fs-5 mb-0">
                 {{ $theme->theme_title ?? $theme->name ?? 'No title' }}
             </label>
-            @if($isEditable)
-                <textarea name="description"
-                          class="form-control alert alert-light border mt-2 py-2 small fs-6 lh-lg"
-                          rows="2"
-                          maxlength="191">{{ $theme->short_description ?? $theme->description ?? 'No description' }}</textarea>
-            @else
-                <div class="alert alert-light border mt-2 py-2 small fs-6 lh-lg" style="min-height: 80px;">
-                    {{ $theme->short_description ?? $theme->description ?? 'No description' }}
-                </div>
-            @endif
+            <div class="text-muted alert alert-light small fs-6 border-0 p-0">
+                {{ $theme->short_description ?? $theme->description ?? 'No description' }}
+            </div>
         </div>
-
-        <!-- Visibility -->
+        <!-- Website Visibility -->
         <div class="mb-3">
             <label class="form-label fw-semibold fs-5">Website Visibility</label>
             <div class="form-check form-switch">
@@ -83,7 +94,8 @@
                            class="form-check-input"
                         {{ $theme->is_visible ? 'checked' : '' }}>
                 @else
-                    <input type="checkbox" id="isVisibleSwitch" class="form-check-input" disabled {{ $theme->is_visible ? 'checked' : '' }}>
+                    <input type="checkbox" id="isVisibleSwitch" class="form-check-input" disabled
+                        {{ $theme->is_visible ? 'checked' : '' }}>
                 @endif
 
                 <label class="form-check-label" id="visibilityLabel">
@@ -93,60 +105,71 @@
                 </label>
             </div>
         </div>
-
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                const checkbox = document.getElementById('isVisibleSwitch');
-                const label = document.getElementById('visibilityLabel');
-
-                checkbox.addEventListener('change', function () {
-                    if (this.checked) {
-                        label.textContent = 'On (Published — Your board is live and accessible at [subdomain])';
-                    } else {
-                        label.textContent = 'Off (Not Published — Your board is not live and accessible at [subdomain])';
-                    }
-                });
-            });
-        </script>
-
-
         <!-- Password Protection -->
         <div class="mb-3">
             <label class="form-label fw-semibold fs-5">Password Protected</label>
             <div class="form-check form-switch">
                 @if($isEditable)
-                    <input type="checkbox" id="passwordToggle_{{ $theme->id ?? 'new' }}"
+                    <input type="checkbox" id="passwordToggle"
                            name="is_password_protected" value="1"
                            class="form-check-input"
                         {{ $theme->is_password_protected ? 'checked' : '' }}>
                 @else
-                    <input type="checkbox" class="form-check-input" disabled {{ $theme->is_password_protected ? 'checked' : '' }}>
+                    <input type="checkbox" id="passwordToggle" class="form-check-input" disabled
+                        {{ $theme->is_password_protected ? 'checked' : '' }}>
                 @endif
-                <label class="form-check-label" for="passwordToggle_{{ $theme->id ?? 'new' }}">
-                    {{ $theme->is_password_protected ? 'On (Board is password protected)' : 'Off (Anyone can access your board)' }}
+
+                <label class="form-check-label" id="passwordLabel">
+                    {{ $theme->is_password_protected
+                        ? 'On (Enabled — Anyone can access your board based on its visibility setting.)'
+                        : 'Off (Disabled — Anyone can access your board based on its visibility setting.)' }}
                 </label>
             </div>
 
             @if($isEditable)
-                <div id="passwordField_{{ $theme->id ?? 'new' }}" style="{{ $theme->is_password_protected ? '' : 'display:none;' }}">
-                    <input type="password" name="password" class="form-control mt-2" placeholder="Enter password">
+                <div id="passwordField" style="{{ $theme->is_password_protected ? '' : 'display:none;' }}">
+                    <div class="input-group mt-2">
+                        <input type="password" name="password" id="passwordInput"
+                               class="form-control"
+                               placeholder="Enter password"
+                               value="{{ $theme->password ?? '' }}">
+                    </div>
                 </div>
             @endif
         </div>
 
+
         <!-- Welcome Message -->
         <div class="mb-3">
-            <label class="form-label fw-semibold fs-6">Welcome Message</label>
-            @if($isEditable)
-                <textarea name="welcome_message"
-                          class="form-control alert alert-light border mt-2 py-2 small fs-6 lh-lg"
-                          rows="2"
-                          maxlength="191">{{ $theme->welcome_message ?? 'Enable password protection to keep your board private. Subscribers will be verified by email, and only those with access will receive a secure link to view your subdomain.' }}</textarea>
-            @else
-                <div class="alert alert-light border mt-2 py-2 small fs-6 lh-lg">
-                    {{ $theme->welcome_message ?? 'No welcome message added yet.' }}
-                </div>
-            @endif
+            <div class="text-muted alert alert-light small fs-6 border">
+                {{ $theme->welcome_message ?? 'Enable password protection to keep your board private. Subscribers will be verified by email, and only those with access will receive a secure link to view your subdomain.' }}
+            </div>
         </div>
     </div>
 </div>
+@include('themes.partials.customize-modal', ['userTheme' => $theme])
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const visibleCheckbox = document.getElementById('isVisibleSwitch');
+        const visibilityLabel = document.getElementById('visibilityLabel');
+
+        visibleCheckbox.addEventListener('change', function () {
+            visibilityLabel.textContent = this.checked
+                ? 'On (Published — Your board is live and accessible at [subdomain])'
+                : 'Off (Not Published — Your board is not live and accessible at [subdomain])';
+        });
+        const passwordCheckbox = document.getElementById('passwordToggle');
+        const passwordLabel = document.getElementById('passwordLabel');
+        const passwordField = document.getElementById('passwordField');
+
+        passwordCheckbox.addEventListener('change', function () {
+            if (this.checked) {
+                passwordLabel.textContent = 'On (Board is password protected)';
+                if (passwordField) passwordField.style.display = '';
+            } else {
+                passwordLabel.textContent = 'Off (Anyone can access your board)';
+                if (passwordField) passwordField.style.display = 'none';
+            }
+        });
+    });
+</script>

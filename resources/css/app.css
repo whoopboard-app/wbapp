@@ -26,4 +26,11 @@
 .fa-question-circle {
     color: #d1d1d1;
 }
+.custom-modal-width {
+    max-width: 900px;
+}
+.arrow-icon {
+    font-size: 32px; /* bigger arrow */
+    line-height: 1;  /* keeps it vertically centered nicely */
+}
 
