@@ -14,7 +14,8 @@
         Route::get('/themes', [ThemeController::class, 'index'])->name('themes.index');
         Route::post('/themes/select', [ThemeController::class, 'selectTheme'])->name('themes.select');
         Route::post('/themes/customize', [ThemeController::class, 'customize'])->name('themes.customize');
-
+        Route::post('/themes/base-config', [ThemeController::class, 'saveBaseConfig'])
+            ->name('themes.base-config');
     });
     Route::get('/', function () {
         return redirect()->route('login');
@@ -35,7 +36,6 @@
         return view('guide_setup.themes');
     })->name('guide.setup.themes');
     Route::post('/themes/update-setting', [ThemeController::class, 'updateSetting'])->name('themes.updateSetting');
-
     Route::get('/guide_setup/system-config', function () {
         return view('guide_setup.system_config');
     })->name('guide.setup.system_config');

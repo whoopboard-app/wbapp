@@ -41,12 +41,6 @@ class ThemeController extends Controller
                 'welcome_message'   => $themes->welcome_message,
             ]);
         }
-        if (empty($request->brand_color)) {
-            $request->merge([
-                'brand_color'       => $themes->brand_color,
-                'theme_flag'        => '1',
-            ]);
-        }
         $moduleLabels = [];
         if ($request->filled('module_labels') && is_array($request->module_labels)) {
             foreach ($request->module_labels as $key => $label) {
@@ -91,7 +85,7 @@ class ThemeController extends Controller
                 'is_visible'       => $request->boolean('is_visible'),
                 'is_password_protected' => $request->boolean('is_password_protected'),
                 'password'         => $request->password,
-                'theme_flag' => $request->theme_flag ? 1 : 0,
+                'theme_flag' => $request->theme_flag,
             ]
         );
 
@@ -107,25 +101,36 @@ class ThemeController extends Controller
             : $functionality;
         return $labels[$id] ?? ($functionality instanceof \App\Models\Functionality ? $functionality->name : null);
     }
-    public function select(Request $request)
+    public function saveBaseConfig(Request $request)
     {
-        $theme = Theme::findOrFail($request->theme_id);
+        $request->validate([
+            'meta_title' => 'nullable|string|max:255',
+            'meta_description' => 'nullable|string|max:255',
+            'meta_keywords' => 'nullable|string|max:255',
+            'google_analytics' => 'nullable|string',
+        ]);
 
-        // Copy this theme's data to user_theme table
-        auth()->user()->userTheme()->updateOrCreate(
-            ['user_id' => auth()->id()],
+        $user = auth()->user();
+
+        UserTheme::updateOrCreate(
             [
-                'name' => $theme->name,
-                'short_description' => $theme->short_description ?? $theme->description,
-                'brand_color' => $theme->brand_color,
-                'is_visible' => $theme->is_visible,
-                'is_password_protected' => $theme->is_password_protected,
-                'welcome_message' => $theme->welcome_message
+                'tenant_id' => $user->tenant->tenant_id,
+                'user_id'   => $user->id,
+                'theme_id'  => '0',
+            ],
+            [
+                'theme_flag' => '1',
+                'meta_title'        => $request->meta_title,
+                'meta_description'  => $request->meta_description,
+                'meta_keywords'     => $request->meta_keywords,
+                'google_analytics'  => $request->google_analytics,
             ]
         );
 
-        return back()->with('success', 'Theme selected successfully!');
+        return back()->with('success', 'Base configuration updated successfully!');
     }
+
+
 
 
 

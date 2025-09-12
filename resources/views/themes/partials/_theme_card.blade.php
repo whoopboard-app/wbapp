@@ -45,17 +45,17 @@
         </div>
 
         <!-- Action buttons -->
-        @if($theme->theme_flag)
-            <button class="btn btn-success fw-semibold rounded btn-md disabled" style="width: 200px;">
+        @if($theme->theme_flag == '1')
+            <button class="btn btn-success fw-semibold rounded btn-md disabled" style="width: 245px;">
                 Customized Theme (Active)
             </button>
         @else
             @if(!empty($isCustomized) && $isCustomized)
-                <button class="btn btn-success fw-semibold rounded btn-md disabled" style="width: 200px;">
+                <button class="btn btn-success fw-semibold rounded btn-md disabled" style="width: 245px;">
                     Default Theme (Active)
                 </button>
             @else
-                <button class="btn btn-primary fw-semibold rounded btn-md mt-2" style="width: 200px;"
+                <button class="btn btn-primary fw-semibold rounded btn-md mt-2" style="width: 245px;"
                         type="submit">
                     Select Default Theme
                 </button>
@@ -65,7 +65,7 @@
         <br>
         <!-- New: Customize Theme Button -->
         @if($isEditable)
-            <button class="btn btn-primary fw-semibold rounded btn-md mt-2" style="width: 200px;"
+            <button class="btn btn-primary fw-semibold rounded btn-md mt-2" style="width: 245px;"
                     type="button"
                     data-bs-toggle="modal"
                     data-bs-target="#customizeThemeModal_{{ $theme->id }}">

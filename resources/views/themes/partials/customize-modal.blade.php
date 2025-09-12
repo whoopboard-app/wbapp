@@ -46,7 +46,7 @@
                                required
                                value="{{ old('short_description', $userTheme->short_description ?? '') }}">
                     </div>
-                    <input type="hidden" name="theme_flag" value="1">
+                    <input type="hidden" name="theme_flag" value="0">
                     <div class="form-input border-0 p-0 mb-4">
                         <label for="alignment" class="input-label mb-1 fw-medium">Alignment</label>
                         <span class="tooltip-icon" data-bs-toggle="tooltip" title="Add Alignment">

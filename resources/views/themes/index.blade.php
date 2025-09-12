@@ -34,6 +34,16 @@
             </div>
         </div>
     </div>
+    @if($userTheme)
+    <div class="theme-setting-wrapper rounded" style="margin-left: 17%; width: 70%;">
+        <button class="theme-btn rounded border-0 btn-sm fw-bold"
+                data-bs-toggle="modal"
+                data-bs-target="#baseConfiguration">
+            Add Base Configuration
+        </button>
+    </div>
+    @include('themes.partials._base_config')
+    @endif
 @endsection
 
 @section('scripts')

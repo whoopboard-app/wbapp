@@ -10,7 +10,7 @@
     .theme-btn {
         line-height: unset !important;
     }
-    .widget-item-btn 
+    .widget-item-btn
     {
         line-height: unset !important;
     }
@@ -18,17 +18,17 @@
         padding: 20px 35px 20px 20px !important;
     }
 </style>
-<div class="mt-4 mx-auto w-100">    
+<div class="mt-4 mx-auto w-100">
     <!-- breadcrumbs start -->
-    
+
     <div class="max-w-6xl mx-auto px-4">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-2">
                 <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
                 <li class="breadcrumb-item text-black" aria-current="page">Announcement Listings</li>
             </ol>
-        </nav>       
-        <h2 class="fw-semibold fs-4">Changelog</h2>
+        </nav>
+        <h2 class="fw-semibold fs-4">@customLabel('Announcement')</h2>
         <p class="text-gray-900 mt-1 mb-3 p-text">
             Keep track of all product updates in one place. Search, filter, and manage your changelog entries with ease.
         </p>

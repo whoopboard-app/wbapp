@@ -22,7 +22,7 @@
                     @csrf
                     <div class="form-title">
                         <h1 class="text-3xl font-bold text-gray-900 mb-2 tracking-wide">
-                           ✨ Welcome, <span class="capitalize ">{{ Auth::user()->name }}</span>!
+                           ✨ Welcome, <span class="capitalize ">{{ Auth::user()->last_name }}</span>!
                         </h1>
                         <p class="font-normal text-gray-500">
                           Let’s make this easy — choose the modules you’re most excited about, and we’ll set things up.
