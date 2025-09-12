@@ -16,13 +16,27 @@ class ChangelogController extends Controller
         $categories = SettingCategoryChangelog::where('tenant_id', $tenentId)
             ->where('status', '1')
             ->get();
-        $log_tags = ChangelogTag::where('tenant_id', $tenentId)
-            ->first();
-        $selectedIds = explode(',', $log_tags->functionality_group);
-            
+
+        if ($categories->isEmpty()) {
+            // $categories = collect([['id' => null, 'category_name' => 'No Categories Found']]);
+             $categories = collect([(object)['id' => null, 'category_name' => 'No Categories Found']]);
+        }
+        
+        $log_tags = ChangelogTag::where('tenant_id', $tenentId)->first();
+
+        $selectedIds = [];
+
+        if ($log_tags && $log_tags->functionality_group) {
+            $selectedIds = explode(',', $log_tags->functionality_group);
+        }   
         $tags = DB::table('functionalities')
-            ->whereIn('id', $selectedIds)
-            ->pluck('name', 'id');
+        ->whereIn('id', $selectedIds)
+        ->pluck('name', 'id');
+
+        if ($tags->isEmpty()) {
+            $tags = collect([null => 'No Data Found']); // value = 0, label = No Data Found
+        }
+            
 
         // This will return the view file
         return view('changelog.add', compact('categories', 'tags'));

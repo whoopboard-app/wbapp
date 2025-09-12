@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::dropIfExists('themes');
         Schema::create('themes', function (Blueprint $table) {
             $table->id();
             $table->string('brand_color', 10)->default('#f44336');

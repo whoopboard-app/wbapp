@@ -18,10 +18,17 @@
     
     .ts-wrapper {
         padding: 0 !important;
+        border: 1px solid #d1d9e0;
     }
     .ts-control {
         border: none !important; 
         
+    }
+    .form-select{
+        border: 1px solid #d1d9e0;
+    }
+    .p-text {
+        font-size: 17px !important;
     }
     @media (min-width:992px)
     {
@@ -35,8 +42,8 @@
     {{-- Changelog Section --}}
     <section class="section-content-center py-4">
         <div class="container">
-            <h4 class="fw-bold text-2xl">Add Changelog</h4>
-            <p class="text-muted label mt-1 mb-3">
+            <h4 class="fw-bold text-3xl">Add Changelog</h4>
+            <p class="text-muted label mt-1 mb-3 p-text">
                 Create a new changelog entry to keep your users informed about product updates, improvements, and fixes.
             </p>
 
@@ -58,7 +65,7 @@
                 </div>
 
                 <div class="card bg-white mb-3 p-3 rounded">
-                    <h6 class="fw-bold mb-2">Basic Information</h6>
+                    <h6 class="fw-bold mb-2 fs-4">Basic Information</h6>
                     <p class="label text-gray-800 mb-4 text-sm tracking-wide">
                         Provide the core details of your update, including the title, category, and description. 
                         This information helps users understand what the changelog is about.
@@ -74,7 +81,7 @@
                                         <i class="fa fa-question-circle hover-blue"></i>
                                     </span>
                                 </label>
-                                <input type="text" id="title" name="title" 
+                                <input id="title" name="title" 
                                     class="input-field w-100 rounded text-sm" 
                                     placeholder="Placeholder" >
                                 @error('title')
@@ -153,9 +160,9 @@
                                 <label for="send-email" class="form-check-label">
                                     Send email to 450 subscriber
                                 </label>
-                            </div>
                         </div>
                     </div>
+                   
 
                     <!-- Target Subscriber -->
                     <div>
@@ -166,7 +173,7 @@
                                 <i class="fa fa-question-circle hover-blue"></i>
                             </span>
                         </label>
-                        <input type="text" id="targetSubscriber" name="targetSubscriber" class="input-field w-100 rounded text-sm" placeholder="Subscriber" readonly>
+                        <input id="targetSubscriber" name="targetSubscriber" class="input-field w-100 rounded text-sm" placeholder="Subscriber" readonly>
                     </div>
                 </div>
 
@@ -184,7 +191,7 @@
                                 <i class="fa fa-question-circle hover-blue"></i>
                             </span>
                         </label>
-                        <select class="form-select w-100 rounded text-sm" id="feedbackRequest" name="feedbackRequest">
+                        <select class="form-select w-100 rounded text-sm input-field" id="feedbackRequest" name="feedbackRequest">
                             <option value="">Select</option>
                             <option value="active">Active</option>
                             <option value="inactive">Inactive</option>
