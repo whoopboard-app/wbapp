@@ -30,17 +30,17 @@
         </nav>
         <h2 class="fw-semibold fs-4">@customLabel('Announcement')</h2>
         <p class="text-gray-900 mt-1 mb-3 p-text">
-            Keep track of all product updates in one place. Search, filter, and manage your changelog entries with ease.
+            Keep track of all product updates in one place. Search, filter, and manage your @customLabel('Announcement') entries with ease.
         </p>
     </div>
 
     <div class="announcement-wrapper mx-auto max-w-2xl w-full">
         <div class="btn-wrapper d-flex align-items-center justify-content-center gap-2 flex-wrap mb-4">
             <a href="{{ route('add_changelog')}}" class="theme-btn sm fw-semibold rounded d-inline-block">
-                <i class="fa fa-plus"></i> Add Your First Changelog
+                <i class="fa fa-plus"></i> Add Your First @customLabel('Announcement')
             </a>
             <a href="#" class="theme-btn sm secondary fw-semibold rounded d-inline-block">
-                Changelog Settings
+                @customLabel('Announcement') Settings
             </a>
         </div>
 
@@ -48,8 +48,8 @@
 
         <div class="get-started-changelog">
             <div class="mb-4">
-                <h6 class="fw-semibold mb-1 pb-1">Get started with the Changelog</h6>
-                <p class="mb-0 text-gray-600 p-text">Here is a list of recommended actions to help you get the most out of our Changelog module.</p>
+                <h6 class="fw-semibold mb-1 pb-1">Get started with the @customLabel('Announcement')</h6>
+                <p class="mb-0 text-gray-600 p-text">Here is a list of recommended actions to help you get the most out of our @customLabel('Announcement') module.</p>
             </div>
 
             <div class="get-started-card-wrapper">
@@ -58,31 +58,31 @@
                         <div class="get-started-card card align-items-start rounded-0 bg-white h-100 border-blue-400">
                             <h5 class="card-title mb-2 fw-semibold text-black">Import email subscribers</h5>
                             <p class="card-desc mb-3">Import your email list to send notification emails to your users.</p>
-                            <a href="#" class="widget-item-btn d-inline-block rounded fw-semibold">Changelog Settings</a>
+                            <a href="#" class="widget-item-btn d-inline-block rounded fw-semibold">@customLabel('Announcement') Settings</a>
                         </div>
                     </div>
 
                     <div class="col-sm-6 mb-4">
                         <div class="get-started-card card align-items-start rounded-0 bg-white h-100 border-blue-400">
-                            <h5 class="card-title mb-2 fw-semibold text-black">Embed the changelog in your app</h5>
-                            <p class="card-desc mb-3">Embed the changelog widget in your app to show your users what's new.</p>
+                            <h5 class="card-title mb-2 fw-semibold text-black">Embed the @customLabel('Announcement') in your app</h5>
+                            <p class="card-desc mb-3">Embed the @customLabel('Announcement') widget in your app to show your users what's new.</p>
                             <a href="#" class="widget-item-btn d-inline-block rounded fw-semibold">Embed Widget</a>
                         </div>
                     </div>
 
                     <div class="col-sm-6 mb-4">
                         <div class="get-started-card card align-items-start rounded-0 bg-white h-100 border-blue-400">
-                            <h5 class="card-title mb-2 fw-semibold text-black">Share your public changelog page</h5>
-                            <p class="card-desc mb-3">Share your public changelog page to show your users what's new.</p>
+                            <h5 class="card-title mb-2 fw-semibold text-black">Share your public @customLabel('Announcement') page</h5>
+                            <p class="card-desc mb-3">Share your public @customLabel('Announcement') page to show your users what's new.</p>
                             <a href="#" class="widget-item-btn d-inline-block rounded fw-semibold">Copy Public Link</a>
                         </div>
                     </div>
 
                     <div class="col-sm-6 mb-4">
                         <div class="get-started-card card align-items-start rounded-0 bg-white h-100 border-blue-400">
-                            <h5 class="card-title mb-2 fw-semibold text-black">Publish your first changelog</h5>
-                            <p class="card-desc mb-3">Create your first changelog to start tracking changes to your app.</p>
-                            <a href="#" class="widget-item-btn d-inline-block rounded fw-semibold">Create Changelog</a>
+                            <h5 class="card-title mb-2 fw-semibold text-black">Publish your first @customLabel('Announcement')</h5>
+                            <p class="card-desc mb-3">Create your first @customLabel('Announcement') to start tracking changes to your app.</p>
+                            <a href="#" class="widget-item-btn d-inline-block rounded fw-semibold">Create @customLabel('Announcement')</a>
                         </div>
                     </div>
                 </div>

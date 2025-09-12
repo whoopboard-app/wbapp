@@ -42,9 +42,9 @@
     {{-- Changelog Section --}}
     <section class="section-content-center py-4">
         <div class="container">
-            <h4 class="fw-bold text-3xl">Add Changelog</h4>
+            <h4 class="fw-bold text-3xl">Add @customLabel('Announcement')</h4>
             <p class="text-muted label mt-1 mb-3 p-text">
-                Create a new changelog entry to keep your users informed about product updates, improvements, and fixes.
+                Create a new @customLabel('Announcement') entry to keep your users informed about product updates, improvements, and fixes.
             </p>
 
             <!-- Form Section -->
@@ -68,7 +68,7 @@
                     <h6 class="fw-bold mb-2 fs-4">Basic Information</h6>
                     <p class="label text-gray-800 mb-4 text-sm tracking-wide">
                         Provide the core details of your update, including the title, category, and description. 
-                        This information helps users understand what the changelog is about.
+                        This information helps users understand what the @customLabel('Announcement') is about.
                     </p>
 
                     <div class="row">
@@ -96,7 +96,7 @@
                                 <label for="categorySelect" class="input-label mb-1 fw-medium">
                                     Category
                                     <span class="tooltip-icon" data-bs-toggle="tooltip" 
-                                        title="Select one or more categories where this entry will apply (Changelog, Knowledge Board, Feedback, Research).">
+                                        title="Select one or more categories where this entry will apply (@customLabel('Announcement'), Knowledge Board, Feedback, Research).">
                                         <i class="fa fa-question-circle hover-blue"></i>
                                     </span>
                                 </label>
@@ -123,7 +123,7 @@
                                 </label>
                                 <textarea id="desc" name="description" rows="3" 
                                         class="input-field w-100 rounded text-sm" 
-                                        placeholder="Enter changelog description"></textarea>
+                                        placeholder="Enter @customLabel('Announcement') description"></textarea>
                                 @error('description')
                                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                                 @enderror
@@ -180,7 +180,7 @@
                 <div class="card bg-white mb-3">
                     <h6 class="fw-bold mb-2">Link to Feedback</h6>
                     <p class="label text-gray-800 mb-3 text-sm tracking-wide">
-                        Connect this changelog to related feedback requests. This helps close the loop with users who suggested or voted on the idea.
+                        Connect this @customLabel('Announcement') to related feedback requests. This helps close the loop with users who suggested or voted on the idea.
                     </p>
 
                     <div>
