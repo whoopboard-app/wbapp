@@ -26,6 +26,40 @@ class ChangelogController extends Controller
         }
         return view('announcement', compact('announcements'));
     }
+
+    public function filter(Request $request)
+    {
+        $tenantId = auth()->user()->tenant_id;
+        $filter = $request->filter;
+
+        $categoryMap = [
+            'bugs' => 2,
+            'new-features' => 3,
+            'prem-features' => 4,
+            'enhancement' => 5,
+        ];
+    
+       $announcements = Changelog::where('tenant_id', $tenantId)
+        ->when($filter && $filter != 'all', function($q) use ($filter) {
+            if ($filter === 'bugs') {
+                $q->where('status', 'inactive');
+            }else if ($filter === 'new-features'){
+                $q->where('status', 'draft');
+            }
+        })
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+        foreach ($announcements as $log) {
+            $catIds = json_decode($log->category, true) ?? [];
+            $log->category_names = SettingCategoryChangelog::whereIn('id', $catIds)
+                ->pluck('category_name')
+                ->toArray();
+        }
+
+        return view('changelog.partials.announcement_cards', compact('announcements'));
+
+    }
     
     public function index()
     {

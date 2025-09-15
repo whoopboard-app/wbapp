@@ -107,6 +107,9 @@
     ->name('changelog.store');
     Route::get('/announcement', [ChangelogController::class, 'list'])->name('announcement');
 
+    Route::get('/announcement/filter', [ChangelogController::class, 'filter'])->name('announcement.filter');
+
+
 
 
     require __DIR__.'/auth.php';

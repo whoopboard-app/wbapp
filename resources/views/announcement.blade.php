@@ -65,11 +65,11 @@
         <div class=" border-bottom-0 mb-4 d-flex align-items-start">
             <nav class="d-flex align-items-center justify-content-center">
                 <div class="nav nav-tabs justify-content-center rounded">
-                    <button type="button" class="p-text1 dt-filter-btn nav-link rounded position-relative active">All</button>
-                    <button type="button" class="p-text1 dt-filter-btn nav-link rounded position-relative">Bugs</button>
-                    <button type="button" class="p-text1 dt-filter-btn nav-link rounded position-relative">New features</button>
-                    <button type="button" class="p-text1 dt-filter-btn nav-link rounded position-relative">Premium featured</button>
-                    <button type="button" class="p-text1 dt-filter-btn nav-link rounded position-relative">Enhancement</button>
+                    <button type="button" class="p-text1 dt-filter-btn nav-link rounded position-relative active" data-filter="all">All</button>
+                    <button type="button" class="p-text1 dt-filter-btn nav-link rounded position-relative" data-filter="bugs">Bugs</button>
+                    <button type="button" class="p-text1 dt-filter-btn nav-link rounded position-relative" data-filter="new-features">New features</button>
+                    <button type="button" class="p-text1 dt-filter-btn nav-link rounded position-relative" data-filter="prem-features">Premium featured</button>
+                    <button type="button" class="p-text1 dt-filter-btn nav-link rounded position-relative" data-filter="enhancement">Enhancement</button>
                 </div>
             </nav>
             
@@ -100,30 +100,7 @@
         </div>
 
         <div class="announcement-list space-y-4">
-            @forelse($announcements as $announcement)
-                <div class="p-4 border rounded bg-white shadow-sm">
-                    <span class="badge 
-                        {{ $announcement->status == 'active' ? 'status-active' : '' }} 
-                        {{ $announcement->status == 'draft' ? 'status-draft' : '' }} 
-                        {{ $announcement->status == 'inactive' ? 'status-inactive' : '' }}">{{ ucfirst($announcement->status) }}</span>
-                    <h3 class="text-xl font-semibold my-2">{{ $announcement->title }}</h3>
-                    <p class="text-gray-600 mb-3">{{ $announcement->description }}</p>
-                    <div class="d-flex align-items-center flex-wrap">
-                        @if(!empty($announcement->category_names))
-                            @foreach($announcement->category_names as $cat)
-                                <span class="badge bg-white rounded-pill text-dark border me-1">
-                                    {{ $cat }}
-                                </span>
-                            @endforeach
-                        @else
-                            <span class="badge bg-light rounded-pill text-muted border">No Category</span>
-                        @endif
-                    </div>
-                        
-                </div>
-            @empty
-                <p class="text-gray-500 text-center">No announcements found.</p>
-            @endforelse
+            @include('changelog.partials.announcement_cards', ['announcements' => $announcements])
         </div>
 
      
@@ -172,4 +149,28 @@
         </div>
     </div> <!-- /.announcement-wrapper -->
 </div>
+<script>
+    $(document).ready(function() {
+        $('.dt-filter-btn').click(function() {
+            $('.dt-filter-btn').removeClass('active');
+            $(this).addClass('active');
+
+            var filter = $(this).data('filter');
+
+            $.ajax({
+                url: "{{ route('announcement.filter') }}",
+                type: "GET",
+                data: { filter: filter },
+                success: function(res) {
+                    $('.announcement-list').html(res);
+                },
+                error: function(err) {
+                    console.error(err);
+                    alert('Failed to load announcements.');
+                }
+            });
+        });
+    });
+
+</script>
 @endsection
