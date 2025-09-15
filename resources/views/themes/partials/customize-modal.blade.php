@@ -14,7 +14,7 @@
                     <div class="form-input border-0 p-0 mb-4 mt-2">
                         <label for="page-title" class="input-label mb-1 fw-medium">Theme Title</label>
                         <span class="tooltip-icon" data-bs-toggle="tooltip" title="Add Theme Title">
-                        <i class="fa fa-question-circle"></i>
+                        <i class="fa fa-question-circle hover-blue"></i>
                     </span>
                         <input type="text" id="page-title" name="theme_title"
                                class="input-field w-100 rounded border"
@@ -25,7 +25,7 @@
                     <div class="form-input border-0 p-0 mb-4">
                         <label for="welcome" class="input-label mb-1 fw-medium">Welcome Message</label>
                         <span class="tooltip-icon" data-bs-toggle="tooltip" title="Add Welcome Message">
-                        <i class="fa fa-question-circle"></i>
+                        <i class="fa fa-question-circle hover-blue"></i>
                         </span>
                         <input type="text" id="welcome" name="welcome_message"
                                class="input-field w-100 rounded border"
@@ -38,7 +38,7 @@
                     <div class="form-input border-0 p-0 mb-4">
                         <label for="description" class="input-label mb-1 fw-medium">Short Description</label>
                         <span class="tooltip-icon" data-bs-toggle="tooltip" title="Add Short Description">
-                        <i class="fa fa-question-circle"></i>
+                        <i class="fa fa-question-circle hover-blue"></i>
                         </span>
                         <input type="text" id="description" name="short_description"
                                class="input-field w-100 rounded border"
@@ -50,7 +50,7 @@
                     <div class="form-input border-0 p-0 mb-4">
                         <label for="alignment" class="input-label mb-1 fw-medium">Alignment</label>
                         <span class="tooltip-icon" data-bs-toggle="tooltip" title="Add Alignment">
-                        <i class="fa fa-question-circle"></i>
+                        <i class="fa fa-question-circle hover-blue"></i>
                         </span>
                         @php
                             $alignment = old('alignment', $usertheme->alignment ?? 'left');

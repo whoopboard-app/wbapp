@@ -6,7 +6,7 @@
         <div class="sidebar-menu-block">
             <h6 class="sidebar-menu-title fw-semibold text-uppercase">Navigation</h6>
             <ul class="sidebar-menu-list">
-                @if(isset($user) && $user->quick_setup = '0')
+                @if(isset($user) && $user->quick_setup == '0')
                 <li class="sidebar-menu-item">
                     <a href="{{ route('guide_setup') }}"
                        class="sidebar-menu-link d-flex align-items-center {{ request()->routeIs('guide_setup') ? 'active text-primary' : 'text-gray-600' }}">

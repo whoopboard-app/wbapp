@@ -33,4 +33,8 @@
     font-size: 32px; /* bigger arrow */
     line-height: 1;  /* keeps it vertically centered nicely */
 }
+.hover-blue:hover {
+    color: #0d6efd; /* Bootstrap primary blue */
+    cursor: pointer;
+}
 

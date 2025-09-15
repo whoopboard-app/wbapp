@@ -43,7 +43,7 @@
                             <div>
                                 <label for="category-name" class="block text-md font-medium text-gray-700">
                                     Category Name
-                                    <span class="fa fa-question-circle" data-bs-toggle="tooltip" title="Add category name">
+                                    <span class="fa fa-question-circle hover-blue" data-bs-toggle="tooltip" title="Add category name">
                 </span>
                                 </label>
                                 <input
@@ -92,7 +92,7 @@
                             <label for="status" class="block text-md font-medium text-gray-700">
                                 Select Status
                                 <span class="tooltip-icon" data-bs-toggle="tooltip" title="Choose category status">
-                <i class="fa fa-question-circle"></i>
+                <i class="fa fa-question-circle hover-blue"></i>
             </span>
                             </label>
                             <select

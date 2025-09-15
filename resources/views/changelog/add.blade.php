@@ -7,22 +7,18 @@
     @endforeach
 @endif
 <style>
-    .hover-blue:hover {
-        color: #0d6efd; /* Bootstrap primary blue */
-        cursor: pointer;
-    }
     .theme-btn{
         line-height: unset !important;
         font-size: 15px !important;
     }
-    
+
     .ts-wrapper {
         padding: 0 !important;
         border: 1px solid #d1d9e0;
     }
     .ts-control {
-        border: none !important; 
-        
+        border: none !important;
+
     }
     .form-select{
         border: 1px solid #d1d9e0;
@@ -67,7 +63,7 @@
                 <div class="card bg-white mb-3 p-3 rounded">
                     <h6 class="fw-bold mb-2 fs-4">Basic Information</h6>
                     <p class="label text-gray-800 mb-4 text-sm tracking-wide">
-                        Provide the core details of your update, including the title, category, and description. 
+                        Provide the core details of your update, including the title, category, and description.
                         This information helps users understand what the @customLabel('Announcement') is about.
                     </p>
 
@@ -81,8 +77,8 @@
                                         <i class="fa fa-question-circle hover-blue"></i>
                                     </span>
                                 </label>
-                                <input id="title" name="title" 
-                                    class="input-field w-100 rounded text-sm" 
+                                <input id="title" name="title"
+                                    class="input-field w-100 rounded text-sm"
                                     placeholder="Placeholder" >
                                 @error('title')
                                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -95,12 +91,12 @@
                           <div class="">
                                 <label for="categorySelect" class="input-label mb-1 fw-medium">
                                     Category
-                                    <span class="tooltip-icon" data-bs-toggle="tooltip" 
+                                    <span class="tooltip-icon" data-bs-toggle="tooltip"
                                         title="Select one or more categories where this entry will apply (@customLabel('Announcement'), Knowledge Board, Feedback, Research).">
                                         <i class="fa fa-question-circle hover-blue"></i>
                                     </span>
                                 </label>
-                                
+
                                 <select class="form-select w-100 rounded text-sm" id="categorySelect" name="category[]" multiple>
                                     @foreach($categories as $category)
                                         <option value="{{ $category->id }}">{{ $category->category_name }}</option>
@@ -121,8 +117,8 @@
                                         <i class="fa fa-question-circle hover-blue"></i>
                                     </span>
                                 </label>
-                                <textarea id="desc" name="description" rows="3" 
-                                        class="input-field w-100 rounded text-sm" 
+                                <textarea id="desc" name="description" rows="3"
+                                        class="input-field w-100 rounded text-sm"
                                         placeholder="Enter @customLabel('Announcement') description"></textarea>
                                 @error('description')
                                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -162,13 +158,13 @@
                                 </label>
                         </div>
                     </div>
-                   
+
 
                     <!-- Target Subscriber -->
                     <div>
                         <label for="targetSubscriber" class="input-label mb-1 fw-medium">
                             Select Target Subscriber
-                            <span class="tooltip-icon  transition-colors duration-200" 
+                            <span class="tooltip-icon  transition-colors duration-200"
                                 data-bs-toggle="tooltip" title="Select target subscriber">
                                 <i class="fa fa-question-circle hover-blue"></i>
                             </span>
@@ -186,7 +182,7 @@
                     <div>
                         <label for="feedbackRequest" class="input-label mb-1 fw-medium">
                             Link to Feedback Request
-                            <span class="tooltip-icon  transition-colors duration-200" 
+                            <span class="tooltip-icon  transition-colors duration-200"
                                 data-bs-toggle="tooltip" title="Feedback request">
                                 <i class="fa fa-question-circle hover-blue"></i>
                             </span>
@@ -209,7 +205,7 @@
 
                     <!-- Description -->
                     <p class="label text-gray-800 mb-3 text-sm tracking-wide leading-relaxed">
-                        Organize your update with tags, set its status, and choose a publish date. 
+                        Organize your update with tags, set its status, and choose a publish date.
                         This ensures updates are well-structured and go live at the right time.
                     </p>
 
@@ -217,7 +213,7 @@
                     <div class="mb-3">
                         <label for="tagsSelect" class="input-label mb-2 fw-medium flex items-center gap-2">
                             Tags
-                            <span class="tooltip-icon  transition-colors duration-200" 
+                            <span class="tooltip-icon  transition-colors duration-200"
                                 data-bs-toggle="tooltip" title="Tags">
                                 <i class="fa fa-question-circle hover-blue"></i>
                             </span>
@@ -236,7 +232,7 @@
                     <div class="mb-3">
                         <label for="status" class="input-label mb-2 fw-medium flex items-center gap-2">
                             Post Status
-                            <span class="tooltip-icon  transition-colors duration-200" 
+                            <span class="tooltip-icon  transition-colors duration-200"
                                 data-bs-toggle="tooltip" title="Post Status">
                                 <i class="fa fa-question-circle hover-blue"></i>
                             </span>
@@ -256,12 +252,12 @@
                     <div class="">
                         <label for="publishDate" class="input-label mb-2 fw-medium flex items-center gap-2">
                             Publish Date
-                            <span class="tooltip-icon  transition-colors duration-200" 
+                            <span class="tooltip-icon  transition-colors duration-200"
                                 data-bs-toggle="tooltip" title="Publish date">
                                 <i class="fa fa-question-circle hover-blue"></i>
                             </span>
                         </label>
-                        <input type="date" id="publishDate" name="publishDate" 
+                        <input type="date" id="publishDate" name="publishDate"
                             class="input-field w-100 rounded border-gray-300 focus:border-blue-400 focus:ring focus:ring-blue-100 transition text-sm"
                             value="{{ date('Y-m-d') }}" readonly>
                     </div>
@@ -269,7 +265,7 @@
 
 
 
-           
+
                 <div class="d-inline-flex gap-2 mt-3">
                     <button type="submit" name="action" value="publish" class="theme-btn fw-semibold rounded">
                         Save &amp; Publish
@@ -298,7 +294,7 @@
             const fileName = input.files.length > 0 ? input.files[0].name : "";
             document.getElementById("file-name").textContent = fileName;
         }
-        
+
     </script>
 
 @endsection

@@ -23,7 +23,7 @@
                         <label for="meta-title" class="input-label mb-1 fw-medium">
                             Meta Title
                             <span class="tooltip-icon" data-bs-toggle="tooltip" title="Add Meta Title">
-                                <i class="fa fa-question-circle"></i>
+                <i class="fa fa-question-circle hover-blue"></i>
                              </span>
                         </label>
                         <input type="text" id="meta-title" name="meta_title" class="input-field w-100 rounded border" placeholder="Placeholder" required>
@@ -33,7 +33,7 @@
                         <label for="meta-desc" class="input-label mb-1 fw-medium">
                             Meta Description
                             <span class="tooltip-icon" data-bs-toggle="tooltip" title="Add Meta Description">
-                                <i class="fa fa-question-circle"></i>
+                <i class="fa fa-question-circle hover-blue"></i>
                              </span>
                         </label>
                         <input type="text" id="meta-desc" name="meta_description" class="input-field w-100 rounded border" placeholder="Placeholder" required>
@@ -43,7 +43,7 @@
                         <label for="meta-keywords" class="input-label mb-1 fw-medium">
                             Meta Keywords
                             <span class="tooltip-icon" data-bs-toggle="tooltip" title="Add Meta Keywords">
-                                <i class="fa fa-question-circle"></i>
+                <i class="fa fa-question-circle hover-blue"></i>
                              </span>
                         </label>
                         <input type="text" id="meta-keywords" name="meta_keywords" class="input-field w-100 rounded border" placeholder="Placeholder" required>
@@ -53,7 +53,7 @@
                         <label for="google-analytics" class="input-label mb-1 fw-medium">
                             Google Analytics
                             <span class="tooltip-icon" data-bs-toggle="tooltip" title="Add Google Analytics">
-                                <i class="fa fa-question-circle"></i>
+                <i class="fa fa-question-circle hover-blue"></i>
                              </span>
                         </label>
                         <textarea rows="3" id="google-analytics" name="google_analytics" class="input-field w-100 rounded border" placeholder="Placeholder" required></textarea>

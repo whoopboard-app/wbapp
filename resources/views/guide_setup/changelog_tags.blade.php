@@ -43,7 +43,7 @@
                         <div>
                             <label for="tag-name" class="block text-md font-medium text-gray-700">
                                 Tag Name
-                                <span class="fa fa-question-circle" data-bs-toggle="tooltip" title="Add Tag name">
+                                <span class="fa fa-question-circle hover-blue" data-bs-toggle="tooltip" title="Add Tag name">
                             </label>
                             <input
                                 type="text"
@@ -61,7 +61,7 @@
                         <div>
                             <label for="functionality_id" class="block text-md font-medium text-gray-700">
                                 Module Group
-                                <span class="fa fa-question-circle" data-bs-toggle="tooltip" title="Add Module Group">
+                                <span class="fa fa-question-circle hover-blue" data-bs-toggle="tooltip" title="Add Module Group">
                             </label>
                             <select
                                 id="functionality_id"
@@ -86,7 +86,7 @@
                         <div>
                             <label for="description" class="block text-md font-medium text-gray-700">
                                 Short Description
-                                <span class="fa fa-question-circle" data-bs-toggle="tooltip" title="Add Tag description">
+                                <span class="fa fa-question-circle hover-blue" data-bs-toggle="tooltip" title="Add Tag description">
                 </span>
                             </label>
                             <textarea
