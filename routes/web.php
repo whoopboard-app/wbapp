@@ -28,9 +28,7 @@
     })->name('dashboard');
     Route::get('/guide_setup', [GuideSetupController::class, 'index'])->name('guide_setup');
     Route::post('/guide_setup/completed', [GuideSetupController::class, 'completed'])->name('guide.setup.completed');
-    Route::get('/announcement', function () {
-        return view('announcement');
-    })->name('announcement');
+    
     // Branding
     Route::get('/guide_setup/themes', function () {
         return view('guide_setup.themes');
@@ -103,10 +101,12 @@
     });
 
 
-    Route::get('/add_Changelog', [ChangelogController::class, 'index'])
+    Route::get('/add_changelog', [ChangelogController::class, 'index'])
         ->name('add_changelog');
     Route::POST('/changelog_store', [ChangelogController::class, 'store'])
     ->name('changelog.store');
+    Route::get('/announcement', [ChangelogController::class, 'list'])->name('announcement');
+
 
 
     require __DIR__.'/auth.php';

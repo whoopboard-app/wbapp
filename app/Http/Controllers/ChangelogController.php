@@ -10,6 +10,23 @@ use Illuminate\Support\Facades\DB;
 
 class ChangelogController extends Controller
 {
+    public function list()
+    {
+        $tenantId = auth()->user()->tenant_id;
+
+        $announcements = Changelog::where('tenant_id', $tenantId)
+            ->orderBy('created_at', 'desc')
+            ->get();
+        foreach ($announcements as $log) {
+            $catIds = json_decode($log->category, true) ?? [];
+            $log->category_names = SettingCategoryChangelog::whereIn('id', $catIds)
+                ->pluck('category_name')
+                ->toArray();
+                // dd($log->category_names);
+        }
+        return view('announcement', compact('announcements'));
+    }
+    
     public function index()
     {
         $tenentId = auth()->user()->tenant_id;
