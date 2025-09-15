@@ -7,6 +7,9 @@
     .p-text {
         font-size: 17px !important;
     }
+    .p-text1 {
+        font-size: 15px !important;
+    }
     .theme-btn {
         line-height: unset !important;
     }
@@ -17,11 +20,29 @@
     .card{
         padding: 20px 35px 20px 20px !important;
     }
+
+    .badge.status-active {
+        background-color: #E0FFE9;
+        color: #1C8139;
+    }
+    .badge.status-draft {
+        background-color: #D5E8FF;
+        color: #0969DA;
+    }
+
+    .badge {
+        letter-spacing: 0.4px; /* thoda gap */
+    }
+
+    .badge.status-inactive {
+        background-color: #FFF7E0;
+        color: #9A6B16;
+    }
 </style>
 <div class="mt-4 mx-auto w-100">
     <!-- breadcrumbs start -->
 
-    <div class="max-w-6xl mx-auto px-4">
+    <div class="max-w-6xl mx-auto px-2">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-2">
                 <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
@@ -34,61 +55,78 @@
         </p>
     </div>
 
-    <div class="announcement-wrapper mx-auto max-w-2xl w-full">
-        <div class="btn-wrapper d-flex align-items-center justify-content-center gap-2 flex-wrap mb-4">
+    <div class="announcement-wrapper max-w-6xl mx-auto px-2">
+        <div class="btn-wrapper d-flex align-items-center gap-2 flex-wrap mb-4">
             <a href="{{ route('add_changelog')}}" class="theme-btn sm fw-semibold rounded d-inline-block">
                 <i class="fa fa-plus"></i> Add Your First @customLabel('Announcement')
             </a>
-            <a href="#" class="theme-btn sm secondary fw-semibold rounded d-inline-block">
-                @customLabel('Announcement') Settings
-            </a>
         </div>
 
-         <!-- Table Listing -->
-        <div class="card bg-white shadow-sm rounded mb-5">
-            <div class="card-body p-0">
-                <table class="table table-striped">
-                    <thead class="table-light">
-                        <tr>
-                            <th>#</th>
-                            <th>Title</th>
-                            <th>Status</th>
-                            <th>Publish Date</th>
-                            
-                            <th>Category</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse($announcements as $index => $announcement)
-                            <tr>
-                                <td>{{ $index + 1 }}</td>
-                                <td>{{ $announcement->title }}</td>
-                                <td>
-                                    <span class="badge bg-{{ $announcement->status == 'active' ? 'success' : ($announcement->status == 'draft' ? 'secondary' : 'warning') }}">
-                                        {{ ucfirst($announcement->status) }}
-                                    </span>
-                                </td>
-                                <td>{{ $announcement->publish_date ?? '-' }}</td>
-                                
-                               <td>
-                                    @if(!empty($announcement->category_names))
-                                        {{ implode(', ', $announcement->category_names) }}
-                                    @else
-                                        No Category
-                                    @endif
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="5" class="text-center text-muted">No announcements found.</td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
+        <div class=" border-bottom-0 mb-4 d-flex align-items-start">
+            <nav class="d-flex align-items-center justify-content-center">
+                <div class="nav nav-tabs justify-content-center rounded">
+                    <button type="button" class="p-text1 dt-filter-btn nav-link rounded position-relative active">All</button>
+                    <button type="button" class="p-text1 dt-filter-btn nav-link rounded position-relative">Bugs</button>
+                    <button type="button" class="p-text1 dt-filter-btn nav-link rounded position-relative">New features</button>
+                    <button type="button" class="p-text1 dt-filter-btn nav-link rounded position-relative">Premium featured</button>
+                    <button type="button" class="p-text1 dt-filter-btn nav-link rounded position-relative">Enhancement</button>
+                </div>
+            </nav>
+            
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div class=" position-relative form-group d-flex align-items-center">
+                <input type="search" id="search" name="search" class="input-field w-100 rounded ps-5" placeholder="Search">
+                <img src="assets/img/icon/search.svg" class="position-absolute search-icon ml-3" alt="">
+            </div>
+            <div class="d-flex gap-2">
+            <!-- Filter -->
+            <a href="#" class="theme-btn secondary rounded fw-medium btn-icon-text">
+                <div class="icon-text-wrap d-flex gap-2">
+                    <img src="assets/img/icon/filter.svg" alt="">
+                    <span>Filter</span>
+                </div>
+            </a>
+            <a href="#" class="theme-btn secondary rounded fw-medium btn-icon-text">
+                <div class="icon-text-wrap d-flex gap-2">
+                    <img src="assets/img/icon/view-as.svg" alt=""> 
+                    <span>View as</span>
+                </div>
+            </a>
+
+            
             </div>
         </div>
 
-        <img src="{{ asset('assets/img/empty.png') }}" alt="empty" class="empty-img">
+        <div class="announcement-list space-y-4">
+            @forelse($announcements as $announcement)
+                <div class="p-4 border rounded bg-white shadow-sm">
+                    <span class="badge 
+                        {{ $announcement->status == 'active' ? 'status-active' : '' }} 
+                        {{ $announcement->status == 'draft' ? 'status-draft' : '' }} 
+                        {{ $announcement->status == 'inactive' ? 'status-inactive' : '' }}">{{ ucfirst($announcement->status) }}</span>
+                    <h3 class="text-xl font-semibold my-2">{{ $announcement->title }}</h3>
+                    <p class="text-gray-600 mb-3">{{ $announcement->description }}</p>
+                    <div class="d-flex align-items-center flex-wrap">
+                        @if(!empty($announcement->category_names))
+                            @foreach($announcement->category_names as $cat)
+                                <span class="badge bg-white rounded-pill text-dark border me-1">
+                                    {{ $cat }}
+                                </span>
+                            @endforeach
+                        @else
+                            <span class="badge bg-light rounded-pill text-muted border">No Category</span>
+                        @endif
+                    </div>
+                        
+                </div>
+            @empty
+                <p class="text-gray-500 text-center">No announcements found.</p>
+            @endforelse
+        </div>
+
+     
 
         <div class="get-started-changelog">
             <div class="mb-4">
