@@ -32,4 +32,6 @@ class Changelog extends Model
         'send_email' => 'boolean',
         'publishDate' => 'date',
     ];
+
+    
 }

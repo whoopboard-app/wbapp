@@ -44,6 +44,50 @@
             </a>
         </div>
 
+         <!-- Table Listing -->
+        <div class="card bg-white shadow-sm rounded mb-5">
+            <div class="card-body p-0">
+                <table class="table table-striped">
+                    <thead class="table-light">
+                        <tr>
+                            <th>#</th>
+                            <th>Title</th>
+                            <th>Status</th>
+                            <th>Publish Date</th>
+                            
+                            <th>Category</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($announcements as $index => $announcement)
+                            <tr>
+                                <td>{{ $index + 1 }}</td>
+                                <td>{{ $announcement->title }}</td>
+                                <td>
+                                    <span class="badge bg-{{ $announcement->status == 'active' ? 'success' : ($announcement->status == 'draft' ? 'secondary' : 'warning') }}">
+                                        {{ ucfirst($announcement->status) }}
+                                    </span>
+                                </td>
+                                <td>{{ $announcement->publish_date ?? '-' }}</td>
+                                
+                               <td>
+                                    @if(!empty($announcement->category_names))
+                                        {{ implode(', ', $announcement->category_names) }}
+                                    @else
+                                        No Category
+                                    @endif
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="5" class="text-center text-muted">No announcements found.</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
         <img src="{{ asset('assets/img/empty.png') }}" alt="empty" class="empty-img">
 
         <div class="get-started-changelog">

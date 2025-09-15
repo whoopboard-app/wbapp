@@ -149,13 +149,15 @@
                         </div>
 
                         <div class="text-sm border p-2 rounded">
-                            <input type="hidden" name="send_email" value="0">
+                            <div class="form-check">
+                                <input type="hidden" name="send_email" value="0">
 
-                            <!-- Actual checkbox -->
-                            <input type="checkbox" id="send-email" name="send_email" value="1" class="form-check-input">
-                                <label for="send-email" class="form-check-label">
-                                    Send email to 450 subscriber
-                                </label>
+                                <!-- Actual checkbox -->
+                                <input type="checkbox" id="send-email" name="send_email" value="1" class="form-check-input">
+                                    <label for="send-email" class="form-check-label">
+                                        Send email to 450 subscriber
+                                    </label>
+                            </div>
                         </div>
                     </div>
 
