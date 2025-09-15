@@ -45,9 +45,9 @@
         </div>
 
          <!-- Table Listing -->
-        <div class="card bg-white shadow rounded">
+        <div class="card bg-white shadow-sm rounded mb-5">
             <div class="card-body p-0">
-                <table class="table table-striped mb-0">
+                <table class="table table-striped">
                     <thead class="table-light">
                         <tr>
                             <th>#</th>
