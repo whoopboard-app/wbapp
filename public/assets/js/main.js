@@ -10,6 +10,45 @@
          $(".sidebar, .sidebar-overlay").removeClass("active");
       });
 
+      
+      $('#publishDate').daterangepicker({
+         singleDatePicker: true,
+         showDropdowns: true,
+         autoApply: true,
+         locale: {
+            format: 'MM/DD/YYYY'
+         }
+      });
+
+      // Button toggle function
+      function toggleButtons() {
+         let inputVal = $("#publishDate").val();
+         if (!inputVal) return;
+
+         let parts = inputVal.split("/");
+         let selectedDate = new Date(parts[2], parts[0] - 1, parts[1]); // MM/DD/YYYY
+         let today = new Date();
+         today.setHours(0, 0, 0, 0);
+
+         if (selectedDate > today) {
+            // Future date → Draft + Schedule
+            $("#btnPublish").prop("disabled", true);
+            $("#btnDraft, #btnSchedule").prop("disabled", false);
+         } else {
+            // Today or Past date → Publish + Draft
+            $("#btnPublish, #btnDraft").prop("disabled", false);
+            $("#btnSchedule").prop("disabled", true);
+         }
+      }
+
+      // Run once on page load
+      toggleButtons();
+
+      // Run whenever date is picked
+      $('#publishDate').on('apply.daterangepicker', function () {
+         toggleButtons();
+      });
+
       $("select").select2({
          width: '100%'
       });

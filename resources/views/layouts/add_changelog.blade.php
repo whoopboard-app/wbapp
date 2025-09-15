@@ -18,6 +18,13 @@
     <link href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" rel="stylesheet">
     <!-- DataTables -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+    
+    
+
+    <!-- Daterangepicker CSS -->
+    <link rel="stylesheet" type="text/css" 
+        href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-gray-100 font-sans antialiased">
@@ -56,6 +63,8 @@
     </footer>
 </div>
 <script src="{{ asset('assets/js/jquery-3.7.1.min.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <script src="{{ asset('assets/js/popper.min.js') }}"></script>
 <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>

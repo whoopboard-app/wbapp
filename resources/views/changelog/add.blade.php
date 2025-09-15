@@ -12,6 +12,11 @@
         font-size: 15px !important;
     }
 
+    button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
     .ts-wrapper {
         padding: 0 !important;
         border: 1px solid #d1d9e0;
@@ -259,9 +264,13 @@
                                 <i class="fa fa-question-circle hover-blue"></i>
                             </span>
                         </label>
-                        <input type="date" id="publishDate" name="publishDate"
+                        <input type="text" id="publishDate" name="publishDate"
                             class="input-field w-100 rounded border-gray-300 focus:border-blue-400 focus:ring focus:ring-blue-100 transition text-sm"
-                            value="{{ date('Y-m-d') }}" readonly>
+                            autocomplete="off">
+
+                        @error('publishDate')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
                 </div>
 
@@ -269,13 +278,13 @@
 
 
                 <div class="d-inline-flex gap-2 mt-3">
-                    <button type="submit" name="action" value="publish" class="theme-btn fw-semibold rounded">
+                    <button type="submit" id="btnPublish" name="action" value="publish" class="theme-btn fw-semibold rounded">
                         Save &amp; Publish
                     </button>
-                    <button type="submit" name="action" value="draft" class="theme-btn secondary fw-semibold rounded">
+                    <button type="submit" id="btnDraft" name="action" value="draft" class="theme-btn secondary fw-semibold rounded">
                         Save as Draft
                     </button>
-                    <button type="submit" name="action" value="schedule" class="theme-btn secondary fw-semibold rounded">
+                    <button type="submit" id="btnSchedule" name="action" value="schedule" class="theme-btn secondary fw-semibold rounded">
                         Schedule Publish
                     </button>
                 </div>
@@ -284,13 +293,7 @@
     </section>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            new TomSelect("#categorySelect", {
-                plugins: ['remove_button'],
-                create: false,
-                placeholder: "Select Categories"
-            });
-        });
+    
         function showFileName(event) {
             const input = event.target;
             const fileName = input.files.length > 0 ? input.files[0].name : "";
@@ -298,5 +301,7 @@
         }
 
     </script>
+
+    
 
 @endsection
