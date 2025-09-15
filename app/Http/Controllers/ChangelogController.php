@@ -7,6 +7,7 @@ use App\Models\Changelog;
 use App\Models\SettingCategoryChangelog;
 use App\Models\ChangelogTag;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class ChangelogController extends Controller
 {
@@ -22,7 +23,6 @@ class ChangelogController extends Controller
             $log->category_names = SettingCategoryChangelog::whereIn('id', $catIds)
                 ->pluck('category_name')
                 ->toArray();
-                // dd($log->category_names);
         }
         return view('announcement', compact('announcements'));
     }
@@ -78,6 +78,8 @@ class ChangelogController extends Controller
             'action' => 'required|string|in:publish,draft,schedule',
         ]);
 
+        $validatedData['publishDate'] = Carbon::parse($validatedData['publishDate'])->format('Y-m-d');
+       
         $validatedData['tenant_id'] = auth()->user()->tenant_id;
         $validatedData['category'] = json_encode($validatedData['category']);
         $validatedData['tags'] = json_encode($validatedData['tagsSelect']);
@@ -104,7 +106,8 @@ class ChangelogController extends Controller
             $changelog = Changelog::create($validatedData);
             return redirect()->route('announcement')->with('success', 'Changelog saved as draft successfully!');
         } elseif ($action === 'schedule') {
-            dd('Schedule Publish logic here');
+                $changelog = Changelog::create($validatedData);
+            return redirect()->route('announcement')->with('success', 'Changelog scheduled for publishing successfully!');
         }
         
     }
