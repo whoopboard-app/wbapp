@@ -16,7 +16,7 @@
                     $activeTheme = $userTheme ?? $defaultTheme;
                     $isCustomized = !is_null($userTheme);
                     @endphp
-                    <form id="customizeThemeForm_{{ $activeTheme->id }}" method="POST" action="{{ route('themes.customize') }}">
+                    <form id="customizeThemeForm_{{ $activeTheme->id }}" method="POST" action="{{ route('themes.customize') }}" enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" name="theme_id" value="{{ $activeTheme->id }}">
                         <input type="hidden" name="theme_title" value="{{ $activeTheme->theme_title }}">
@@ -34,16 +34,6 @@
             </div>
         </div>
     </div>
-    @if($userTheme)
-    <div class="theme-setting-wrapper rounded" style="margin-left: 17%; width: 70%;">
-        <button class="theme-btn rounded border-0 btn-sm fw-bold"
-                data-bs-toggle="modal"
-                data-bs-target="#baseConfiguration">
-            Add Base Configuration
-        </button>
-    </div>
-    @include('themes.partials._base_config')
-    @endif
 @endsection
 
 @section('scripts')
