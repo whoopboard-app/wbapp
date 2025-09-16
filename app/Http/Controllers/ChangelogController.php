@@ -39,16 +39,20 @@ class ChangelogController extends Controller
             'enhancement' => 5,
         ];
     
-       $announcements = Changelog::where('tenant_id', $tenantId)
-        ->when($filter && $filter != 'all', function($q) use ($filter) {
-            if ($filter === 'bugs') {
-                $q->where('status', 'inactive');
-            }else if ($filter === 'new-features'){
-                $q->where('status', 'draft');
-            }
-        })
-        ->orderBy('created_at', 'desc')
-        ->get();
+        $announcements = Changelog::where('tenant_id', $tenantId)
+            ->when($filter && $filter != 'all', function($q) use ($filter) {
+                if ($filter === 'bugs') {
+                    $q->where('status', 'inactive');
+                }else if ($filter === 'new-features'){
+                    $q->where('status', 'draft');
+                }else if ($filter === 'prem-features'){
+                    $q->where('status', 'active');
+                }else if ($filter === 'enhancement'){
+                    $q->where('status', 'none');
+                }
+            })
+            ->orderBy('created_at', 'desc')
+            ->get();
 
         foreach ($announcements as $log) {
             $catIds = json_decode($log->category, true) ?? [];
@@ -73,16 +77,17 @@ class ChangelogController extends Controller
              $categories = collect([(object)['id' => null, 'category_name' => 'No Categories Found']]);
         }
         
-        $log_tags = ChangelogTag::where('tenant_id', $tenentId)->first();
+        $tags = ChangelogTag::where('tenant_id', $tenentId)
+            ->pluck('tag_name', 'id');
 
-        $selectedIds = [];
+        // $selectedIds = [];
 
-        if ($log_tags && $log_tags->functionality_group) {
-            $selectedIds = explode(',', $log_tags->functionality_group);
-        }   
-        $tags = DB::table('functionalities')
-        ->whereIn('id', $selectedIds)
-        ->pluck('name', 'id');
+        // if ($log_tags && $log_tags->functionality_group) {
+        //     $selectedIds = explode(',', $log_tags->functionality_group);
+        // }   
+        // $tags = DB::table('functionalities')
+        // ->whereIn('id', $selectedIds)
+        // ->pluck('name', 'id');
 
         if ($tags->isEmpty()) {
             $tags = collect([null => 'No Data Found']); // value = 0, label = No Data Found

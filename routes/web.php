@@ -101,7 +101,7 @@
     });
 
 
-    Route::get('/add_changelog', [ChangelogController::class, 'index'])
+    Route::get('/announcement/add_changelog', [ChangelogController::class, 'index'])
         ->name('add_changelog');
     Route::POST('/changelog_store', [ChangelogController::class, 'store'])
     ->name('changelog.store');
