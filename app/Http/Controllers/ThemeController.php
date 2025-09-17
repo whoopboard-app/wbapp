@@ -72,7 +72,7 @@ class ThemeController extends Controller
             ['user_id' => $user->id],
             [
                 'tenant_id' => $user->tenant->tenant_id,
-                'theme_id'         => '0',
+                'theme_id'         => $themes->id,
                 'brand_color'      => $request->brand_color,
                 'theme_title'       => $request->theme_title,
                 'welcome_message'  => $request->welcome_message,

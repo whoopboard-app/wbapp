@@ -16,12 +16,12 @@ return new class extends Migration
 
             $table->unsignedBigInteger('tenant_id');
             $table->foreign('tenant_id')
-                  ->references('id')
+                  ->references('tenant_id')
                   ->on('tenants')
                   ->onDelete('cascade');
 
-            $table->string('title'); 
-            $table->text('description'); 
+            $table->string('title');
+            $table->text('description');
 
             $table->json('category');
             $table->json('tags');
@@ -38,7 +38,7 @@ return new class extends Migration
             $table->string('target_subscriber')->nullable();
 
             $table->string('feature_banner')->nullable();
-            
+
             $table->timestamps();
         });
     }

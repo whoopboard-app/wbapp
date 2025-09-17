@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::dropIfExists('setting_category_changelog');
         Schema::create('setting_category_changelog', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('tenant_id');
@@ -18,7 +19,7 @@ return new class extends Migration
             $table->string('color_hex')->nullable();
             $table->tinyInteger('status')->default(0); // 0=inactive, 1=active, 2=draft
             $table->timestamps();
-            $table->foreign('tenant_id')->references('id')->on('tenants')->onDelete('cascade');
+            $table->foreign('tenant_id')->references('tenant_id')->on('tenants')->onDelete('cascade');
         });
     }
 

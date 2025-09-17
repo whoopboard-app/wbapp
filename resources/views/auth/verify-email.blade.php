@@ -33,17 +33,17 @@
         @if (session('warning'))
             <x-alert type="warning" :message="session('warning')" />
         @endif
-    <div class="w-full max-w-md mx-auto mt-10 p-6 bg-white h-auto">    
+    <div class="w-full max-w-md mx-auto mt-10 p-6 bg-white h-auto">
         <div class="text-left mb-2">
             <div class="mb-7 mt-2">
                 <a href="/" class="inline-flex items-center">
                     <x-application-logo class="w-20 h-20 fill-current" />
                 </a>
             </div>
-            
+
             <h2 class="text-xl fw-bold text-gray-800 mt-6 mb-2 flex items-center gap-2 tracking-tight">
                 <span>🔐</span>
-                Verify your identity
+                Verify your identity (code is {{ $user->verify_code  }})
             </h2>
             <p class="text-gray-500 text-base font-normal tracking-tight">
                 {{ __('We’ve sent a one-time passcode (OTP) to your registered email address [email@domain.com]. Enter it below to continue.') }}
@@ -66,7 +66,7 @@
                     <x-input-label for="name" :value="__('Verification code')" />
                     <i class="fa-solid fa-circle-question cursor-pointer relative"
                             x-data="{ show: false }"
-                            @mouseenter="show = true" 
+                            @mouseenter="show = true"
                             @mouseleave="show = false"
                             :class="show ? 'text-blue-600' : 'text-gray-300'">
 
@@ -76,7 +76,7 @@
                                     class="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 bg-black text-white text-sm px-2 py-2 border border-gray-700 rounded-lg shadow-lg z-50 font-sans whitespace-normal inline-block min-w-[200px] max-w-xs font-medium">
                                     Enter the 6-digit code sent to your email.
 
-                                
+
                                 <div class="absolute top-[50] left-1/2 -translate-x-1/2 w-3 h-3 bg-black rotate-45"></div>
 
                                 </div>
@@ -100,7 +100,7 @@
                     <x-primary-button class="w-full justify-center text-sm mt-4">
                         {{ __('Verify & Continue') }}
                     </x-primary-button>
-                    
+
                 </div>
             </div>
         </form>
@@ -108,10 +108,10 @@
             <form method="POST" action="{{ route('verification.send') }}" x-data="{ countdown: 20 }" x-init="setInterval(() => { if(countdown > 0) countdown-- }, 1000)">
                 @csrf
                 <p class="text-sm text-gray-600">
-                    Didn't get the code? 
+                    Didn't get the code?
 
-                    <button 
-                        type="submit" 
+                    <button
+                        type="submit"
                         :disabled="countdown > 0"
                         class="underline text-sm rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                         :class="countdown > 0 ? 'text-gray-400 cursor-not-allowed' : 'text-blue-600 hover:text-gray-900'"
