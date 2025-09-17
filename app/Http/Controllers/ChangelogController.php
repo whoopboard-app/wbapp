@@ -17,14 +17,15 @@ class ChangelogController extends Controller
 
         $announcements = Changelog::where('tenant_id', $tenantId)
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->paginate(3);
+            
         foreach ($announcements as $log) {
             $catIds = json_decode($log->category, true) ?? [];
             $log->category_names = SettingCategoryChangelog::whereIn('id', $catIds)
                 ->pluck('category_name')
                 ->toArray();
         }
-        return view('announcement', compact('announcements'));
+        return view('announcement', compact('announcements'))->with('filter', 'all');
     }
 
     public function filter(Request $request)
@@ -32,13 +33,6 @@ class ChangelogController extends Controller
         $tenantId = auth()->user()->tenant_id;
         $filter = $request->filter;
 
-        $categoryMap = [
-            'bugs' => 2,
-            'new-features' => 3,
-            'prem-features' => 4,
-            'enhancement' => 5,
-        ];
-    
         $announcements = Changelog::where('tenant_id', $tenantId)
             ->when($filter && $filter != 'all', function($q) use ($filter) {
                 if ($filter === 'bugs') {
@@ -52,7 +46,7 @@ class ChangelogController extends Controller
                 }
             })
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->paginate(3);
 
         foreach ($announcements as $log) {
             $catIds = json_decode($log->category, true) ?? [];
@@ -61,7 +55,7 @@ class ChangelogController extends Controller
                 ->toArray();
         }
 
-        return view('changelog.partials.announcement_cards', compact('announcements'));
+         return view('announcement', compact('announcements', 'filter'));
 
     }
     
@@ -139,14 +133,14 @@ class ChangelogController extends Controller
         if ($action === 'publish') {
             $validatedData['status'] = 'active';
             $changelog = Changelog::create($validatedData);
-            return redirect()->route('announcement')->with('success', 'Changelog saved and published successfully!');
+            return redirect()->route('announcement.list')->with('success', 'Changelog saved and published successfully!');
         } elseif ($action === 'draft') {
             $validatedData['status'] = 'draft';
             $changelog = Changelog::create($validatedData);
-            return redirect()->route('announcement')->with('success', 'Changelog saved as draft successfully!');
+            return redirect()->route('announcement.list')->with('success', 'Changelog saved as draft successfully!');
         } elseif ($action === 'schedule') {
                 $changelog = Changelog::create($validatedData);
-            return redirect()->route('announcement')->with('success', 'Changelog scheduled for publishing successfully!');
+            return redirect()->route('announcement.list')->with('success', 'Changelog scheduled for publishing successfully!');
         }
         
     }

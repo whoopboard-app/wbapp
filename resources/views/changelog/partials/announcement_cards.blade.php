@@ -22,3 +22,8 @@
 @empty
     <p class="text-gray-500 text-center">No announcements found.</p>
 @endforelse
+
+<div class="mt-4 pagination-wrapper">
+    {!! $announcements->links() !!}
+</div>
+

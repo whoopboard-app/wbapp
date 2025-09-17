@@ -49,7 +49,8 @@
             </p>
 
             <!-- Form Section -->
-            <form action="{{ route('changelog.store') }}" method="POST" enctype="multipart/form-data" class="mb-3 form mx-auto">
+             
+            <form action="{{ route('announcement.store') }}" method="POST" enctype="multipart/form-data" class="mb-3 form mx-auto">
                 @csrf
                 {{-- Feature Banner --}}
                 <div class="card bg-white mb-3">

@@ -57,7 +57,7 @@
 
     <div class="announcement-wrapper max-w-6xl mx-auto px-2">
         <div class="btn-wrapper d-flex align-items-center gap-2 flex-wrap mb-4">
-            <a href="{{ route('add_changelog')}}" class="theme-btn sm fw-semibold rounded d-inline-block">
+            <a href="{{ route('changelog.create')}}" class="theme-btn sm fw-semibold rounded d-inline-block">
                 <i class="fa fa-plus"></i> Add Your First @customLabel('Announcement')
             </a>
         </div>
@@ -65,11 +65,31 @@
         <div class=" border-bottom-0 mb-4 d-flex align-items-start">
             <nav class="d-flex align-items-center justify-content-center">
                 <div class="nav nav-tabs justify-content-center rounded">
-                    <button type="button" class="p-text1 dt-filter-btn nav-link rounded position-relative active" data-filter="all">All</button>
-                    <button type="button" class="p-text1 dt-filter-btn nav-link rounded position-relative" data-filter="bugs">Bugs</button>
-                    <button type="button" class="p-text1 dt-filter-btn nav-link rounded position-relative" data-filter="new-features">New features</button>
-                    <button type="button" class="p-text1 dt-filter-btn nav-link rounded position-relative" data-filter="prem-features">Premium featured</button>
-                    <button type="button" class="p-text1 dt-filter-btn nav-link rounded position-relative" data-filter="enhancement">Enhancement</button>
+                    <a href="{{ route('announcement.filter', ['filter' => 'all']) }}"
+                    class="p-text1 dt-filter-btn nav-link rounded position-relative {{ request('filter', 'all') === 'all' ? 'active' : '' }}">
+                    All
+                    </a>
+
+                    <a href="{{ route('announcement.filter', ['filter' => 'bugs']) }}"
+                    class="p-text1 dt-filter-btn nav-link rounded position-relative {{ request('filter') === 'bugs' ? 'active' : '' }}">
+                    Bugs
+                    </a>
+
+                    <a href="{{ route('announcement.filter', ['filter' => 'new-features']) }}"
+                    class="p-text1 dt-filter-btn nav-link rounded position-relative {{ request('filter') === 'new-features' ? 'active' : '' }}">
+                    New Features
+                    </a>
+
+                    <a href="{{ route('announcement.filter', ['filter' => 'prem-features']) }}"
+                    class="p-text1 dt-filter-btn nav-link rounded position-relative {{ request('filter') === 'prem-features' ? 'active' : '' }}">
+                    Premium Features
+                    </a>
+
+                    <a href="{{ route('announcement.filter', ['filter' => 'enhancement']) }}"
+                    class="p-text1 dt-filter-btn nav-link rounded position-relative {{ request('filter') === 'enhancement' ? 'active' : '' }}">
+                    Enhancement
+                    </a>
+
                 </div>
             </nav>
             
@@ -78,19 +98,19 @@
         <div class="d-flex justify-content-between align-items-center mb-4">
             <div class=" position-relative form-group d-flex align-items-center">
                 <input type="search" id="search" name="search" class="input-field w-100 rounded ps-5" placeholder="Search">
-                <img src="assets/img/icon/search.svg" class="position-absolute search-icon ml-3" alt="">
+                <img src="/assets/img/icon/search.svg" class="position-absolute search-icon ml-3" alt="">
             </div>
             <div class="d-flex gap-2">
             <!-- Filter -->
             <a href="#" class="theme-btn secondary rounded fw-medium btn-icon-text">
                 <div class="icon-text-wrap d-flex gap-2">
-                    <img src="assets/img/icon/filter.svg" alt="">
+                    <img src="/assets/img/icon/filter.svg" alt="">
                     <span>Filter</span>
                 </div>
             </a>
             <a href="#" class="theme-btn secondary rounded fw-medium btn-icon-text">
                 <div class="icon-text-wrap d-flex gap-2">
-                    <img src="assets/img/icon/view-as.svg" alt=""> 
+                    <img src="/assets/img/icon/view-as.svg" alt=""> 
                     <span>View as</span>
                 </div>
             </a>
@@ -100,8 +120,9 @@
         </div>
 
         <div class="announcement-list space-y-4">
-            @include('changelog.partials.announcement_cards', ['announcements' => $announcements])
+             @include('changelog.partials.announcement_cards', ['announcements' => $announcements])
         </div>
+
 
      
 
@@ -149,28 +170,5 @@
         </div>
     </div> <!-- /.announcement-wrapper -->
 </div>
-<script>
-    $(document).ready(function() {
-        $('.dt-filter-btn').click(function() {
-            $('.dt-filter-btn').removeClass('active');
-            $(this).addClass('active');
 
-            var filter = $(this).data('filter');
-
-            $.ajax({
-                url: "{{ route('announcement.filter') }}",
-                type: "GET",
-                data: { filter: filter },
-                success: function(res) {
-                    $('.announcement-list').html(res);
-                },
-                error: function(err) {
-                    console.error(err);
-                    alert('Failed to load announcements.');
-                }
-            });
-        });
-    });
-
-</script>
 @endsection
