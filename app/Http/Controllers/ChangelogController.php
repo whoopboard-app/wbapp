@@ -19,10 +19,16 @@ class ChangelogController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate(3);
             
+            
         foreach ($announcements as $log) {
             $catIds = json_decode($log->category, true) ?? [];
             $log->category_names = SettingCategoryChangelog::whereIn('id', $catIds)
                 ->pluck('category_name')
+                ->toArray();
+            
+            $tagIds = json_decode($log->tags, true) ?? [];
+            $log->tag_names = ChangelogTag::whereIn('id', $tagIds)
+                ->pluck('tag_name')
                 ->toArray();
         }
         return view('announcement', compact('announcements'))->with('filter', 'all');
@@ -52,6 +58,11 @@ class ChangelogController extends Controller
             $catIds = json_decode($log->category, true) ?? [];
             $log->category_names = SettingCategoryChangelog::whereIn('id', $catIds)
                 ->pluck('category_name')
+                ->toArray();
+
+            $tagIds = json_decode($log->tags, true) ?? [];
+            $log->tag_names = ChangelogTag::whereIn('id', $tagIds)
+                ->pluck('tag_name')
                 ->toArray();
         }
 
