@@ -48,7 +48,7 @@ class ChangelogController extends Controller
                 }else if ($filter === 'prem-features'){
                     $q->where('status', 'active');
                 }else if ($filter === 'enhancement'){
-                    $q->where('status', 'none');
+                    $q->whereIn('status', ['inactive', 'draft']);
                 }
             })
             ->orderBy('created_at', 'desc')
@@ -67,7 +67,8 @@ class ChangelogController extends Controller
                 ->toArray();
         }
 
-         return view('announcement', compact('announcements', 'filter'));
+        return view('announcement', compact('announcements'))
+            ->with('filter', $filter);
 
     }
     
