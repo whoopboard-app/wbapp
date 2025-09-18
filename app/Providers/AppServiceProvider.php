@@ -8,12 +8,15 @@ use Illuminate\Support\Facades\View;
 use App\Models\UserTheme;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Blade;
+use Laravel\Pail\PailServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        //
+        if ($this->app->environment('local')) {
+            $this->app->register(PailServiceProvider::class);
+        }
     }
 
     public function boot(): void
