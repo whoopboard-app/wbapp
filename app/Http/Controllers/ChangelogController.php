@@ -111,7 +111,7 @@ class ChangelogController extends Controller
         $validatedData = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'category' => 'required|array|min:1',
+            'categorySelect' => 'required|array|min:1',
             'feedbackRequest' => 'required|string',
             'tagsSelect' => 'required|array|min:1',
             'status' => 'required|string|in:active,inactive,draft',
@@ -127,7 +127,7 @@ class ChangelogController extends Controller
         $validatedData['publishDate'] = Carbon::parse($validatedData['publishDate'])->format('Y-m-d');
        
         $validatedData['tenant_id'] = auth()->user()->tenant_id;
-        $validatedData['category'] = json_encode($validatedData['category']);
+        $validatedData['category'] = json_encode($validatedData['categorySelect']);
         $validatedData['tags'] = json_encode($validatedData['tagsSelect']);
         $validatedData['show_widget'] = $request->has('show_widget') ? (bool)$validatedData['show_widget'] : false;
         $validatedData['send_email'] = $request->has('send_email') ? (bool)$validatedData['send_email'] : false;

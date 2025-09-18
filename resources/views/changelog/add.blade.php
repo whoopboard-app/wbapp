@@ -109,12 +109,12 @@
                                     </span>
                                 </label>
 
-                                <select class="form-select w-100 rounded text-sm" id="categorySelect" name="category[]" multiple placeholder="Select category">
+                                <select class="form-select w-100 rounded text-sm" id="categorySelect" name="categorySelect[]" multiple placeholder="Select category">
                                     @foreach($categories as $category)
                                         <option value="{{ $category->id }}">{{ $category->category_name }}</option>
                                     @endforeach
                                 </select>
-                                @error('category')
+                                @error('categorySelect')
                                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                                 @enderror
                             </div>

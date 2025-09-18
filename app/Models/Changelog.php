@@ -26,7 +26,7 @@ class Changelog extends Model
 
     // Agar array fields ko JSON me save karna hai
     protected $casts = [
-        'category' => 'array',
+        'categorySelect' => 'array',
         'tagsSelect' => 'array',
         'show_widget' => 'boolean',
         'send_email' => 'boolean',
