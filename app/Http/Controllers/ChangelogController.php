@@ -52,7 +52,8 @@ class ChangelogController extends Controller
                 }
             })
             ->orderBy('created_at', 'desc')
-            ->paginate(3);
+            ->paginate(3)
+            ->appends(['filter' => $filter]);
 
         foreach ($announcements as $log) {
             $catIds = json_decode($log->category, true) ?? [];
