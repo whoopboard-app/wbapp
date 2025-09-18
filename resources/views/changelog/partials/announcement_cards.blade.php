@@ -1,5 +1,16 @@
 @forelse($announcements as $announcement)
     <div class="p-4 border rounded bg-white shadow-sm">
+        @if($announcement->status != 'draft')
+            @if($announcement->feature_banner)
+                <img src="{{ asset('storage/'.$announcement->feature_banner) }}" 
+                    class="img-fixed rounded mb-2" 
+                    alt="">
+            @else
+                <img src="{{ asset('assets/img/image17.png') }}" 
+                    class="w-100 rounded mb-2" 
+                    alt="">
+            @endif
+        @endif
         <span class="badge 
             {{ $announcement->status == 'active' ? 'status-active' : '' }} 
             {{ $announcement->status == 'draft' ? 'status-draft' : '' }} 
