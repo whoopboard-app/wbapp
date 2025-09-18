@@ -25,7 +25,9 @@ class ChangelogTagController extends Controller
             ->orderBy('id', 'desc')
             ->paginate(3)
             ->withQueryString();
-        $functionalities = Functionality::all();
+        $functionalities = Functionality::all();//for func label
+
+
         return view('guide_setup.changelog_tags', compact('tags', 'functionalities'));
     }
 
