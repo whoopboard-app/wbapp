@@ -60,7 +60,7 @@
             Keep track of all product updates in one place. Search, filter, and manage your @customLabel('Announcement') entries with ease.
         </p>
     </div>
-    @if($announcements->isEmpty())
+    @if($announcements->isEmpty() && $filter == 'all')
         <div class="announcement-wrapper mx-auto max-w-2xl w-full">
             <div class="btn-wrapper d-flex align-items-center justify-content-center gap-2 flex-wrap mb-4">
                 <a href="{{ route('changelog.create')}}" class="theme-btn sm fw-semibold rounded d-inline-block">

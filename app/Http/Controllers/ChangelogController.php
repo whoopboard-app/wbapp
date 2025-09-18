@@ -48,7 +48,7 @@ class ChangelogController extends Controller
                 }else if ($filter === 'prem-features'){
                     $q->where('status', 'active');
                 }else if ($filter === 'enhancement'){
-                    $q->whereIn('status', ['inactive', 'draft']);
+                    $q->whereJsonContains('category', "2");
                 }
             })
             ->orderBy('created_at', 'desc')
