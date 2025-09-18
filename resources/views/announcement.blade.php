@@ -126,7 +126,7 @@
 
      
 
-        <div class="get-started-changelog">
+        <!-- <div class="get-started-changelog">
             <div class="mb-4">
                 <h6 class="fw-semibold mb-1 pb-1">Get started with the @customLabel('Announcement')</h6>
                 <p class="mb-0 text-gray-600 p-text">Here is a list of recommended actions to help you get the most out of our @customLabel('Announcement') module.</p>
@@ -167,7 +167,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div> <!-- /.announcement-wrapper -->
 </div>
 
