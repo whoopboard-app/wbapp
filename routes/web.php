@@ -101,13 +101,20 @@
     });
 
 
-    Route::get('/announcement/add_changelog', [ChangelogController::class, 'index'])
-        ->name('add_changelog');
-    Route::POST('/changelog_store', [ChangelogController::class, 'store'])
-    ->name('changelog.store');
-    Route::get('/announcement', [ChangelogController::class, 'list'])->name('announcement');
+    // Changelog Routes
+   
+    Route::prefix('announcement')->group(function () {
+        Route::get('create', [ChangelogController::class, 'index'])
+        ->name('changelog.create');
+        Route::get('/', [ChangelogController::class, 'list'])
+        ->name('announcement.list'); 
+        Route::post('store', [ChangelogController::class, 'store'])
+        ->name('announcement.store'); 
+        Route::get('filter', [ChangelogController::class, 'filter'])->name('announcement.filter');
+    });
+   
 
-    Route::get('/announcement/filter', [ChangelogController::class, 'filter'])->name('announcement.filter');
+   
 
 
 
