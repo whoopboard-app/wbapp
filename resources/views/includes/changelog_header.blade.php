@@ -6,7 +6,7 @@
             <img src="{{ asset('assets/img/logo.svg') }}" alt="logo" class="h-12">
         </a>
         <!-- Close Button on Right -->
-        <a href="{{route('announcement.list')}}">
+        <a href="{{ url()->previous() }}">
             <img src="{{ asset('assets/img/icon/close.svg') }}" alt="logo" class="h-auto">
         </a>
     </div>

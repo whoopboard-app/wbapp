@@ -9,6 +9,7 @@
     use Illuminate\Http\Request;
     use App\Http\Controllers\ThemeController;
     use App\Http\Controllers\ChangelogController;
+    use App\Http\Controllers\KBArticleController;
 
     Route::middleware(['auth'])->group(function () {
         Route::get('/themes', [ThemeController::class, 'index'])->name('themes.index');
@@ -111,6 +112,12 @@
         Route::post('store', [ChangelogController::class, 'store'])
         ->name('announcement.store'); 
         Route::get('filter', [ChangelogController::class, 'filter'])->name('announcement.filter');
+    });
+
+    Route::prefix('kbarticle')->group(function () {
+        Route::get('/', [KBArticleController::class, 'index'])->name('kbarticle.index'); 
+        Route::get('create', [KBArticleController::class, 'create'])->name('kbarticle.create');
+        Route::post('store', [KBArticleController::class, 'store'])->name('kbarticle.store');
     });
    
 

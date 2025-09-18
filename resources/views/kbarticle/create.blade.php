@@ -7,16 +7,6 @@
     @endforeach
 @endif
 <style>
-    .theme-btn{
-        line-height: unset !important;
-        font-size: 15px !important;
-    }
-
-    button:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-    }
-
     .ts-wrapper {
         padding: 0 !important;
         border: 1px solid #d1d9e0;
@@ -35,30 +25,27 @@
         font-size: 14px !important;
     }
 
-    
+
+
 
     @media (min-width:992px)
     {
-    .section-content-center
-      {
-         max-width: 983px;
-         margin: 0 auto;
-      }
+        .section-content-center
+            {
+                max-width: 983px;
+                margin: 0 auto;
+            }
     }
 </style>
-    {{-- Changelog Section --}}
-    <section class="section-content-center py-4">
+<section class="section-content-center py-4">
         <div class="container">
-            <h4 class="fw-bold text-2xl">Add @customLabel('Announcement')</h4>
+            <h4 class="fw-bold text-2xl">Add New Article</h4>
             <p class="text-muted label mt-1 mb-3 p-text">
-                Create a new @customLabel('Announcement') entry to keep your users informed about product updates, improvements, and fixes.
+                Create an article for your Knowledge Board to share help guides, product documentation, or manuals. Add clear content so users can easily find the answers they need.
             </p>
 
-            <!-- Form Section -->
-             
-            <form action="{{ route('announcement.store') }}" method="POST" enctype="multipart/form-data" class="mb-3 form mx-auto">
+            <form action="{{ route('kbarticle.store') }}" method="POST" enctype="multipart/form-data" class="mb-3 form mx-auto">
                 @csrf
-                {{-- Feature Banner --}}
                 <div class="card bg-white mb-3">
                     <div class="upload-input">
                         <input type="file" class="visually-hidden" id="feature-banner" name="feature_banner" onchange="showFileName(event)">
@@ -73,10 +60,9 @@
                 </div>
 
                 <div class="card bg-white mb-3 p-3 rounded">
-                    <h6 class="fw-bold mb-2 fs-4">Basic Information</h6>
+                    <h6 class="fw-bold mb-2">Basic Information</h6>
                     <p class="label text-gray-800 mb-4 text-sm tracking-wide">
-                        Provide the core details of your update, including the title, category, and description.
-                        This information helps users understand what the @customLabel('Announcement') is about.
+                        Provide the core details of your update, including the title, category, and description. This information helps users understand what the changelog is about.
                     </p>
 
                     <div class="row">
@@ -131,7 +117,7 @@
                                 </label>
                                 <textarea id="desc" name="description" rows="3"
                                         class="input-field w-100 rounded text-sm"
-                                        placeholder="Enter @customLabel('Announcement') description"></textarea>
+                                        placeholder="Enter description"></textarea>
                                 @error('description')
                                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                                 @enderror
@@ -146,68 +132,40 @@
                         Decide where your update should appear and who should be notified. You can show it on your website/widget and send alerts to selected subscribers.
                     </p>
 
-                    <!-- Checkboxes -->
-                    <div class="d-flex flex-column gap-3 mb-3 pb-1 border-bottom-0">
-                        <div class="text-sm border p-2 rounded">
-                            <div class="form-check">
-                                <!-- Hidden field for unchecked value -->
-                                <input type="hidden" name="show_widget" value="0">
+                    <div class="text-sm border p-2 rounded">
+                        <div class="form-check">
+                            <!-- Hidden field for unchecked value -->
+                            <input type="hidden" name="show_widget" value="0">
 
-                                <!-- Actual checkbox -->
-                                <input type="checkbox" id="show-widget" name="show_widget" value="1" class="form-check-input">
-                                <label for="show-widget" class="form-check-label">Show from website & widgets
-                                </label>
-                            </div>
+                            <!-- Actual checkbox -->
+                            <input type="checkbox" id="show-widget" name="show_widget" value="1" class="form-check-input">
+                            <label for="show-widget" class="form-check-label">Show from website & widgets
+                            </label>
                         </div>
-
-                        <div class="text-sm border p-2 rounded">
-                            <div class="form-check">
-                                <input type="hidden" name="send_email" value="0">
-
-                                <!-- Actual checkbox -->
-                                <input type="checkbox" id="send-email" name="send_email" value="1" class="form-check-input">
-                                    <label for="send-email" class="form-check-label">
-                                        Send email to 450 subscriber
-                                    </label>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <!-- Target Subscriber -->
-                    <div>
-                        <label for="targetSubscriber" class="input-label mb-1 fw-medium">
-                            Select Target Subscriber
-                            <span class="tooltip-icon  transition-colors duration-200"
-                                data-bs-toggle="tooltip" title="Select target subscriber">
-                                <i class="fa fa-question-circle hover-blue"></i>
-                            </span>
-                        </label>
-                        <input id="targetSubscriber" name="targetSubscriber" class="input-field w-100 rounded text-sm" placeholder="Subscriber" readonly>
                     </div>
                 </div>
 
                 <div class="card bg-white mb-3">
-                    <h6 class="fw-bold mb-2">Link to Feedback</h6>
+                    <h6 class="fw-bold mb-2">Link to Changelog</h6>
                     <p class="label text-gray-800 mb-3 text-sm tracking-wide">
                         Connect this @customLabel('Announcement') to related feedback requests. This helps close the loop with users who suggested or voted on the idea.
                     </p>
 
                     <div>
-                        <label for="feedbackRequest" class="input-label mb-1 fw-medium">
-                            Link to Feedback Request
+                        <label for="link_change_log" class="input-label mb-1 fw-medium">
+                            Link to Change log 
                             <span class="tooltip-icon  transition-colors duration-200"
-                                data-bs-toggle="tooltip" title="Feedback request">
+                                data-bs-toggle="tooltip" title="Link to change log ">
                                 <i class="fa fa-question-circle hover-blue"></i>
                             </span>
                         </label>
-                        <select class="form-select w-100 rounded text-sm input-field" id="feedbackRequest" name="feedbackRequest">
+                        <select class="form-select w-100 rounded text-sm input-field" id="link_change_log" name="link_change_log">
                             <option value="">Select</option>
                             <option value="active">Active</option>
                             <option value="inactive">Inactive</option>
                             <option value="draft">Draft</option>
                         </select>
-                        @error('feedbackRequest')
+                        @error('link_change_log')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
@@ -222,6 +180,56 @@
                         Organize your update with tags, set its status, and choose a publish date.
                         This ensures updates are well-structured and go live at the right time.
                     </p>
+
+                    <div class="mb-3">
+                        <label for="author" class="input-label mb-1 fw-medium">
+                            Author  
+                            <span class="tooltip-icon  transition-colors duration-200"
+                                data-bs-toggle="tooltip" title="Add Author">
+                                <i class="fa fa-question-circle hover-blue"></i>
+                            </span>
+                        </label>
+                        <select class="form-select w-100 rounded text-sm input-field" id="author" name="author">
+                            <option value="">Select</option>
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                            <option value="draft">Draft</option>
+                        </select>
+                        @error('author')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <div class="text-sm border p-2 rounded mb-3">
+                        <div class="form-check">
+                            <!-- Hidden field for unchecked value -->
+                            <input type="hidden" name="popular_article" value="0">
+
+                            <!-- Actual checkbox -->
+                            <input type="checkbox" id="popular_article" name="popular_article" value="1" class="form-check-input">
+                            <label for="popular_article" class="form-check-label">Display as popular article
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="ls_order" class="input-label mb-1 fw-medium">
+                            Order of Listings
+                            <span class="tooltip-icon  transition-colors duration-200"
+                                data-bs-toggle="tooltip" title="Order of Listings">
+                                <i class="fa fa-question-circle hover-blue"></i>
+                            </span>
+                        </label>
+                        <select class="form-select w-100 rounded text-sm input-field" id="ls_order" name="ls_order">
+                            <option value="">Select</option>
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                            <option value="draft">Draft</option>
+                        </select>
+                        @error('ls_order')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
 
                     <!-- Tags -->
                     <div class="mb-3">
@@ -245,7 +253,7 @@
                     <!-- Post Status -->
                     <div class="mb-3">
                         <label for="status" class="input-label mb-2 fw-medium flex items-center gap-2">
-                            Post Status
+                            Article Status
                             <span class="tooltip-icon  transition-colors duration-200"
                                 data-bs-toggle="tooltip" title="Post Status">
                                 <i class="fa fa-question-circle hover-blue"></i>
@@ -262,51 +270,18 @@
                         @enderror
                     </div>
 
-                    <!-- Publish Date -->
-                    <div class="">
-                        <label for="publishDate" class="input-label mb-2 fw-medium flex items-center gap-2">
-                            Publish Date
-                            <span class="tooltip-icon  transition-colors duration-200"
-                                data-bs-toggle="tooltip" title="Publish date">
-                                <i class="fa fa-question-circle hover-blue"></i>
-                            </span>
-                        </label>
-                        <input type="text" id="publishDate" name="publishDate"
-                            class="input-field w-100 rounded border-gray-300 focus:border-blue-400 focus:ring focus:ring-blue-100 transition text-sm"
-                            autocomplete="off">
-
-                        @error('publishDate')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
+                   
                 </div>
-
-
-
-
-                <div class="d-inline-flex gap-2 mt-3">
-                    <button type="submit" id="btnPublish" name="action" value="publish" class="theme-btn fw-semibold rounded">
-                        Save &amp; Publish
-                    </button>
-                    <button type="submit" id="btnDraft" name="action" value="draft" class="theme-btn secondary fw-semibold rounded">
-                        Save as Draft
-                    </button>
-                    <button type="submit" id="btnSchedule" name="action" value="schedule" class="theme-btn secondary fw-semibold rounded">
-                        Schedule Publish
-                    </button>
-                </div>
-            </form>
         </div>
-    </section>
+</section>
 
-    <script>
+<script>
     
-        function showFileName(event) {
-            const input = event.target;
-            const fileName = input.files.length > 0 ? input.files[0].name : "";
-            document.getElementById("file-name").textContent = fileName;
-        }
+    function showFileName(event) {
+        const input = event.target;
+        const fileName = input.files.length > 0 ? input.files[0].name : "";
+        document.getElementById("file-name").textContent = fileName;
+    }
 
-    </script>
-
+</script>
 @endsection
