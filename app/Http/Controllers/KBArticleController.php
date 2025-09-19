@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\SettingCategoryChangelog;
 use App\Models\ChangelogTag;
+use App\Models\KBArticle;
 
 class KBArticleController extends Controller
 {
@@ -43,9 +44,33 @@ class KBArticleController extends Controller
             'other_article_category' => 'required|array|min:1',
             'other_article_category2' => 'nullable|array',
             'status' => 'required|string|in:active,inactive,draft',
+            'article_banner' => 'nullable|image|mimes:jpg,jpeg,png,gif,webp|max:2048',
             'action' => 'required|string|in:publish,draft',
         ]);
-        dd($validatedData);
+        
+        $validatedData['tenant_id'] = auth()->user()->tenant_id;
+        $validatedData['tags'] = $validatedData['tagsSelect'];
+       
+
+        unset($validatedData['tagsSelect']);
+        
+        if ($request->hasFile('article_banner')) {
+            $path = $request->file('article_banner')->store('article-banners', 'public');
+            $validatedData['article_banner'] = $path; // DB me save karne ke liye
+        }
+        
+        $action = $validatedData['action'];
+        // dd($validatedData);
+        if ($action === 'publish') {
+            $validatedData['status'] = 'active';
+            $kbArticle = KBArticle::create($validatedData);
+            return redirect()->route('announcement.list')->with('success', 'Article published successfully!');
+        }elseif ($action === 'draft') {
+            $validatedData['status'] = 'draft';
+            $kbArticle = KBArticle::create($validatedData);
+            return redirect()->route('announcement.list')->with('success', 'Article saved as draft successfully!');
+        }
+
     }
 
 }

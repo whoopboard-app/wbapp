@@ -52,8 +52,8 @@
                 @csrf
                 <div class="card bg-white mb-3">
                     <div class="upload-input">
-                        <input type="file" class="visually-hidden" id="feature-banner" name="feature_banner" onchange="showFileName(event)">
-                        <label for="feature-banner" class="d-block text-center rounded-3">
+                        <input type="file" class="visually-hidden" id="article-banner" name="article_banner" onchange="showFileName(event)">
+                        <label for="article-banner" class="d-block text-center rounded-3">
                             <span class="upload-btn widget-item-btn d-inline-block rounded fw-semibold mb-2">
                                 Upload Features Banner
                             </span>
