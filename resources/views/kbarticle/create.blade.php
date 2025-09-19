@@ -250,7 +250,50 @@
                         @enderror
                     </div>
 
-                    <!-- Post Status -->
+                    <div class="row mb-3">
+                        <div class="col-12 col-md-6">
+                            <div>
+                                 <label for="other_art_cat" class="input-label mb-2 fw-medium flex items-center gap-2">
+                                    Other recommended articles category
+                                    <span class="tooltip-icon  transition-colors duration-200"
+                                        data-bs-toggle="tooltip" title="Other recommended articles category">
+                                        <i class="fa fa-question-circle hover-blue"></i>
+                                    </span>
+                                </label>
+                                <select id="other_art_cat" name="other_art_cat" class="form-select w-100 rounded text-sm">
+                                    <option value="">Select</option>
+                                    <option value="active">Active</option>
+                                    <option value="inactive">Inactive</option>
+                                    <option value="draft">Draft</option>
+                                </select>
+                                @error('other_art_cat')
+                                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div>
+                                 <label for="other_art_cat2" class="input-label mb-2 fw-medium flex items-center gap-2">
+                                    Other recommended articles category
+                                    <span class="tooltip-icon  transition-colors duration-200"
+                                        data-bs-toggle="tooltip" title="Other recommended articles category">
+                                        <i class="fa fa-question-circle hover-blue"></i>
+                                    </span>
+                                </label>
+                                <select id="other_art_cat2" name="other_art_cat2" class="form-select w-100 rounded text-sm">
+                                    <option value="">Select</option>
+                                    <option value="active">Active</option>
+                                    <option value="inactive">Inactive</option>
+                                    <option value="draft">Draft</option>
+                                </select>
+                                @error('other_art_cat2')
+                                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Status -->
                     <div class="mb-3">
                         <label for="status" class="input-label mb-2 fw-medium flex items-center gap-2">
                             Article Status
