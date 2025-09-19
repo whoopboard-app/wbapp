@@ -109,7 +109,7 @@
                                     </span>
                                 </label>
 
-                                <select class="form-select w-100 rounded text-sm" id="categorySelect" name="categorySelect[]" multiple placeholder="Select category">
+                                <select class="form-select w-100 rounded text-sm" id="categorySelect" name="categorySelect[]" multiple>
                                     @foreach($categories as $category)
                                         <option value="{{ $category->id }}">{{ $category->category_name }}</option>
                                     @endforeach
@@ -232,7 +232,7 @@
                                 <i class="fa fa-question-circle hover-blue"></i>
                             </span>
                         </label>
-                        <select id="tagsSelect" name="tagsSelect[]" class="form-select w-100 rounded text-sm" multiple placeholder="Select tags">
+                        <select id="tagsSelect" name="tagsSelect[]" class="form-select w-100 rounded text-sm" multiple>
                             @foreach($tags as $id => $name)
                                 <option value="{{ $id }}">{{ $name }}</option>
                             @endforeach

@@ -28,4 +28,24 @@ class KBArticleController extends Controller
         return view('kbarticle.create', compact('categories', 'tags'));
     }
 
+    public function store(Request $request)
+    {
+        $validatedData = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'category' => 'required|array|min:1',
+            'show_widget'       => 'nullable|boolean',
+            'link_changelog'  => 'required|string',
+            'author' => 'required|array|min:1',
+            'popular_article'       => 'nullable|boolean',
+            'list_order'  => 'required|string',
+            'tagsSelect' => 'required|array|min:1',
+            'other_article_category' => 'required|array|min:1',
+            'other_article_category2' => 'nullable|array',
+            'status' => 'required|string|in:active,inactive,draft',
+            'action' => 'required|string|in:publish,draft',
+        ]);
+        dd($validatedData);
+    }
+
 }

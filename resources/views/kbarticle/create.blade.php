@@ -25,6 +25,10 @@
         font-size: 14px !important;
     }
 
+    .theme-btn {
+        letter-spacing: 0.5px !important; 
+    }
+
 
 
 
@@ -44,7 +48,7 @@
                 Create an article for your Knowledge Board to share help guides, product documentation, or manuals. Add clear content so users can easily find the answers they need.
             </p>
 
-            <form action="{{ route('kbarticle.store') }}" method="POST" enctype="multipart/form-data" class="mb-3 form mx-auto">
+            <form action="{{ route('kbarticle.store') }}" method="POST" enctype="multipart/form-data"       class="mb-3 form mx-auto">
                 @csrf
                 <div class="card bg-white mb-3">
                     <div class="upload-input">
@@ -95,7 +99,7 @@
                                     </span>
                                 </label>
 
-                                <select class="form-select w-100 rounded text-sm" id="categorySelect" name="category[]" multiple placeholder="Select category">
+                                <select class="form-select w-100 rounded text-sm" id="categorySelect" name="category[]" multiple>
                                     @foreach($categories as $category)
                                         <option value="{{ $category->id }}">{{ $category->category_name }}</option>
                                     @endforeach
@@ -152,20 +156,20 @@
                     </p>
 
                     <div>
-                        <label for="link_change_log" class="input-label mb-1 fw-medium">
+                        <label for="link_changelog" class="input-label mb-1 fw-medium">
                             Link to Change log 
                             <span class="tooltip-icon  transition-colors duration-200"
                                 data-bs-toggle="tooltip" title="Link to change log ">
                                 <i class="fa fa-question-circle hover-blue"></i>
                             </span>
                         </label>
-                        <select class="form-select w-100 rounded text-sm input-field" id="link_change_log" name="link_change_log">
+                        <select class="form-select w-100 rounded text-sm input-field" id="linkchangelog" name="link_changelog">
                             <option value="">Select</option>
                             <option value="active">Active</option>
                             <option value="inactive">Inactive</option>
                             <option value="draft">Draft</option>
                         </select>
-                        @error('link_change_log')
+                        @error('link_changelog')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
@@ -189,8 +193,7 @@
                                 <i class="fa fa-question-circle hover-blue"></i>
                             </span>
                         </label>
-                        <select class="form-select w-100 rounded text-sm input-field" id="author" name="author">
-                            <option value="">Select</option>
+                        <select class="form-select w-100 rounded text-sm" id="author" name="author[]" multiple>
                             <option value="active">Active</option>
                             <option value="inactive">Inactive</option>
                             <option value="draft">Draft</option>
@@ -213,20 +216,20 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="ls_order" class="input-label mb-1 fw-medium">
+                        <label for="list_order" class="input-label mb-1 fw-medium">
                             Order of Listings
                             <span class="tooltip-icon  transition-colors duration-200"
                                 data-bs-toggle="tooltip" title="Order of Listings">
                                 <i class="fa fa-question-circle hover-blue"></i>
                             </span>
                         </label>
-                        <select class="form-select w-100 rounded text-sm input-field" id="ls_order" name="ls_order">
+                        <select class="form-select w-100 rounded text-sm input-field" id="list_order" name="list_order">
                             <option value="">Select</option>
                             <option value="active">Active</option>
                             <option value="inactive">Inactive</option>
                             <option value="draft">Draft</option>
                         </select>
-                        @error('ls_order')
+                        @error('list_order')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
@@ -240,7 +243,7 @@
                                 <i class="fa fa-question-circle hover-blue"></i>
                             </span>
                         </label>
-                        <select id="tagsSelect" name="tagsSelect[]" class="form-select w-100 rounded text-sm" multiple placeholder="Select tags">
+                        <select id="tagsSelect" name="tagsSelect[]" class="form-select w-100 rounded text-sm" multiple>
                             @foreach($tags as $id => $name)
                                 <option value="{{ $id }}">{{ $name }}</option>
                             @endforeach
@@ -253,40 +256,40 @@
                     <div class="row mb-3">
                         <div class="col-12 col-md-6">
                             <div>
-                                 <label for="other_art_cat" class="input-label mb-2 fw-medium flex items-center gap-2">
+                                 <label for="other_article_category" class="input-label mb-2 fw-medium flex items-center gap-2">
                                     Other recommended articles category
                                     <span class="tooltip-icon  transition-colors duration-200"
                                         data-bs-toggle="tooltip" title="Other recommended articles category">
                                         <i class="fa fa-question-circle hover-blue"></i>
                                     </span>
                                 </label>
-                                <select id="other_art_cat" name="other_art_cat" class="form-select w-100 rounded text-sm">
+                                <select id="other_article_category" name="other_article_category[]" class="form-select w-100 rounded text-sm" multiple>
                                     <option value="">Select</option>
                                     <option value="active">Active</option>
                                     <option value="inactive">Inactive</option>
                                     <option value="draft">Draft</option>
                                 </select>
-                                @error('other_art_cat')
+                                @error('other_article_category')
                                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                                 @enderror
                             </div>
                         </div>
                         <div class="col-12 col-md-6">
                             <div>
-                                 <label for="other_art_cat2" class="input-label mb-2 fw-medium flex items-center gap-2">
+                                 <label for="other_article_category2" class="input-label mb-2 fw-medium flex items-center gap-2">
                                     Other recommended articles category
                                     <span class="tooltip-icon  transition-colors duration-200"
                                         data-bs-toggle="tooltip" title="Other recommended articles category">
                                         <i class="fa fa-question-circle hover-blue"></i>
                                     </span>
                                 </label>
-                                <select id="other_art_cat2" name="other_art_cat2" class="form-select w-100 rounded text-sm">
+                                <select id="other_article_category2" name="other_article_category2[]" class="form-select w-100 rounded text-sm" multiple>
                                     <option value="">Select</option>
                                     <option value="active">Active</option>
                                     <option value="inactive">Inactive</option>
                                     <option value="draft">Draft</option>
                                 </select>
-                                @error('other_art_cat2')
+                                @error('other_article_category2')
                                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                                 @enderror
                             </div>
@@ -294,7 +297,7 @@
                     </div>
 
                     <!-- Status -->
-                    <div class="mb-3">
+                    <div class="">
                         <label for="status" class="input-label mb-2 fw-medium flex items-center gap-2">
                             Article Status
                             <span class="tooltip-icon  transition-colors duration-200"
@@ -313,8 +316,16 @@
                         @enderror
                     </div>
 
-                   
                 </div>
+                <div class="d-inline-flex gap-2 ">
+                    <button type="submit" id="btnPublish" name="action" value="publish" class="theme-btn fw-bold rounded">
+                        Save &amp; Publish
+                    </button>
+                    <button type="submit" id="btnDraft" name="action" value="draft" class="theme-btn secondary fw-bold rounded">
+                        Save as Draft
+                    </button>
+                </div>
+            </form>
         </div>
 </section>
 

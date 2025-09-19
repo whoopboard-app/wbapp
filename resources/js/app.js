@@ -23,25 +23,39 @@ document.addEventListener("DOMContentLoaded", () => {
         },
     });
 
-    const functionalitySelect = document.querySelector("#functionality_id");
-    if (functionalitySelect) {
-        new TomSelect(functionalitySelect, {
-            plugins: ['remove_button'],
-            persist: false,
-            create: false,
-            hideSelected: true,
-        });
-    }
-    new TomSelect("#categorySelect", {
+    // const functionalitySelect = document.querySelector("#functionality_id");
+    // if (functionalitySelect) {
+    //     new TomSelect(functionalitySelect, {
+    //         plugins: ['remove_button'],
+    //         persist: false,
+    //         create: false,
+    //         hideSelected: true,
+    //     });
+    // }
+
+    // list of all select IDs jahan TomSelect lagana hai
+    const selectIds = [
+        "#functionality_id",
+        "#categorySelect",
+        "#tagsSelect",
+        "#author",
+        "#other_article_category",
+        "#other_article_category2"
+    ];
+
+    // common config
+    const config = {
         plugins: ['remove_button'],
         persist: false,
         create: false,
         hideSelected: true,
-    });
-    new TomSelect("#tagsSelect", {
-        plugins: ['remove_button'],
-        persist: false,
-        create: false,
-        hideSelected: true,
+    };
+
+    // loop se sab pe TomSelect apply kar do
+    selectIds.forEach(id => {
+        const el = document.querySelector(id);
+        if (el) {
+            new TomSelect(id, config);
+        }
     });
 });
