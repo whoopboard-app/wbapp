@@ -126,30 +126,18 @@
             <div class=" border-bottom-0 mb-4 d-flex align-items-start">
                 <nav class="d-flex align-items-center justify-content-center">
                     <div class="nav nav-tabs justify-content-center rounded">
+                       
                         <a href="{{ route('announcement.filter', ['filter' => 'all']) }}"
                         class="p-text1 dt-filter-btn nav-link rounded position-relative {{ request('filter', 'all') === 'all' ? 'active' : '' }}">
                         All
                         </a>
 
-                        <a href="{{ route('announcement.filter', ['filter' => 'bugs']) }}"
-                        class="p-text1 dt-filter-btn nav-link rounded position-relative {{ request('filter') === 'bugs' ? 'active' : '' }}">
-                        Bugs
-                        </a>
-
-                        <a href="{{ route('announcement.filter', ['filter' => 'new-features']) }}"
-                        class="p-text1 dt-filter-btn nav-link rounded position-relative {{ request('filter') === 'new-features' ? 'active' : '' }}">
-                        New Features
-                        </a>
-
-                        <a href="{{ route('announcement.filter', ['filter' => 'prem-features']) }}"
-                        class="p-text1 dt-filter-btn nav-link rounded position-relative {{ request('filter') === 'prem-features' ? 'active' : '' }}">
-                        Premium Features
-                        </a>
-
-                        <a href="{{ route('announcement.filter', ['filter' => 'enhancement']) }}"
-                        class="p-text1 dt-filter-btn nav-link rounded position-relative {{ request('filter') === 'enhancement' ? 'active' : '' }}">
-                        Enhancement
-                        </a>
+                        @foreach($categories as $category)
+                            <a href="{{ route('announcement.filter', ['filter' => $category->id]) }}"
+                            class="p-text1 dt-filter-btn nav-link rounded position-relative {{ request('filter') == $category->id ? 'active' : '' }}">
+                                {{ ucfirst($category->category_name) }}
+                            </a>
+                        @endforeach
 
                     </div>
                 </nav>
