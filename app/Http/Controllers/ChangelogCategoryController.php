@@ -14,15 +14,26 @@ class ChangelogCategoryController extends Controller
         $labels = $userTheme && $userTheme->module_labels
             ? json_decode($userTheme->module_labels, true)
             : [];
-        $query = SettingCategoryChangelog::where('tenant_id', auth()->user()->tenant_id);
 
-        if ($request->has('search') && $request->search != '') {
-            $search = $request->search;
+        $tenantId = auth()->user()->tenant_id;
+        $search = $request->input('search');
+
+        // Query for categories
+        $query = SettingCategoryChangelog::where('tenant_id', $tenantId);
+
+        if (!empty($search)) {
             $query->where('category_name', 'like', "%{$search}%");
         }
-        $categories = $query->orderBy('id', 'desc')->paginate(10)->withQueryString();
-        return view('guide_setup.changelog_category', compact('categories','labels'));
+
+        $categories = $query->orderBy('id', 'desc')
+            ->paginate(25)
+            ->withQueryString();
+        if ($request->ajax()) {
+            return view('guide_setup.partials.logcategory_table', compact('categories'))->render();
+        }
+        return view('guide_setup.changelog_category', compact('categories', 'labels'));
     }
+
 
     // Store new category
     public function store(Request $request)

@@ -7,6 +7,7 @@
             </div>
             <form method="POST" action="{{ route('themes.customize') }}">
                 @csrf
+                {{ $userTheme->id }}
                 <div class="modal-body mt-2 mb-4">
                     <p class="form-para">
                         Set up your theme with the right details. Update your page title, description, welcome message, and rename modules to match your business needs.

@@ -23,11 +23,12 @@ class ChangelogTagController extends Controller
                 });
             })
             ->orderBy('id', 'desc')
-            ->paginate(3)
+            ->paginate(25)
             ->withQueryString();
-        $functionalities = Functionality::all();//for func label
-
-
+        $functionalities = Functionality::all();
+        if ($request->ajax()) {
+            return view('guide_setup.partials.tags_table', compact('tags'))->render();
+        }
         return view('guide_setup.changelog_tags', compact('tags', 'functionalities'));
     }
 
@@ -38,7 +39,7 @@ class ChangelogTagController extends Controller
     {
         $request->validate([
             'tag_name' => 'required|string|max:255',
-            'short_description' => 'required|nullable|string',
+            'short_description' => 'required|string',
             'functionality_id' => 'required|array',
         ]);
         $user = auth()->user();
@@ -79,7 +80,7 @@ class ChangelogTagController extends Controller
         $request->validate([
             'tag_name' => 'required|string|max:255',
             'functionality_id' => 'required|exists:functionalities,id',
-            'description' => 'nullable|string',
+            'short_description' => 'nullable|string',
         ]);
         $tag->functionalities()->sync($request->functionality_id ?? []);
         $tag->update($request->all());

@@ -22,12 +22,12 @@
                                 <x-input-label for="product_name" :value="__('Your Product / Company Name ')" />
                                 <i class="fa-solid fa-circle-question cursor-pointer relative"
                                     x-data="{ show: false }"
-                                    @mouseenter="show = true" 
+                                    @mouseenter="show = true"
                                     @mouseleave="show = false"
                                     :class="show ? 'text-blue-600' : 'text-gray-300'">
-                                    
+
                                         <!-- Icon -->
-                                        
+
                                         <!-- Tooltip -->
                                         <div x-show="show"
                                             x-transition
@@ -47,12 +47,12 @@
                                 <x-input-label for="current_url" :value="__('Current website URL')" />
                                 <i class="fa-solid fa-circle-question cursor-pointer relative"
                                     x-data="{ show: false }"
-                                    @mouseenter="show = true" 
+                                    @mouseenter="show = true"
                                     @mouseleave="show = false"
                                     :class="show ? 'text-blue-600' : 'text-gray-300'">
-                                    
+
                                         <!-- Icon -->
-                                        
+
                                         <!-- Tooltip -->
                                         <div x-show="show"
                                             x-transition
@@ -65,8 +65,8 @@
                             </div>
                             <input type="text" id="current_url" name="current_url" class="input-field w-100 rounded mt-1 focus:border focus:border-gray-400 focus:ring-0"
                                    placeholder="https://www." required>
-                            
-                        
+
+
                         </div>
 
                         <div class="">
@@ -90,7 +90,7 @@
                                 </p>
                             </div>
                         </div>
-                     
+
                     </div>
                     <button type="submit" class="form-btn theme-btn fw-semibold w-100 rounded border-0">Continue</button>
                 </form>
@@ -99,34 +99,48 @@
     </section>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).ready(function(){
-    $('#subdomain').on('blur', function(){
-        let subdomain = $(this).val();
+        $(document).ready(function () {
+            let userEdited = false;
+            $('#subdomain').on('input', function () {
+                userEdited = true;
+            });
+            $('#product_name').on('input', function () {
+                if (!userEdited) {
+                    let companyName = $(this).val();
+                    let slug = companyName
+                        .toLowerCase()
+                        .replace(/[^a-z0-9]+/g, '')
+                        .replace(/^-+|-+$/g, '');
 
-        // Hide messages before request
-        $('#subdomain-error, #subdomain-success').addClass('d-none');
-
-        if(subdomain.length > 0){
-            $.ajax({
-                url: "{{ route('check.domain') }}",
-                method: "POST",
-                data: {
-                    _token: "{{ csrf_token() }}",
-                    subdomain: subdomain
-                },
-                success: function(response){
-                    if(response.available){
-                        $('#subdomain-success span').text(response.message);
-                        $('#subdomain-success').removeClass('d-none');
-                    } else {
-                        $('#subdomain-error span').text(response.message);
-                        $('#subdomain-error').removeClass('d-none');
-                    }
+                    $('#subdomain').val(slug);
                 }
             });
-        }
-    });
-});
+
+            $('#subdomain').on('blur', function () {
+                let subdomain = $(this).val();
+                $('#subdomain-error, #subdomain-success').addClass('d-none');
+
+                if (subdomain.length > 0) {
+                    $.ajax({
+                        url: "{{ route('check.domain') }}",
+                        method: "POST",
+                        data: {
+                            _token: "{{ csrf_token() }}",
+                            subdomain: subdomain
+                        },
+                        success: function (response) {
+                            if (response.available) {
+                                $('#subdomain-success span').text(response.message);
+                                $('#subdomain-success').removeClass('d-none');
+                            } else {
+                                $('#subdomain-error span').text(response.message);
+                                $('#subdomain-error').removeClass('d-none');
+                            }
+                        }
+                    });
+                }
+            });
+        });
 
     </script>
 @endsection

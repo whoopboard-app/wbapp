@@ -63,7 +63,6 @@
             @endif
         @endif
         <br>
-        <!-- New: Customize Theme Button -->
         @if($isEditable)
             <button class="btn btn-primary fw-semibold rounded btn-md mt-2" style="width: 245px;"
                     type="button"

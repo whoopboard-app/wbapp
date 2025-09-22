@@ -22,7 +22,7 @@
                     <div class="flex items-center justify-between">
                         <!-- Header Text on Left -->
                         <h4 class="text-2xl md:text-2xl font-bold text-gray-900">
-                            Add New Tag
+                            {{ isset($tag) ? 'Update Tag' : 'Add New Tag' }}
                         </h4>
                     </div>
 
@@ -56,7 +56,6 @@
                             >
                             <p id="tag-error" class="text-red-500 text-sm mt-1 hidden">Tag name already exists.</p>
                         </div>
-
                         <!-- Module Group -->
                         <div>
                             <label for="functionality_id" class="block text-md font-medium text-gray-700">
@@ -92,12 +91,11 @@
                             <textarea
                                 id="short_description"
                                 name="short_description"
-                                value="{{ $tag->short_description ?? old('short_description') }}"
                                 rows="3"
                                 class="mt-1 block w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
                                 placeholder="Enter Tag Short Description"
                                 required
-                            >{{ $tag->short_description ?? old('short_description') }}</textarea>
+                            >{{ $tag->Short_description ?? old('Short_description') }}</textarea>
                         </div>
 
                         <!-- Submit -->
@@ -131,7 +129,6 @@
                                   d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1110.5 3a7.5 7.5 0 016.15 13.65z" />
                         </svg>
                     </form>
-
                     <div class="overflow-x-auto">
                         <table class="min-w-full divide-y divide-gray-200 border rounded-lg">
                             <thead class="bg-gray-50">
@@ -141,77 +138,13 @@
                                 <th class="px-4 py-2 text-left text-md font-bold text-black-600">Action</th>
                             </tr>
                             </thead>
-                            <tbody class="divide-y divide-gray-100">
-                            @if($tags->isEmpty())
-                                <tr>
-                                    <td colspan="4" class="px-4 py-4 text-center text-gray-500">
-                                        No record found
-                                    </td>
-                                </tr>
-                            @else
-                            @foreach($tags as $tag)
-                                <tr>
-                                    <!-- Tag Name -->
-                                    <td class="px-4 py-2 w-1/5 whitespace-normal">{{ $tag->tag_name }}</td>
-                                    <!-- Module Group -->
-                                    <td class="px-4 py-2">
-                                        @if($tag->functionalities->count())
-                                            @foreach($tag->functionalities as $func)
-                                                <span class="inline-block bg-gray-100 text-gray-600 text-sm px-2 py-1 rounded mr-1 font-bold">
-                                @customLabel($func->name)
-
-                            </span>
-                                            @endforeach
-                                        @else
-                                            <span class="text-gray-400 text-sm">No module assigned</span>
-                                        @endif
-                                    </td>
-
-                                    <!-- Action -->
-                                    <td class="px-4 py-2 text-left relative w-32">
-                                        <div x-data="{ open: false }" class="inline-block relative">
-                                            <!-- Three dots button -->
-                                            <button @click="open = !open"
-                                                    class="p-2 rounded-full hover:bg-gray-100 focus:outline-none font-bold">
-                                                &#x2026;
-                                            </button>
-
-                                            <!-- Dropdown (slides in from LEFT side) -->
-                                            <div x-show="open"
-                                                 @click.away="open = false"
-                                                 x-transition:enter="transition ease-out duration-200"
-                                                 x-transition:enter-start="opacity-0 -translate-x-2"
-                                                 x-transition:enter-end="opacity-100 translate-x-0"
-                                                 x-transition:leave="transition ease-in duration-150"
-                                                 x-transition:leave-start="opacity-100 translate-x-0"
-                                                 x-transition:leave-end="opacity-0 -translate-x-2"
-                                                 class="absolute left-0 top-1/2 -translate-y-1/2 mr-2 w-24 bg-white border border-gray-200 rounded-lg z-10">
-
-                                                <a href="{{ route('tags.edit', $tag->id) }}"
-                                                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                                    Edit
-                                                </a>
-                                                <form action="{{ route('tags.destroy', $tag->id) }}" method="POST"
-                                                      onsubmit="return confirm('Are you sure you want to delete this Tag ?');">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit"
-                                                            class="w-full text-left block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">
-                                                        Delete
-                                                    </button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-                            @endif
+                            <tbody id="tag-table-body" class="divide-y divide-gray-100">
+                            @include('guide_setup.partials.tags_table', ['tags' => $tags])
                             </tbody>
                         </table>
-
-                        <!-- Pagination links -->
+                        {{-- Pagination --}}
                         <div class="mt-4">
-                            {{ $tags->links('pagination::tailwind') }}
+                            {{ $tags->links() }}
                         </div>
                     </div>
                 </div>

@@ -71,6 +71,7 @@
                                         class="absolute left-3 w-6 h-6 rounded-full border-0 cursor-pointer p-0 appearance-none"
                                         value="{{ $category->color_hex ?? old('color_hex', '#f44336') }}"
                                         onchange="document.getElementById('color_hex').value = this.value"
+                                        title="Select a color code"
                                     >
 
                                     <!-- Text field -->
@@ -81,6 +82,7 @@
                                         value="{{ $category->color_hex ?? old('color_hex', '#f44336') }}"
                                         class="w-full rounded-md border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 pl-12 pr-3 py-2 text-base"
                                         onchange="document.getElementById('brand-color').value = this.value"
+                                        title="Select a color code"
                                     >
                                 </div>
 
@@ -121,111 +123,43 @@
                                 Cancel
                             </button>
                         </div>
-
                 </div>
+            </form>
+            </div>
+            <!-- Table Section -->
+            <div class="bg-white border rounded-lg p-6 mt-4 w-3/5 mx-auto">
+                <h6 class="text-lg font-semibold mb-4">List of Categories</h6>
 
-                <!-- Table Section -->
-                <div class="bg-white border rounded-lg p-6 mt-4 w-3/5 mx-auto">
-                    <h6 class="text-lg font-semibold mb-4">List of Categories</h6>
-                    <form method="GET" action="{{ route('guide.setup.changelog.category') }}" class="relative mb-4">
-                        <input type="search" name="search" placeholder="Search"
-                               value="{{ request('search') }}"
-                               class="w-full rounded-lg border-gray-300 pl-10 focus:border-indigo-500 focus:ring-indigo-500">
-                        <svg class="w-5 h-5 absolute left-3 top-3 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none"
-                             viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1110.5 3a7.5 7.5 0 016.15 13.65z" />
-                        </svg>
-                    </form>
-
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-200 border rounded-lg">
-                            <thead class="bg-gray-50">
-                            <tr>
-                                <th class="px-4 py-2 text-left text-md font-bold text-black-600">Category Name</th>
-                                <th class="px-4 py-2 text-left text-md font-bold text-black-600">Color Code</th>
-                                <th class="px-4 py-2 text-left text-md font-bold text-black-600">Status</th>
-                                <th class="px-4 py-2 text-left text-md font-bold text-black-600">Action</th>
-                            </tr>
-                            </thead>
-                            <tbody class="divide-y divide-gray-100">
-                            @if($categories->isEmpty())
-                                <tr>
-                                    <td colspan="4" class="px-4 py-4 text-center text-gray-500">
-                                        No record found
-                                    </td>
-                                </tr>
-                            @else
-                            @foreach($categories as $category)
-                                <tr>
-                                    <td class="px-4 py-2">{{ $category->category_name }}</td>
-                                    <td class="px-4 py-2 flex items-center space-x-2">
-                                        <span class="inline-block w-3 h-3 rounded-full" style="background: {{ $category->color_hex }};"></span>
-                                        <span>{{ $category->color_hex }}</span>
-                                    </td>
-                                    <td class="px-4 py-2">
-                                        @php
-                                            $statusClasses = [
-                                                0 => 'bg-gray-200 text-gray-700',    // Inactive
-                                                1 => 'bg-green-100 text-green-700',  // Active
-                                                2 => 'bg-yellow-100 text-yellow-700' // Draft
-                                            ];
-                                            $statusLabels = [
-                                                0 => 'Inactive',
-                                                1 => 'Active',
-                                                2 => 'Draft'
-                                            ];
-                                        @endphp
-                                        <span class="px-2 py-1 text-xs font-medium rounded {{ $statusClasses[$category->status] ?? 'bg-gray-200 text-gray-700' }}">
-                            {{ $statusLabels[$category->status] ?? 'Unknown' }}
-                        </span>
-                                    </td>
-                                    <td class="px-4 py-2 text-left relative w-32">
-                                        <div x-data="{ open: false }" class="inline-block relative">
-                                            <!-- Three dots button -->
-                                            <button @click="open = !open"
-                                                    class="p-2 rounded-full hover:bg-gray-100 focus:outline-none font-bold">
-                                                &#x2026;
-                                            </button>
-
-                                            <!-- Dropdown (slides in from LEFT side) -->
-                                            <div x-show="open"
-                                                 @click.away="open = false"
-                                                 x-transition:enter="transition ease-out duration-200"
-                                                 x-transition:enter-start="opacity-0 -translate-x-2"
-                                                 x-transition:enter-end="opacity-100 translate-x-0"
-                                                 x-transition:leave="transition ease-in duration-150"
-                                                 x-transition:leave-start="opacity-100 translate-x-0"
-                                                 x-transition:leave-end="opacity-0 -translate-x-2"
-                                                 class="absolute left-0 top-1/2 -translate-y-1/2 mr-2 w-24 bg-white border border-gray-200 rounded-lg z-10">
-
-                                                <a href="{{ route('categories.edit', $category->id) }}"
-                                                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                                    Edit
-                                                </a>
-                                                <form action="{{ route('categories.destroy', $category->id) }}" method="POST"
-                                                      onsubmit="return confirm('Are you sure you want to delete this Category ?');">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit"
-                                                            class="w-full text-left block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">
-                                                        Delete
-                                                    </button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-                            @endif
-                            </tbody>
-                        </table>
-                        <!-- Pagination links -->
-                        <div class="mt-4">
-                            {{ $categories->links('pagination::tailwind') }}
-                        </div>
+                <form method="GET" action="{{ route('guide.setup.changelog.category') }}" class="relative mb-4">
+                    <input type="search" name="search" placeholder="Search"
+                           value="{{ request('search') }}"
+                           class="w-full rounded-lg border-gray-300 pl-10 focus:border-indigo-500 focus:ring-indigo-500">
+                    <svg class="w-5 h-5 absolute left-3 top-3 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none"
+                         viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1110.5 3a7.5 7.5 0 016.15 13.65z" />
+                    </svg>
+                </form>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200 border rounded-lg">
+                        <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-4 py-2 text-left text-md font-bold text-black-600">Category Name</th>
+                            <th class="px-4 py-2 text-left text-md font-bold text-black-600">Color Code</th>
+                            <th class="px-4 py-2 text-left text-md font-bold text-black-600">Status</th>
+                            <th class="px-4 py-2 text-left text-md font-bold text-black-600">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody id="tag-table-body" class="divide-y divide-gray-100">
+                        @include('guide_setup.partials.logcategory_table', ['categories' => $categories])
+                        </tbody>
+                    </table>
+                    {{-- Pagination --}}
+                    <div class="mt-4">
+                        {{ $categories->links() }}
                     </div>
                 </div>
+            </div>
 
 
             </div>
