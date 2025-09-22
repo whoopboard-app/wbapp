@@ -29,7 +29,7 @@
     })->name('dashboard');
     Route::get('/guide_setup', [GuideSetupController::class, 'index'])->name('guide_setup');
     Route::post('/guide_setup/completed', [GuideSetupController::class, 'completed'])->name('guide.setup.completed');
-    
+
     // Branding
     Route::get('/guide_setup/themes', function () {
         return view('guide_setup.themes');
@@ -103,25 +103,26 @@
 
 
     // Changelog Routes
-   
+
     Route::prefix('announcement')->group(function () {
         Route::get('create', [ChangelogController::class, 'index'])
         ->name('changelog.create');
         Route::get('/', [ChangelogController::class, 'list'])
-        ->name('announcement.list'); 
+        ->name('announcement.list');
         Route::post('store', [ChangelogController::class, 'store'])
-        ->name('announcement.store'); 
+        ->name('announcement.store');
         Route::get('filter', [ChangelogController::class, 'filter'])->name('announcement.filter');
     });
 
     Route::prefix('kbarticle')->group(function () {
-        Route::get('/', [KBArticleController::class, 'index'])->name('kbarticle.index'); 
+        Route::get('/', [KBArticleController::class, 'index'])->name('kbarticle.index');
         Route::get('create', [KBArticleController::class, 'create'])->name('kbarticle.create');
         Route::post('store', [KBArticleController::class, 'store'])->name('kbarticle.store');
+        Route::post('/store-board', [KBArticleController::class, 'storeBoard'])->name('kbarticle.storeBoard');
     });
-   
 
-   
+
+
 
 
 
