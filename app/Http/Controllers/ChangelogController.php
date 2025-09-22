@@ -144,7 +144,7 @@ class ChangelogController extends Controller
         
         $action = $validatedData['action'];
         if ($action === 'publish') {
-            $validatedData['status'] = 'active';
+            // $validatedData['status'] = 'active';
             $changelog = Changelog::create($validatedData);
             return redirect()->route('announcement.list')->with('success', 'Changelog saved and published successfully!');
         } elseif ($action === 'draft') {
@@ -152,7 +152,8 @@ class ChangelogController extends Controller
             $changelog = Changelog::create($validatedData);
             return redirect()->route('announcement.list')->with('success', 'Changelog saved as draft successfully!');
         } elseif ($action === 'schedule') {
-                $changelog = Changelog::create($validatedData);
+            $validatedData['status'] = 'schedule';
+            $changelog = Changelog::create($validatedData);
             return redirect()->route('announcement.list')->with('success', 'Changelog scheduled for publishing successfully!');
         }
         

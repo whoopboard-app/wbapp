@@ -30,20 +30,31 @@
          let today = new Date();
          today.setHours(0, 0, 0, 0);
 
-         if (selectedDate > today) {
-            // Future date → Draft + Schedule
-            $("#btnPublish").prop("disabled", true);
-            $("#btnDraft, #btnSchedule").prop("disabled", false);
-         } else {
-            // Today or Past date → Publish + Draft
-            $("#btnPublish, #btnDraft").prop("disabled", false);
-            $("#btnSchedule").prop("disabled", true);
+         let status = $("#status").val();
+
+         if (selectedDate > today && status === "schedule") {
+            $("#btnPublish").prop("disabled", true).addClass("secondary");
+            $("#btnDraft").prop("disabled", true);
+            $("#btnSchedule").prop("disabled", false).removeClass("secondary");
+         }
+         else {
+            $("#btnDraft").prop("disabled", false);
+            $("#btnPublish").prop("disabled", false).removeClass("secondary");
+            $("#btnSchedule").prop("disabled", true).addClass("secondary");
          }
       }
 
       // Run once on page load
       toggleButtons();
 
+      $("#publishDate").on("change input", function () {
+         toggleButtons();
+      });
+
+      // Re-run when status dropdown changes
+      $("#status").on("change", function () {
+         toggleButtons();
+      });
       // Run whenever date is picked
       $('#publishDate').on('apply.daterangepicker', function () {
          toggleButtons();

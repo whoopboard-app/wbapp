@@ -67,6 +67,7 @@
                                 Upload Features Banner
                             </span>
                             <span class="upload-input-text d-block">Recommended size 600 / 400</span>
+                            <img id="file-preview" class="d-block mt-3 mx-auto rounded shadow-sm" style="max-width: 300px; display: none;" />
                         </label>
                         <span id="file-name" class="d-block mt-2 text-muted"></span>
                     </div>
@@ -91,7 +92,7 @@
                                 </label>
                                 <input id="title" name="title"
                                     class="input-field w-100 rounded text-sm"
-                                    placeholder="Placeholder" >
+                                    placeholder="Placeholder" value="{{ old('title') }}">
                                 @error('title')
                                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                                 @enderror
@@ -111,7 +112,10 @@
 
                                 <select class="form-select w-100 rounded text-sm" id="categorySelect" name="categorySelect[]" multiple>
                                     @foreach($categories as $category)
-                                        <option value="{{ $category->id }}">{{ $category->category_name }}</option>
+                                        <option value="{{ $category->id }}"
+                                            {{ (collect(old('categorySelect'))->contains($category->id)) ? 'selected' : '' }}>
+                                                    {{ $category->category_name }}
+                                        </option>
                                     @endforeach
                                 </select>
                                 @error('categorySelect')
@@ -131,7 +135,7 @@
                                 </label>
                                 <textarea id="desc" name="description" rows="3"
                                         class="input-field w-100 rounded text-sm"
-                                        placeholder="Enter @customLabel('Announcement') description"></textarea>
+                                        placeholder="Enter @customLabel('Announcement') description">{{ old('description') }}</textarea>
                                 @error('description')
                                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                                 @enderror
@@ -154,28 +158,27 @@
                                 <input type="hidden" name="show_widget" value="0">
 
                                 <!-- Actual checkbox -->
-                                <input type="checkbox" id="show-widget" name="show_widget" value="1" class="form-check-input">
+                                <input type="checkbox" id="show-widget" name="show_widget" value="1" class="form-check-input" {{ old('show_widget') == 1 ? 'checked' : '' }}>
                                 <label for="show-widget" class="form-check-label">Show from website & widgets
                                 </label>
                             </div>
                         </div>
 
-                        <div class="text-sm border p-2 rounded">
+                        <!-- <div class="text-sm border p-2 rounded">
                             <div class="form-check">
                                 <input type="hidden" name="send_email" value="0">
 
-                                <!-- Actual checkbox -->
                                 <input type="checkbox" id="send-email" name="send_email" value="1" class="form-check-input">
                                     <label for="send-email" class="form-check-label">
                                         Send email to 450 subscriber
                                     </label>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
 
 
                     <!-- Target Subscriber -->
-                    <div>
+                    <!-- <div>
                         <label for="targetSubscriber" class="input-label mb-1 fw-medium">
                             Select Target Subscriber
                             <span class="tooltip-icon  transition-colors duration-200"
@@ -184,7 +187,7 @@
                             </span>
                         </label>
                         <input id="targetSubscriber" name="targetSubscriber" class="input-field w-100 rounded text-sm" placeholder="Subscriber" readonly>
-                    </div>
+                    </div> -->
                 </div>
 
                 <div class="card bg-white mb-3">
@@ -203,9 +206,9 @@
                         </label>
                         <select class="form-select w-100 rounded text-sm input-field" id="feedbackRequest" name="feedbackRequest">
                             <option value="">Select</option>
-                            <option value="active">Active</option>
-                            <option value="inactive">Inactive</option>
-                            <option value="draft">Draft</option>
+                            <option value="active" {{ old('feedbackRequest') == 'active' ? 'selected' : '' }}>Active</option>
+                            <option value="inactive" {{ old('feedbackRequest') == 'inactive' ? 'selected' : '' }}>Inactive</option>
+                            <option value="draft" {{ old('feedbackRequest') == 'draft' ? 'selected' : '' }}>Draft</option>
                         </select>
                         @error('feedbackRequest')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -234,7 +237,10 @@
                         </label>
                         <select id="tagsSelect" name="tagsSelect[]" class="form-select w-100 rounded text-sm" multiple>
                             @foreach($tags as $id => $name)
-                                <option value="{{ $id }}">{{ $name }}</option>
+                                <option value="{{ $id }}"
+                                    {{ (collect(old('tagsSelect', []))->contains($id)) ? 'selected' : '' }}>
+                                    {{ $name }}
+                                </option>
                             @endforeach
                         </select>
                         @error('tagsSelect')
@@ -242,6 +248,24 @@
                         @enderror
                     </div>
 
+                    
+                    <!-- Publish Date -->
+                    <div class="">
+                        <label for="publishDate" class="input-label mb-2 fw-medium flex items-center gap-2">
+                            Publish Date
+                            <span class="tooltip-icon  transition-colors duration-200"
+                                data-bs-toggle="tooltip" title="Publish date">
+                                <i class="fa fa-question-circle hover-blue"></i>
+                            </span>
+                        </label>
+                        <input type="text" id="publishDate" name="publishDate"
+                        class="input-field w-100 rounded border-gray-300 focus:border-blue-400 focus:ring focus:ring-blue-100 transition text-sm"
+                        autocomplete="off" value="{{ old('publishDate') }}">
+                        
+                        @error('publishDate')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
                     <!-- Post Status -->
                     <div class="mb-3">
                         <label for="status" class="input-label mb-2 fw-medium flex items-center gap-2">
@@ -253,29 +277,12 @@
                         </label>
                         <select id="status" name="status" class="form-select w-100 rounded text-sm">
                             <option value="">Select</option>
-                            <option value="active">Active</option>
-                            <option value="inactive">Inactive</option>
-                            <option value="draft">Draft</option>
+                            <option value="active" {{ old('status') == 'active' ? 'selected' : '' }}>Active</option>
+                            <option value="inactive" {{ old('status') == 'inactive' ? 'selected' : '' }}>Inactive</option>
+                            <option value="draft" {{ old('status') == 'draft' ? 'selected' : '' }}>Draft</option>
+                            <option value="schedule" {{ old('status') == 'schedule' ? 'selected' : '' }}>Schedule</option>
                         </select>
                         @error('status')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    <!-- Publish Date -->
-                    <div class="">
-                        <label for="publishDate" class="input-label mb-2 fw-medium flex items-center gap-2">
-                            Publish Date
-                            <span class="tooltip-icon  transition-colors duration-200"
-                                data-bs-toggle="tooltip" title="Publish date">
-                                <i class="fa fa-question-circle hover-blue"></i>
-                            </span>
-                        </label>
-                        <input type="text" id="publishDate" name="publishDate"
-                            class="input-field w-100 rounded border-gray-300 focus:border-blue-400 focus:ring focus:ring-blue-100 transition text-sm"
-                            autocomplete="off">
-
-                        @error('publishDate')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
@@ -300,13 +307,22 @@
     </section>
 
     <script>
-    
         function showFileName(event) {
             const input = event.target;
             const fileName = input.files.length > 0 ? input.files[0].name : "";
             document.getElementById("file-name").textContent = fileName;
-        }
 
+            // Preview image
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const preview = document.getElementById("file-preview");
+                    preview.src = e.target.result;
+                    preview.style.display = "block";
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
     </script>
 
 @endsection
