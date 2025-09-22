@@ -33,5 +33,8 @@ class Changelog extends Model
         'publishDate' => 'date',
     ];
 
-    
+    public function tenant()
+    {
+        return $this->belongsTo(Tenant::class, 'tenant_id', 'tenant_id');
+    }
 }

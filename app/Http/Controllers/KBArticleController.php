@@ -32,7 +32,7 @@ class KBArticleController extends Controller
 
                 $kbarticals = $query->latest()->get();*/
 
-        return view('kbindex', compact(/*'kbarticals',*/ 'filter', 'announcements'));
+        return view('kbarticle.index', compact(/*'kbarticals',*/ 'filter', 'announcements'));
     }
 
     public function create()
@@ -90,11 +90,11 @@ class KBArticleController extends Controller
         if ($action === 'publish') {
             $validatedData['status'] = 'active';
             $kbArticle = KBArticle::create($validatedData);
-            return redirect()->route('announcement.list')->with('success', 'Article published successfully!');
+            return redirect()->route('kbarticle.index')->with('success', 'Article published successfully!');
         } elseif ($action === 'draft') {
             $validatedData['status'] = 'draft';
             $kbArticle = KBArticle::create($validatedData);
-            return redirect()->route('announcement.list')->with('success', 'Article saved as draft successfully!');
+            return redirect()->route('kbarticle.index')->with('success', 'Article saved as draft successfully!');
         }
 
     }

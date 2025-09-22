@@ -35,9 +35,8 @@
                            data-bs-toggle="modal" data-bs-target="#createBoardModal">
                             <i class="fa fa-plus"></i> Add @customLabel('Knowledge Board')
                         </a>
-                        <a href="javascript:void(0);"
-                           class="theme-btn sm secondary fw-semibold rounded d-inline-block"
-                           data-bs-toggle="modal" data-bs-target="#createArticleModal">
+                        <a href="{{ route('kbarticle.create') }}"
+                           class="theme-btn sm secondary fw-semibold rounded d-inline-block">
                             <i class="fa fa-plus"></i> Add Article
                         </a>
                     </div>
