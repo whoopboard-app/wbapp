@@ -114,7 +114,7 @@ class ChangelogController extends Controller
             'categorySelect' => 'required|array|min:1',
             'feedbackRequest' => 'required|string',
             'tagsSelect' => 'required|array|min:1',
-            'status' => 'required|string|in:active,inactive,draft',
+            'status' => 'required|string|in:active,inactive,draft,schedule',
             'publishDate' => 'required|date',
             'show_widget'       => 'nullable|boolean',
             'send_email'        => 'nullable|boolean',

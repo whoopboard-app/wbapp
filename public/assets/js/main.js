@@ -30,17 +30,17 @@
          let today = new Date();
          today.setHours(0, 0, 0, 0);
 
-         let status = $("#status").val();
-
-         if (selectedDate > today && status === "schedule") {
+         if (selectedDate > today) {
             $("#btnPublish").prop("disabled", true).addClass("secondary");
             $("#btnDraft").prop("disabled", true);
             $("#btnSchedule").prop("disabled", false).removeClass("secondary");
+            $("#status").val("schedule").trigger("change");
          }
          else {
             $("#btnDraft").prop("disabled", false);
             $("#btnPublish").prop("disabled", false).removeClass("secondary");
             $("#btnSchedule").prop("disabled", true).addClass("secondary");
+            $("#status").val("").trigger("change");
          }
       }
 
