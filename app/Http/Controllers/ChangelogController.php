@@ -14,7 +14,12 @@ class ChangelogController extends Controller
     public function list()
     {
         $tenantId = auth()->user()->tenant_id;
+      
 
+        $categories = SettingCategoryChangelog::where('tenant_id', $tenantId)
+        ->where('status', '1')
+        ->get();
+            
         $announcements = Changelog::where('tenant_id', $tenantId)
             ->orderBy('created_at', 'desc')
             ->paginate(3);
@@ -31,25 +36,20 @@ class ChangelogController extends Controller
                 ->pluck('tag_name')
                 ->toArray();
         }
-        return view('announcement', compact('announcements'))->with('filter', 'all');
+        return view('announcement', compact('announcements', 'categories'))->with('filter', 'all');
     }
 
     public function filter(Request $request)
     {
         $tenantId = auth()->user()->tenant_id;
         $filter = $request->filter;
-
+        $categories = SettingCategoryChangelog::where('tenant_id', $tenantId)
+                ->where('status', '1')
+                ->get();
         $announcements = Changelog::where('tenant_id', $tenantId)
             ->when($filter && $filter != 'all', function($q) use ($filter) {
-                if ($filter === 'bugs') {
-                    $q->where('status', 'inactive');
-                }else if ($filter === 'new-features'){
-                    $q->where('status', 'draft');
-                }else if ($filter === 'prem-features'){
-                    $q->where('status', 'active');
-                }else if ($filter === 'enhancement'){
-                    $q->whereJsonContains('category', "2");
-                }
+                // yahan $filter ab category_id hoga
+                $q->whereJsonContains('category', (string) $filter);
             })
             ->orderBy('created_at', 'desc')
             ->paginate(3)
@@ -67,7 +67,7 @@ class ChangelogController extends Controller
                 ->toArray();
         }
 
-        return view('announcement', compact('announcements'))
+        return view('announcement', compact('announcements', 'categories'))
             ->with('filter', $filter);
 
     }
@@ -144,7 +144,7 @@ class ChangelogController extends Controller
         
         $action = $validatedData['action'];
         if ($action === 'publish') {
-            $validatedData['status'] = 'active';
+            // $validatedData['status'] = 'active';
             $changelog = Changelog::create($validatedData);
             return redirect()->route('announcement.list')->with('success', 'Changelog saved and published successfully!');
         } elseif ($action === 'draft') {
@@ -152,7 +152,8 @@ class ChangelogController extends Controller
             $changelog = Changelog::create($validatedData);
             return redirect()->route('announcement.list')->with('success', 'Changelog saved as draft successfully!');
         } elseif ($action === 'schedule') {
-                $changelog = Changelog::create($validatedData);
+            $validatedData['status'] = 'schedule';
+            $changelog = Changelog::create($validatedData);
             return redirect()->route('announcement.list')->with('success', 'Changelog scheduled for publishing successfully!');
         }
         
