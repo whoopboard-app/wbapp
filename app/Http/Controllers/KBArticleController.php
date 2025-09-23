@@ -7,11 +7,15 @@ use Illuminate\Http\Request;
 use App\Models\SettingCategoryChangelog;
 use App\Models\ChangelogTag;
 use App\Models\KBArticle;
+use App\Models\KBBoard;
+use App\Models\KBCategory;
+
 
 class KBArticleController extends Controller
 {
     public function index(Request $request)
     {
+        $categories = KBCategory::all();
         $tenantId = auth()->user()->tenant_id;
         $announcements = Changelog::where('tenant_id', $tenantId)
             ->orderBy('created_at', 'desc')
@@ -32,7 +36,7 @@ class KBArticleController extends Controller
 
                 $kbarticals = $query->latest()->get();*/
 
-        return view('kbarticle.index', compact(/*'kbarticals',*/ 'filter', 'announcements'));
+        return view('kbarticle.index', compact(/*'kbarticals',*/ 'filter', 'announcements','categories'));
     }
 
     public function create()
@@ -121,4 +125,33 @@ class KBArticleController extends Controller
 
         return redirect()->back()->with('success', 'Board created successfully!');
     }
+    public function storeBoardcategory(Request $request)
+    {
+        dd($request->all());
+        $request->validate([
+            'categoryName' => 'required|string|max:255',
+            'status'       => 'required|string',
+            'short_desc'   => 'nullable|string|max:500',
+            'imageAdd'     => 'nullable|image|mimes:jpg,jpeg,png,svg|max:2048',
+        ]);
+
+        $category = new KBCategory();
+        $category->name = $request->categoryName;
+        $category->short_desc = $request->short_desc;
+        $category->status = $request->status;
+        $category->parent_id = $request->subCategory ?? null;
+        $category->is_hidden = $request->has('visibility') ? 1 : 0;
+        $category->is_popular = $request->has('show-widget') ? 1 : 0;
+
+        // Handle image upload
+        if ($request->hasFile('imageAdd')) {
+            $path = $request->file('imageAdd')->store('categories', 'public');
+            $category->image = $path;
+        }
+
+        $category->save();
+
+        return redirect()->back()->with('success', 'Category created successfully!');
+    }
+
 }
