@@ -10,6 +10,7 @@
     use App\Http\Controllers\ThemeController;
     use App\Http\Controllers\ChangelogController;
     use App\Http\Controllers\KBArticleController;
+    use App\Http\Controllers\InviteController;
 
     Route::middleware(['auth'])->group(function () {
         Route::get('/themes', [ThemeController::class, 'index'])->name('themes.index');
@@ -121,6 +122,14 @@
         Route::post('/store-board', [KBArticleController::class, 'storeBoard'])->name('kbarticle.storeBoard');
         Route::post('/store-boardcategory', [KBArticleController::class, 'storeBoardcategory'])->name('kbarticle.storeBoardcategory');
     });
+
+    Route::prefix('invite')->group(function () {
+        Route::get('create', [InviteController::class, 'create'])
+        ->name('invite.create');
+        Route::post('store', [InviteController::class, 'store'])
+        ->name('invite.store');
+    });
+        
 
 
 
