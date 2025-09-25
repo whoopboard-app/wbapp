@@ -250,7 +250,7 @@
 
                     
                     <!-- Publish Date -->
-                    <div class="">
+                    <div class="mb-3">
                         <label for="publishDate" class="input-label mb-2 fw-medium flex items-center gap-2">
                             Publish Date
                             <span class="tooltip-icon  transition-colors duration-200"
@@ -267,7 +267,7 @@
                         @enderror
                     </div>
                     <!-- Post Status -->
-                    <div class="mb-3">
+                    <div class="">
                         <label for="status" class="input-label mb-2 fw-medium flex items-center gap-2">
                             Post Status
                             <span class="tooltip-icon  transition-colors duration-200"
