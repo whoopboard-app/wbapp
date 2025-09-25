@@ -12,6 +12,7 @@ class KBCategory extends Model
     protected $table = 'kb_categories';
 
     protected $fillable = [
+        'board_id',
         'name',
         'image',
         'parent_id',
@@ -32,10 +33,8 @@ class KBCategory extends Model
     {
         return $this->belongsTo(KBCategory::class, 'parent_id');
     }
-
-    // Later: A category can have many boards
-    public function boards()
+    public function board()
     {
-        return $this->hasMany(KBBoard::class, 'category_id');
+        return $this->belongsTo(KBBoard::class, 'board_id');
     }
 }

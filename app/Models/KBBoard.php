@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
+use App\Models\KBCategory;
 class KBBoard extends Model
 {
     use HasFactory;
@@ -20,4 +20,8 @@ class KBBoard extends Model
         'public_url',
         'embed_code',
     ];
+    public function categories()
+    {
+        return $this->hasMany(KBCategory::class, 'board_id');
+    }
 }

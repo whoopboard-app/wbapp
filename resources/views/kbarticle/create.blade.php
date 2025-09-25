@@ -26,7 +26,7 @@
     }
 
     .theme-btn {
-        letter-spacing: 0.5px !important; 
+        letter-spacing: 0.5px !important;
     }
 
 
@@ -70,6 +70,19 @@
                     </p>
 
                     <div class="row">
+                        {{-- Category --}}
+                        <div class="mb-3">
+                            <label for="categorySelect" class="input-label mb-1 fw-medium">Category</label>
+                            <select class="form-select w-100 rounded text-sm" id="categorySelect" name="category_id" required>
+                                <option value="">Select Category</option>
+                                @foreach($categories as $category)
+                                    <option value="{{ $category->id }}">
+                                        {{ $category->name }} (Board: {{ $category->board->name ?? 'N/A' }})
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('category_id') <p class="text-red-500 text-sm mt-1">{{ $message }}</p> @enderror
+                        </div>
                         {{-- Title --}}
                         <div class="col-12 mb-3">
                             <div class="">
@@ -87,29 +100,6 @@
                                 @enderror
                             </div>
                         </div>
-
-                        {{-- Category --}}
-                        <div class="col-12 mb-3">
-                          <div class="">
-                                <label for="categorySelect" class="input-label mb-1 fw-medium">
-                                    Category
-                                    <span class="tooltip-icon" data-bs-toggle="tooltip"
-                                        title="Select one or more categories where this entry will apply (@customLabel('Announcement'), Knowledge Board, Feedback, Research).">
-                                        <i class="fa fa-question-circle hover-blue"></i>
-                                    </span>
-                                </label>
-
-                                <select class="form-select w-100 rounded text-sm" id="categorySelect" name="category[]" multiple>
-                                    @foreach($categories as $category)
-                                        <option value="{{ $category->id }}">{{ $category->category_name }}</option>
-                                    @endforeach
-                                </select>
-                                @error('category')
-                                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                                @enderror
-                            </div>
-                        </div>
-
                         {{-- Description --}}
                         <div class="col-12">
                           <div class="">
@@ -157,7 +147,7 @@
 
                     <div>
                         <label for="link_changelog" class="input-label mb-1 fw-medium">
-                            Link to Change log 
+                            Link to Change log
                             <span class="tooltip-icon  transition-colors duration-200"
                                 data-bs-toggle="tooltip" title="Link to change log ">
                                 <i class="fa fa-question-circle hover-blue"></i>
@@ -187,21 +177,24 @@
 
                     <div class="mb-3">
                         <label for="author" class="input-label mb-1 fw-medium">
-                            Author  
-                            <span class="tooltip-icon  transition-colors duration-200"
-                                data-bs-toggle="tooltip" title="Add Author">
-                                <i class="fa fa-question-circle hover-blue"></i>
-                            </span>
+                            Author
+                            <span class="tooltip-icon transition-colors duration-200"
+                                  data-bs-toggle="tooltip" title="Add Author">
+                            <i class="fa fa-question-circle hover-blue"></i>
+                        </span>
                         </label>
                         <select class="form-select w-100 rounded text-sm" id="author" name="author[]" multiple>
-                            <option value="active">Active</option>
-                            <option value="inactive">Inactive</option>
-                            <option value="draft">Draft</option>
+                            @foreach($authors as $author)
+                                <option value="{{ $author->id }}">
+                                    {{ $author->name }} ({{ $author->email }})
+                                </option>
+                            @endforeach
                         </select>
                         @error('author')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
+
 
                     <div class="text-sm border p-2 rounded mb-3">
                         <div class="form-check">
@@ -225,9 +218,9 @@
                         </label>
                         <select class="form-select w-100 rounded text-sm input-field" id="list_order" name="list_order">
                             <option value="">Select</option>
-                            <option value="active">Active</option>
-                            <option value="inactive">Inactive</option>
-                            <option value="draft">Draft</option>
+                            @for ($i = 1; $i <= 5; $i++)
+                                <option value="{{ $i }}">{{ $i }}</option>
+                            @endfor
                         </select>
                         @error('list_order')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -263,35 +256,33 @@
                                         <i class="fa fa-question-circle hover-blue"></i>
                                     </span>
                                 </label>
-                                <select id="other_article_category" name="other_article_category[]" class="form-select w-100 rounded text-sm" multiple>
-                                    <option value="">Select</option>
-                                    <option value="active">Active</option>
-                                    <option value="inactive">Inactive</option>
-                                    <option value="draft">Draft</option>
+                                <select id="other_article_category" name="other_article_category" class="form-select w-100 rounded text-sm" required>
+                                    <option value="">Select Category</option>
+                                    @foreach($categories as $category)
+                                        <option value="{{ $category->id }}">
+                                            {{ $category->name }}
+                                        </option>
+                                    @endforeach
                                 </select>
-                                @error('other_article_category')
-                                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                                @enderror
                             </div>
                         </div>
                         <div class="col-12 col-md-6">
                             <div>
-                                 <label for="other_article_category2" class="input-label mb-2 fw-medium flex items-center gap-2">
+                                <label for="other_article_category2" class="input-label mb-2 fw-medium flex items-center gap-2">
                                     Other recommended articles category
                                     <span class="tooltip-icon  transition-colors duration-200"
-                                        data-bs-toggle="tooltip" title="Other recommended articles category">
+                                          data-bs-toggle="tooltip" title="Other recommended articles category">
                                         <i class="fa fa-question-circle hover-blue"></i>
                                     </span>
                                 </label>
-                                <select id="other_article_category2" name="other_article_category2[]" class="form-select w-100 rounded text-sm" multiple>
-                                    <option value="">Select</option>
-                                    <option value="active">Active</option>
-                                    <option value="inactive">Inactive</option>
-                                    <option value="draft">Draft</option>
+                                <select id="other_article_category2" name="other_article_category2" class="form-select w-100 rounded text-sm" required>
+                                    <option value="">Select Category</option>
+                                    @foreach($categories as $category)
+                                        <option value="{{ $category->id }}">
+                                            {{ $category->name }}
+                                        </option>
+                                    @endforeach
                                 </select>
-                                @error('other_article_category2')
-                                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                                @enderror
                             </div>
                         </div>
                     </div>
@@ -305,15 +296,12 @@
                                 <i class="fa fa-question-circle hover-blue"></i>
                             </span>
                         </label>
-                        <select id="status" name="status" class="form-select w-100 rounded text-sm">
+                        <select id="status" name="status" class="form-select w-100 rounded text-sm" required>
                             <option value="">Select</option>
                             <option value="active">Active</option>
                             <option value="inactive">Inactive</option>
                             <option value="draft">Draft</option>
                         </select>
-                        @error('status')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
                     </div>
 
                 </div>
@@ -330,7 +318,7 @@
 </section>
 
 <script>
-    
+
     function showFileName(event) {
         const input = event.target;
         const fileName = input.files.length > 0 ? input.files[0].name : "";

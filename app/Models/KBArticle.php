@@ -15,7 +15,7 @@ class KBArticle extends Model
         'tenant_id',
         'title',
         'description',
-        'category',
+        'category_id',
         'show_widget',
         'link_changelog',
         'author',
@@ -26,14 +26,15 @@ class KBArticle extends Model
         'other_article_category2',
         'status',
         'article_banner',
+        'action',
     ];
 
     protected $casts = [
         'category' => 'array',
         'author' => 'array',
         'tags' => 'array',
-        'other_article_category' => 'array',
-        'other_article_category2' => 'array',
+        'other_article_category' => 'integer',
+        'other_article_category2' => 'integer',
         'show_widget' => 'boolean',
         'popular_article' => 'boolean',
     ];

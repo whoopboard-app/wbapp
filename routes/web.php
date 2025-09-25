@@ -120,6 +120,8 @@
         Route::post('store', [KBArticleController::class, 'store'])->name('kbarticle.store');
         Route::post('/store-board', [KBArticleController::class, 'storeBoard'])->name('kbarticle.storeBoard');
         Route::post('/store-boardcategory', [KBArticleController::class, 'storeBoardcategory'])->name('kbarticle.storeBoardcategory');
+        Route::get('/boards/{board}/categories', [KBArticleController::class, 'getBoardCategories']);
+
     });
 
 
