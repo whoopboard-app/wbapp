@@ -130,6 +130,8 @@
         ->name('invite.create');
         Route::post('store', [InviteController::class, 'store'])
         ->name('invite.store');
+        Route::get('accept/{token}', [InviteController::class, 'accept'])
+        ->name('invite.accept');
     });
         
 

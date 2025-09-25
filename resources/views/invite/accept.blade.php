@@ -1,0 +1,1 @@
+<h3>Accept invite page</h3>
