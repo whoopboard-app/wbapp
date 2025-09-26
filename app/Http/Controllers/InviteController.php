@@ -20,7 +20,9 @@ class InviteController extends Controller
 {
     public function create()
     {
-        return view('invite.create');
+        $teamMembers = User::where('invited', true)->get();  
+        $teamCount   = $teamMembers->count();
+        return view('invite.create', compact('teamMembers', 'teamCount'));
     }
 
     public function store(Request $request)
@@ -70,6 +72,13 @@ class InviteController extends Controller
         
         $ip = $request->ip(); // user ka ip
         $location = Location::get($ip);
+
+        $roleMap = [
+            'super_admin' => 'Account Owner',
+            'admin'       => 'Administration',
+            'manager'     => 'Manager',
+            'editor'      => 'Editor',
+        ];
         $fullName = $validated['firstName'] . ' ' . $validated['lastName'];
         
         $user = User::create([
@@ -78,8 +87,9 @@ class InviteController extends Controller
             'email'      => $validated['email'],
             'password' => Hash::make($validated['password']),
             'timezone'   => $position->location ?? 'UTC',
-            'user_type'  => $validated['role'] ?? 'User',
+            'user_type'  => $roleMap[$validated['role']] ?? 'User',
             'tenant_id'  => null,
+            'invited' => true,
         ]);
 
         $tenant = Tenant::create([
