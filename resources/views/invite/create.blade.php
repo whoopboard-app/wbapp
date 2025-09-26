@@ -32,6 +32,11 @@
     }
 }
 </style>
+@if ($errors->any())
+    @foreach ($errors->all() as $error)
+        <x-alert type="error" :message="$errors->first()" />
+    @endforeach
+@endif
     <section class="section-content-center">
         <div class="container py-4">
             <h4 class="fw-bold fs-4 mb-2 let_spc">Add New Team</h4>
