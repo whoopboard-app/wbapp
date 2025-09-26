@@ -135,6 +135,8 @@
         ->name('invite.store');
         Route::get('accept/{token}', [InviteController::class, 'accept'])
         ->name('invite.accept');
+        Route::post('complete', [InviteController::class, 'complete'])
+        ->name('invite.complete');
     });
 
 
