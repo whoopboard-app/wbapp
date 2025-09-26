@@ -38,7 +38,6 @@
     cursor: pointer;
 }
 .board-clickable:hover {
-    background: #0a53be;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     transition: 0.2s;
 }

@@ -50,5 +50,15 @@ class KBCategory extends Model
     {
         return $this->hasMany(KBCategory::class, 'parent_id');
     }
+    public function totalArticlesCount()
+    {
+        $count = $this->articles ? $this->articles->count() : 0;
+
+        foreach ($this->children as $child) {
+            $count += $child->totalArticlesCount();
+        }
+
+        return $count;
+    }
 
 }

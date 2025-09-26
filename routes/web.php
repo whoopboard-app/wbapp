@@ -116,6 +116,7 @@
     });
 
     Route::prefix('kbarticle')->group(function () {
+        Route::post('/kbarticles/sort', [KBArticleController::class, 'sort'])->name('kbarticle.sort');
         Route::get('/', [KBArticleController::class, 'index'])->name('kbarticle.index');
         Route::get('create', [KBArticleController::class, 'create'])->name('kbarticle.create');
         Route::post('store', [KBArticleController::class, 'store'])->name('kbarticle.store');
@@ -126,6 +127,9 @@
             ->name('kbarticle.destroyBoard');
         Route::put('/boards/{board}', [KBArticleController::class, 'updateBoard'])
             ->name('kbarticle.updateBoard');
+        Route::get('/kbarticle/category/{category}', [KBArticleController::class, 'showArticle'])
+            ->name('kbarticle.showArticle');
+
     });
 
     Route::prefix('invite')->group(function () {

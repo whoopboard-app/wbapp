@@ -30,7 +30,6 @@ class KBArticle extends Model
     ];
 
     protected $casts = [
-        'category' => 'array',
         'author' => 'array',
         'tags' => 'array',
         'other_article_category' => 'integer',
@@ -48,7 +47,7 @@ class KBArticle extends Model
     }
     public function category()
     {
-        return $this->belongsTo(KBCategory::class, 'category_id');
+        return $this->belongsTo(KBCategory::class, 'category_id', 'id');
     }
 
     public function board()

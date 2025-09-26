@@ -6,12 +6,12 @@
         <div class="max-w-6xl mx-auto px-2">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-2">
-                    <li class="breadcrumb-item text-black">Dashboard</li>
                     <li class="breadcrumb-item text-black">
-                        @customLabel('Knowledge Board') - {{ ($board->name) }}
+                        @customLabel('Knowledge Board')
                     </li>
+                    <li class="breadcrumb-item text-black"> {{ ($board->name) }}</li>
                     <li class="breadcrumb-item">
-                        <a href="#" class="text-primary">@customLabel('Knowledge Board') Categories</a>
+                        <a href="#" class="text-primary">List of Categories</a>
                     </li>
                 </ol>
             </nav>
@@ -108,9 +108,8 @@
                        data-bs-toggle="modal" data-bs-target="#createBoardCategoryModal">
                         <i class="fa fa-plus"></i> Add @customLabel('Knowledge Board') Categories
                     </a>
-                    <a href="javascript:void(0);"
-                       class="theme-btn sm secondary fw-semibold rounded d-inline-block"
-                       data-bs-toggle="modal" data-bs-target="#createArticleModal">
+                    <a href="{{ route('kbarticle.create') }}"
+                       class="theme-btn sm secondary fw-semibold rounded d-inline-block">
                         <i class="fa fa-plus"></i> Add Article
                     </a>
 

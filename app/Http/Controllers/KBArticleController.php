@@ -169,6 +169,48 @@ class KBArticleController extends Controller
         $board->delete();
         return redirect()->route('kbarticle.index')->with('success', 'Board deleted successfully!');
     }
+    public function showArticle($categoryId)
+    {
+        $category = KBCategory::with('children')->findOrFail($categoryId);
+        $board = $category->board;
+        $allCategoryIds = $this->getAllCategoryIds($category);
+        $articles = KBArticle::with('category')
+            ->whereIn('category_id', $allCategoryIds)
+            ->orderBy('list_order', 'asc')
+            ->paginate(15);
+
+        return view('kbarticle.kbarticles', compact('articles', 'category','board','allCategoryIds'));
+    }
+
+    /**
+     * Recursive helper to collect child category IDs
+     */
+    private function getAllCategoryIds($category)
+    {
+        $ids = [$category->id];
+
+        foreach ($category->children as $child) {
+            $ids = array_merge($ids, $this->getAllCategoryIds($child));
+        }
+
+        return $ids;
+    }
+    public function sort(Request $request)
+    {
+        $order = $request->input('order', []);
+
+        if (!empty($order)) {
+            foreach ($order as $item) {
+                \App\Models\KBArticle::where('id', $item['id'])
+                    ->update(['list_order' => $item['position']]);
+            }
+        }
+
+        return response()->json(['success' => true]);
+    }
+
+
+
 
 
 
