@@ -67,15 +67,15 @@
                             </div>
                             <div class="col-12 mb-3">
                                 <div class="">
-                                    <label for="role" class="input-label mb-1 fw-medium">Role
+                                    <label for="user_type" class="input-label mb-1 fw-medium">Role
                                     <span class="tooltip-icon" data-bs-toggle="tooltip" aria-label="First name" data-bs-original-title="Role"><i class="fa fa-question-circle"></i></span>
                                     </label>
-                                    <select id="role" name="role" class="input-field w-100 rounded" required>
+                                    <select id="user_type" name="user_type" class="input-field w-100 rounded" required>
                                         <option value="">-- Select Role --</option>
-                                        <!-- <option value="super_admin">Super Administrator (Owner)</option> -->
-                                        <option value="admin">Administrator</option>
-                                        <option value="manager">Manager</option>
-                                        <option value="editor">Editor</option>
+                                        <option value="1" disabled>Super Administrator (Owner)</option>
+                                        <option value="2">Administrator</option>
+                                        <option value="3">Manager</option>
+                                        <option value="4">Editor</option>
                                     </select>
                                 </div>
                             </div>
@@ -112,26 +112,14 @@
                     <tbody>
                         @forelse($teamMembers as $member)
                             <tr>
-                                <td>{{ $member->name }} {{ $member->last_name }}</td>
+                                <td>{{ $member->first_name }} </td>
                                 <td>{{ $member->email }}</td>
                                 <td>
-                                    @if($member->user_type == 'Account Owner')
-                                        Super Administrator (Owner)
-                                    @elseif($member->user_type == 'Administration')
-                                        Administrator
-                                    @elseif($member->user_type == 'Manager')
-                                        Manager
-                                    @elseif($member->user_type == 'Editor')
-                                        Editor
-                                    @elseif($member->user_type == 'User')
-                                        User
-                                    @else
-                                        Other
-                                    @endif
+                                   {{ $member->userTypeLabel() }}
                                 </td>
                                 <td>
-                                    <span class="badge {{ $member->status == 'Active' ? 'status-active' : 'status-inactive' }} rounded">
-                                        {{ ucfirst($member->status ?? 'active') }}
+                                    <span class="badge {{ $member->status == '1' ? 'status-active' : 'status-inactive' }} rounded">
+                                        status
                                     </span>
                                 </td>
                                 <td>

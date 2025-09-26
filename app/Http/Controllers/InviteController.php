@@ -20,7 +20,8 @@ class InviteController extends Controller
 {
     public function create()
     {
-        $teamMembers = User::where('invited', true)->get();  
+        $tenantId = auth()->user()->tenant_id;
+        $teamMembers = Invite::where('invited_by_tenant', $tenantId)->get();  
         $teamCount   = $teamMembers->count();
         return view('invite.create', compact('teamMembers', 'teamCount'));
     }
@@ -30,14 +31,19 @@ class InviteController extends Controller
         $validatedData = $request->validate([
             'firstName' => 'required|string|max:255',
             'email' => 'required|email|unique:invites,email',
-            'role' => 'required|string'
+            'user_type'    => 'required|integer|in:1,2,3,4',
         ]);
+
+        $tenantId = auth()->user()->tenant_id;
+        $userId = auth()->user()->id;
             
         $invite = Invite::create([
-            'first_name' => $request->firstName,
-            'email' => $request->email,
-            'role' => $request->role,
-            'token' => Str::random(32) // Generate a random token
+            'first_name' => $validatedData['firstName'],
+            'email' => $validatedData['email'],
+            'user_type' => $validatedData['user_type'],
+            'token' => Str::random(32),
+            'invited_by_tenant' => $tenantId,
+            'invited_by_user' => $userId,
         ]);
 
         Mail::to($invite->email)->send(new InviteMail($invite));
@@ -57,10 +63,10 @@ class InviteController extends Controller
         $validated = $request->validate([
             'invite_token' => 'required|exists:invites,token',
             'email'        => 'required|email|exists:invites,email',
-            'role'         => 'required|string|in:super_admin,admin,manager,editor',
+            'user_type'    => 'required|integer|in:1,2,3,4',
             'firstName'    => 'required|string|max:255',
             'lastName'    => 'required|string|max:255',
-            'profileImg' => 'nullable|image|mimes:jpg,jpeg,png,svg|max:2048',
+            'profileImg' => 'nullable|image|mimes:jpg,jpeg,png,gif,webp|max:2048',
             'password' => [
                     'required',
                     Password::min(8)
@@ -69,16 +75,19 @@ class InviteController extends Controller
                         ->symbols(),
                 ],
         ]);
-        
+
+        $invite = Invite::where('token', $validated['invite_token'])->firstOrFail();
+        // dd($invite);
+
+        $profileImgPath = null;
+
+        if ($request->hasFile('profileImg')) {
+            $profileImgPath = $request->file('profileImg')->store('profile_images', 'public');
+        }
         $ip = $request->ip(); // user ka ip
         $location = Location::get($ip);
 
-        $roleMap = [
-            'super_admin' => 'Account Owner',
-            'admin'       => 'Administration',
-            'manager'     => 'Manager',
-            'editor'      => 'Editor',
-        ];
+      
         $fullName = $validated['firstName'] . ' ' . $validated['lastName'];
         
         $user = User::create([
@@ -87,22 +96,11 @@ class InviteController extends Controller
             'email'      => $validated['email'],
             'password' => Hash::make($validated['password']),
             'timezone'   => $position->location ?? 'UTC',
-            'user_type'  => $roleMap[$validated['role']] ?? 'User',
-            'tenant_id'  => null,
+            'user_type' => $validated['user_type'] ?? 5,
+            'status'  => 1,
+            'tenant_id'  => $invite->invited_by_tenant,
             'invited' => true,
-        ]);
-
-        $tenant = Tenant::create([
-            'client_full_name'     => $fullName,
-            'status'               => 'Active Account',
-            'subscription_status'  => 'Active',
-            'client_user_id'       => $user->id,
-            'date_of_registration' => now()->toDateString(),
-            'time_of_registration' => now()->toTimeString(),
-        ]);
-
-        $user->update([
-            'tenant_id' => $tenant->tenant_id,  
+            'profile_img' => $profileImgPath,
         ]);
 
         event(new Registered($user));

@@ -54,7 +54,7 @@
         @endif
     <div class="w-full max-w-md mx-auto mt-10 p-6 bg-white h-auto">
         <div class="mb-2">
-           <form action="{{ route('invite.complete') }}" method="POST" class="signup-form mx-auto">
+           <form action="{{ route('invite.complete') }}" method="POST" class="signup-form mx-auto" enctype="multipart/form-data">
                 <img src="{{ asset('images/insighthq-logo.svg') }}" alt="Logo">
                 <h1 class="fw-bold mt-3 fs-4 let_spc">Please verify your email</h1>
                 <p class="text-muted let_spc mt-2 mb-3 label">
@@ -75,15 +75,18 @@
                         </div>
                         <div class="col-12 mb-3">
                             <div class="">
-                            <label for="role" class="input-label mb-1 fw-medium">Your assigned role
-                                    <span class="tooltip-icon" data-bs-toggle="tooltip" aria-label="Role" data-bs-original-title="Role"><i class="fa fa-question-circle"></i></span>
-                                </label>
-                                 <select id="role" name="role" class="input-field w-100 rounded" readonly>
-                                    <option value="super_admin" {{ $invite->role == 'super_admin' ? 'selected' : '' }}>Super Administrator (Owner)</option>
-                                    <option value="admin" {{ $invite->role == 'admin' ? 'selected' : '' }}>Administrator</option>
-                                    <option value="manager" {{ $invite->role == 'manager' ? 'selected' : '' }}>Manager</option>
-                                    <option value="editor" {{ $invite->role == 'editor' ? 'selected' : '' }}>Editor</option>
-                                </select>
+                            <label for="user_type" class="input-label mb-1 fw-medium">Your assigned role
+                                <span class="tooltip-icon" data-bs-toggle="tooltip" aria-label="User Type" data-bs-original-title="User Type">
+                                    <i class="fa fa-question-circle"></i>
+                                </span>
+                            </label>
+
+                            <select id="user_type" name="user_type" class="input-field w-100 rounded" readonly>
+                                <option value="1" {{ $invite->user_type == 1 ? 'selected' : '' }}>Super Administrator (Owner)</option>
+                                <option value="2" {{ $invite->user_type == 2 ? 'selected' : '' }}>Administrator</option>
+                                <option value="3" {{ $invite->user_type == 3 ? 'selected' : '' }}>Manager</option>
+                                <option value="4" {{ $invite->user_type == 4 ? 'selected' : '' }}>Editor</option>
+                            </select>
                                     <!-- <input type="text" id="role" readonly class="input-field w-100 rounded" placeholder="Placeholder" value="{{ $invite->role }}"> -->
                             
                             </div>
@@ -93,7 +96,7 @@
                                 <label for="firstName" class="input-label mb-1 fw-medium">First Name
                                 <span class="tooltip-icon" data-bs-toggle="tooltip" aria-label="First name" data-bs-original-title="First name"><i class="fa fa-question-circle"></i></span>
                                 </label>
-                                <input type="text" id="firstName" name="firstName" class="input-field w-100 rounded" placeholder="Placeholder" required>
+                                <input type="text" id="firstName" name="firstName" class="input-field w-100 rounded" placeholder="Placeholder" required readonly value="{{ ucfirst($invite->first_name) }}">
                             </div>
                         </div>
                         <div class="col-12 mb-3">
@@ -105,12 +108,13 @@
                             
                             </div>
                         </div>
-                        <div class="col-12 mb-3">
+                       <div class="col-12 mb-3">
                             <div class="upload-input">
-                                <input type="file" class="visually-hidden" id="feature-banner" name="profileImg">
+                                <input type="file" class="visually-hidden" id="feature-banner" name="profileImg" onchange="showFileName(event)">
                                 <label for="feature-banner" class="d-block text-center rounded-3">
                                     <span class="upload-btn widget-item-btn d-inline-block rounded fw-semibold mb-2">Upload Your Profile</span>
                                     <span class="upload-input-text d-block">Recommended size 200 / 200 Size</span>
+                                    <span id="file-name" class="d-block mt-1 fw-medium"></span> <!-- File name will appear here -->
                                 </label>
                             </div>
                         </div>
@@ -161,6 +165,12 @@
         </form>
         </div>
     </div>
-     
+<script>
+    function showFileName(event) {
+        const input = event.target;
+        const fileName = input.files.length > 0 ? input.files[0].name : "";
+        document.getElementById("file-name").textContent = fileName;
+    }
+</script>
 </body>
 </html>
