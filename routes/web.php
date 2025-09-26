@@ -121,8 +121,11 @@
         Route::post('store', [KBArticleController::class, 'store'])->name('kbarticle.store');
         Route::post('/store-board', [KBArticleController::class, 'storeBoard'])->name('kbarticle.storeBoard');
         Route::post('/store-boardcategory', [KBArticleController::class, 'storeBoardcategory'])->name('kbarticle.storeBoardcategory');
-        Route::get('/boards/{board}/categories', [KBArticleController::class, 'getBoardCategories']);
-
+        Route::get('/boards/{board}/categories', [KBArticleController::class, 'getBoardCategories'])->name('boards.getBoardCategories');
+        Route::delete('/boards/{board}', [KBArticleController::class, 'destroyBoard'])
+            ->name('kbarticle.destroyBoard');
+        Route::put('/boards/{board}', [KBArticleController::class, 'updateBoard'])
+            ->name('kbarticle.updateBoard');
     });
 
     Route::prefix('invite')->group(function () {
@@ -131,7 +134,7 @@
         Route::post('store', [InviteController::class, 'store'])
         ->name('invite.store');
     });
-        
+
 
 
 

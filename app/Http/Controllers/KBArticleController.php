@@ -44,7 +44,9 @@ class KBArticleController extends Controller
     public function create()
     {
         $tenantId = auth()->user()->tenant_id;
-        $boards = KBBoard::where('tenant_id', $tenantId)->get();
+        $boards = KBBoard::with(['categories.articles'])
+            ->where('tenant_id', $tenantId)
+            ->get();
         $authors = User::where('tenant_id', $tenantId)->get();
         $categories = KBCategory::with('board')
         ->where('tenant_id', $tenantId)
@@ -112,8 +114,9 @@ class KBArticleController extends Controller
             'bublicURL' => 'nullable|url',
             'embedCode' => 'nullable|string'
         ]);
-
+        $tenantId = auth()->user()->tenant_id;
         $board = new KBBoard();
+        $board->tenant_id = $tenantId;
         $board->name = $request->boardName;
         $board->description = $request->boardDesc;
         $board->type = $request->boardType;
@@ -157,11 +160,16 @@ class KBArticleController extends Controller
     }
     public function getBoardCategories($boardId)
     {
-        $categories = KBCategory::where('board_id', $boardId)
-            ->select('id', 'name')
-            ->get();
-        return response()->json($categories);
+        $board = KBBoard::with(['categories.articles'])->findOrFail($boardId);
+        return view('kbarticle.kbcategories', compact('board'));
     }
+    public function destroyBoard($id)
+    {
+        $board = KBBoard::findOrFail($id);
+        $board->delete();
+        return redirect()->route('kbarticle.index')->with('success', 'Board deleted successfully!');
+    }
+
 
 
 }

@@ -46,4 +46,14 @@ class KBArticle extends Model
     {
         return $this->belongsTo(Tenant::class, 'tenant_id', 'tenant_id');
     }
+    public function category()
+    {
+        return $this->belongsTo(KBCategory::class, 'category_id');
+    }
+
+    public function board()
+    {
+        // article → category → board
+        return $this->hasOneThrough(KBBoard::class, KBCategory::class, 'id', 'id', 'category_id', 'board_id');
+    }
 }

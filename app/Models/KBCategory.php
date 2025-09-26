@@ -27,6 +27,11 @@ class KBCategory extends Model
     {
         return $this->hasMany(KBCategory::class, 'parent_id');
     }
+    public function childrenRecursive()
+    {
+        return $this->hasMany(KBCategory::class, 'parent_id')
+            ->with(['articles', 'childrenRecursive']);
+    }
 
     // A category belongs to a parent category
     public function parent()
@@ -37,4 +42,13 @@ class KBCategory extends Model
     {
         return $this->belongsTo(KBBoard::class, 'board_id');
     }
+    public function articles()
+    {
+        return $this->hasMany(KBArticle::class, 'category_id');
+    }
+    public function children()
+    {
+        return $this->hasMany(KBCategory::class, 'parent_id');
+    }
+
 }

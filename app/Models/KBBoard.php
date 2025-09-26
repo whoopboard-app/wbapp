@@ -24,4 +24,8 @@ class KBBoard extends Model
     {
         return $this->hasMany(KBCategory::class, 'board_id');
     }
+    public function articles()
+    {
+        return $this->hasManyThrough(KBArticle::class, KBCategory::class, 'board_id', 'category_id');
+    }
 }
