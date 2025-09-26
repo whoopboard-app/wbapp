@@ -129,7 +129,8 @@
             ->name('kbarticle.updateBoard');
         Route::get('/kbarticle/category/{category}', [KBArticleController::class, 'showArticle'])
             ->name('kbarticle.showArticle');
-
+        Route::get('/boards/search', [KBArticleController::class, 'boardSearch'])
+            ->name('boards.search');
     });
 
     Route::prefix('invite')->group(function () {

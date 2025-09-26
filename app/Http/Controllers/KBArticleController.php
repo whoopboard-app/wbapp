@@ -208,9 +208,25 @@ class KBArticleController extends Controller
 
         return response()->json(['success' => true]);
     }
+    public function boardSearch(Request $request)
+    {
+        $tenantId = auth()->user()->tenant_id;
+        $query = $request->get('q', '');
 
+        $boards = KBBoard::with(['categories.articles'])
+            ->where('tenant_id', $tenantId)
+            ->when($query, function ($qBuilder) use ($query) {
+                $qBuilder->where(function ($sub) use ($query) {
+                    $sub->where('name', 'like', "%{$query}%")
+                        ->orWhere('description', 'like', "%{$query}%");
+                });
+            })
+            ->get();
 
+        $html = view('kbarticle.partials.board_list', compact('boards'))->render();
 
+        return response()->json(['html' => $html]);
+    }
 
 
 
