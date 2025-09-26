@@ -72,7 +72,7 @@
                                     </label>
                                     <select id="role" name="role" class="input-field w-100 rounded" required>
                                         <option value="">-- Select Role --</option>
-                                        <option value="super_admin">Super Administrator (Owner)</option>
+                                        <!-- <option value="super_admin">Super Administrator (Owner)</option> -->
                                         <option value="admin">Administrator</option>
                                         <option value="manager">Manager</option>
                                         <option value="editor">Editor</option>
@@ -92,7 +92,7 @@
             </form>
                             <!-- Table Section -->
             <div class="form-section card bg-white mt-3">
-                <h6 class="fw-bold">Team Member (34)</h6>
+                <h6 class="fw-bold">Team Member ({{ $teamCount }})</h6>
                 <div class="mb-3 position-relative mt-2 x">
                     <input class="input-field w-100 rounded ps-5" placeholder="Search">
                     <img src="{{ asset('assets/img/icon/search.svg') }}" class="position-absolute category-search-icon" style="top: 50%; left: 10px; transform: translateY(-50%);" alt="">
@@ -110,61 +110,48 @@
                     </tr>
                     </thead>
                     <tbody>
-                    
-                    
-                    <tr class="odd">
-                        <td class="sorting_1">The full name will display here</td>
-                        <td>
-                            email@example.com
-                        </td>
-                        <td>
-                            Other
-                                
-                        </td>
-                    
-                        <td>
-                            <span class="badge status-active rounded">Active</span>
-
-                        </td>
-                        
-                        <td>
-                            <div class="dropdown">
-                            <button class="btn btn-md btn-transparent fw-bold p-0 border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                …
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Edit</a></li>
-                                <li><a class="dropdown-item text-danger" href="#">Delete</a></li>
-                            </ul>
-                            </div>
-                        </td>
-                    </tr><tr class="even">
-                        <td class="sorting_1">The full name will display here</td>
-                        <td>
-                            email@example.com
-                        </td>
-                        <td>
-                            Other
-                                
-                        </td>
-                    
-                        <td>
-                            <span class="badge status-active rounded">Active</span>
-
-                        </td>
-                        
-                        <td>
-                            <div class="dropdown">
-                            <button class="btn btn-md btn-transparent fw-bold p-0 border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                …
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Edit</a></li>
-                                <li><a class="dropdown-item text-danger" href="#">Delete</a></li>
-                            </ul>
-                            </div>
-                        </td>
-                    </tr></tbody>
+                        @forelse($teamMembers as $member)
+                            <tr>
+                                <td>{{ $member->name }} {{ $member->last_name }}</td>
+                                <td>{{ $member->email }}</td>
+                                <td>
+                                    @if($member->user_type == 'Account Owner')
+                                        Super Administrator (Owner)
+                                    @elseif($member->user_type == 'Administration')
+                                        Administrator
+                                    @elseif($member->user_type == 'Manager')
+                                        Manager
+                                    @elseif($member->user_type == 'Editor')
+                                        Editor
+                                    @elseif($member->user_type == 'User')
+                                        User
+                                    @else
+                                        Other
+                                    @endif
+                                </td>
+                                <td>
+                                    <span class="badge {{ $member->status == 'Active' ? 'status-active' : 'status-inactive' }} rounded">
+                                        {{ ucfirst($member->status ?? 'active') }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="dropdown">
+                                        <button class="btn btn-md btn-transparent fw-bold p-0 border-0" type="button" data-bs-toggle="dropdown">
+                                            …
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" href="#">Edit</a></li>
+                                            <li><a class="dropdown-item text-danger" href="#">Delete</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="5" class="text-center">No team members found</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
                 </table>
                 <!-- <div class="bottom"><div class="dataTables_info" id="teamMemberSearch_info" role="status" aria-live="polite">Showing 1 to 2 of 2 entries</div></div></div>
                 </div> -->

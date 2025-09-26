@@ -29,6 +29,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'user_type',
         'status',
         'tenant_id',
+        'invited',
     ];
 
     /**
@@ -52,6 +53,7 @@ class User extends Authenticatable implements MustVerifyEmail
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'verify_code_expire_at' => 'datetime',
+            'invited' => 'boolean',
         ];
     }
 
