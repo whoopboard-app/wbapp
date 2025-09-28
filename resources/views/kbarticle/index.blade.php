@@ -43,13 +43,24 @@
                            data-bs-toggle="modal" data-bs-target="#createBoardModal">
                             <i class="fa fa-plus"></i> Add @customLabel('Knowledge Board')
                         </a>
-                        <a href="javascript:void(0);"
-                           class="theme-btn sm fw-semibold rounded d-inline-block"
-                           data-bs-toggle="modal" data-bs-target="#createBoardCategoryModal">
+
+                        @php
+                            $catdisabled = $boards->isEmpty(); // disable if no boards exist
+                        @endphp
+
+                        <a href="{{ $catdisabled ? 'javascript:void(0);' : '#' }}"
+                           class="theme-btn sm secondary fw-semibold rounded d-inline-block {{ $catdisabled ? 'disabled' : '' }}"
+                           @if(!$catdisabled) data-bs-toggle="modal" data-bs-target="#createBoardCategoryModal" @endif
+                           @if($catdisabled) aria-disabled="true" tabindex="-1" @endif>
                             <i class="fa fa-plus"></i> Add @customLabel('Knowledge Board') Categories
                         </a>
-                        <a href="{{ route('kbarticle.create') }}"
-                           class="theme-btn sm fw-semibold rounded d-inline-block">
+                        @php
+                            $articlebtn = $categories->isEmpty();
+                        @endphp
+
+                        <a href="{{ $articlebtn ? 'javascript:void(0);' : route('kbarticle.create') }}"
+                           class="theme-btn sm secondary fw-semibold rounded d-inline-block {{ $articlebtn ? 'disabled' : '' }}"
+                           @if($articlebtn) aria-disabled="true" tabindex="-1" @endif>
                             <i class="fa fa-plus"></i> Add Article
                         </a>
                     </div>
@@ -69,8 +80,13 @@
                        data-bs-toggle="modal" data-bs-target="#createBoardCategoryModal">
                         <i class="fa fa-plus"></i> Add @customLabel('Knowledge Board') Categories
                     </a>
-                    <a href="{{ route('kbarticle.create') }}"
-                       class="theme-btn sm secondary fw-semibold rounded d-inline-block">
+                    @php
+                        $articlebtn = $categories->isEmpty();
+                    @endphp
+
+                    <a href="{{ $articlebtn ? 'javascript:void(0);' : route('kbarticle.create') }}"
+                       class="theme-btn sm secondary fw-semibold rounded d-inline-block {{ $articlebtn ? 'disabled' : '' }}"
+                       @if($articlebtn) aria-disabled="true" tabindex="-1" @endif>
                         <i class="fa fa-plus"></i> Add Article
                     </a>
                 </div>
@@ -94,14 +110,36 @@
     @include('kbarticle.partials.create_boardcategory_model')
 @endsection
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.board-clickable').forEach(card => {
-            card.style.cursor = 'pointer';
-            card.addEventListener('click', function(e) {
-                if (!e.target.closest('.dropdown, button, a')) {
-                    window.location.href = this.dataset.href;
-                }
-            });
-        });
-    });
+                document.addEventListener('DOMContentLoaded', function () {
+                    const searchInput = document.getElementById('search');
+                    const boardsContainer = document.getElementById('boardsContainer');
+                    let timer;
+
+                    searchInput.addEventListener('keyup', function () {
+                        clearTimeout(timer);
+                        timer = setTimeout(() => {
+                            const query = this.value;
+
+                            fetch(`{{ route('boards.search') }}?q=${encodeURIComponent(query)}`, {
+                                headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                            })
+                                .then(response => response.json())
+                                .then(data => {
+                                    boardsContainer.innerHTML = data.html;
+                                })
+                                .catch(err => console.error(err));
+                        }, 300);
+                    });
+                });
+                document.addEventListener('DOMContentLoaded', function() {
+                    document.querySelectorAll('.board-clickable').forEach(card => {
+                        card.style.cursor = 'pointer'; // show pointer on hover
+                        card.addEventListener('click', function(e) {
+                            // Prevent click if dropdown, buttons, or links inside are clicked
+                            if (!e.target.closest('.dropdown, button, a')) {
+                                window.location.href = this.dataset.href;
+                            }
+                        });
+                    });
+                });
 </script>

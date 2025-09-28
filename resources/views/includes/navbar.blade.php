@@ -10,6 +10,28 @@
         <div class="profile-container d-flex align-items-center justify-content-end pb-0">
 
         <div class="profile d-flex align-items-center gap-0 gap-sm-3">
+            @php
+                $instanceClasses = [
+                    'UAT' => 'bg-danger text-white',
+                    'Production' => 'bg-success text-white',
+                    'Staging' => 'bg-warning text-dark',
+                ];
+                $instance = config('app.instance');
+            @endphp
+
+            <span class="badge {{ $instanceClasses[$instance] ?? 'bg-secondary' }}">
+                 {{ $instance }}
+                @php
+                    $instance = config('app.instance');
+                @endphp
+
+                @if($instance == 'UAT')
+                    <p>User ID: {{ Auth::user()->id }}</p>
+                    <p>Tenant ID: {{ Auth::user()->tenant_id }}</p>
+                @endif
+
+                </span>
+
             <!-- Profile Image -->
             <img src="{{ asset('assets/img/profile-img.png') }}" alt="profile-img"
                     class="profile-img rounded-circle object-fit-cover">
@@ -29,11 +51,6 @@
                     <ul class="dropdown-menu rounded-0 border-top-0 border-bottom-0">
                         <li>
                             <a class="dropdown-item" href="{{ route('profile.edit') }}">Update Profile</a><br>
-                            @php
-                                echo 'User ID : '. \Illuminate\Support\Facades\Auth::user()->id;
-                                echo '<br>';
-                                echo 'tenant ID : '.auth()->user()->tenant_id;
-                            @endphp
                         </li>
                         <li>
                             <form method="POST" action="{{ route('logout') }}">

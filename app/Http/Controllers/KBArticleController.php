@@ -16,9 +16,9 @@ class KBArticleController extends Controller
 {
     public function index(Request $request)
     {
-        $boards = KBBoard::all();
-        $categories = KBCategory::all();
         $tenantId = auth()->user()->tenant_id;
+        $boards = KBBoard::where('tenant_id', $tenantId)->get();
+        $categories = KBCategory::where('tenant_id', $tenantId)->get();
         $announcements = Changelog::where('tenant_id', $tenantId)
             ->orderBy('created_at', 'desc')
             ->paginate(3);
@@ -138,8 +138,8 @@ class KBArticleController extends Controller
             'imageAdd'     => 'nullable|image|mimes:jpg,jpeg,png,svg|max:2048',
             'parent_id' => 'nullable|exists:kb_categories,id',
         ]);
-
         $category = new KBCategory();
+        $category->tenant_id = auth()->user()->tenant_id;
         $category->parent_id  = $request->parent_id ?? null;
         $category->board_id   = $request->board_id;
         $category->name       = $request->categoryName;
@@ -148,7 +148,6 @@ class KBArticleController extends Controller
         $category->parent_id  = $request->parent_id ?? null;
         $category->is_hidden  = $request->has('visibility') ? 1 : 0;
         $category->is_popular = $request->has('is_popular') ? 1 : 0;
-
         if ($request->hasFile('imageAdd')) {
             $path = $request->file('imageAdd')->store('categories', 'public');
             $category->image = $path;

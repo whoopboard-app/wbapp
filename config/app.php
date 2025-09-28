@@ -122,5 +122,6 @@ return [
         'driver' => env('APP_MAINTENANCE_DRIVER', 'file'),
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
-
+// Application instance (UAT / Production / Staging)
+    'instance' => env('APP_INSTANCE', 'Production'),
 ];
