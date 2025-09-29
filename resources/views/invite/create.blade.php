@@ -12,6 +12,14 @@
         background-color: #E0FFE9;
         color: #1C8139;
     }
+    .badge.status-inactive {
+        background-color: #FFE5B4; 
+        color: #FF8C00;           
+    }
+    .badge.status-pending {
+        background-color: #E0F0FF; 
+        color: #0056B3;           
+    }
     .table thead th, .table tbody td {
         font-size: 14px;
         border: 0;
@@ -36,6 +44,21 @@
     @foreach ($errors->all() as $error)
         <x-alert type="error" :message="$errors->first()" />
     @endforeach
+@endif
+@if (session('success'))
+    <x-alert type="success" :message="session('success')" />
+@endif
+
+@if (session('error'))
+    <x-alert type="error" :message="session('error')" />
+@endif
+
+@if (session('info'))
+    <x-alert type="info" :message="session('info')" />
+@endif
+
+@if (session('warning'))
+    <x-alert type="warning" :message="session('warning')" />
 @endif
     <section class="section-content-center">
         <div class="container py-4">
@@ -72,7 +95,7 @@
                                     </label>
                                     <select id="user_type" name="user_type" class="input-field w-100 rounded" required>
                                         <option value="">-- Select Role --</option>
-                                        <option value="1" disabled>Super Administrator (Owner)</option>
+                                        <option value="1">Super Administrator (Owner)</option>
                                         <option value="2">Administrator</option>
                                         <option value="3">Manager</option>
                                         <option value="4">Editor</option>
@@ -112,14 +135,16 @@
                     <tbody>
                         @forelse($teamMembers as $member)
                             <tr>
-                                <td>{{ $member->first_name }} </td>
+                                <td>{{ ucfirst($member->first_name) }}</td>
                                 <td>{{ $member->email }}</td>
                                 <td>
                                    {{ $member->userTypeLabel() }}
                                 </td>
                                 <td>
-                                    <span class="badge {{ $member->status == '1' ? 'status-active' : 'status-inactive' }} rounded">
-                                        status
+                                    <span class="badge 
+                                        {{ $member->status == '1' ? 'status-active' : ($member->status == '2' ? 'status-inactive' : 'status-pending') }} 
+                                        rounded">
+                                        {{ $member->status == '1' ? 'Active' : ($member->status == '2' ? 'Inactive' : 'Pending') }}
                                     </span>
                                 </td>
                                 <td>

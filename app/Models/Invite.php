@@ -11,7 +11,7 @@ class Invite extends Model
     public const MANAGER     = 3;
     public const EDITOR      = 4;
     public const USER        = 5;
-    protected $fillable = ['first_name', 'email', 'user_type', 'token' , 'invited_by_tenant' , 'invited_by_user'];
+    protected $fillable = ['first_name', 'email', 'user_type', 'token' , 'invited_by_tenant' , 'invited_by_user', 'status'];
 
     public static function userTypeLabels(): array
     {

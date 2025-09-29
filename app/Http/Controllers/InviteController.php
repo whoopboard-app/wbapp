@@ -41,6 +41,7 @@ class InviteController extends Controller
             'first_name' => $validatedData['firstName'],
             'email' => $validatedData['email'],
             'user_type' => $validatedData['user_type'],
+            'status'  => 3,
             'token' => Str::random(32),
             'invited_by_tenant' => $tenantId,
             'invited_by_user' => $userId,
@@ -48,7 +49,7 @@ class InviteController extends Controller
 
         Mail::to($invite->email)->send(new InviteMail($invite));
 
-        return redirect()->route('dashboard')->with('success', 'Invite sent successfully!');
+        return redirect()->route('invite.create')->with('success', 'Invite sent successfully!');
     }
 
     public function accept($token)
@@ -101,6 +102,10 @@ class InviteController extends Controller
             'tenant_id'  => $invite->invited_by_tenant,
             'invited' => true,
             'profile_img' => $profileImgPath,
+        ]);
+
+        $invite->update([
+            'status' => 1,
         ]);
 
         event(new Registered($user));

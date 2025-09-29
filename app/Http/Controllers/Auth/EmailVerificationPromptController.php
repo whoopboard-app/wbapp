@@ -48,7 +48,7 @@ class EmailVerificationPromptController extends Controller
 
             $user->email_verified_at = now();
             $user->clearVerifyCode();
-            return redirect()->route('onboarding.step1')
+            return redirect()->route($user->user_type == 1 ? 'onboarding.step1' : 'dashboard')
                 ->with('success', 'Your email has been verified!');
             //            return redirect()->intended(route('dashboard', absolute: false));
 
