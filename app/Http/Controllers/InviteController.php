@@ -21,7 +21,8 @@ class InviteController extends Controller
     public function create()
     {
         $tenantId = auth()->user()->tenant_id;
-        $teamMembers = Invite::where('invited_by_tenant', $tenantId)->get();  
+        $teamMembers = Invite::where('invited_by_tenant', $tenantId)->latest()
+        ->paginate(5);
         $teamCount   = $teamMembers->count();
         return view('invite.create', compact('teamMembers', 'teamCount'));
     }
@@ -30,7 +31,7 @@ class InviteController extends Controller
     {
         $validatedData = $request->validate([
             'firstName' => 'required|string|max:255',
-            'email' => 'required|email|unique:invites,email',
+            'email' => 'required|email|unique:invites,email|unique:users,email',
             'user_type'    => 'required|integer|in:1,2,3,4',
         ]);
 
@@ -41,6 +42,7 @@ class InviteController extends Controller
             'first_name' => $validatedData['firstName'],
             'email' => $validatedData['email'],
             'user_type' => $validatedData['user_type'],
+            'status'  => 3,
             'token' => Str::random(32),
             'invited_by_tenant' => $tenantId,
             'invited_by_user' => $userId,
@@ -48,7 +50,7 @@ class InviteController extends Controller
 
         Mail::to($invite->email)->send(new InviteMail($invite));
 
-        return redirect()->route('dashboard')->with('success', 'Invite sent successfully!');
+        return redirect()->route('invite.create')->with('success', 'Invite sent successfully!');
     }
 
     public function accept($token)
@@ -62,7 +64,7 @@ class InviteController extends Controller
     {   
         $validated = $request->validate([
             'invite_token' => 'required|exists:invites,token',
-            'email'        => 'required|email|exists:invites,email',
+            'email'        => 'required|email|exists:invites,email|unique:users,email',
             'user_type'    => 'required|integer|in:1,2,3,4',
             'firstName'    => 'required|string|max:255',
             'lastName'    => 'required|string|max:255',
@@ -103,6 +105,10 @@ class InviteController extends Controller
             'profile_img' => $profileImgPath,
         ]);
 
+        $invite->update([
+            'status' => 1,
+        ]);
+
         event(new Registered($user));
 
         Auth::login($user);
@@ -110,4 +116,18 @@ class InviteController extends Controller
     
     }
     
+    public function search(Request $request)
+    {
+        $tenantId = auth()->user()->tenant_id;
+        $query = Invite::where('invited_by_tenant', $tenantId);
+
+        if ($request->filled('search')) {
+            $query->where('first_name', 'like', '%' . $request->search . '%')
+                ->orWhere('email', 'like', '%' . $request->search . '%');
+        }
+
+        $teamMembers = $query->latest()->paginate(5);
+        
+        return view('invite.partials.team_table', compact('teamMembers'))->render();
+    }
 }
