@@ -76,7 +76,7 @@
                     <div class="form-input border-0 p-0 mb-4 mt-2">
                         <label class="form-label fw-medium">Hide From Structure</label>
                         <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" id="visibility1" name="visibility" checked>
+                            <input class="form-check-input" type="checkbox" id="visibility1" name="visibility">
                             <label class="form-check-label" for="visibility1" id="visibilityLabel">
                                 Private (Hidden from structure)
                             </label>

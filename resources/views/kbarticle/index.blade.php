@@ -107,7 +107,6 @@
                 @endif
     </div>
     @include('kbarticle.partials.create_board_model')
-    @include('kbarticle.partials.create_boardcategory_model')
 @endsection
 <script>
                 document.addEventListener('DOMContentLoaded', function () {
