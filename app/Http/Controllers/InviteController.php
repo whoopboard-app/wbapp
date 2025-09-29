@@ -30,7 +30,7 @@ class InviteController extends Controller
     {
         $validatedData = $request->validate([
             'firstName' => 'required|string|max:255',
-            'email' => 'required|email|unique:invites,email',
+            'email' => 'required|email|unique:invites,email|unique:users,email',
             'user_type'    => 'required|integer|in:1,2,3,4',
         ]);
 
@@ -63,7 +63,7 @@ class InviteController extends Controller
     {   
         $validated = $request->validate([
             'invite_token' => 'required|exists:invites,token',
-            'email'        => 'required|email|exists:invites,email',
+            'email'        => 'required|email|exists:invites,email|unique:users,email',
             'user_type'    => 'required|integer|in:1,2,3,4',
             'firstName'    => 'required|string|max:255',
             'lastName'    => 'required|string|max:255',

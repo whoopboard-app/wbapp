@@ -33,8 +33,9 @@
                 </span>
 
             <!-- Profile Image -->
-            <img src="{{ asset('assets/img/profile-img.png') }}" alt="profile-img"
-                    class="profile-img rounded-circle object-fit-cover">
+            <img src="{{ Auth::user()->profile_img ? asset('storage/' . Auth::user()->profile_img) : asset('assets/img/profile-img.png') }}" 
+                alt="profile-img"
+                class="profile-img rounded-circle object-fit-cover">
 
             <!-- User Info + Dropdown -->
             <div class="profile-wrapper d-flex align-items-end gap-2">
