@@ -146,6 +146,7 @@
         ->name('invite.complete');
         Route::get('search', [InviteController::class, 'search'])->name('invite.search');
         Route::put('update', [InviteController::class, 'update'])->name('invite.update');
+        Route::delete('destroy/{invite}', [InviteController::class, 'destroy'])->name('invite.destroy');
     });
 
 
