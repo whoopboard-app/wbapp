@@ -131,6 +131,8 @@
             ->name('kbarticle.showArticle');
         Route::get('/boards/search', [KBArticleController::class, 'boardSearch'])
             ->name('boards.search');
+        Route::get('/kbarticle/{id}', [KBArticleController::class, 'view'])->name('kbarticle.view');
+
     });
 
     Route::prefix('invite')->group(function () {

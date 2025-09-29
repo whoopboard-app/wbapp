@@ -41,6 +41,12 @@ class ThemeController extends Controller
                 'welcome_message'   => $themes->welcome_message,
             ]);
         }
+        if ($request->theme_flag == 0){
+            $request->merge([
+            'short_description' => '',
+            'welcome_message'  => '',
+                ]);
+        }
         $moduleLabels = [];
         if ($request->filled('module_labels') && is_array($request->module_labels)) {
             foreach ($request->module_labels as $key => $label) {

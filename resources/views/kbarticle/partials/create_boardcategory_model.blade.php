@@ -26,12 +26,19 @@
                             </span>
                             </label>
                             <select id="board_id" name="board_id" class="form-select rounded" required>
-                                <option value="">Select Board</option>
-                                @foreach($boards as $board)
-                                    <option value="{{ $board->id }}">{{ $board->name }}</option>
-                                @endforeach
+                                @if(isset($boards) && $boards->count() > 1)
+                                    <option value="">Select Board</option>
+                                    @foreach($boards as $board)
+                                        <option value="{{ $board->id }}">{{ $board->name }}</option>
+                                    @endforeach
+                                @elseif(isset($board))
+                                    <option value="{{ $board->id }}" selected>{{ $board->name }}</option>
+                                @else
+                                    <option value="">No board available</option>
+                                @endif
                             </select>
                         </div>
+
                     </div>
 
                     <!-- Category Image -->
@@ -40,7 +47,7 @@
                         <div class="image-upload text-center">
                             <label for="imageAdd" style="cursor:pointer; display: inline-block;" class="input-label mb-1 fw-medium">
                                 Image
-                                <img src="assets/img/icon/add-image.svg" alt="Upload Image" width="41">
+                                <img src="{{ asset('assets/img/icon/add-image.svg') }}" alt="Upload Image" width="41">
                             </label>
                             <input type="file" name="imageAdd" id="imageAdd" class="d-none">
                         </div>
@@ -58,19 +65,19 @@
                         </div>
                     </div>
                     <!-- Parent Category -->
-                    <div class="form-input border-0 p-0 mb-4 mt-2">
-                        <label for="parentCategory" class="input-label mb-1 fw-medium">
-                            Parent Category
-                            <span class="tooltip-icon" data-bs-toggle="tooltip" title="Select parent category">
+                        <div class="form-input border-0 p-0 mb-4 mt-2">
+                            <label for="parentCategory" class="input-label mb-1 fw-medium">
+                                Parent Category
+                                <span class="tooltip-icon" data-bs-toggle="tooltip" title="Select parent category">
                             <i class="fa fa-question-circle"></i>
                         </span>
-                                        </label>
-                        <select class="input-field w-100 rounded border" id="parentCategory" name="parent_id">
-                            <option value="">None</option>
-                        </select>
-                    </div>
+                            </label>
+                            <select class="input-field w-100 rounded border" id="parentCategory" name="parent_id">
+                                <option value="">None</option>
+                            </select>
+                        </div>
                     <!-- Display as Popular -->
-                    <div class="form-input mb-4 mt-2 rounded border w-100">
+                    {{--<div class="form-input mb-4 mt-2 rounded border w-100">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" id="isPopular" name="is_popular" checked>
                             <label class="form-check-label" for="isPopular">
@@ -78,7 +85,7 @@
                             </label>
                         </div>
                     </div>
-
+--}}
                     <!-- Short Description -->
                     <div class="form-input border-0 p-0 mb-4 mt-2">
                         <label for="shortDesc" class="input-label mb-1 fw-medium">
@@ -87,7 +94,7 @@
                                 <i class="fa fa-question-circle"></i>
                             </span>
                         </label>
-                        <textarea rows="3" id="shortDesc" name="short_desc" class="input-field w-100 rounded" placeholder="Placeholder"></textarea>
+                        <textarea rows="3" id="shortDesc" name="short_desc" maxlength="190" class="input-field w-100 rounded" placeholder="Max 190 characters"></textarea>
                     </div>
 
                     <!-- Status -->

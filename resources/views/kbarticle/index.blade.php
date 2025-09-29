@@ -75,20 +75,20 @@
                        data-bs-toggle="modal" data-bs-target="#createBoardModal">
                         <i class="fa fa-plus"></i> Add @customLabel('Knowledge Board')
                     </a>
-                    <a href="javascript:void(0);"
+                   {{-- <a href="javascript:void(0);"
                        class="theme-btn sm secondary fw-semibold rounded d-inline-block"
                        data-bs-toggle="modal" data-bs-target="#createBoardCategoryModal">
                         <i class="fa fa-plus"></i> Add @customLabel('Knowledge Board') Categories
-                    </a>
+                    </a>--}}
                     @php
                         $articlebtn = $categories->isEmpty();
                     @endphp
 
-                    <a href="{{ $articlebtn ? 'javascript:void(0);' : route('kbarticle.create') }}"
+{{--                    <a href="{{ $articlebtn ? 'javascript:void(0);' : route('kbarticle.create') }}"
                        class="theme-btn sm secondary fw-semibold rounded d-inline-block {{ $articlebtn ? 'disabled' : '' }}"
                        @if($articlebtn) aria-disabled="true" tabindex="-1" @endif>
                         <i class="fa fa-plus"></i> Add Article
-                    </a>
+                    </a>--}}
                 </div>
 
                 {{-- Search + Actions --}}
@@ -99,7 +99,7 @@
                         <img src="/assets/img/icon/search.svg" class="position-absolute search-icon ml-3" alt="">
                     </div>
                 </div>
-                <h5 class="label fw-medium mb-2">Total Knowledge Board <span>({{ count($boards) }})</span></h5>
+                <h5 class="label fw-medium mb-2">Total @customLabel('Knowledge Board') <span>({{ count($boards) }})</span></h5>
                 <div id="boardsContainer">
                     @include('kbarticle.partials.board_list', ['boards' => $boards])
                 </div>

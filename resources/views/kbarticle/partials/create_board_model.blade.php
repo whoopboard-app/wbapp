@@ -51,9 +51,8 @@
                         </label>
                         <select class="input-field w-100 rounded border" id="boardType" name="boardType">
                             <option value="">Select</option>
-                            <option value="1">Active</option>
-                            <option value="0">Inactive</option>
-                            <option value="2">Draft</option>
+                            <option value="1">Public</option>
+                            <option value="0">Private</option>
                         </select>
                     </div>
 
@@ -67,9 +66,9 @@
                         </label>
                         <select class="input-field w-100 rounded border" id="docsType" name="docsType">
                             <option value="">Select</option>
-                            <option value="active">Active</option>
-                            <option value="inactive">Inactive</option>
-                            <option value="draft">Draft</option>
+                            <option value="Help Document">Help Document</option>
+                            <option value="Manual">Manual</option>
+                            <option value="Requirement Document">Requirement Document</option>
                         </select>
                     </div>
 

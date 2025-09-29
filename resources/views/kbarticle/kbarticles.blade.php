@@ -123,7 +123,8 @@
                                 <div class="d-flex justify-content-between align-items-center p-4">
                                     <div>
                                         <h5 class="card-title mb-1">
-                                            <a href="#" class="text-dark text-decoration-none fw-semibold">
+                                            <a href="{{ route('kbarticle.view', $article->id) }}"
+                                               class="text-dark text-decoration-none fw-semibold">
                                                 {{ $article->title }}
                                             </a>
                                         </h5>

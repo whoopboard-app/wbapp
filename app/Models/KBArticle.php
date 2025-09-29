@@ -21,7 +21,7 @@ class KBArticle extends Model
         'author',
         'popular_article',
         'list_order',
-        'tags',
+        'tag_ids',
         'other_article_category',
         'other_article_category2',
         'status',
@@ -54,5 +54,14 @@ class KBArticle extends Model
     {
         // article → category → board
         return $this->hasOneThrough(KBBoard::class, KBCategory::class, 'id', 'id', 'category_id', 'board_id');
+    }
+    public function tags()
+    {
+        return $this->hasMany(ChangelogTag::class, 'id', 'tag_ids');
+    }
+    public function getTagListAttribute()
+    {
+        $ids = $this->tag_ids ? explode(',', $this->tag_ids) : [];
+        return ChangelogTag::whereIn('id', $ids)->get();
     }
 }

@@ -69,7 +69,7 @@
                                         type="color"
                                         id="brand-color"
                                         class="absolute left-3 w-6 h-6 rounded-full border-0 cursor-pointer p-0 appearance-none"
-                                        value="{{ $category->color_hex ?? old('color_hex', '#f44336') }}"
+                                        value="{{ $category->color_hex ?? old('color_hex', '#00FF00') }}"
                                         onchange="document.getElementById('color_hex').value = this.value"
                                         title="Select a color code"
                                     >
@@ -79,7 +79,7 @@
                                         type="text"
                                         id="color_hex"
                                         name="color_hex"
-                                        value="{{ $category->color_hex ?? old('color_hex', '#f44336') }}"
+                                        value="{{ $category->color_hex ?? old('color_hex', '#00FF00') }}"
                                         class="w-full rounded-md border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 pl-12 pr-3 py-2 text-base"
                                         onchange="document.getElementById('brand-color').value = this.value"
                                         title="Select a color code"

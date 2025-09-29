@@ -17,27 +17,13 @@ class KBArticleController extends Controller
     public function index(Request $request)
     {
         $tenantId = auth()->user()->tenant_id;
-        $boards = KBBoard::where('tenant_id', $tenantId)->get();
+        $boards = KBBoard::where('tenant_id', $tenantId)->orderBy('created_at', 'desc')->get();
         $categories = KBCategory::where('tenant_id', $tenantId)->get();
         $announcements = Changelog::where('tenant_id', $tenantId)
             ->orderBy('created_at', 'desc')
             ->paginate(3);
         $filter = $request->get('filter', 'all');
         $search = $request->get('search');
-
-        /*        $query = KBArticle::query();
-
-                if ($search) {
-                    $query->where('title', 'like', "%{$search}%")
-                        ->orWhere('content', 'like', "%{$search}%");
-                }
-
-                if ($filter !== 'all') {
-                    $query->where('status', $filter);
-                }
-
-                $kbarticals = $query->latest()->get();*/
-
         return view('kbarticle.index', compact(/*'kbarticals',*/ 'filter', 'announcements','categories','boards'));
     }
 
@@ -85,9 +71,7 @@ class KBArticleController extends Controller
             'action'                 => 'required|string|in:publish,draft',
         ]);
         $validatedData['tenant_id'] = auth()->user()->tenant_id;
-        $validatedData['tags']   = json_encode($validatedData['tagsSelect']);
-        unset($validatedData['tagsSelect']);
-
+        $validatedData['tag_ids'] = implode(',', $request->tagsSelect);
         $validatedData['author'] = json_encode($validatedData['author']);
         if ($request->hasFile('article_banner')) {
             $path = $request->file('article_banner')->store('article_banners', 'public');
@@ -101,14 +85,14 @@ class KBArticleController extends Controller
         unset($validatedData['action']);
         KBArticle::create($validatedData);
 
-        return redirect()->route('kb_articles.index')
+        return redirect()->route('kbarticle.index')
             ->with('success', 'Article created successfully.');
     }
     public function storeBoard(Request $request)
     {
         $request->validate([
             'boardName' => 'required|string|max:255',
-            'boardDesc' => 'nullable|string|max:500',
+            'boardDesc' => 'nullable|string',
             'boardType' => 'required|string',
             'docsType'  => 'required|string',
             'bublicURL' => 'nullable|url',
@@ -130,11 +114,11 @@ class KBArticleController extends Controller
     }
     public function storeBoardcategory(Request $request)
     {
-        $request->validate([
+        $validatedData = $request->validate([
             'board_id'     => 'required|exists:kb_boards,id',
             'categoryName' => 'required|string|max:255',
             'status'       => 'required|string',
-            'short_desc'   => 'nullable|string|max:500',
+            'short_desc'   => 'nullable|string|max:255',
             'imageAdd'     => 'nullable|image|mimes:jpg,jpeg,png,svg|max:2048',
             'parent_id' => 'nullable|exists:kb_categories,id',
         ]);
@@ -152,7 +136,6 @@ class KBArticleController extends Controller
             $path = $request->file('imageAdd')->store('categories', 'public');
             $category->image = $path;
         }
-
         $category->save();
 
         return redirect()->back()->with('success', 'Category created successfully!');
@@ -225,6 +208,17 @@ class KBArticleController extends Controller
         $html = view('kbarticle.partials.board_list', compact('boards'))->render();
 
         return response()->json(['html' => $html]);
+    }
+    public function view($articleId)
+    {
+        $article = KBArticle::with('category')->findOrFail($articleId);
+        $category = $article->category;
+        $board = $article->board;
+/*        dump($category);
+        dump($board);
+        dd($article);*/
+        return view('kbarticle.view', compact('article', 'category', 'board'));
+
     }
 
 

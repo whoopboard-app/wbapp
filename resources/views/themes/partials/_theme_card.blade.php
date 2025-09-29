@@ -21,6 +21,7 @@
                                     id="brandColorPicker_{{ $theme->id ?? 'new' }}"
                                     class="w-100 h-100 border-0 p-0 opacity-0 cursor-pointer"
                                     value="{{ $theme->brand_color ?? '#f44336' }}"
+                                    placeholder="Select color or enter hex code"
                                     onchange="document.getElementById('brandColorHex_{{ $theme->id ?? 'new' }}').value=this.value;this.parentNode.style.backgroundColor=this.value"
                                 >
                             @endif
@@ -32,7 +33,8 @@
                                    type="text"
                                    name="brand_color"
                                    class="form-control ps-5 rounded border-[#19140035]"
-                                   value="{{ $theme->brand_color ?? '#f44336' }}"
+                                   value="{{ $theme->brand_color ?? '' }}"
+                                   placeholder="Select color or enter hex code"
                                    onchange="document.getElementById('brandColorPicker_{{ $theme->id ?? 'new' }}').value=this.value;document.querySelector('label[for=brandColorPicker_{{ $theme->id ?? 'new' }}]').style.backgroundColor=this.value">
                         @else
                             <div class="form-control ps-5 rounded border-[#19140035] bg-light">
@@ -63,14 +65,14 @@
             @endif
         @endif
         <br>
-        @if($isEditable)
-            <button class="btn btn-primary fw-semibold rounded btn-md mt-2" style="width: 245px;"
-                    type="button"
-                    data-bs-toggle="modal"
-                    data-bs-target="#customizeThemeModal_{{ $theme->id }}">
-                Customize Theme
-            </button>
-        @endif
+        <button class="btn {{ $isCustomized ? 'btn-primary' : 'btn-secondary' }} fw-semibold rounded btn-md mt-2"
+                style="width: 245px;"
+                type="button"
+                data-bs-toggle="modal"
+                data-bs-target="#customizeThemeModal_{{ $theme->id }}"
+                @if(!$isCustomized) disabled @endif>
+            Customize Theme
+        </button>
     </div>
 
     <!-- Right Content -->

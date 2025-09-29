@@ -50,7 +50,6 @@
                     </a>
                 </div>
                 <p class="text-muted pb-4">Arrange help center categories, sections and articles.</p>
-
                 @if($board->categories)
                     @foreach($board->categories->where('parent_id', null) as $category)
                         @include('kbarticle.partials.category_tree', ['category' => $category, 'level' => 0])
@@ -61,4 +60,5 @@
 
             </div>
     </div>
+    @include('kbarticle.partials.create_boardcategory_model', ['board' => $board])
 @endsection
