@@ -130,4 +130,28 @@ class InviteController extends Controller
         
         return view('invite.partials.team_table', compact('teamMembers'))->render();
     }
+
+    public function update(Request $request )
+    {
+        $id = $request->input('id');
+        
+        $validatedData = $request->validate([
+            'first_name' => 'required|string|max:255',
+            'email'      => 'required|email|max:255',
+            'user_type' => 'required|integer|in:1,2,3,4,5',
+            'status'    => 'required|in:1,2,3',
+        ]);
+
+        // Find the user by ID
+        $invite = Invite::findOrFail($id);
+
+        // Update the user's data
+        $invite->update([
+            'first_name'      => $validatedData['first_name'],
+            'user_type' => $validatedData['user_type'],
+            'status'    => $validatedData['status'],
+        ]);
+
+        return redirect()->route('invite.create')->with('success', 'Team member updated successfully!');
+    }
 }

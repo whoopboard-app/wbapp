@@ -26,11 +26,16 @@
                     </td>
                     <td>
                         <div class="dropdown">
-                            <button class="btn btn-md btn-transparent fw-bold p-0 border-0" type="button" data-bs-toggle="dropdown">
+                            <button class="btn btn-md btn-transparent fw-bold p-0 border-0" type="button" data-bs-toggle="dropdown"
+                                data-id="{{ $member->id }}"
+                                data-first_name="{{ $member->first_name }}"
+                                data-email="{{ $member->email }}"
+                                data-user_type="{{ $member->user_type }}"
+                                data-status="{{ $member->status }}">
                                 …
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Edit</a></li>
+                                <li><a class="dropdown-item edit-member" href="#">Edit</a></li>
                                 <li><a class="dropdown-item text-danger" href="#">Delete</a></li>
                             </ul>
                         </div>

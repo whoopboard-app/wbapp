@@ -145,6 +145,7 @@
         Route::post('complete', [InviteController::class, 'complete'])
         ->name('invite.complete');
         Route::get('search', [InviteController::class, 'search'])->name('invite.search');
+        Route::put('update', [InviteController::class, 'update'])->name('invite.update');
     });
 
 
