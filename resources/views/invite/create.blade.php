@@ -91,7 +91,7 @@
                                     </label>
                                     <select id="user_type" name="user_type" class="input-field w-100 rounded" required>
                                         <option value="">-- Select Role --</option>
-                                        <option value="1">Super Administrator (Owner)</option>
+                                        <option value="1" disabled>Super Administrator (Owner)</option>
                                         <option value="2">Administrator</option>
                                         <option value="3">Manager</option>
                                         <option value="4">Editor</option>
@@ -153,7 +153,7 @@
                                 </label>
                                 <select id="user_type" name="user_type" class="input-field w-100 rounded" required>
                                     <option value="">-- Select Role --</option>
-                                    <option value="1">Super Administrator</option>
+                                    <option value="1" disabled>Super Administrator</option>
                                     <option value="2">Administrator</option>
                                     <option value="3">Manager</option>
                                     <option value="4">Editor</option>

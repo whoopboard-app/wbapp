@@ -154,4 +154,15 @@ class InviteController extends Controller
 
         return redirect()->route('invite.create')->with('success', 'Team member updated successfully!');
     }
+
+    public function destroy(Invite $invite)
+    {
+        $invite->delete();
+        $user = User::where('email', $invite->email)->first();
+        if ($user) {
+            $user->delete();
+        }
+        return redirect()->back()->with('success', 'Member deleted successfully!');
+    }
+
 }

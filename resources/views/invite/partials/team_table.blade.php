@@ -36,7 +36,13 @@
                             </button>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item edit-member" href="#">Edit</a></li>
-                                <li><a class="dropdown-item text-danger" href="#">Delete</a></li>
+                                <li>
+                                    <form action="{{ route('invite.destroy', $member->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this member?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="dropdown-item text-danger">Delete</button>
+                                    </form>
+                                </li>
                             </ul>
                         </div>
                     </td>
