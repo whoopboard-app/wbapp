@@ -21,7 +21,8 @@ class InviteController extends Controller
     public function create()
     {
         $tenantId = auth()->user()->tenant_id;
-        $teamMembers = Invite::where('invited_by_tenant', $tenantId)->get();  
+        $teamMembers = Invite::where('invited_by_tenant', $tenantId)->latest()
+        ->paginate(5);
         $teamCount   = $teamMembers->count();
         return view('invite.create', compact('teamMembers', 'teamCount'));
     }
@@ -115,4 +116,18 @@ class InviteController extends Controller
     
     }
     
+    public function search(Request $request)
+    {
+        $tenantId = auth()->user()->tenant_id;
+        $query = Invite::where('invited_by_tenant', $tenantId);
+
+        if ($request->filled('search')) {
+            $query->where('first_name', 'like', '%' . $request->search . '%')
+                ->orWhere('email', 'like', '%' . $request->search . '%');
+        }
+
+        $teamMembers = $query->latest()->paginate(5);
+        
+        return view('invite.partials.team_table', compact('teamMembers'))->render();
+    }
 }

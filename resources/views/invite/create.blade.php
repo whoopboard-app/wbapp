@@ -45,21 +45,7 @@
         <x-alert type="error" :message="$errors->first()" />
     @endforeach
 @endif
-@if (session('success'))
-    <x-alert type="success" :message="session('success')" />
-@endif
 
-@if (session('error'))
-    <x-alert type="error" :message="session('error')" />
-@endif
-
-@if (session('info'))
-    <x-alert type="info" :message="session('info')" />
-@endif
-
-@if (session('warning'))
-    <x-alert type="warning" :message="session('warning')" />
-@endif
     <section class="section-content-center">
         <div class="container py-4">
             <h4 class="fw-bold fs-4 mb-2 let_spc">Add New Team</h4>
@@ -117,61 +103,33 @@
             <div class="form-section card bg-white mt-3">
                 <h6 class="fw-bold">Team Member ({{ $teamCount }})</h6>
                 <div class="mb-3 position-relative mt-2 x">
-                    <input class="input-field w-100 rounded ps-5" placeholder="Search">
+                    <input id="teamSearch" class="input-field w-100 rounded ps-5" placeholder="Search">
                     <img src="{{ asset('assets/img/icon/search.svg') }}" class="position-absolute category-search-icon" style="top: 50%; left: 10px; transform: translateY(-50%);" alt="">
                 </div>
-                <form action="#">
+              
                 <div class="table-responsive">
-                <div id="teamMemberSearch_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer"><table id="teamMemberSearch" class="table table-bordered align-middle dataTable no-footer" aria-describedby="teamMemberSearch_info">
-                    <thead class="table-light">
-                    <tr>
-                        <th class="" tabindex="0" aria-controls="teamMemberSearch" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Full Name: activate to sort column descending" style="width: 345.541px;">Full Name</th>
-                        <th class="" tabindex="0" aria-controls="teamMemberSearch" rowspan="1" colspan="1" aria-label="Email: activate to sort column ascending" style="width: 238.615px;">Email</th>
-                        <th class="" tabindex="0" aria-controls="teamMemberSearch" rowspan="1" colspan="1" aria-label="Role: activate to sort column ascending" style="width: 74.1458px;">Role</th>
-                        <th class="" tabindex="0" aria-controls="teamMemberSearch" rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending" style="width: 89.906px;">Status</th>
-                        <th class="" tabindex="0" aria-controls="teamMemberSearch" rowspan="1" colspan="1" aria-label="Action: activate to sort column ascending" style="width: 87.4583px;">Action</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                        @forelse($teamMembers as $member)
-                            <tr>
-                                <td>{{ ucfirst($member->first_name) }}</td>
-                                <td>{{ $member->email }}</td>
-                                <td>
-                                   {{ $member->userTypeLabel() }}
-                                </td>
-                                <td>
-                                    <span class="badge 
-                                        {{ $member->status == '1' ? 'status-active' : ($member->status == '2' ? 'status-inactive' : 'status-pending') }} 
-                                        rounded">
-                                        {{ $member->status == '1' ? 'Active' : ($member->status == '2' ? 'Inactive' : 'Pending') }}
-                                    </span>
-                                </td>
-                                <td>
-                                    <div class="dropdown">
-                                        <button class="btn btn-md btn-transparent fw-bold p-0 border-0" type="button" data-bs-toggle="dropdown">
-                                            …
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" href="#">Edit</a></li>
-                                            <li><a class="dropdown-item text-danger" href="#">Delete</a></li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="5" class="text-center">No team members found</td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-                <!-- <div class="bottom"><div class="dataTables_info" id="teamMemberSearch_info" role="status" aria-live="polite">Showing 1 to 2 of 2 entries</div></div></div>
-                </div> -->
-                <button class="theme-btn sm  fw-semibold secondary rounded">Previous</button>
-                <button class="theme-btn sm secondary fw-semibold rounded">Next</button>
-                </form>
+                    @include('invite.partials.team_table', ['teamMembers' => $teamMembers])
+                </div>
+              
             </div>
         </div>
     </section>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        console.log('test');
+        $('#teamSearch').on('keyup', function() {
+            let query = $(this).val();
+
+            $.ajax({
+                url: "{{ route('invite.search') }}",
+                method: 'GET',
+                data: { search: query },
+                success: function(response) {
+                    $('#teamTable').html(response);
+                }
+            });
+        });
+    });
+</script>
 @endsection

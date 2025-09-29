@@ -142,6 +142,7 @@
         ->name('invite.accept');
         Route::post('complete', [InviteController::class, 'complete'])
         ->name('invite.complete');
+        Route::get('search', [InviteController::class, 'search'])->name('invite.search');
     });
 
 
