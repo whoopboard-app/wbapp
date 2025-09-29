@@ -83,9 +83,8 @@ class KBArticleController extends Controller
             $validatedData['status'] = 'draft';
         }
         unset($validatedData['action']);
-        KBArticle::create($validatedData);
-
-        return redirect()->route('kbarticle.index')
+        $article = KBArticle::create($validatedData);
+        return redirect()->route('kbarticle.view', ['id' => $article->id])
             ->with('success', 'Article created successfully.');
     }
     public function storeBoard(Request $request)

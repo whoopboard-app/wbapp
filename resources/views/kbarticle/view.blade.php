@@ -20,8 +20,10 @@
             <div class="section-title mb-4 d-flex justify-content-between align-items-center">
                 <h2 class="fw-semibold mb-2 pb-1 fs-1">{{ $article->title }}</h2>
                 <div class="d-inline-block">
-                    <a href="#" type="button" class="theme-btn fw-semibold secondary rounded">Edit Article</a>
-                    <a href="#" type="button" class="theme-btn fw-semibold rounded border-0">Published</a>
+                    <a href="{{ url('kbarticle/boards/' . $article->board->id . '/categories') }}"
+                       class="theme-btn fw-semibold rounded border-0">
+                        Back To Category Listing
+                    </a>
                 </div>
             </div>
             <div class="tags-wrapper d-flex flex-wrap mt-2">

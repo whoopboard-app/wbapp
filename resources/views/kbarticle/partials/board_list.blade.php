@@ -63,7 +63,7 @@
                     </span>
                         @endforeach
                     @else
-                        <p class="text-muted text-center">No Category added for this Board.</p>
+                        <p class="text-muted text-center">No Category added for this Board Yet.</p>
                     @endif
                     <span class="badge bg-white rounded-pill text-url border d-flex align-items-center gap-1">
                             <span class="textToCopied text-gray-500">{{$board->public_url}}</span>

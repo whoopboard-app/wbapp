@@ -65,17 +65,25 @@
                         </div>
                     </div>
                     <!-- Parent Category -->
-                        <div class="form-input border-0 p-0 mb-4 mt-2">
-                            <label for="parentCategory" class="input-label mb-1 fw-medium">
-                                Parent Category
-                                <span class="tooltip-icon" data-bs-toggle="tooltip" title="Select parent category">
+                    @if($board->categories->isNotEmpty())
+                    <div class="form-input border-0 p-0 mb-4 mt-2">
+                        <label for="parentCategory" class="input-label mb-1 fw-medium">
+                            Parent Category
+                            <span class="tooltip-icon" data-bs-toggle="tooltip" title="Select parent category">
                             <i class="fa fa-question-circle"></i>
                         </span>
-                            </label>
-                            <select class="input-field w-100 rounded border" id="parentCategory" name="parent_id">
-                                <option value="">None</option>
-                            </select>
-                        </div>
+                        </label>
+                        <select class="input-field w-100 rounded border" id="parentCategory" name="parent_id">
+                            <option value="">None</option>
+                            @if(isset($board))
+                                @foreach($board->categories as $category)
+                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                @endforeach
+                            @endif
+                        </select>
+                    </div>
+                    @endif
+
                     <!-- Display as Popular -->
                     {{--<div class="form-input mb-4 mt-2 rounded border w-100">
                         <div class="form-check">
@@ -117,7 +125,7 @@
                     <div class="form-input border-0 p-0 mb-4 mt-2">
                         <label class="form-label fw-medium">Hide From Structure</label>
                         <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" id="categoryVisibility" name="visibility" checked>
+                            <input class="form-check-input" type="checkbox" id="categoryVisibility" name="visibility">
                             <label class="form-check-label" for="categoryVisibility" id="categoryVisibilityLabel">
                                 Private (Hidden from structure)
                             </label>
