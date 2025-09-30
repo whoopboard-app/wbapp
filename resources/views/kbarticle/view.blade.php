@@ -15,7 +15,7 @@
                     </li>
                 </ol>
                 <div class="d-inline-block">
-                    <a href="{{ url('kbarticle/boards/' . $article->board->id . '/categories') }}"
+                    <a href="{{ url('kbcategories/' . $article->category->id . '/articles') }}"
                        type="button"
                        class="theme-btn fw-semibold rounded border-0">
                         Back To Category Listing

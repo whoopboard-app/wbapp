@@ -6,7 +6,7 @@
                 <h5 class="text-2xl font-bold text-gray-900" id="createBoardCategoryLabel">Knowledge Board Category</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="{{ route('kbarticle.storeBoardcategory') }}" method="POST" enctype="multipart/form-data" class="d-flex flex-column gap-3 mt-3">
+            <form action="{{ route('kbcategory.store') }}" method="POST" enctype="multipart/form-data" class="d-flex flex-column gap-3 mt-3">
                 @csrf
                 <div class="modal-body mt-2 pb-0">
                     <p class="form-para mb-3">
@@ -66,23 +66,35 @@
                     </div>
                     <!-- Parent Category -->
                     @if($board->categories->isNotEmpty())
-                    <div class="form-input border-0 p-0 mb-4 mt-2">
-                        <label for="parentCategory" class="input-label mb-1 fw-medium">
-                            Parent Category
-                            <span class="tooltip-icon" data-bs-toggle="tooltip" title="Select parent category">
-                            <i class="fa fa-question-circle"></i>
-                        </span>
-                        </label>
-                        <select class="input-field w-100 rounded border" id="parentCategory" name="parent_id">
-                            <option value="">None</option>
-                            @if(isset($board))
-                                @foreach($board->categories as $category)
-                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                @endforeach
-                            @endif
-                        </select>
-                    </div>
+                        <div class="form-input border-0 p-0 mb-4 mt-2">
+                            <!-- Checkbox -->
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" id="associateParentCategory">
+                                <label class="form-check-label fw-medium" for="associateParentCategory">
+                                    Associate Parent Category
+                                </label>
+                            </div>
+
+                            <!-- Select (hidden by default) -->
+                            <div id="parentCategoryWrapper" style="display: none;">
+                                <label for="parentCategory" class="input-label mb-1 fw-medium">
+                                    Parent Category
+                                    <span class="tooltip-icon" data-bs-toggle="tooltip" title="Select parent category">
+                    <i class="fa fa-question-circle"></i>
+                </span>
+                                </label>
+                                <select class="input-field w-100 rounded border" id="parentCategory" name="parent_id">
+                                    <option value="">None</option>
+                                    @if(isset($board))
+                                        @foreach($board->categories as $category)
+                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                            </div>
+                        </div>
                     @endif
+
 
                     <!-- Display as Popular -->
                     {{--<div class="form-input mb-4 mt-2 rounded border w-100">
@@ -143,36 +155,60 @@
 </div>
 
 <script>
-        document.getElementById('board_id').addEventListener('change', function () {
-        let boardId = this.value;
-        let parentSelect = document.getElementById('parentCategory');
+    document.addEventListener("DOMContentLoaded", function () {
+        // === Associate Parent Category Toggle ===
+        const checkbox = document.getElementById("associateParentCategory");
+        const wrapper = document.getElementById("parentCategoryWrapper");
+        const parentSelect = document.getElementById("parentCategory");
 
-        if (boardId) {
-        fetch(`/kbarticle/boards/${boardId}/categories`)
-        .then(response => response.json())
-        .then(data => {
-        parentSelect.innerHTML = '<option value="">None</option>'; // reset
-        data.forEach(function(category) {
-        let option = document.createElement('option');
-        option.value = category.id;
-        option.textContent = category.name;
-        parentSelect.appendChild(option);
-    });
-    });
-    } else {
-        parentSelect.innerHTML = '<option value="">None</option>';
-    }
-    });
-const catToggle = document.getElementById("categoryVisibility");
-    const catLabel = document.getElementById("categoryVisibilityLabel");
-
-    function updateCategoryVisibilityLabel() {
-        if (catToggle.checked) {
-            catLabel.textContent = "Private (Hidden from structure)";
-        } else {
-            catLabel.textContent = "Public (Your category is visible)";
+        if (checkbox) {
+            checkbox.addEventListener("change", function () {
+                if (this.checked) {
+                    wrapper.style.display = "block";
+                } else {
+                    wrapper.style.display = "none";
+                    parentSelect.value = ""; // reset selection
+                }
+            });
         }
-    }
-    updateCategoryVisibilityLabel();
-    catToggle.addEventListener("change", updateCategoryVisibilityLabel);
+
+        // === Dynamic Parent Categories by Board ===
+        const boardSelect = document.getElementById("board_id");
+        if (boardSelect) {
+            boardSelect.addEventListener("change", function () {
+                let boardId = this.value;
+
+                if (boardId) {
+                    fetch(`/kbarticle/boards/${boardId}/categories`)
+                        .then(response => response.json())
+                        .then(data => {
+                            parentSelect.innerHTML = '<option value="">None</option>'; // reset
+                            data.forEach(function (category) {
+                                let option = document.createElement('option');
+                                option.value = category.id;
+                                option.textContent = category.name;
+                                parentSelect.appendChild(option);
+                            });
+                        });
+                } else {
+                    parentSelect.innerHTML = '<option value="">None</option>';
+                }
+            });
+        }
+
+        // === Category Visibility Toggle ===
+        const catToggle = document.getElementById("categoryVisibility");
+        const catLabel = document.getElementById("categoryVisibilityLabel");
+
+        if (catToggle && catLabel) {
+            function updateCategoryVisibilityLabel() {
+                catLabel.textContent = catToggle.checked
+                    ? "Private (Hidden from structure)"
+                    : "Public (Your category is visible)";
+            }
+            updateCategoryVisibilityLabel();
+            catToggle.addEventListener("change", updateCategoryVisibilityLabel);
+        }
+    });
 </script>
+

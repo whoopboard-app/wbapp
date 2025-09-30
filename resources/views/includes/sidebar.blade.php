@@ -48,8 +48,9 @@
                 </li>
                 <li class="sidebar-menu-item">
 
-                    <a href="{{ route('kbarticle.index') }}" class="sidebar-menu-link d-flex align-items-center   {{ request()->routeIs('kbarticle.*') ? 'active text-blue-600' : 'text-gray-600' }}">
-                           <img src="/assets/img/icon/book.png" alt="megaphone" class="sidebar-menu-link-icon flex-shrink-0">
+                    <a href="{{ route('board.index') }}"
+                       class="sidebar-menu-link d-flex align-items-center {{ request()->routeIs('kbboard.*') ? 'active text-blue-600' : 'text-gray-600' }}">
+                        <img src="/assets/img/icon/book.png" alt="megaphone" class="sidebar-menu-link-icon flex-shrink-0">
                         <span class="sidebar-menu-link-text">@customLabel('Knowledge Board')</span>
                     </a>
                 </li>
