@@ -90,18 +90,22 @@
                 </li>
             </ul>
         </div>
-        <div class="sidebar-menu-block">
-            <h6 class="sidebar-menu-title fw-semibold text-uppercase">Team members</h6>
-            <ul class="sidebar-menu-list">
-                <li class="sidebar-menu-item">
-                    <a href="{{ route('invite.create') }}"
-                    class="sidebar-menu-link d-flex align-items-center {{ request()->routeIs('invite.create') ? 'active text-blue-600' : 'text-gray-600' }}">
-                        <img src="/assets/img/icon/user-plus.png" alt="user plus" class="sidebar-menu-link-icon flex-shrink-0">
-                        <span class="sidebar-menu-link-text">Invite a Team Member</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
+        @auth
+            @if(Auth::user()->user_type == 1)
+                <div class="sidebar-menu-block">
+                    <h6 class="sidebar-menu-title fw-semibold text-uppercase">Team members</h6>
+                    <ul class="sidebar-menu-list">
+                        <li class="sidebar-menu-item">
+                            <a href="{{ route('invite.create') }}"
+                            class="sidebar-menu-link d-flex align-items-center {{ request()->routeIs('invite.create') ? 'active text-blue-600' : 'text-gray-600' }}">
+                                <img src="/assets/img/icon/user-plus.png" alt="user plus" class="sidebar-menu-link-icon flex-shrink-0">
+                                <span class="sidebar-menu-link-text">Invite a Team Member</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            @endif
+        @endauth
         <div class="sidebar-menu-block">
             <h6 class="sidebar-menu-title fw-semibold text-uppercase">Settings</h6>
             <ul class="sidebar-menu-list">
