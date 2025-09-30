@@ -4,7 +4,7 @@
     <div class="mt-4 mx-auto w-100">
         <!-- Breadcrumb -->
         <div class="max-w-6xl mx-auto px-2">
-            <nav aria-label="breadcrumb">
+            <nav aria-label="breadcrumb" class="d-flex justify-between">
                 <ol class="breadcrumb mb-2">
                     <li class="breadcrumb-item text-black">
                         @customLabel('Knowledge Board')
@@ -14,17 +14,18 @@
                         <a href="#" class="text-primary">{{$category->name}}</a>
                     </li>
                 </ol>
+                <div class="d-inline-block">
+                    <a href="{{ url('kbarticle/boards/' . $article->board->id . '/categories') }}"
+                       type="button"
+                       class="theme-btn fw-semibold rounded border-0">
+                        Back To Category Listing
+                    </a>
+                </div>
             </nav>
         </div>
         <div class="main-content mx-auto w-100 pt-2">
             <div class="section-title mb-4 d-flex justify-content-between align-items-center">
                 <h2 class="fw-semibold mb-2 pb-1 fs-1">{{ $article->title }}</h2>
-                <div class="d-inline-block">
-                    <a href="{{ url('kbarticle/boards/' . $article->board->id . '/categories') }}"
-                       class="theme-btn fw-semibold rounded border-0">
-                        Back To Category Listing
-                    </a>
-                </div>
             </div>
             <div class="tags-wrapper d-flex flex-wrap mt-2">
                 @foreach($article->tag_list as $tag)
@@ -88,11 +89,11 @@
                             <p class="label text-dusk">
                                     {{$article->description}}
                             </p>
-                            <h2 class="fw-semibold mb-3">Category Discripition</h2>
+                            <h2 class="fw-semibold mb-3 mt-3">Category Discripition</h2>
                             <p class="label mb-0 text-dusk">
                                     {{$category->short_desc}}
                             </p>
-                            <h2 class="fw-semibold mb-3">Board Description</h2>
+                            <h2 class="fw-semibold mb-3 mt-3">Board Description</h2>
                             <p class="mb-0 label text-dusk">
                                 {{$board->description}}
                             </p>

@@ -1,3 +1,21 @@
+<div id="instance" style="width: 100%;">
+    @php
+        $instanceClasses = [
+            'UAT' => 'bg-danger text-white',
+            'Production' => 'bg-success text-white',
+            'Staging' => 'bg-warning text-dark',
+        ];
+        $instance = config('app.instance');
+        $class = $instanceClasses[$instance] ?? '';
+        $user = Auth::user();
+    @endphp
+
+    @if($instance == 'UAT' && $user)
+        <div class="{{ $class }}">
+            <p class="text-center p-2">{{ $instance }}, User ID: {{ $user->id }} , Tenant ID: {{ $user->tenant_id }}</p>
+        </div>
+    @endif
+</div>
 <header class="header sticky-top bg-white">
     <div class="header-wrapper d-flex align-items-center justify-content-between gap-4 px-1f">
 
@@ -10,30 +28,8 @@
         <div class="profile-container d-flex align-items-center justify-content-end pb-0">
 
         <div class="profile d-flex align-items-center gap-0 gap-sm-3">
-            @php
-                $instanceClasses = [
-                    'UAT' => 'bg-danger text-white',
-                    'Production' => 'bg-success text-white',
-                    'Staging' => 'bg-warning text-dark',
-                ];
-                $instance = config('app.instance');
-            @endphp
-
-            <span class="badge {{ $instanceClasses[$instance] ?? 'bg-secondary' }}">
-                 {{ $instance }}
-                @php
-                    $instance = config('app.instance');
-                @endphp
-
-                @if($instance == 'UAT')
-                    <p>User ID: {{ Auth::user()->id }}</p>
-                    <p>Tenant ID: {{ Auth::user()->tenant_id }}</p>
-                @endif
-
-                </span>
-
             <!-- Profile Image -->
-            <img src="{{ Auth::user()->profile_img ? asset('storage/' . Auth::user()->profile_img) : asset('assets/img/profile-img.png') }}" 
+            <img src="{{ Auth::user()->profile_img ? asset('storage/' . Auth::user()->profile_img) : asset('assets/img/profile-img.png') }}"
                 alt="profile-img"
                 class="profile-img rounded-circle object-fit-cover">
 
