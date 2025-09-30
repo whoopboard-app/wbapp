@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('image')->nullable();
-            $table->string('parent_id')->nullable();
             $table->string('short_desc')->nullable();
             $table->enum('status', ['active','inactive','draft'])->default('active');
             $table->boolean('is_hidden')->default(0);
