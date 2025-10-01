@@ -8,7 +8,7 @@
             <form action="{{ route('board.store') }}" method="POST" class="d-flex flex-column gap-3 mt-3">
                 @csrf
 
-                <div class="modal-body mt-2">
+                <div class="modal-body mt-2" x-data="{ boardName: '' }">
                     <p class="form-para mb-3">
                         Set up a new board to organize your documentation. Define its name, description, status, and visibility.
                     </p>
@@ -25,7 +25,7 @@
                                 <i class="fa fa-question-circle"></i>
                             </span>
                         </label>
-                        <input type="text" id="boardName" name="boardName"
+                        <input type="text" id="boardName" name="boardName" x-model="boardName"
                                class="input-field w-100 rounded boarded" placeholder="Placeholder" required>
                     </div>
 
@@ -89,6 +89,7 @@
                             <input type="button" class="input-field input-btn rounded rounded-end-0 flex-grow-1 text-start"
                                    value="{{$tenant->custom_url}}.insighthq.app" readonly>
                             <input type="text" id="bublicURL" name="bublicURL"
+                                     :value="boardName ? '/' + boardName.toLowerCase().trim().replace(/\s+/g, '-').replace(/[^a-z0-9\-]/g, '') : ''"
                                    class="input-field w-100 flex-shrink-1 rounded rounded-start-0 border-start-0 bg-white"
                                    placeholder=""
                             required>
