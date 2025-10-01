@@ -103,10 +103,14 @@ class KBArticleController extends Controller
 
     public function sort(Request $request)
     {
+        \Log::info('Sort payload:', $request->all());
         $order = $request->input('order', []);
         foreach ($order as $item) {
             KBArticle::where('id', $item['id'])->update(['list_order' => $item['position']]);
         }
-        return response()->json(['success' => true]);
+        return response()->json([
+            'success' => true,
+            'message' => 'Order changed successfully!'
+        ]);
     }
 }

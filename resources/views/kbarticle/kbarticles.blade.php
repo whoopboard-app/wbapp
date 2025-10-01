@@ -113,10 +113,14 @@
                     <i class="fa fa-plus"></i> Quick Report
                 </a>
             </div>
-            <p class="text-muted pb-4">Arrange help center categories, sections and articles.</p>
+            <p class="text-muted pb-4">
+                Arrange help center categories, sections and articles.
+                <span id="sortMessage" class="text-success fw-semibold ms-2" style="display:none;"></span>
+            </p>
+
             @if($articles->count())
                 <div id="article-list">
-                    @foreach($articles as $article)
+                @foreach($articles as $article)
                         <div class="mb-3 bg-white kb-card cursor-grab shadow-sm rounded border" data-id="{{ $article->id }}">
                             <div class="card-body">
                                 <div class="d-flex justify-content-between align-items-center p-4">
@@ -147,3 +151,50 @@
         </div>
     </div>
 @endsection
+@push('scripts')
+    <script>
+        $(function () {
+            $("#article-list").sortable({
+                items: ".kb-card",
+                handle: ".drag-handle",
+                placeholder: "ui-state-highlight",
+                forcePlaceholderSize: true,
+                update: function (event, ui) {
+                    var order = [];
+                    $("#article-list .kb-card").each(function (index) {
+                        order.push({
+                            id: $(this).data("id"),
+                            position: index + 1
+                        });
+                    });
+
+                    $.ajax({
+                        url: "{{ route('kbarticle.sort') }}",
+                        method: "POST",
+                        data: {
+                            order: order,
+                            _token: "{{ csrf_token() }}"
+                        },
+                        success: function (res) {
+                            if (res.success) {
+                                $("#sortMessage").text(res.message || "Order changed successfully!")
+                                    .fadeIn();
+                                setTimeout(function () {
+                                    $("#sortMessage").fadeOut();
+                                }, 2000);
+                            }
+                        },
+                        error: function () {
+                            $("#sortMessage").text("Error: Something went wrong while saving order.").fadeIn();
+                            setTimeout(function () {
+                                $("#sortMessage").fadeOut();
+                            }, 2000);
+                        }
+                    });
+                }
+            }).disableSelection();
+        });
+    </script>
+@endpush
+
+
