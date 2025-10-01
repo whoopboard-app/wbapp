@@ -37,6 +37,8 @@ class AppServiceProvider extends ServiceProvider
         Blade::directive('customLabel', function ($expression) {
             return "<?php echo \$globalLabels[$expression] ?? ucfirst($expression); ?>";
         });
+    
+        Blade::if('isSuperAdmin', fn() => auth()->check() && (int) auth()->user()->user_type === 1);
     }
 
 }

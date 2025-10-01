@@ -14,12 +14,8 @@ class User extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
-    // User type constants
-        public const SUPER_ADMIN = 1;
-        public const ADMIN       = 2;
-        public const MANAGER     = 3;
-        public const EDITOR      = 4;
-        public const USER        = 5;
+    
+        
     /**
      * The attributes that are mass assignable.
      *
@@ -101,27 +97,18 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne(UserTheme::class);
     }
 
-    public static function userTypeLabels(): array
-    {
-        return [
-            self::SUPER_ADMIN => 'Super Administrator',
-            self::ADMIN       => 'Administrator',
-            self::MANAGER     => 'Manager',
-            self::EDITOR      => 'Editor',
-            self::USER        => 'User',
-        ];
-    }
+   
 
-     // Get label for current user
-    public function userTypeLabel(): string
+    public function userTypeLabel()
     {
-        return self::userTypeLabels()[$this->user_type] ?? 'Other';
-    }
-
-    // Helper to check if user is super admin
-    public function isSuperAdmin(): bool
-    {
-        return $this->user_type === self::SUPER_ADMIN;
+        return match((int) $this->user_type) {
+            1 => 'Super Administrator',
+            2 => 'Administrator',
+            3 => 'Manager',
+            4 => 'Editor',
+            5 => 'User',
+            default => 'Other',
+        };
     }
 
 

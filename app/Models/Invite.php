@@ -20,9 +20,5 @@ class Invite extends Model
         };
     }
 
-    // Helper to check if user is super admin
-    public function isSuperAdmin(): bool
-    {
-        return $this->user_type === self::SUPER_ADMIN;
-    }
+  
 }
