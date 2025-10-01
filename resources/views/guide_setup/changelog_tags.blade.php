@@ -94,7 +94,6 @@
                                 rows="3"
                                 class="mt-1 block w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
                                 placeholder="Enter Tag Short Description"
-                                required
                             >{{ $tag->Short_description ?? old('Short_description') }}</textarea>
                         </div>
 

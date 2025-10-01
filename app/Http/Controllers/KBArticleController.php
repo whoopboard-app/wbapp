@@ -4,52 +4,30 @@ namespace App\Http\Controllers;
 
 use App\Models\Changelog;
 use Illuminate\Http\Request;
-use App\Models\SettingCategoryChangelog;
 use App\Models\ChangelogTag;
 use App\Models\KBArticle;
 use App\Models\KBBoard;
-use App\Models\User;
 use App\Models\KBCategory;
-
+use App\Models\User;
 
 class KBArticleController extends Controller
 {
-    public function index(Request $request)
-    {
-        $tenantId = auth()->user()->tenant_id;
-        $boards = KBBoard::where('tenant_id', $tenantId)->orderBy('created_at', 'desc')->get();
-        $categories = KBCategory::where('tenant_id', $tenantId)->get();
-        $announcements = Changelog::where('tenant_id', $tenantId)
-            ->orderBy('created_at', 'desc')
-            ->paginate(3);
-        $filter = $request->get('filter', 'all');
-        $search = $request->get('search');
-        return view('kbarticle.index', compact(/*'kbarticals',*/ 'filter', 'announcements','categories','boards'));
-    }
-
     public function create()
     {
         $tenantId = auth()->user()->tenant_id;
-        $boards = KBBoard::with(['categories.articles'])
-            ->where('tenant_id', $tenantId)
-            ->get();
+        $boards = KBBoard::with('categories.articles')->where('tenant_id', $tenantId)->get();
         $authors = User::where('tenant_id', $tenantId)->get();
-        $categories = KBCategory::with('board')
-        ->where('tenant_id', $tenantId)
-            ->where('status', 1)
-            ->get();
+        $categories = KBCategory::with('board')->where('tenant_id', $tenantId)->where('status', 1)->get();
+        $tags = ChangelogTag::where('tenant_id', $tenantId)->pluck('tag_name', 'id');
 
         if ($categories->isEmpty()) {
             $categories = collect([(object)['id' => null, 'category_name' => 'No Categories Found']]);
         }
-
-        $tags = ChangelogTag::where('tenant_id', $tenantId)
-            ->pluck('tag_name', 'id');
-
         if ($tags->isEmpty()) {
             $tags = collect([null => 'No Data Found']);
         }
-        return view('kbarticle.create', compact('categories', 'tags','boards','authors'));
+
+        return view('kbarticle.create', compact('categories', 'tags', 'boards', 'authors'));
     }
 
     public function store(Request $request)
@@ -70,156 +48,65 @@ class KBArticleController extends Controller
             'article_banner'         => 'nullable|image|mimes:jpg,jpeg,png,gif,webp|max:2048',
             'action'                 => 'required|string|in:publish,draft',
         ]);
+
         $validatedData['tenant_id'] = auth()->user()->tenant_id;
         $validatedData['tag_ids'] = implode(',', $request->tagsSelect);
         $validatedData['author'] = json_encode($validatedData['author']);
+
         if ($request->hasFile('article_banner')) {
-            $path = $request->file('article_banner')->store('article_banners', 'public');
-            $validatedData['article_banner'] = $path;
+            $validatedData['article_banner'] = $request->file('article_banner')->store('article_banners', 'public');
         }
-        if ($validatedData['action'] === 'publish') {
-            $validatedData['status'] = 'active';
-        } elseif ($validatedData['action'] === 'draft') {
-            $validatedData['status'] = 'draft';
-        }
+
+        $validatedData['status'] = $validatedData['action'] === 'publish' ? 'active' : 'draft';
         unset($validatedData['action']);
+
         $article = KBArticle::create($validatedData);
-        return redirect()->route('kbarticle.view', ['id' => $article->id])
+
+        return redirect()->route('kbarticle.view', $article->id)
             ->with('success', 'Article created successfully.');
     }
-    public function storeBoard(Request $request)
-    {
-        $request->validate([
-            'boardName' => 'required|string|max:255',
-            'boardDesc' => 'nullable|string',
-            'boardType' => 'required|string',
-            'docsType'  => 'required|string',
-            'bublicURL' => 'nullable|url',
-            'embedCode' => 'nullable|string'
-        ]);
-        $tenantId = auth()->user()->tenant_id;
-        $board = new KBBoard();
-        $board->tenant_id = $tenantId;
-        $board->name = $request->boardName;
-        $board->description = $request->boardDesc;
-        $board->type = $request->boardType;
-        $board->docs_type = $request->docsType;
-        $board->is_hidden = $request->has('visibility') ? 1 : 0;
-        $board->public_url = $request->bublicURL;
-        $board->embed_code = $request->embedCode;
-        $board->save();
 
-        return redirect()->back()->with('success', 'Board created successfully!');
-    }
-    public function storeBoardcategory(Request $request)
+    public function view($articleId)
     {
-        $validatedData = $request->validate([
-            'board_id'     => 'required|exists:kb_boards,id',
-            'categoryName' => 'required|string|max:255',
-            'status'       => 'required|string',
-            'short_desc'   => 'nullable|string|max:255',
-            'imageAdd'     => 'nullable|image|mimes:jpg,jpeg,png,svg|max:2048',
-            'parent_id' => 'nullable|exists:kb_categories,id',
-        ]);
-        $category = new KBCategory();
-        $category->tenant_id = auth()->user()->tenant_id;
-        $category->parent_id  = $request->parent_id ?? null;
-        $category->board_id   = $request->board_id;
-        $category->name       = $request->categoryName;
-        $category->short_desc = $request->short_desc;
-        $category->status     = $request->status;
-        $category->parent_id  = $request->parent_id ?? null;
-        $category->is_hidden  = $request->has('visibility') ? 1 : 0;
-        $category->is_popular = $request->has('is_popular') ? 1 : 0;
-        if ($request->hasFile('imageAdd')) {
-            $path = $request->file('imageAdd')->store('categories', 'public');
-            $category->image = $path;
-        }
-        $category->save();
+        $article = KBArticle::with('category', 'board')->findOrFail($articleId);
+        $category = $article->category;
+        $board = $article->board;
 
-        return redirect()->back()->with('success', 'Category created successfully!');
+        return view('kbarticle.view', compact('article', 'category', 'board'));
     }
-    public function getBoardCategories($boardId)
-    {
-        $board = KBBoard::with(['categories.articles'])->findOrFail($boardId);
-        return view('kbarticle.kbcategories', compact('board'));
-    }
-    public function destroyBoard($id)
-    {
-        $board = KBBoard::findOrFail($id);
-        $board->delete();
-        return redirect()->route('kbarticle.index')->with('success', 'Board deleted successfully!');
-    }
+
     public function showArticle($categoryId)
     {
-        $category = KBCategory::with('children')->findOrFail($categoryId);
+        $category = KBCategory::with('children', 'articles')->findOrFail($categoryId);
         $board = $category->board;
+
+        // Get all category IDs including children
         $allCategoryIds = $this->getAllCategoryIds($category);
+
         $articles = KBArticle::with('category')
             ->whereIn('category_id', $allCategoryIds)
             ->orderBy('list_order', 'asc')
             ->paginate(15);
 
-        return view('kbarticle.kbarticles', compact('articles', 'category','board','allCategoryIds'));
+        return view('kbarticle.kbarticles', compact('articles', 'category', 'board', 'allCategoryIds'));
     }
 
-    /**
-     * Recursive helper to collect child category IDs
-     */
+
     private function getAllCategoryIds($category)
     {
         $ids = [$category->id];
-
         foreach ($category->children as $child) {
             $ids = array_merge($ids, $this->getAllCategoryIds($child));
         }
-
         return $ids;
     }
+
     public function sort(Request $request)
     {
         $order = $request->input('order', []);
-
-        if (!empty($order)) {
-            foreach ($order as $item) {
-                \App\Models\KBArticle::where('id', $item['id'])
-                    ->update(['list_order' => $item['position']]);
-            }
+        foreach ($order as $item) {
+            KBArticle::where('id', $item['id'])->update(['list_order' => $item['position']]);
         }
-
         return response()->json(['success' => true]);
     }
-    public function boardSearch(Request $request)
-    {
-        $tenantId = auth()->user()->tenant_id;
-        $query = $request->get('q', '');
-
-        $boards = KBBoard::with(['categories.articles'])
-            ->where('tenant_id', $tenantId)
-            ->when($query, function ($qBuilder) use ($query) {
-                $qBuilder->where(function ($sub) use ($query) {
-                    $sub->where('name', 'like', "%{$query}%")
-                        ->orWhere('description', 'like', "%{$query}%");
-                });
-            })
-            ->get();
-
-        $html = view('kbarticle.partials.board_list', compact('boards'))->render();
-
-        return response()->json(['html' => $html]);
-    }
-    public function view($articleId)
-    {
-        $article = KBArticle::with('category')->findOrFail($articleId);
-        $category = $article->category;
-        $board = $article->board;
-/*        dump($category);
-        dump($board);
-        dd($article);*/
-        return view('kbarticle.view', compact('article', 'category', 'board'));
-
-    }
-
-
-
 }

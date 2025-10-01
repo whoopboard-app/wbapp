@@ -14,7 +14,7 @@
                 2 => 'Draft'
             ];
         @endphp
-        <div class="card mb-3 bg-white border board-clickable" data-href="{{ route('boards.getBoardCategories', $board->id) }}">
+        <div class="card mb-3 bg-white border board-clickable" data-href="{{ route('board.categories', $board->id) }}">
             <div class="card-body p-0">
                 <div class="d-flex justify-content-between">
                     <div>
@@ -40,7 +40,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <form action="{{ route('kbarticle.destroyBoard', $board->id) }}" method="POST"
+                                    <form action="{{ route('board.destroy', $board->id) }}" method="POST"
                                           onsubmit="return confirm('Are you sure you want to delete this board?')">
                                         @csrf
                                         @method('DELETE')

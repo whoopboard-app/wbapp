@@ -11,7 +11,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
 
-            <form action="{{ route('kbarticle.updateBoard', $board->id) }}"
+            <form action="{{ route('board.update', $board->id) }}"
                   method="POST"
                   class="d-flex flex-column gap-3 mt-3">
                 @csrf
@@ -57,9 +57,8 @@
                         <label for="boardType" class="input-label mb-1 fw-medium">Board Type</label>
                         <select class="input-field w-100 rounded border" id="boardType" name="boardType">
                             <option value="">Select</option>
-                            <option value="active"   {{ old('boardType', $board->type ?? '') == 'active' ? 'selected' : '' }}>Active</option>
-                            <option value="inactive" {{ old('boardType', $board->type ?? '') == 'inactive' ? 'selected' : '' }}>Inactive</option>
-                            <option value="draft"    {{ old('boardType', $board->type ?? '') == 'draft' ? 'selected' : '' }}>Draft</option>
+                            <option value="1" {{ old('boardType', $board->type ?? '') == '1' ? 'selected' : '' }}>Public</option>
+                            <option value="0" {{ old('boardType', $board->type ?? '') == '0' ? 'selected' : '' }}>Private</option>
                         </select>
                     </div>
 
@@ -68,9 +67,9 @@
                         <label for="docsType" class="input-label mb-1 fw-medium">Document Type</label>
                         <select class="input-field w-100 rounded border" id="docsType" name="docsType">
                             <option value="">Select</option>
-                            <option value="manual"  {{ old('docsType', $board->docs_type ?? '') == 'manual' ? 'selected' : '' }}>Manual</option>
-                            <option value="faq"     {{ old('docsType', $board->docs_type ?? '') == 'faq' ? 'selected' : '' }}>FAQ</option>
-                            <option value="guide"   {{ old('docsType', $board->docs_type ?? '') == 'guide' ? 'selected' : '' }}>Guide</option>
+                            <option value="Help Document" {{ old('docsType', $board->docs_type ?? '') == 'Help Document' ? 'selected' : '' }}>Help Document</option>
+                            <option value="Manual" {{ old('docsType', $board->docs_type ?? '') == 'Manual' ? 'selected' : '' }}>Manual</option>
+                            <option value="Requirement Document" {{ old('docsType', $board->docs_type ?? '') == 'Requirement Document' ? 'selected' : '' }}>Requirement Document</option>
                         </select>
                     </div>
 
@@ -91,11 +90,11 @@
                         <label for="bublicURL" class="input-label mb-1 fw-medium">Public Board URL</label>
                         <div class="form-input-group d-flex">
                             <input type="button" class="input-field input-btn rounded rounded-end-0 flex-grow-1 text-start"
-                                   value="subdomain.insighthq.app" readonly>
-                            <input type="url" id="bublicURL" name="bublicURL"
+                                   value="{{$board->tenant->custom_url}}.insighthq.app" readonly>
+                            <input type="text" id="bublicURL" name="bublicURL"
                                    value="{{ old('bublicURL', $board->public_url ?? '') }}"
                                    class="input-field w-100 flex-shrink-1 rounded rounded-start-0 border-start-0 bg-white"
-                                   placeholder="https://www.">
+                                   placeholder="">
                         </div>
                     </div>
 

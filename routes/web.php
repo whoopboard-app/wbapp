@@ -10,6 +10,8 @@
     use App\Http\Controllers\ThemeController;
     use App\Http\Controllers\ChangelogController;
     use App\Http\Controllers\KBArticleController;
+    use App\Http\Controllers\KBCategoryController;
+    use App\Http\Controllers\KBBoardController;
     use App\Http\Controllers\InviteController;
 
     Route::middleware(['auth'])->group(function () {
@@ -115,7 +117,7 @@
         Route::get('filter', [ChangelogController::class, 'filter'])->name('announcement.filter');
     });
 
-    Route::prefix('kbarticle')->group(function () {
+/*    Route::prefix('kbarticle')->group(function () {
         Route::post('/kbarticles/sort', [KBArticleController::class, 'sort'])->name('kbarticle.sort');
         Route::get('/', [KBArticleController::class, 'index'])->name('kbarticle.index');
         Route::get('create', [KBArticleController::class, 'create'])->name('kbarticle.create');
@@ -133,6 +135,27 @@
             ->name('boards.search');
         Route::get('/kbarticle/{id}', [KBArticleController::class, 'view'])->name('kbarticle.view');
 
+    });*/
+    Route::prefix('kbarticles')->middleware('auth')->group(function () {
+        Route::get('/', [KBArticleController::class, 'index'])->name('kbarticle.index');
+        Route::get('create', [KBArticleController::class, 'create'])->name('kbarticle.create');
+        Route::post('store', [KBArticleController::class, 'store'])->name('kbarticle.store');
+        Route::get('{id}', [KBArticleController::class, 'view'])->name('kbarticle.view');
+        Route::post('sort', [KBArticleController::class, 'sort'])->name('kbarticle.sort');
+    });
+
+    Route::prefix('kbboards')->middleware('auth')->group(function () {
+        Route::get('/', [KBBoardController::class, 'index'])->name('board.index');
+        Route::post('store', [KBBoardController::class, 'store'])->name('board.store');
+        Route::get('{board}/categories', [KBBoardController::class, 'categories'])->name('board.categories');
+        Route::delete('{board}', [KBBoardController::class, 'destroy'])->name('board.destroy');
+        Route::put('{board}', [KBBoardController::class, 'update'])->name('board.update');
+        Route::get('search', [KBBoardController::class, 'search'])->name('board.search');
+    });
+
+    Route::prefix('kbcategories')->middleware('auth')->group(function () {
+        Route::post('store', [KBCategoryController::class, 'store'])->name('kbcategory.store');
+        Route::get('{category}/articles', [KBCategoryController::class, 'articles'])->name('kbcategory.articles');
     });
 
     Route::prefix('invite')->group(function () {

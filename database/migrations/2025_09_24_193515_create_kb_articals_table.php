@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('kb_articles', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('tenant_id');
-            $table->foreign('tenant_id')->references('id')->on('tenants')->onDelete('cascade');
+            $table->foreign('tenant_id')->references('tenant_id')->on('tenants')->onDelete('cascade');
             $table->unsignedBigInteger('category_id')->nullable();
             $table->foreign('category_id')->references('id')->on('kb_categories')->onDelete('cascade');
             $table->unsignedBigInteger('other_article_category')->nullable();

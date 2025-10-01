@@ -54,7 +54,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <form action="{{ route('kbarticle.destroyBoard', $board->id) }}" method="POST"
+                                        <form action="{{ route('board.destroy', $board->id) }}" method="POST"
                                               onsubmit="return confirm('Are you sure you want to delete this board?')">
                                             @csrf
                                             @method('DELETE')
@@ -114,7 +114,6 @@
                 </a>
             </div>
             <p class="text-muted pb-4">Arrange help center categories, sections and articles.</p>
-
             @if($articles->count())
                 <div id="article-list">
                     @foreach($articles as $article)
@@ -123,14 +122,13 @@
                                 <div class="d-flex justify-content-between align-items-center p-4">
                                     <div>
                                         <h5 class="card-title mb-1">
-                                            <a href="{{ route('kbarticle.view', $article->id) }}"
-                                               class="text-dark text-decoration-none fw-semibold">
+                                            <a href="{{ route('kbarticle.view', $article->id) }}" class="text-dark text-decoration-none fw-semibold">
                                                 {{ $article->title }}
                                             </a>
                                         </h5>
                                         <span class="card-text label text-muted small">
-                            Category: {{ $article->category->name ?? 'No Category' }}
-                        </span>
+                                Category: {{ $article->category->name ?? 'No Category' }}
+                            </span>
                                     </div>
                                     <div>
                                         <img src="{{ asset('assets/img/icon/transfer.svg') }}" class="drag-handle" alt="Move">
@@ -140,17 +138,12 @@
                         </div>
                     @endforeach
                 </div>
-                <!-- Pagination -->
                 <div class="mt-3">
                     {{ $articles->links() }}
                 </div>
             @else
-                <p class="text-muted">No articles available in this category.</p>
+                <p class="text-muted">No articles available in this category or its subcategories.</p>
             @endif
-
-
-
-
         </div>
     </div>
 @endsection

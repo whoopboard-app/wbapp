@@ -43,26 +43,6 @@
                            data-bs-toggle="modal" data-bs-target="#createBoardModal">
                             <i class="fa fa-plus"></i> Add @customLabel('Knowledge Board')
                         </a>
-
-                        @php
-                            $catdisabled = $boards->isEmpty(); // disable if no boards exist
-                        @endphp
-
-                        <a href="{{ $catdisabled ? 'javascript:void(0);' : '#' }}"
-                           class="theme-btn sm secondary fw-semibold rounded d-inline-block {{ $catdisabled ? 'disabled' : '' }}"
-                           @if(!$catdisabled) data-bs-toggle="modal" data-bs-target="#createBoardCategoryModal" @endif
-                           @if($catdisabled) aria-disabled="true" tabindex="-1" @endif>
-                            <i class="fa fa-plus"></i> Add @customLabel('Knowledge Board') Categories
-                        </a>
-                        @php
-                            $articlebtn = $categories->isEmpty();
-                        @endphp
-
-                        <a href="{{ $articlebtn ? 'javascript:void(0);' : route('kbarticle.create') }}"
-                           class="theme-btn sm secondary fw-semibold rounded d-inline-block {{ $articlebtn ? 'disabled' : '' }}"
-                           @if($articlebtn) aria-disabled="true" tabindex="-1" @endif>
-                            <i class="fa fa-plus"></i> Add Article
-                        </a>
                     </div>
                 </div>
             </div>
@@ -75,20 +55,6 @@
                        data-bs-toggle="modal" data-bs-target="#createBoardModal">
                         <i class="fa fa-plus"></i> Add @customLabel('Knowledge Board')
                     </a>
-                   {{-- <a href="javascript:void(0);"
-                       class="theme-btn sm secondary fw-semibold rounded d-inline-block"
-                       data-bs-toggle="modal" data-bs-target="#createBoardCategoryModal">
-                        <i class="fa fa-plus"></i> Add @customLabel('Knowledge Board') Categories
-                    </a>--}}
-                    @php
-                        $articlebtn = $categories->isEmpty();
-                    @endphp
-
-{{--                    <a href="{{ $articlebtn ? 'javascript:void(0);' : route('kbarticle.create') }}"
-                       class="theme-btn sm secondary fw-semibold rounded d-inline-block {{ $articlebtn ? 'disabled' : '' }}"
-                       @if($articlebtn) aria-disabled="true" tabindex="-1" @endif>
-                        <i class="fa fa-plus"></i> Add Article
-                    </a>--}}
                 </div>
 
                 {{-- Search + Actions --}}
@@ -119,7 +85,7 @@
                         timer = setTimeout(() => {
                             const query = this.value;
 
-                            fetch(`{{ route('boards.search') }}?q=${encodeURIComponent(query)}`, {
+                            fetch(`{{ route('board.search') }}?q=${encodeURIComponent(query)}`, {
                                 headers: { 'X-Requested-With': 'XMLHttpRequest' }
                             })
                                 .then(response => response.json())

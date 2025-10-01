@@ -13,6 +13,7 @@ class KBBoard extends Model
 
     protected $fillable = [
         'name',
+        'tenant_id',
         'description',
         'type',
         'docs_type',
@@ -27,5 +28,9 @@ class KBBoard extends Model
     public function articles()
     {
         return $this->hasManyThrough(KBArticle::class, KBCategory::class, 'board_id', 'category_id');
+    }
+    public function tenant()
+    {
+        return $this->belongsTo(Tenant::class, 'tenant_id', 'tenant_id');
     }
 }

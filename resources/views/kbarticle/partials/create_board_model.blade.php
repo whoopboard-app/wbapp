@@ -5,7 +5,7 @@
                 <h5 class="text-2xl font-bold text-gray-900" id="createBoardLabel">Knowledge Board</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="{{ route('kbarticle.storeBoard') }}" method="POST" class="d-flex flex-column gap-3 mt-3">
+            <form action="{{ route('board.store') }}" method="POST" class="d-flex flex-column gap-3 mt-3">
                 @csrf
 
                 <div class="modal-body mt-2">
@@ -87,10 +87,10 @@
                         <label for="bublicURL" class="input-label mb-1 fw-medium">Public Board URL</label>
                         <div class="form-input-group d-flex">
                             <input type="button" class="input-field input-btn rounded rounded-end-0 flex-grow-1 text-start"
-                                   value="subdomain.insighthq.app" readonly>
-                            <input type="url" id="bublicURL" name="bublicURL"
+                                   value="{{$tenant->custom_url}}.insighthq.app" readonly>
+                            <input type="text" id="bublicURL" name="bublicURL"
                                    class="input-field w-100 flex-shrink-1 rounded rounded-start-0 border-start-0 bg-white"
-                                   placeholder="https://www."
+                                   placeholder=""
                             required>
                         </div>
                     </div>

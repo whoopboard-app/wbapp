@@ -35,7 +35,7 @@
         </div>
 
         @if($totalCount > 0)
-            <a href="{{ route('kbarticle.showArticle', ['category' => $category->id]) }}"
+            <a href="{{ route('kbcategory.articles', ['category' => $category->id]) }}"
                class="btn btn-sm btn-outline-primary d-flex align-items-center"
                onclick="event.stopPropagation()">
                 <i class="fa fa-eye me-1"></i> View Articles
