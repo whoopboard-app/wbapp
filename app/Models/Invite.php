@@ -10,7 +10,7 @@ class Invite extends Model
 
     public function userTypeLabel()
     {
-        return match($this->user_type) {
+        return match((int) $this->user_type) {
             1 => 'Super Administrator',
             2 => 'Administrator',
             3 => 'Manager',

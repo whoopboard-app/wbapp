@@ -96,7 +96,7 @@
                                 <label for="firstName" class="input-label mb-1 fw-medium">First Name
                                 <span class="tooltip-icon" data-bs-toggle="tooltip" aria-label="First name" data-bs-original-title="First name"><i class="fa fa-question-circle"></i></span>
                                 </label>
-                                <input type="text" id="firstName" name="firstName" class="input-field w-100 rounded" placeholder="Placeholder" required readonly value="{{ ucfirst($invite->first_name) }}">
+                                <input type="text" id="firstName" name="firstName" class="input-field w-100 rounded" placeholder="Placeholder" required value="{{ ucfirst($invite->first_name) }}">
                             </div>
                         </div>
                         <div class="col-12 mb-3">
