@@ -112,7 +112,7 @@ class ChangelogController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'categorySelect' => 'required|array|min:1',
-            'feedbackRequest' => 'required|string',
+            // 'feedbackRequest' => 'required|string',
             'tagsSelect' => 'required|array|min:1',
             'status' => 'required|string|in:active,inactive,draft,schedule',
             'publishDate' => 'required|date',
@@ -123,7 +123,7 @@ class ChangelogController extends Controller
             
             'action' => 'required|string|in:publish,draft,schedule',
         ]);
-
+// dd($validatedData);
         $validatedData['publishDate'] = Carbon::parse($validatedData['publishDate'])->format('Y-m-d');
        
         $validatedData['tenant_id'] = auth()->user()->tenant_id;
@@ -132,8 +132,8 @@ class ChangelogController extends Controller
         $validatedData['show_widget'] = $request->has('show_widget') ? (bool)$validatedData['show_widget'] : false;
         $validatedData['send_email'] = $request->has('send_email') ? (bool)$validatedData['send_email'] : false;
         $validatedData['publish_date'] = $validatedData['publishDate'];
-        $validatedData['feedback_request'] = $validatedData['feedbackRequest'];
-        unset($validatedData['tagsSelect'], $validatedData['feedbackRequest'], $validatedData['publishDate']);
+       
+        unset($validatedData['tagsSelect'], $validatedData['publishDate']);
     
             // Handle file upload for feature_banner
        

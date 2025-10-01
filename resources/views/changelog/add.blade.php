@@ -190,7 +190,7 @@
                     </div> -->
                 </div>
 
-                <div class="card bg-white mb-3">
+                <!-- <div class="card bg-white mb-3">
                     <h6 class="fw-bold mb-2">Link to Feedback</h6>
                     <p class="label text-gray-800 mb-3 text-sm tracking-wide">
                         Connect this @customLabel('Announcement') to related feedback requests. This helps close the loop with users who suggested or voted on the idea.
@@ -214,7 +214,7 @@
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
-                </div>
+                </div> -->
 
                 <div class="card bg-white mb-3">
                     <!-- Title -->
@@ -277,10 +277,10 @@
                         </label>
                         <select id="status" name="status" class="form-select w-100 rounded text-sm">
                             <option value="">Select</option>
-                            <option value="active" {{ old('status') == 'active' ? 'selected' : '' }}>Active</option>
-                            <option value="inactive" {{ old('status') == 'inactive' ? 'selected' : '' }}>Inactive</option>
-                            <option value="draft" {{ old('status') == 'draft' ? 'selected' : '' }}>Draft</option>
-                            <option value="schedule" {{ old('status') == 'schedule' ? 'selected' : '' }}>Schedule</option>
+                            <option value="active">Active</option>
+                            <option value="inactive" >Inactive</option>
+                            <option value="draft" >Draft</option>
+                            <option value="schedule">Schedule</option>
                         </select>
                         @error('status')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>

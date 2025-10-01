@@ -40,7 +40,7 @@
             $("#btnDraft").prop("disabled", false);
             $("#btnPublish").prop("disabled", false).removeClass("secondary");
             $("#btnSchedule").prop("disabled", true).addClass("secondary");
-            $("#status").val("").trigger("change");
+            // $("#status").val("").trigger("change");
          }
       }
 
