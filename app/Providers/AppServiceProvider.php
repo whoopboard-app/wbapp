@@ -25,7 +25,8 @@ class AppServiceProvider extends ServiceProvider
             $labels = [];
 
             if (Auth::check()) {
-                $userTheme = UserTheme::where('user_id', Auth::id())->first();
+                $tenantId = Auth::user()->tenant_id;
+                $userTheme = UserTheme::where('tenant_id', $tenantId)->first();
                 if ($userTheme && $userTheme->module_labels) {
                     $labels = json_decode($userTheme->module_labels, true);
                 }
