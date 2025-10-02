@@ -45,9 +45,9 @@
                             class="header-dropdown-toggle dropdown-toggle d-inline-flex bg-transparent border-0">
                         <i class="fa-solid fa-caret-down"></i>
                     </button>
-                    <ul class="dropdown-menu rounded-0 border-top-0 border-bottom-0">
+                    <ul class="dropdown-menu rounded-0 border-top border-bottom-0">
                         <li>
-                            <a class="dropdown-item" href="{{ route('profile.edit') }}">Update Profile</a><br>
+                            <a class="dropdown-item" href="{{ route('profile.edit') }}">Update Profile</a>
                         </li>
                         <li>
                             <form method="POST" action="{{ route('logout') }}">
