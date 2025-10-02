@@ -24,12 +24,6 @@
     Route::get('/', function () {
         return redirect()->route('login');
     });
-/*    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->middleware(['auth', 'verified'])->name('dashboard');*/
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
     Route::get('/guide_setup', [GuideSetupController::class, 'index'])->name('guide_setup');
     Route::post('/guide_setup/completed', [GuideSetupController::class, 'completed'])->name('guide.setup.completed');
 
@@ -92,19 +86,6 @@
     Route::get('/onboarding/step2', [OnboardingController::class, 'step2'])->name('onboarding.step2');
     Route::post('/onboarding/step2', [OnboardingController::class, 'storeStep2'])->name('onboarding.storeStep2');
     Route::post('/check-domain', [OnboardingController::class, 'checkDomain'])->name('check.domain');
-    Route::domain('{tenant}.insighthq.test')->group(function () {
-        Route::get('/dashboard', function ($tenant) {
-            $tenantData = \DB::table('tenants')->where('custom_url', $tenant)->first();
-
-            if (! $tenantData) {
-                abort(404, 'Tenant not found.');
-            }
-
-            return view('dashboard', compact('tenantData'));
-        })->name('tenant.dashboard')->withoutMiddleware(['auth', 'verified']);
-    });
-
-
     // Changelog Routes
 
     Route::prefix('announcement')->group(function () {
@@ -116,26 +97,6 @@
         ->name('announcement.store');
         Route::get('filter', [ChangelogController::class, 'filter'])->name('announcement.filter');
     });
-
-/*    Route::prefix('kbarticle')->group(function () {
-        Route::post('/kbarticles/sort', [KBArticleController::class, 'sort'])->name('kbarticle.sort');
-        Route::get('/', [KBArticleController::class, 'index'])->name('kbarticle.index');
-        Route::get('create', [KBArticleController::class, 'create'])->name('kbarticle.create');
-        Route::post('store', [KBArticleController::class, 'store'])->name('kbarticle.store');
-        Route::post('/store-board', [KBArticleController::class, 'storeBoard'])->name('kbarticle.storeBoard');
-        Route::post('/store-boardcategory', [KBArticleController::class, 'storeBoardcategory'])->name('kbarticle.storeBoardcategory');
-        Route::get('/boards/{board}/categories', [KBArticleController::class, 'getBoardCategories'])->name('boards.getBoardCategories');
-        Route::delete('/boards/{board}', [KBArticleController::class, 'destroyBoard'])
-            ->name('kbarticle.destroyBoard');
-        Route::put('/boards/{board}', [KBArticleController::class, 'updateBoard'])
-            ->name('kbarticle.updateBoard');
-        Route::get('/kbarticle/category/{category}', [KBArticleController::class, 'showArticle'])
-            ->name('kbarticle.showArticle');
-        Route::get('/boards/search', [KBArticleController::class, 'boardSearch'])
-            ->name('boards.search');
-        Route::get('/kbarticle/{id}', [KBArticleController::class, 'view'])->name('kbarticle.view');
-
-    });*/
     Route::prefix('kbarticles')->middleware('auth')->group(function () {
         Route::get('/', [KBArticleController::class, 'index'])->name('kbarticle.index');
         Route::get('create', [KBArticleController::class, 'create'])->name('kbarticle.create');
@@ -171,7 +132,11 @@
         Route::put('update', [InviteController::class, 'update'])->name('invite.update');
         Route::delete('destroy/{invite}', [InviteController::class, 'destroy'])->name('invite.destroy');
     });
-
+    Route::group(['prefix' => '{tenant}', 'middleware' => ['auth', 'tenant']], function () {
+        Route::get('/dashboard', function () {
+            return view('dashboard');
+        })->name('dashboard');
+    });
 
 
 

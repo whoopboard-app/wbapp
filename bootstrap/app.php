@@ -13,6 +13,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
             'assign.theme' => \App\Http\Middleware\AssignDefaultTheme::class,
+            'tenant' => \App\Http\Middleware\TenantMiddleware::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

@@ -16,7 +16,7 @@
                 </li>
                 @endif
                 <li class="sidebar-menu-item">
-                    <a href="{{ route('dashboard') }}"
+                    <a href="{{ route('dashboard', ['tenant' => Auth::user()->tenant->custom_url]) }}"
                        class="sidebar-menu-link d-flex align-items-center {{ request()->routeIs('dashboard') ? 'active text-blue-600' : 'text-gray-600' }}">
                         <img src="/assets/img/icon/home.png" alt="home" class="sidebar-menu-link-icon flex-shrink-0">
                         <span class="sidebar-menu-link-text">Dashboard</span>

@@ -12,7 +12,7 @@
 
     @if($instance == 'UAT' && $user)
         <div class="{{ $class }}">
-            <p class="text-center p-2">{{ $instance }}, User ID: {{ $user->id }} , Tenant ID: {{ $user->tenant_id }}</p>
+            <p class="text-center p-2">{{ $instance }} - User ID: {{ $user->id }} , Client ID: {{ $user->tenant_id }} , Tenant ID: {{ $user->tenant_id }}</p>
         </div>
     @endif
 </div>

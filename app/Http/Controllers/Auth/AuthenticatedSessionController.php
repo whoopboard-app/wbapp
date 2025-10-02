@@ -29,15 +29,27 @@ class AuthenticatedSessionController extends Controller
             $request->authenticate();
             $request->session()->regenerate();
 
-            return redirect()->intended(route('dashboard', absolute: false))
-                            ->with('success', 'You are logged in!');
+            $user = Auth::user();
+            $tenantSlug = $user->tenant->custom_url ?? null;
+
+            if (!$tenantSlug) {
+                return redirect('/')
+                    ->with('error', 'No tenant found for your account.');
+            }
+            $intendedUrl = redirect()->intended()->getTargetUrl();
+            if (! str_contains($intendedUrl, "/{$tenantSlug}/")) {
+                return redirect()->to(
+                    route('dashboard', ['tenant' => $tenantSlug], false)
+                )->with('success', 'You are logged in!');
+            }
+            return redirect()->intended()->with('success', 'You are logged in!');
         } catch (ValidationException $e) {
-            // Login failed
             return redirect()->back()
-                            ->withInput($request->only('email'))
-                            ->with('error', 'Login failed — check your credentials and try again.');
+                ->withInput($request->only('email'))
+                ->with('error', 'Login failed — check your credentials and try again.');
         }
     }
+
 
     /**
      * Destroy an authenticated session.
