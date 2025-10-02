@@ -24,6 +24,12 @@
     Route::get('/', function () {
         return redirect()->route('login');
     });
+/*    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->middleware(['auth', 'verified'])->name('dashboard');*/
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
     Route::get('/guide_setup', [GuideSetupController::class, 'index'])->name('guide_setup');
     Route::post('/guide_setup/completed', [GuideSetupController::class, 'completed'])->name('guide.setup.completed');
 
@@ -97,6 +103,7 @@
         ->name('announcement.store');
         Route::get('filter', [ChangelogController::class, 'filter'])->name('announcement.filter');
     });
+
     Route::prefix('kbarticles')->middleware('auth')->group(function () {
         Route::get('/', [KBArticleController::class, 'index'])->name('kbarticle.index');
         Route::get('create', [KBArticleController::class, 'create'])->name('kbarticle.create');
@@ -132,11 +139,7 @@
         Route::put('update', [InviteController::class, 'update'])->name('invite.update');
         Route::delete('destroy/{invite}', [InviteController::class, 'destroy'])->name('invite.destroy');
     });
-    Route::group(['prefix' => '{tenant}', 'middleware' => ['auth', 'tenant']], function () {
-        Route::get('/dashboard', function () {
-            return view('dashboard');
-        })->name('dashboard');
-    });
+
 
 
 
