@@ -5,8 +5,11 @@
         <a href="{{ url('/') }}" class="header-logo logo d-inline-block">
             <img src="{{ asset('assets/img/logo.svg') }}" alt="logo" class="h-12">
         </a>
-        <!-- Close Button on Right -->
-        <a href="{{ url()->previous() ?: route('dashboard') }}">
+        @php
+            $previous = url()->previous();
+        @endphp
+
+        <a href="{{ str_contains($previous, 'invite/create') ? route('dashboard') : $previous }}">
             <img src="{{ asset('assets/img/icon/close.svg') }}" alt="logo" class="h-auto">
         </a>
     </div>

@@ -106,6 +106,7 @@ class InviteController extends Controller
         ]);
 
         $invite->update([
+            'first_name' => $validated['firstName'],
             'status' => 1,
         ]);
 
