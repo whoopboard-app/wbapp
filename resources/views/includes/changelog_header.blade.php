@@ -9,7 +9,7 @@
             $previous = url()->previous();
         @endphp
 
-        <a href="{{ str_contains($previous, 'invite/create') ? route('dashboard') : $previous }}">
+        <a href="{{ (str_contains($previous, 'invite/create') || str_contains($previous, 'profile')) ? route('dashboard') : $previous }}">
             <img src="{{ asset('assets/img/icon/close.svg') }}" alt="logo" class="h-auto">
         </a>
     </div>
