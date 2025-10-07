@@ -28,17 +28,28 @@ class AuthenticatedSessionController extends Controller
         try {
             $request->authenticate();
             $request->session()->regenerate();
-
             return redirect()->intended(route('dashboard', absolute: false))
-                            ->with('success', 'You are logged in!');
-        } catch (ValidationException $e) {
-            // Login failed
+                ->with('success', 'You are logged in!');
+/*
+            $user = Auth::user();
+
+            // Force bind the user_id into the session row
+            $request->session()->put('user_id', $user->id);
+
+            // Make sure Laravel saves this into the sessions table
+            $request->session()->save();
+
+            $tenant = $user->tenant->custom_url;
+            $dashboardUrl = "http://{$tenant}.insighthq.com/dashboard";
+
+            return redirect()->intended($dashboardUrl);*/
+        }
+        catch (ValidationException $e) {
             return redirect()->back()
-                            ->withInput($request->only('email'))
-                            ->with('error', 'Login failed — check your credentials and try again.');
+                ->withInput($request->only('email'))
+                ->with('error', 'Login failed — check your credentials and try again.');
         }
     }
-
     /**
      * Destroy an authenticated session.
      */

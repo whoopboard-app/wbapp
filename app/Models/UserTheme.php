@@ -23,6 +23,7 @@ class UserTheme extends Model
         'is_password_protected',
         'password',
         'theme_flag',
+        'feature_banner',
     ];
 
     protected $casts = [

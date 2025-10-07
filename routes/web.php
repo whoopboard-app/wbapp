@@ -13,6 +13,7 @@
     use App\Http\Controllers\KBCategoryController;
     use App\Http\Controllers\KBBoardController;
     use App\Http\Controllers\InviteController;
+    use App\Http\Controllers\ComingSoonController;
 
     Route::middleware(['auth'])->group(function () {
         Route::get('/themes', [ThemeController::class, 'index'])->name('themes.index');
@@ -92,6 +93,7 @@
     Route::get('/onboarding/step2', [OnboardingController::class, 'step2'])->name('onboarding.step2');
     Route::post('/onboarding/step2', [OnboardingController::class, 'storeStep2'])->name('onboarding.storeStep2');
     Route::post('/check-domain', [OnboardingController::class, 'checkDomain'])->name('check.domain');
+
     // Changelog Routes
 
     Route::prefix('announcement')->group(function () {
@@ -140,10 +142,16 @@
         Route::delete('destroy/{invite}', [InviteController::class, 'destroy'])->name('invite.destroy');
     });
 
-
-
-
-
+    Route::domain('{tenant}.insighthq.com')
+        ->middleware(['auth', 'tenant'])
+        ->group(function () {
+            Route::get('/dashboard', function () {
+                return view('dashboard');
+            })->name('dashboard');
+        });
+    Route::get('/coming-soon', [ComingSoonController::class, 'show'])->name('coming.soon');
+    Route::post('/coming-soon', [ComingSoonController::class, 'checkPassword'])->name('coming.soon.check');
+    Route::get('/theme/details', [ComingSoonController::class, 'details'])->name('themes.details');
 
 
 
