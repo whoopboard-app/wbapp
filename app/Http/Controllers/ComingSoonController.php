@@ -82,7 +82,7 @@ class ComingSoonController extends Controller
         return back()->withErrors(['password' => 'Incorrect password']);
     }
 
-    public function details()
+    public function details(request $request)
     {
         $tenant = $this->resolveTenantFromHost();
         if (!$tenant) {
@@ -94,7 +94,6 @@ class ComingSoonController extends Controller
         $categories = SettingCategoryChangelog::where('tenant_id', $tenantId)
             ->where('status', '1')
             ->get();
-
         $announcements = Changelog::where('tenant_id', $tenantId)
             ->when(request('category'), function ($query, $categoryId) {
                 $query->whereJsonContains('category', (string)$categoryId);
@@ -105,7 +104,7 @@ class ComingSoonController extends Controller
             ->when(request('month'), function ($query, $month) {
                 $query->whereMonth('publish_date', date('m', strtotime($month)));
             })
-            ->orderBy('publish_date', 'desc')
+            ->orderBy('id', 'desc')
             ->paginate(10);
         $years = Changelog::selectRaw('YEAR(publish_date) as year')
             ->distinct()
@@ -125,8 +124,35 @@ class ComingSoonController extends Controller
         if (!$theme) {
             abort(404);
         }
+        if ($request->has('announcement_id')) {
+            $announcement = Changelog::where('tenant_id', $tenantId)
+                ->where('id', $request->announcement_id)
+                ->firstOrFail();
+            $catIds = json_decode($announcement->category, true) ?? [];
+            $announcement->category_names = SettingCategoryChangelog::whereIn('id', $catIds)
+                ->pluck('category_name')
+                ->toArray();
 
+            $tagIds = json_decode($announcement->tags, true) ?? [];
+            $announcement->tag_names = ChangelogTag::whereIn('id', $tagIds)
+                ->pluck('tag_name')
+                ->toArray();
 
+            // Previous and Next
+            $previous = Changelog::where('tenant_id', $tenantId)
+                ->where('id', '<', $announcement->id)
+                ->orderBy('id', 'desc')
+                ->first();
+
+            $next = Changelog::where('tenant_id', $tenantId)
+                ->where('id', '>', $announcement->id)
+                ->orderBy('id', 'asc')
+                ->first();
+
+            return view('themes.details', compact(
+                'theme', 'tenant', 'categories', 'announcement', 'years', 'previous', 'next'
+            ));
+        }
         return view('themes.details', compact('theme', 'announcements', 'categories','years'));
     }
 }

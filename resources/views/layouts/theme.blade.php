@@ -56,6 +56,10 @@
         .sidebar-menu-title a:hover {
             color: #0d6efd; /* Bootstrap blue on hover */
         }
+        .reaction-item{
+            padding: 10px !important;
+            min-height: 80px !important;
+        }
 
 
     </style>
