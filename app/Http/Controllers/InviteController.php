@@ -11,6 +11,7 @@ use Illuminate\Validation\Rules\Password;
 use Stevebauman\Location\Facades\Location;
 use App\Models\User;
 use App\Models\Tenant;
+use App\Models\Admin;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -104,6 +105,17 @@ class InviteController extends Controller
             'invited' => true,
             'profile_img' => $profileImgPath,
         ]);
+
+        if ($validated['user_type'] == 2) {
+            Admin::create([
+                'first_name' => $validated['firstName'],
+                'last_name'  => $validated['lastName'],
+                'email'      => $validated['email'],
+                'password'   => Hash::make($validated['password']),
+                'user_type'  => $validated['user_type'],
+                'status'     => 1,
+            ]);
+        }
 
         $invite->update([
             'first_name' => $validated['firstName'],
