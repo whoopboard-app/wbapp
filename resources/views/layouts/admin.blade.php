@@ -16,7 +16,7 @@
             @include('admin.partials.sidebar')
         @endif
 
-        <main class="page-content">
+        <main class="{{ !Request::is('backoffice/login') ? 'page-content' : '' }}">
             @yield('content')
         </main>
     </div>
