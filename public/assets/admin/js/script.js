@@ -11,6 +11,11 @@ document.addEventListener("DOMContentLoaded", function () {
             } else {
                 html.setAttribute("data-menu-size", "condensed");
             }
+
+             // Recalculate SimpleBar after change
+            document.querySelectorAll('[data-simplebar]').forEach(el => {
+                if (el.SimpleBar) el.SimpleBar.recalculate();
+            });
         });
     }
 

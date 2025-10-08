@@ -1,4 +1,25 @@
+<style>
+    .sub-nav-link {
+        text-decoration: none !important;
+    }
 
+    #sidebar-scroll {
+    height: 100vh;
+    overflow-y: auto;
+    transition: all 0.3s ease;
+}
+
+/* 🧠 When menu is condensed */
+html[data-menu-size="condensed"] #sidebar-scroll {
+    overflow: visible !important; /* allow submenu flyouts */
+}
+
+/* Also make sure SimpleBar doesn’t clip content */
+html[data-menu-size="condensed"] .simplebar-content-wrapper {
+    overflow: visible !important;
+}
+  
+</style>
 <div class="main-nav">
     <!-- Sidebar Logo -->
     <div class="logo-box">
@@ -18,7 +39,7 @@
         <iconify-icon icon="solar:hamburger-menu-broken" class="button-sm-hover-icon"></iconify-icon>
     </button>
 
-    <div class="scrollbar" data-simplebar>
+    <div class="scrollbar" data-simplebar id="sidebar-scroll">
         <ul class="navbar-nav" id="navbar-nav">
             <li class="menu-title">Menu</li>
 
@@ -42,7 +63,7 @@
                 <div class="collapse" id="clients">
                     <ul class="nav sub-navbar-nav">
                         <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="#">Clients</a>
+                            <a class="sub-nav-link no-underline" href="#">Clients</a>
                         </li>
                         <li class="sub-nav-item">
                             <a class="sub-nav-link" href="#">Client on Hold</a>
