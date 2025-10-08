@@ -27,6 +27,37 @@
         .sidebar-menu-title {
             padding: 0 !important;
         }
+        .fullscreen-overlay {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1050;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .fullscreen-image {
+            max-width: 90vw;
+            max-height: 90vh;
+            object-fit: contain;
+            transition: transform 0.3s ease-in-out;
+            border-radius: 8px;
+        }
+
+        body.no-scroll {
+            overflow: hidden;
+        }
+        .sidebar-menu-title a {
+            color: #6c757d !important; /* Grey */
+            text-decoration: none;
+        }
+
+        .sidebar-menu-title a:hover {
+            color: #0d6efd; /* Bootstrap blue on hover */
+        }
+
+
     </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -77,7 +108,7 @@
         © 2025 InsightHQ. All rights reserved
     </p>
 </footer>
-
+@stack('scripts')
 <!-- JS -->
 <script src="{{ asset('assets/js/jquery-3.7.1.min.js') }}"></script>
 <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>

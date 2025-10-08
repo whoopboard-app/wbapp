@@ -15,6 +15,36 @@
     use App\Http\Controllers\InviteController;
     use App\Http\Controllers\ComingSoonController;
 
+    Route::fallback(function () {
+        $path = request()->path();
+        $query = request()->getQueryString();
+
+        // Define known routes for self-healing
+        $knownRoutes = [
+            'announcement',
+            'announcementlist',
+            'announcement/list',
+            'dashboard',
+            'login',
+            'register',
+            'contact',
+            'about',
+        ];
+        $closest = null;
+        $shortest = -1;
+        foreach ($knownRoutes as $route) {
+            $lev = levenshtein($path, $route);
+            if ($lev <= strlen($path) / 2 && ($lev < $shortest || $shortest < 0)) {
+                $closest = $route;
+                $shortest = $lev;
+            }
+        }
+        if ($closest) {
+            $url = '/' . $closest . ($query ? '?' . $query : '');
+            return redirect($url, 301);
+        }
+        abort(404);
+    });
     Route::middleware(['auth'])->group(function () {
         Route::get('/themes', [ThemeController::class, 'index'])->name('themes.index');
         Route::post('/themes/select', [ThemeController::class, 'selectTheme'])->name('themes.select');
@@ -151,8 +181,8 @@
         });
     Route::get('/coming-soon', [ComingSoonController::class, 'show'])->name('coming.soon');
     Route::post('/coming-soon', [ComingSoonController::class, 'checkPassword'])->name('coming.soon.check');
-    Route::get('/theme/details', [ComingSoonController::class, 'details'])->name('themes.details');
-
+    Route::get('/announcementlist', [ComingSoonController::class, 'details'])
+        ->name('themes.details');
 
 
     require __DIR__.'/auth.php';
