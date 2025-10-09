@@ -72,10 +72,55 @@
         </div>
             </div>
     </div>
-
-
-
 </div>
+<div class="modal fade" id="addAdmin" tabindex="-1" aria-labelledby="addAdminLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h5 class="modal-title" id="addAdminLabel">Add Admin</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            
+            <!-- Modal Body -->
+            <div class="modal-body">
+                <form class="row g-3" action="{{ route('admin.users.store') }}" method="POST">
+                    @csrf
+                    <div class="col-md-6">
+                        <label for="firstname" class="form-label">First name</label>
+                        <input type="text" name="first_name" class="form-control" id="firstname" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="lastname" class="form-label">Last name</label>
+                        <input type="text" name="last_name" class="form-control" id="lastname" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="email" class="form-label">Email Address</label>
+                        <input type="email" name="email" class="form-control" id="email" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="role" class="form-label">Role</label>
+                        <select name="user_type" class="form-select" id="role">
+                            <option value="1">Administrator</option>
+                            <option value="2">Team Member</option>
+                        </select>
+                    </div>
+                    <div class="col-md-12">
+                        <label for="notes" class="form-label">Notes</label>
+                        <textarea name="notes" id="notes" class="form-control" rows="4"></textarea>
+                    </div>
+                    <div class="col-12 mt-2">
+                        <button type="submit" class="btn btn-dark btn-md w-100">Invite Admin</button>
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
 <script>
 document.addEventListener("DOMContentLoaded", function() {
     new gridjs.Grid({

@@ -15,6 +15,8 @@ Route::prefix('backoffice')->name('admin.')->group(function () {
     Route::middleware('auth:admin')->group(function () {
         Route::get('dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
         Route::get('clients', [ClientController::class, 'index'])->name('clients.index');
+        
         Route::get('users', [AdminUserController::class, 'index'])->name('users.index');
+        Route::post('users/store', [AdminUserController::class, 'store'])->name('users.store');
     });
 });
