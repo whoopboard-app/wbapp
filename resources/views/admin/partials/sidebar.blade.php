@@ -63,7 +63,7 @@ html[data-menu-size="condensed"] .simplebar-content-wrapper {
                 <div class="collapse" id="clients">
                     <ul class="nav sub-navbar-nav">
                         <li class="sub-nav-item">
-                            <a class="sub-nav-link no-underline" href="#">Clients</a>
+                            <a class="sub-nav-link no-underline" href="{{ route('admin.clients.index') }}">Clients</a>
                         </li>
                         <li class="sub-nav-item">
                             <a class="sub-nav-link" href="#">Client on Hold</a>
