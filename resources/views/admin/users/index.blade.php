@@ -1,4 +1,4 @@
-@extends('layouts.admin') 
+@extends('layouts.admin') {{-- agar layouts/admin.blade.php hai --}}
 
 @section('title', 'Clients')
 
@@ -40,14 +40,18 @@
         font-weight: 500;
     }
 </style>
- <div class="container-fluid">
+<div class="container-fluid">
 
     <!-- ========== Page Title Start ========== -->
     <div class="row">
-        <div class="col-12">
+        <div class="col-6 col-md-6">
             <div class="page-title-box">
-                <h4 class="mb-0">Clients</h4>
-                
+                <h4 class="mb-0">Admin User</h4>
+            </div>
+        </div>
+        <div class="col-6 col-md-6">
+            <div class="page-title-box justify-content-end">
+                <button type="button" class="btn btn-dark btn-md" data-bs-toggle="modal" data-bs-target="#addAdmin">Add New Admin <iconify-icon icon="mingcute:plus-fill" class="align-middle text-right"></iconify-icon></button>
             </div>
         </div>
     </div>
@@ -58,8 +62,8 @@
             <div class="col-xl-12">
             <div class="card">
             <div class="card-body">
-                <div class="py-2">
-                    <div id="table-clients"></div>
+                <div class="py-3">
+                    <div id="table-admin-users"></div>
                 </div>
 
                 <div class="highlight border rounded">
@@ -72,50 +76,47 @@
 
 
 </div>
-
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function() {
     new gridjs.Grid({
         columns: [
             "ID",
-            "First Name",
-            "Last Name",
-            "Email Address",
-            "Registration Date",
-            "Billing",
+            "Name",
+            "Email",
             "Status",
             {
                 name: "Action",
-                width: "130px",
                 formatter: (_, row) => {
                     return gridjs.html(`
-                        <button type="button" class="btn btn-dark btn-sm rounded">View Info <iconify-icon icon="carbon:view-filled" class="align-middle"></iconify-icon></button>
+                        <span>
+                            <button type="button" class="btn btn-dark btn-md">Reset Password <iconify-icon icon="ri:reset-left-line" class="align-middle"></iconify-icon>
+                            </button> 
+                            <button type="button" class="btn btn-dark btn-md">Delete <iconify-icon icon="fa6-solid:trash" class="align-middle"></iconify-icon>
+                            </button>
+                        </span>
                     `);
                 }
             }
         ],
         data: [
-            @foreach($clients as $client)
-                [
-                    "{{ $client->id }}",
-                    "{{ $client->name }}",
-                    "{{ $client->last_name }}",
-                    "{{ $client->email }}",
-                    "{{ $client->created_at->format('F d, Y') }}",
-                    gridjs.html("<strong>{{ $client->billing ?? 'Free' }}</strong>"),
-                    gridjs.html(`
+            @foreach($adminUsers as $user)
+            [
+                "{{ $user->id }}",
+                "{{ $user->first_name }}",
+                "{{ $user->email }}",
+                gridjs.html(`
                         <span class="badge 
-                            @if($client->status == 1) bg-success
-                            @elseif($client->status == 2) bg-dark
-                            @elseif($client->status == 3) bg-danger
+                            @if($user->status == 1) bg-success
+                            @elseif($user->status == 0) bg-dark
+                            @elseif($user->status == 2) bg-danger
                             @endif">
-                            @if($client->status == 1) Active
-                            @elseif($client->status == 2) Inactive
-                            @elseif($client->status == 3) Pending
+                            @if($user->status == 1) Active
+                            @elseif($user->status == 0) Inactive
+                            @elseif($user->status == 2) Pending
                             @endif
                         </span>
                     `),
-                ],
+            ],
             @endforeach
         ],
         search: true,
@@ -123,11 +124,11 @@
             enabled: true,
             limit: 5
         },
-        sort: false,
         className: {
             table: 'table table-bordered table-striped',
         }
-    }).render(document.getElementById("table-clients"));
+    }).render(document.getElementById("table-admin-users"));
 });
 </script>
+
 @endsection

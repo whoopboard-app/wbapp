@@ -106,17 +106,6 @@ class InviteController extends Controller
             'profile_img' => $profileImgPath,
         ]);
 
-        if ($validated['user_type'] == 2) {
-            Admin::create([
-                'first_name' => $validated['firstName'],
-                'last_name'  => $validated['lastName'],
-                'email'      => $validated['email'],
-                'password'   => Hash::make($validated['password']),
-                'user_type'  => $validated['user_type'],
-                'status'     => 1,
-            ]);
-        }
-
         $invite->update([
             'first_name' => $validated['firstName'],
             'status' => 1,

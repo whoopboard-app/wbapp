@@ -4,20 +4,19 @@
     }
 
     #sidebar-scroll {
-    height: 100vh;
-    overflow-y: auto;
-    transition: all 0.3s ease;
-}
+        overflow-y: scroll;
+        transition: all 0.3s ease;
+    }
 
-/* 🧠 When menu is condensed */
-html[data-menu-size="condensed"] #sidebar-scroll {
-    overflow: visible !important; /* allow submenu flyouts */
-}
+    /* 🧠 When menu is condensed */
+    html[data-menu-size="condensed"] #sidebar-scroll {
+        overflow: visible !important; /* allow submenu flyouts */
+    }
 
-/* Also make sure SimpleBar doesn’t clip content */
-html[data-menu-size="condensed"] .simplebar-content-wrapper {
-    overflow: visible !important;
-}
+    /* Also make sure SimpleBar doesn’t clip content */
+    html[data-menu-size="condensed"] .simplebar-content-wrapper {
+        overflow: visible !important;
+    }
   
 </style>
 <div class="main-nav">
@@ -39,7 +38,7 @@ html[data-menu-size="condensed"] .simplebar-content-wrapper {
         <iconify-icon icon="solar:hamburger-menu-broken" class="button-sm-hover-icon"></iconify-icon>
     </button>
 
-    <div class="scrollbar" data-simplebar id="sidebar-scroll">
+    <div class="scrollbar" data-simplebar id="sidebar-scroll" >
         <ul class="navbar-nav" id="navbar-nav">
             <li class="menu-title">Menu</li>
 
@@ -53,7 +52,7 @@ html[data-menu-size="condensed"] .simplebar-content-wrapper {
             </li>
 
             <li class="nav-item">
-                <a class="nav-link menu-arrow" href="#clients" data-bs-toggle="collapse" role="button"
+                <a class="nav-link menu-arrow {{ request()->routeIs('admin.clients.*') ? 'active' : '' }}" href="#clients" data-bs-toggle="collapse" role="button"
                     aria-expanded="false" aria-controls="clients">
                     <span class="nav-icon">
                         <iconify-icon icon="teenyicons:users-solid"></iconify-icon>
@@ -166,7 +165,7 @@ html[data-menu-size="condensed"] .simplebar-content-wrapper {
             </li>
 
             <li class="nav-item">
-                <a class="nav-link menu-arrow" href="#appSettings" data-bs-toggle="collapse" role="button"
+                <a class="nav-link menu-arrow {{ request()->routeIs('admin.users.*') ? 'active' : '' }}" href="#appSettings" data-bs-toggle="collapse" role="button"
                     aria-expanded="false" aria-controls="appSettings">
                     <span class="nav-icon">
                         <iconify-icon icon="material-symbols:settings-rounded"></iconify-icon>
@@ -176,7 +175,7 @@ html[data-menu-size="condensed"] .simplebar-content-wrapper {
                 <div class="collapse" id="appSettings">
                     <ul class="nav sub-navbar-nav">
                         <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="#">Admin User</a>
+                            <a class="sub-nav-link" href="{{ route('admin.users.index') }}">Admin User</a>
                         </li>
                         <li class="sub-nav-item">
                             <a class="sub-nav-link" href="#">SMTP Service</a>

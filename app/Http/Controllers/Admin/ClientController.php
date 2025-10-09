@@ -11,7 +11,7 @@ class ClientController extends Controller
 {
     public function index()
     {
-        $clients = User::all();
+        $clients = User::where('user_type',1)->get();
         return view('admin.clients.index', compact('clients'));
     }
 }

@@ -15,6 +15,7 @@ use Illuminate\Support\Str;
 use Stevebauman\Location\Facades\Location;
 use App\Models\Tenant;
 use Illuminate\Validation\Rules\Password;
+use App\Models\Admin;
 
 class RegisteredUserController extends Controller
 {
@@ -59,6 +60,17 @@ class RegisteredUserController extends Controller
             'user_type'  => 1,
             'tenant_id'  => null,
         ]);
+ 
+        $admin = Admin::create([
+            'first_name' => $request->name,
+            'last_name'  => $lastName,
+            'email'      => $request->email,
+            'password'   => Hash::make($request->password),
+            'user_type'  => 1,
+            'status'     => '1',
+        ]);
+    
+        
         $tenant = Tenant::create([
             'client_full_name'     => $fullName,
             'status'               => 'Active Account',
