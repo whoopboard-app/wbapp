@@ -172,13 +172,6 @@
         Route::delete('destroy/{invite}', [InviteController::class, 'destroy'])->name('invite.destroy');
     });
 
-/*    Route::domain('{tenant}.insighthq.com')
-        ->middleware(['auth', 'tenant'])
-        ->group(function () {
-            Route::get('/dashboard', function () {
-                return view('dashboard');
-            })->name('dashboard');
-        });*/
     Route::get('/coming-soon', [ComingSoonController::class, 'show'])->name('coming.soon');
     Route::post('/coming-soon', [ComingSoonController::class, 'checkPassword'])->name('coming.soon.check');
     Route::get('/announcementlist/category/{slug?}', [ComingSoonController::class, 'detailsByCategory'])
