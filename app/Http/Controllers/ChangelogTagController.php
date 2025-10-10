@@ -39,7 +39,7 @@ class ChangelogTagController extends Controller
     {
         $request->validate([
             'tag_name' => 'required|string|max:255',
-            'short_description' => 'required|string',
+            'short_description' => 'nullable|string',
             'functionality_id' => 'required|array',
         ]);
         $user = auth()->user();
