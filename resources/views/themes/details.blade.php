@@ -26,7 +26,7 @@
                                     <!-- Right: Previous + Next buttons -->
                                     <div class="d-flex gap-2">
                                         @if($previous)
-                                            <a href="{{ request()->fullUrlWithQuery(['announcement_id' => $previous->id]) }}"
+                                            <a href="{{ url('/announcementlist/' . \Str::slug($previous->title)) }}"
                                                class="theme-btn d-inline-block secondary sm rounded border fw-semibold">
                                                 ← Previous Update
                                             </a>
@@ -37,7 +37,7 @@
                                         @endif
 
                                         @if($next)
-                                            <a href="{{ request()->fullUrlWithQuery(['announcement_id' => $next->id]) }}"
+                                                <a href="{{ url('/announcementlist/' . \Str::slug($next->title)) }}"
                                                class="theme-btn d-inline-block secondary sm rounded border fw-semibold">
                                                 Next Update →
                                             </a>
@@ -68,19 +68,19 @@
                                                 </span>
                                                 @endforeach
                                             </div>
-                                            <div class="d-flex flex-wrap">
-                                                @foreach($announcement->tag_names as $tag)
-                                                    <span class="tag d-inline-flex align-items-center rounded-pill fw-semibold">
-                                                    <span class="tag-color blue d-block rounded-circle"></span> {{ $tag }}
-                                                </span>
-                                                @endforeach
-                                            </div>
                                         </div>
                                         <p class="mt-2 post-description">
                                             {{ $announcement->description }}
                                         </p>
+                                        <div class="d-flex flex-wrap">
+                                                @foreach($announcement->tag_names as $tag)
+                                                    <span class="tag d-inline-flex align-items-center rounded-pill fw-semibold m-1">
+                                                    <span class="tag-color blue d-block rounded-circle"></span> {{ $tag }}
+                                                </span>
+                                                @endforeach
+                                            </div>
                                     </div>
-                                <div class="reaction-item d-flex align-items-center bg-white justify-content-between flex-wrap border rounded" id="reaction-item">
+                                <div class="reaction-item d-flex align-items-center bg-white justify-content-between flex-wrap border rounded mb-4" id="reaction-item">
                                     <div>
                                         <h6 class="fw-semibold mb-2">Did this release help you?</h6>
                                         <p class="mb-0">0 out of 0 found this helpful</p>
@@ -107,7 +107,7 @@
                                     </li>
                                     @foreach($categories as $category)
                                         <li class="mb-2">
-                                            <a href="{{ request()->fullUrlWithQuery(['category' => $category->id]) }}"
+                                            <a href="{{ url('/announcementlist/category/' . \Str::slug($category->category_name)) }}"
                                                class="d-block py-1 {{ request('category') == $category->id ? 'fw-semibold text-primary' : '' }}">
                                                 | {{ $category->category_name }}
                                             </a>
@@ -120,10 +120,10 @@
 
                             <!-- Jump to year & month -->
                             <div>
-                                <h6 class="sidebar-menu-title text-uppercase mb-3">Jump to year & month</h6>
+                                <h6 class="sidebar-menu-title text-uppercase mb-3">Jump to year/month</h6>
 
                                 <form method="GET" action="{{ route('themes.details') }}">
-                                    <div class="mb-3">
+                                    <div class="mb-3 w-50">
                                         <select class="form-select rounded" name="year" onchange="this.form.submit()">
                                             <option value="">Select Year</option>
                                             @foreach($years as $year)
@@ -134,7 +134,7 @@
                                         </select>
                                     </div>
 
-                                    <div class="mb-3">
+                                    <div class="mb-3 w-50">
                                         <select class="form-select rounded" name="month" onchange="this.form.submit()">
                                             <option value="">Select Month</option>
                                             @foreach(['January','February','March','April','May','June','July','August','September','October','November','December'] as $month)
@@ -186,20 +186,20 @@
                                                 </span>
                                                 @endforeach
                                             </div>
-                                            <div class="d-flex flex-wrap">
+{{--                                            <div class="d-flex flex-wrap">
                                                 @foreach($log->tag_names as $tag)
                                                     <span class="tag d-inline-flex align-items-center rounded-pill fw-semibold">
                                                     <span class="tag-color blue d-block rounded-circle"></span> {{ $tag }}
                                                 </span>
                                                 @endforeach
-                                            </div>
+                                            </div>--}}
                                         </div>
 
                                         <p class="mt-2 post-description">
                                         {{ Str::limit($log->description, 300) }}
                                     </p>
                                     <div class="border-bottom p-1">
-                                        <a href="{{ request()->fullUrlWithQuery(['announcement_id' => $log->id]) }}" class="read-more">
+                                        <a href="{{ url('/announcementlist/' . \Str::slug($log->title)) }}" class="read-more">
                                             Read more
                                         </a>
                                     </div>
@@ -209,7 +209,7 @@
                             @endforelse
                             <!-- Pagination -->
                             @if ($announcements->total() > 0)
-                                <div class="d-flex justify-content-between align-items-center mt-2 flex-wrap">
+                                <div class="d-flex justify-content-between align-items-center mt-2 mb-4 flex-wrap">
                                     <!-- Left side: Showing info -->
                                     <div class="text-muted small mb-2 mb-md-0">
                                         Showing {{ $announcements->firstItem() }} to {{ $announcements->lastItem() }}
@@ -251,7 +251,7 @@
                                 </li>
                                 @foreach($categories as $category)
                                     <li class="mb-2">
-                                        <a href="{{ request()->fullUrlWithQuery(['category' => $category->id]) }}"
+                                        <a href="{{ url('/announcementlist/category/' . \Str::slug($category->category_name)) }}"
                                            class="d-block py-1 {{ request('category') == $category->id ? 'fw-semibold text-primary' : '' }}">
                                             | {{ $category->category_name }}
                                         </a>
@@ -267,7 +267,7 @@
                             <h6 class="sidebar-menu-title text-uppercase mb-3">Jump to year & month</h6>
 
                             <form method="GET" action="{{ route('themes.details') }}">
-                                <div class="mb-3">
+                                <div class="mb-3 w-50">
                                     <select class="form-select rounded" name="year" onchange="this.form.submit()">
                                         <option value="">Select Year</option>
                                         @foreach($years as $year)
@@ -278,7 +278,7 @@
                                     </select>
                                 </div>
 
-                                <div class="mb-3">
+                                <div class="mb-3 w-50">
                                     <select class="form-select rounded" name="month" onchange="this.form.submit()">
                                         <option value="">Select Month</option>
                                         @foreach(['January','February','March','April','May','June','July','August','September','October','November','December'] as $month)
