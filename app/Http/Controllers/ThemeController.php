@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Theme;
 use App\Models\UserTheme;
 use App\Models\Functionality;
+use Illuminate\Support\Facades\Hash;
 
 class ThemeController extends Controller
 {
@@ -58,6 +59,7 @@ class ThemeController extends Controller
         } else {
             $moduleLabels = null;
         }
+
         $request->validate([
             'brand_color'       => 'nullable|string|max:20',
             'theme_title'        => 'nullable|string|max:255',
@@ -73,6 +75,10 @@ class ThemeController extends Controller
             'is_password_protected' => 'nullable|boolean',
             'password'          => 'nullable|string|max:255',
         ]);
+        $featureBannerPath = null;
+        if ($request->hasFile('feature_banner')) {
+            $featureBannerPath = $request->file('feature_banner')->store('feature-banners', 'public');
+        }
         $user = auth()->user();
         $userTheme = UserTheme::updateOrCreate(
             ['user_id' => $user->id],
@@ -90,8 +96,9 @@ class ThemeController extends Controller
                 'google_analytics' => $request->google_analytics,
                 'is_visible'       => $request->boolean('is_visible'),
                 'is_password_protected' => $request->boolean('is_password_protected'),
-                'password'         => $request->password,
+                'password'         => Hash::make($request->password),
                 'theme_flag' => $request->theme_flag,
+                'feature_banner'       => $featureBannerPath,
             ]
         );
 

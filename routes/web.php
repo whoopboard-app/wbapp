@@ -13,7 +13,38 @@
     use App\Http\Controllers\KBCategoryController;
     use App\Http\Controllers\KBBoardController;
     use App\Http\Controllers\InviteController;
+    use App\Http\Controllers\ComingSoonController;
 
+    Route::fallback(function () {
+        $path = request()->path();
+        $query = request()->getQueryString();
+
+        // Define known routes for self-healing
+        $knownRoutes = [
+            'announcement',
+            'announcementlist',
+            'announcement/list',
+            'dashboard',
+            'login',
+            'register',
+            'contact',
+            'about',
+        ];
+        $closest = null;
+        $shortest = -1;
+        foreach ($knownRoutes as $route) {
+            $lev = levenshtein($path, $route);
+            if ($lev <= strlen($path) / 2 && ($lev < $shortest || $shortest < 0)) {
+                $closest = $route;
+                $shortest = $lev;
+            }
+        }
+        if ($closest) {
+            $url = '/' . $closest . ($query ? '?' . $query : '');
+            return redirect($url, 301);
+        }
+        abort(404);
+    });
     Route::middleware(['auth'])->group(function () {
         Route::get('/themes', [ThemeController::class, 'index'])->name('themes.index');
         Route::post('/themes/select', [ThemeController::class, 'selectTheme'])->name('themes.select');
@@ -92,6 +123,7 @@
     Route::get('/onboarding/step2', [OnboardingController::class, 'step2'])->name('onboarding.step2');
     Route::post('/onboarding/step2', [OnboardingController::class, 'storeStep2'])->name('onboarding.storeStep2');
     Route::post('/check-domain', [OnboardingController::class, 'checkDomain'])->name('check.domain');
+
     // Changelog Routes
 
     Route::prefix('announcement')->group(function () {
@@ -140,10 +172,21 @@
         Route::delete('destroy/{invite}', [InviteController::class, 'destroy'])->name('invite.destroy');
     });
 
-
-
-
-
+/*    Route::domain('{tenant}.insighthq.com')
+        ->middleware(['auth', 'tenant'])
+        ->group(function () {
+            Route::get('/dashboard', function () {
+                return view('dashboard');
+            })->name('dashboard');
+        });*/
+    Route::get('/coming-soon', [ComingSoonController::class, 'show'])->name('coming.soon');
+    Route::post('/coming-soon', [ComingSoonController::class, 'checkPassword'])->name('coming.soon.check');
+    Route::get('/announcementlist/category/{slug?}', [ComingSoonController::class, 'detailsByCategory'])
+        ->name('announcement.category');
+    Route::get('/announcementlist/{title}', [ComingSoonController::class, 'detailsByTitle'])
+        ->name('announcement.details.title');
+    Route::get('/announcementlist', [ComingSoonController::class, 'details'])
+        ->name('themes.details');
 
 
 

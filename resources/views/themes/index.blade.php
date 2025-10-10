@@ -31,9 +31,17 @@
                         ])
                     </form>
                 </div>
+                @if($activeTheme->theme_flag == '1')
+                    <a href="{{ route('guide_setup') }}"
+                       class="btn btn-primary fw-semibold rounded btn-md mt-2"
+                       style="width: 245px;">
+                        Save & Continue
+                    </a>
+                @endif
             </div>
         </div>
     </div>
+
 @endsection
 
 @section('scripts')

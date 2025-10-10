@@ -18,6 +18,9 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        if (Auth::check() && Auth::user()->tenant) {
+        }
+
         Schema::defaultStringLength(191);
 
         // Share labels with all views
@@ -37,7 +40,7 @@ class AppServiceProvider extends ServiceProvider
         Blade::directive('customLabel', function ($expression) {
             return "<?php echo \$globalLabels[$expression] ?? ucfirst($expression); ?>";
         });
-    
+
         Blade::if('isSuperAdmin', fn() => auth()->check() && (int) auth()->user()->user_type === 1);
     }
 
