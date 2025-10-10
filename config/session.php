@@ -156,8 +156,8 @@ return [
     |
     */
 
-    'domain' => '.insighthq.com',
-
+    'domain' => env('SESSION_DOMAIN', null),
+    
     /*
     |--------------------------------------------------------------------------
     | HTTPS Only Cookies
