@@ -13,7 +13,7 @@ class RestrictSubdomainAccess
         $host = $request->getHost();
 
         // Detect subdomain like demo.insighthq.com
-        if (preg_match('/^([a-z0-9-]+)\.insighthq\.com$/', $host, $matches)) {
+        if (preg_match('/^([a-z0-9-]+)\.askandmatch\.com$/', $host, $matches)) {
             $subdomain = $matches[1];
             // List of public paths allowed for subdomains
             $allowedPaths = [

@@ -173,7 +173,7 @@
     });
 
     // Tenant Public Routes (Subdomain-based)
-    Route::domain('{subdomain}.insighthq.com')
+    Route::domain('{subdomain}.askandmatch.com')
         ->where(['subdomain' => '^(?!www$)[a-zA-Z0-9-]+$'])
         ->group(function () {
             Route::get('/coming-soon', [ComingSoonController::class, 'show'])->name('coming.soon');
