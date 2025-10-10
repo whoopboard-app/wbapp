@@ -61,14 +61,14 @@ class RegisteredUserController extends Controller
             'tenant_id'  => null,
         ]);
  
-        $admin = Admin::create([
-            'first_name' => $request->name,
-            'last_name'  => $lastName,
-            'email'      => $request->email,
-            'password'   => Hash::make($request->password),
-            'user_type'  => 1,
-            'status'     => '1',
-        ]);
+        // $admin = Admin::create([
+        //     'first_name' => $request->name,
+        //     'last_name'  => $lastName,
+        //     'email'      => $request->email,
+        //     'password'   => Hash::make($request->password),
+        //     'user_type'  => 1,
+        //     'status'     => '1',
+        // ]);
     
         
         $tenant = Tenant::create([

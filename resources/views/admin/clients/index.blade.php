@@ -86,7 +86,6 @@
             "Status",
             {
                 name: "Action",
-                width: "130px",
                 formatter: (_, row) => {
                     return gridjs.html(`
                         <button type="button" class="btn btn-dark btn-sm rounded">View Info <iconify-icon icon="carbon:view-filled" class="align-middle"></iconify-icon></button>
