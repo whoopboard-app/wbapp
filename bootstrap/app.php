@@ -17,6 +17,7 @@ return Application::configure(basePath: dirname(__DIR__))
         },
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        $middleware->append(\App\Http\Middleware\RestrictSubdomainAccess::class);
         $middleware->alias([
             'assign.theme' => \App\Http\Middleware\AssignDefaultTheme::class,
             'tenant' => \App\Http\Middleware\TenantMiddleware::class,

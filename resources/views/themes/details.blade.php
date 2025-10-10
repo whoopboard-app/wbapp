@@ -18,7 +18,7 @@
                             <div class="main-content railway px-0 center-layout pb-2" style="width: 80%;padding-top: 20px;">
                                 <div class="d-flex justify-content-between align-items-center flex-wrap mt-4">
                                     <!-- Left: Back button -->
-                                    <a href="{{ route('themes.details') }}"
+                                    <a href="{{ route('themes.details', ['subdomain' => $tenant->custom_url]) }}"
                                        class="theme-btn d-inline-block secondary sm rounded border fw-semibold">
                                         ← Back to all announcements
                                     </a>
@@ -100,7 +100,7 @@
                                 <h6 class="fw-semibold text-uppercase mb-3">Quick Links</h6>
                                 <ul class="list-unstyled">
                                     <li class="mb-2">
-                                        <a href="{{ route('themes.details') }}"
+                                        <a href="{{ route('themes.details', ['subdomain' => $tenant->custom_url]) }}"
                                            class="d-block py-1 {{ !request('category') ? 'fw-semibold text-primary' : '' }}">
                                             | All Post
                                         </a>
@@ -122,7 +122,7 @@
                             <div>
                                 <h6 class="sidebar-menu-title text-uppercase mb-3">Jump to year/month</h6>
 
-                                <form method="GET" action="{{ route('themes.details') }}">
+                                <form method="GET" action="{{ route('themes.details', ['subdomain' => $tenant->custom_url]) }}">
                                     <div class="mb-3 w-50">
                                         <select class="form-select rounded" name="year" onchange="this.form.submit()">
                                             <option value="">Select Year</option>
@@ -199,7 +199,10 @@
                                         {{ Str::limit($log->description, 300) }}
                                     </p>
                                     <div class="border-bottom p-1">
-                                        <a href="{{ url('/announcementlist/' . \Str::slug($log->title)) }}" class="read-more">
+                                        <a href="{{ route('announcement.details.title', [
+    'subdomain' => $tenant->custom_url,
+    'title' => Str::slug($log->title)
+]) }}" class="read-more">
                                             Read more
                                         </a>
                                     </div>
@@ -244,7 +247,7 @@
                             <h6 class="fw-semibold text-uppercase mb-3">Quick Links</h6>
                             <ul class="list-unstyled">
                                 <li class="mb-2">
-                                    <a href="{{ route('themes.details') }}"
+                                    <a href="{{ route('themes.details', ['subdomain' => $tenant->custom_url]) }}"
                                        class="d-block py-1 {{ !request('category') ? 'fw-semibold text-primary' : '' }}">
                                         | All Post
                                     </a>
@@ -266,7 +269,7 @@
                         <div>
                             <h6 class="sidebar-menu-title text-uppercase mb-3">Jump to year & month</h6>
 
-                            <form method="GET" action="{{ route('themes.details') }}">
+                            <form method="GET" action="{{ route('themes.details', ['subdomain' => $tenant->custom_url]) }}">
                                 <div class="mb-3 w-50">
                                     <select class="form-select rounded" name="year" onchange="this.form.submit()">
                                         <option value="">Select Year</option>

@@ -172,14 +172,19 @@
         Route::delete('destroy/{invite}', [InviteController::class, 'destroy'])->name('invite.destroy');
     });
 
-    Route::get('/coming-soon', [ComingSoonController::class, 'show'])->name('coming.soon');
-    Route::post('/coming-soon', [ComingSoonController::class, 'checkPassword'])->name('coming.soon.check');
-    Route::get('/announcementlist/category/{slug?}', [ComingSoonController::class, 'detailsByCategory'])
-        ->name('announcement.category');
-    Route::get('/announcementlist/{title}', [ComingSoonController::class, 'detailsByTitle'])
-        ->name('announcement.details.title');
-    Route::get('/announcementlist', [ComingSoonController::class, 'details'])
-        ->name('themes.details');
+    // Tenant Public Routes (Subdomain-based)
+    Route::domain('{subdomain}.insighthq.com')
+        ->where(['subdomain' => '^(?!www$)[a-zA-Z0-9-]+$'])
+        ->group(function () {
+            Route::get('/coming-soon', [ComingSoonController::class, 'show'])->name('coming.soon');
+            Route::post('/coming-soon', [ComingSoonController::class, 'checkPassword'])->name('coming.soon.check');
+            Route::get('/announcementlist/category/{slug?}', [ComingSoonController::class, 'detailsByCategory'])->name('announcement.category');
+            Route::get('/announcementlist/{title}', [ComingSoonController::class, 'detailsByTitle'])->name('announcement.details.title');
+            Route::get('/announcementlist', [ComingSoonController::class, 'details'])->name('themes.details');
+            Route::fallback(function () {
+                abort(404, 'Page not available on tenant site.');
+            });
+        });
 
 
 

@@ -54,13 +54,13 @@ class ComingSoonController extends Controller
 
         // If already allowed in session
         if (session('theme_access_' . $tenant->tenant_id)) {
-            return redirect()->route('themes.details');
+            return redirect()->route('themes.details','tenant');
         }
 
-        return view('coming-soon', compact('theme'));
+        return view('coming-soon', compact('theme','tenant'));
     }
 
-    public function checkPassword(Request $request)
+    public function checkPassword(Request $request, $subdomain = null)
     {
         $request->validate([
             'password' => 'required|string',
@@ -70,19 +70,23 @@ class ComingSoonController extends Controller
         if (!$tenant) {
             return back()->withErrors(['password' => 'Invalid tenant']);
         }
-
+        if (!$subdomain) {
+            $host = $request->getHost(); // e.g. demo.insighthq.com
+            $parts = explode('.', $host);
+            $subdomain = $parts[0] ?? null;
+        }
         $theme = UserTheme::where('tenant_id', $tenant->tenant_id)->first();
         if (!$theme) {
             return back()->withErrors(['password' => 'Invalid access']);
         }
         if (Hash::check($request->password, $theme->password)) {
             session(['theme_access_' . $tenant->tenant_id => true]);
-            return redirect()->route('themes.details');
+            return redirect()->route('themes.details', ['subdomain' => $subdomain]);
         }
 
         return back()->withErrors(['password' => 'Incorrect password']);
     }
-    public function detailsByTitle($title)
+    public function detailsByTitle($subdomain, $title)
     {
         $tenant = $this->resolveTenantFromHost();
         if (!$tenant) {
@@ -94,13 +98,10 @@ class ComingSoonController extends Controller
             abort(404);
         }
 
-        // Try to find announcement by slug-like comparison
-        $announcement = Changelog::where('tenant_id', $tenant->tenant_id)
-            ->get()
-            ->first(function ($item) use ($title) {
-                return Str::slug($item->title) === strtolower($title);
-            });
-
+        $announcements = Changelog::where('tenant_id', $tenant->tenant_id)->get();
+        $announcement = $announcements->first(function ($item) use ($title) {
+            return Str::slug($item->title) === strtolower($title);
+        });
         if (!$announcement) {
             abort(404, 'Announcement not found');
         }
@@ -209,7 +210,7 @@ class ComingSoonController extends Controller
                 'theme', 'tenant', 'categories', 'announcement', 'years', 'previous', 'next'
             ));
         }
-        return view('themes.details', compact('theme', 'announcements', 'categories','years'));
+        return view('themes.details', compact('theme', 'announcements', 'categories','years','tenant'));
     }
     public function detailsByCategory($slug = null)
     {

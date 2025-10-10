@@ -40,7 +40,7 @@
             <h6 class="sidebar-menu-title fw-semibold text-uppercase">Quick Links</h6>
             <ul class="sidebar-menu-list">
                 <li class="sidebar-menu-item">
-                    <a href="{{ route('themes.details') }}"
+                    <a href="{{ route('themes.details', $tenant->custom_url) }}"
                        class="sidebar-menu-link d-flex align-items-center {{ request()->routeIs('announcement.*') ? 'active text-blue-600' : 'text-gray-600' }}">
                         <img src="/assets/img/icon/megaphone.png" alt="megaphone" class="sidebar-menu-link-icon flex-shrink-0">
                         <span class="sidebar-menu-link-text">@customLabel('Announcement')</span>

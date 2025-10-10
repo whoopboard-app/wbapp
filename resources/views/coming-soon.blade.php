@@ -56,7 +56,7 @@
             </p>
         </div>
         @if($theme->is_visible == 1 && $theme->is_password_protected == 1)
-        <form action="{{ route('coming.soon.check') }}" method="POST">
+            <form action="{{ route('coming.soon.check', $tenant->custom_url) }}" method="POST">
             @csrf
             <div class="form-input mt-3 mb-3">
                 <label for="password" class="input-label mb-1 fw-medium">Password</label>
