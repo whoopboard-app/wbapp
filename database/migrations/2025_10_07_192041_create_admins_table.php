@@ -21,6 +21,8 @@ return new class extends Migration
             $table->enum('status', ['0', '1', '2', '3'])->default(0);
             $table->timestamps();
         });
+
+
     }
 
     /**
@@ -28,6 +30,8 @@ return new class extends Migration
      */
     public function down(): void
     {
+
+        
         Schema::dropIfExists('admins');
     }
 };
