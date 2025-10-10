@@ -3,14 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <title>@yield('title', 'Admin Panel')</title>
+    @vite(['resources/js/app.js'])
+
     <link rel="stylesheet" href="{{ asset('assets/admin/css/style.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/admin/css/vendor.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/admin/css/icons.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/admin/css/app.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/fontawesome.min.css') }}">
     <link
         href="https://unpkg.com/gridjs/dist/theme/mermaid.min.css"
         rel="stylesheet"
         />
+
+    
     <script src="{{ asset('assets/admin/js/config.min.js') }}"></script>
 </head>
 <body class="@if(Route::is('admin.login')) authentication-bg @endif">
@@ -22,6 +27,22 @@
 
         <main class="{{ !Request::is('backoffice/login') ? 'page-content' : '' }}">
             @yield('content')
+            {{-- Flash Messages --}}
+            @if (session('success'))
+                <x-alert type="success" :message="session('success')" />
+            @endif
+
+            @if (session('error'))
+                <x-alert type="error" :message="session('error')" />
+            @endif
+
+            @if (session('info'))
+                <x-alert type="info" :message="session('info')" />
+            @endif
+
+            @if (session('warning'))
+                <x-alert type="warning" :message="session('warning')" />
+            @endif
         </main>
     </div>
     <script src="{{ asset('assets/admin/js/script.js') }}"></script>

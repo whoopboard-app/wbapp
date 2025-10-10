@@ -20,10 +20,10 @@ class AdminLoginController extends Controller
 
         // Attempt login using admin guard
         if (Auth::guard('admin')->attempt($credentials)) {
-            return redirect()->route('admin.dashboard');
+            return redirect()->route('admin.dashboard')->with('success', 'Login successful');
         }
 
-        return back()->withErrors(['email' => 'Invalid credentials']);
+        return back()->with('error', 'Invalid credentials');
     }
 
     public function logout(Request $request)

@@ -28,24 +28,24 @@
             x-show="show"
             x-init="setTimeout(() => show = false, 5000)"
             x-transition
-            class="fixed top-6 left-1/2 -translate-x-1/2 z-[9999] w-full max-w-lg"
+            class="fixed top-6 left-1/2 -translate-x-1/2 z-[9999] w-full max-w-lg alert-wrapper"
             role="alert" aria-live="assertive" aria-atomic="true"
             >
-            <div class="flex items-stretch bg-white shadow-md rounded-lg overflow-hidden">
+            <div class="flex items-stretch bg-white shadow-md rounded-lg overflow-hidden alert-box">
                 <!-- Left colored icon section -->
-                <div class="{{ $class }} flex items-center justify-center text-white px-4 py-3 hover:bg-black transition-colors duration-300">
+                <div class="{{ $class }} flex items-center justify-center text-white px-4 py-3 hover:bg-black transition-colors duration-300 alert-icon">
                     <i class="{{ $icon }} text-xl"></i>
                 </div>
 
                 <!-- Message -->
-                <div class="flex-1 px-4 py-3 text-gray-800">
+                <div class="flex-1 px-4 py-3 text-gray-800 alert-message">
                     <span class="text-gray-800">{{ $message }}</span>
                 </div>
 
                 <!-- Close button -->
                 <button
                     @click="show = false"
-                    class="text-gray-500 hover:text-gray-800 px-4 focus:outline-none"
+                    class="text-gray-500 hover:text-gray-800 px-4 focus:outline-none alert-close"
                 >
                     <i class="fas fa-times"></i>
                 </button>

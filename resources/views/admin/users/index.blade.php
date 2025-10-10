@@ -3,6 +3,11 @@
 @section('title', 'Clients')
 
 @section('content')
+@if ($errors->any())
+    @foreach ($errors->all() as $error)
+        <x-alert type="error" :message="$errors->first()" />
+    @endforeach
+@endif
 <style>
     th.gridjs-th {
         border-top: 0;
