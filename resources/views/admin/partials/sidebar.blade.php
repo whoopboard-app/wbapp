@@ -65,10 +65,10 @@
                             <a class="sub-nav-link no-underline" href="{{ route('admin.clients.index') }}">Clients</a>
                         </li>
                         <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="#">Client on Hold</a>
+                            <a class="sub-nav-link" href="{{ route('admin.clients.onhold') }}">Client on Hold</a>
                         </li>
                         <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="#">Client Verification</a>
+                            <a class="sub-nav-link" href="{{ route('admin.clients.pending') }}">Client Verification</a>
                         </li>
                     </ul>
                 </div>

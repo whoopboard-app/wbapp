@@ -1,4 +1,4 @@
-@extends('layouts.admin') {{-- agar layouts/admin.blade.php hai --}}
+@extends('layouts.admin') 
 
 @section('title', 'Admin Dashboard')
 
@@ -64,7 +64,7 @@
                                     </div> <!-- end col -->
                                     <div class="col-6 text-end">
                                         <p class="text-muted mb-0 text-truncate">Customers</p>
-                                        <h3 class="text-dark mt-2 mb-0">56.9k</h3>
+                                        <h3 class="text-dark mt-2 mb-0">{{ $client_count }}</h3>
                                     </div> <!-- end col -->
                             </div> <!-- end row-->
                         </div> <!-- end card body -->

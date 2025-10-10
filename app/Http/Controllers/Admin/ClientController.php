@@ -14,4 +14,16 @@ class ClientController extends Controller
         $clients = User::where('user_type',1)->get();
         return view('admin.clients.index', compact('clients'));
     }
+
+    public function onhold()
+    {
+        $clients = User::where('user_type',1)->where('status', 2)->get();
+        return view('admin.clients.index', compact('clients'));
+    }
+    
+    public function pending()
+    {
+        $clients = User::where('user_type',1)->where('status', 3)->get();
+        return view('admin.clients.index', compact('clients'));
+    }
 }
