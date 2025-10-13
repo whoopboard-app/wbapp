@@ -14,6 +14,13 @@
     use App\Http\Controllers\KBBoardController;
     use App\Http\Controllers\InviteController;
     use App\Http\Controllers\ComingSoonController;
+    Route::get('/debug', function () {
+        return response()->json([
+            'host' => request()->getHost(),
+            'url' => request()->fullUrl(),
+            'message' => 'Laravel is handling this request!'
+        ]);
+    });
 
     Route::fallback(function () {
         $path = request()->path();
