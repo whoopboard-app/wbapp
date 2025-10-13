@@ -43,6 +43,9 @@
             @if (session('warning'))
                 <x-alert type="warning" :message="session('warning')" />
             @endif
+            @if (!Request::is('backoffice/login'))
+                @include('admin.partials.footer')
+            @endif
         </main>
     </div>
     <script src="{{ asset('assets/admin/js/script.js') }}"></script>

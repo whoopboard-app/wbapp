@@ -276,42 +276,38 @@
                                             <th class="py-1">Username</th>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>#US523</td>
-                                                <td>24 April, 2024</td>
-                                                <td><img src="{{ asset('assets/admin/images/users/avatar-2.jpg') }}" alt="avatar-2" class="img-fluid avatar-xs rounded-circle"> <span class="align-middle ms-1">Dan Adrick</span></td>
-                                                <td><span class="badge badge-soft-success">Verified</span></td>
-                                                <td>@omions </td>
-                                            </tr>
-                                            <tr>
-                                                <td>#US652</td>
-                                                <td>24 April, 2024</td>
-                                                <td><img src="{{ asset('assets/admin/images/users/avatar-3.jpg') }}" alt="avatar-2" class="img-fluid avatar-xs rounded-circle"> <span class="align-middle ms-1">Daniel Olsen</span></td>
-                                                <td><span class="badge badge-soft-success">Verified</span></td>
-                                                <td>@alliates </td>
-                                            </tr>
-                                            <tr>
-                                                <td>#US862</td>
-                                                <td>20 April, 2024</td>
-                                                <td><img src="{{ asset('assets/admin/images/users/avatar-4.jpg') }}" alt="avatar-2" class="img-fluid avatar-xs rounded-circle"> <span class="align-middle ms-1">Jack Roldan</span></td>
-                                                <td><span class="badge badge-soft-warning">Pending</span></td>
-                                                <td>@griys </td>
-                                            </tr>
-                                            <tr>
-                                                <td>#US756</td>
-                                                <td>18 April, 2024</td>
-                                                <td><img src="{{ asset('assets/admin/images/users/avatar-5.jpg') }}" alt="avatar-2" class="img-fluid avatar-xs rounded-circle"> <span class="align-middle ms-1">Betty Cox</span></td>
-                                                <td><span class="badge badge-soft-success">Verified</span></td>
-                                                <td>@reffon </td>
-                                            </tr>
-                                            <tr>
-                                                <td>#US420</td>
-                                                <td>18 April, 2024</td>
-                                                <td><img src="{{ asset('assets/admin/images/users/avatar-6.jpg') }}" alt="avatar-2" class="img-fluid avatar-xs rounded-circle"> <span class="align-middle ms-1">Carlos Johnson</span></td>
-                                                <td><span class="badge badge-soft-danger">Blocked</span></td>
-                                                <td>@bebo </td>
-                                            </tr>
+                                            @php use Illuminate\Support\Str; @endphp
+                                            @forelse($new_clients as $client)
+                                                <tr>
+                                                    <td>#US{{ $client->id }}</td>
+                                                    <td>{{ $client->created_at->format('d M, Y') }}</td>
+                                                    <td>
+                                                        <img src="{{ asset('assets/admin/images/users/avatar-2.jpg') }}" 
+                                                            alt="avatar" class="img-fluid avatar-xs rounded-circle">
+                                                        <span class="align-middle ms-1">
+                                                            {{ $client->name }} {{ $client->last_name }}
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        @if($client->status == 1)
+                                                            <span class="badge badge-soft-success">Active</span>
+                                                        @elseif($client->status == 2)
+                                                            <span class="badge badge-soft-warning">Inactive</span>
+                                                        @elseif($client->status == 3)
+                                                            <span class="badge badge-soft-danger">Pending</span>
+                                                        @else
+                                                            <span class="badge badge-soft-secondary">Unknown</span>
+                                                        @endif
+                                                    </td>
+                                                    <td>{{ '@' . Str::lower($client->name) }}-{{ $client->id }}</td>
+                                                </tr>
+                                            @empty
+                                                <tr>
+                                                    <td colspan="5" class="text-center text-muted">No new clients found.</td>
+                                                </tr>
+                                            @endforelse
                                         </tbody>
+
                                     </table>
                             </div>
                         </div> <!-- end card body -->

@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\Auth\AdminLoginController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\AdminUserController;
+use App\Http\Controllers\Admin\AdminAnnouncementController;
 
 Route::prefix('backoffice')->name('admin.')->group(function () {
 
@@ -20,5 +21,7 @@ Route::prefix('backoffice')->name('admin.')->group(function () {
         
         Route::get('users', [AdminUserController::class, 'index'])->name('users.index');
         Route::post('users/store', [AdminUserController::class, 'store'])->name('users.store');
+        
+        Route::get('announcement', [AdminAnnouncementController::class, 'index'])->name('announcement.index');
     });
 });
