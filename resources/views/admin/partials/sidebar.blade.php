@@ -74,8 +74,9 @@
                 </div>
             </li>
 
-            <li class="nav-item">
-                <a class="nav-link" href="#">
+           <li class="nav-item">
+                <a class="nav-link {{ request()->routeIs('admin.announcement.index') ? 'active' : '' }}" 
+                href="{{ route('admin.announcement.index') }}">
                     <span class="nav-icon">
                         <iconify-icon icon="streamline-plump:announcement-megaphone-solid"></iconify-icon>
                     </span>
