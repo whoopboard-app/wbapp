@@ -171,9 +171,9 @@
         Route::put('update', [InviteController::class, 'update'])->name('invite.update');
         Route::delete('destroy/{invite}', [InviteController::class, 'destroy'])->name('invite.destroy');
     });
-
+    $mainDomain = preg_replace('/^.*?([^.]+\.[^.]+)$/', '$1', request()->getHost());
     // Tenant Public Routes (Subdomain-based)
-    Route::domain('{subdomain}.askandmatch.com')
+    Route::domain('{subdomain}.'.$mainDomain)
         ->where(['subdomain' => '^(?!www$)[a-zA-Z0-9-]+$'])
         ->group(function () {
             Route::get('/coming-soon', [ComingSoonController::class, 'show'])->name('coming.soon');
