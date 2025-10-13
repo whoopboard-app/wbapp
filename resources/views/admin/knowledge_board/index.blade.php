@@ -1,6 +1,6 @@
 @extends('layouts.admin') {{-- agar layouts/admin.blade.php hai --}}
 
-@section('title', 'Back Office')
+<!-- @section('title', 'Clients') -->
 
 @section('content')
     <style>
@@ -47,7 +47,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box">
-                    <h4 class="mb-0">Announcement</h4>
+                    <h4 class="mb-0">Knowledge Board</h4>
                     
                 </div>
             </div>
@@ -60,7 +60,7 @@
                 <div class="card">
                 <div class="card-body">
                     <div class="py-2">
-                        <div id="table-announcement"></div>
+                        <div id="table-knowledge_board"></div>
                     </div>
 
                     <div class="highlight border rounded">
@@ -77,26 +77,26 @@
 
         <script>
             document.addEventListener('DOMContentLoaded', function () {
-                const announcements = @json($announcements);
+                const boards = @json($boards);
 
                 new gridjs.Grid({
                     columns: [
                         { id: 'id', name: 'ID' },
-                        { id: 'title', name: 'Announcement' },
+                        { id: 'name', name: 'Knowledge Board' },
                         { id: 'clientName', name: 'Client Name' },
                         {
                             id: 'action',
                             name: 'Action',
                             formatter: (cell, row) => gridjs.html(
                                 `<button type="button" class="btn btn-dark btn-md">
-                                    View Announcement <iconify-icon icon="carbon:view-filled" class="align-middle"></iconify-icon>
+                                    View Board <iconify-icon icon="carbon:view-filled" class="align-middle"></iconify-icon>
                                 </button>`
                             )
                         }
                     ],
-                    data: announcements.map(a => [
+                    data: boards.map(a => [
                         `#${a.id}`,
-                        a.title,
+                        a.name,
                         a.client ? `${a.client.first_name} ${a.client.last_name}` : 'N/A',
                         ''
                     ]),
@@ -109,7 +109,7 @@
                     className: {
                         table: 'table table-hover mb-0 table-centered'
                     }
-                }).render(document.getElementById('table-announcement'));
+                }).render(document.getElementById('table-knowledge_board'));
             });
         </script>
      
