@@ -97,7 +97,7 @@
                     data: boards.map(a => [
                         `#${a.id}`,
                         a.name,
-                        a.client ? `${a.client.first_name} ${a.client.last_name}` : 'N/A',
+                        a.client_name  ? `${a.client_name}` : 'N/A',
                         ''
                     ]),
                     search: true,

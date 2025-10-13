@@ -83,7 +83,7 @@
                     columns: [
                         { id: 'id', name: 'ID' },
                         { id: 'title', name: 'Announcement' },
-                        { id: 'clientName', name: 'Client Name' },
+                        { id: 'client_name', name: 'Client Name' },
                         {
                             id: 'action',
                             name: 'Action',
@@ -97,8 +97,7 @@
                     data: announcements.map(a => [
                         `#${a.id}`,
                         a.title,
-                        a.client ? `${a.client.first_name} ${a.client.last_name}` : 'N/A',
-                        ''
+                        a.client_name ? `${a.client_name}` : 'N/A',
                     ]),
                     search: true,
                     sort: false,
