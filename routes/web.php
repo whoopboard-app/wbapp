@@ -172,7 +172,7 @@
         Route::delete('destroy/{invite}', [InviteController::class, 'destroy'])->name('invite.destroy');
     });
     $mainDomain = preg_replace('/^.*?([^.]+\.[^.]+)$/', '$1', request()->getHost());
-    // Tenant Public Routes (Subdomain-based)
+    // Tenant Public Routes
     Route::domain('{subdomain}.'.$mainDomain)
         ->where(['subdomain' => '^(?!www$)[a-zA-Z0-9-]+$'])
         ->group(function () {
