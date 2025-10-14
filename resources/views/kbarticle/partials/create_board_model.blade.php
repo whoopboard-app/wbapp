@@ -49,7 +49,7 @@
                                 <i class="fa fa-question-circle"></i>
                             </span>
                         </label>
-                        <select class="input-field w-100 rounded border" id="boardType" name="boardType">
+                        <select class="input-field w-100 rounded border" id="boardType" name="boardType" required>
                             <option value="">Select</option>
                             <option value="1">Public</option>
                             <option value="0">Private</option>
