@@ -1,6 +1,6 @@
 @extends('layouts.admin') 
 
-@section('title', 'Clients')
+@section('title', 'Back Office')
 
 @section('content')
 <style>

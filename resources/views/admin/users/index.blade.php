@@ -1,6 +1,6 @@
 @extends('layouts.admin') {{-- agar layouts/admin.blade.php hai --}}
 
-@section('title', 'Clients')
+@section('title', 'Back Office')
 
 @section('content')
 @if ($errors->any())

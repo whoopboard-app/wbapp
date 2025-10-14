@@ -112,7 +112,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link {{ request()->routeIs('admin.knowledge-board.index') ? 'active' : '' }}" href="{{ route('admin.knowledge-board.index') }}">
                     <span class="nav-icon">
                         <iconify-icon icon="carbon:ibm-watson-knowledge-studio"></iconify-icon>
                     </span>

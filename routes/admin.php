@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\AdminAnnouncementController;
+use App\Http\Controllers\Admin\KnowledgeBoardController;
 
 Route::prefix('backoffice')->name('admin.')->group(function () {
 
@@ -23,5 +24,7 @@ Route::prefix('backoffice')->name('admin.')->group(function () {
         Route::post('users/store', [AdminUserController::class, 'store'])->name('users.store');
         
         Route::get('announcement', [AdminAnnouncementController::class, 'index'])->name('announcement.index');
+
+        Route::get('knowledge-board', [KnowledgeBoardController::class, 'index'])->name('knowledge-board.index');
     });
 });
