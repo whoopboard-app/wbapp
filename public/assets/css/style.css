@@ -233,7 +233,7 @@ a {
    height: 40px;
 }
 textarea.input-field {
-   min-height: 124px;
+   min-height: 90px;
 }
 .input-field[type="url"] {
    background-color: var(--bgColor-disabled);
@@ -249,7 +249,8 @@ textarea.input-field {
    left: 12px;
 }
 .input-field:focus {
-   border-color: #0969da;
+    border: 1px solid #0969da !important;
+    box-shadow: none !important;
 }
 .error-msg {
    display: none;
