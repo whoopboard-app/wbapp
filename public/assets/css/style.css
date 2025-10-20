@@ -621,7 +621,7 @@ input.spectrum.with-add-on:focus {
    color: #0969da;
 }
 .sidebar-menu-link {
-   padding: 8px 12px 8px 40px;
+   padding: 8px 12px 8px 12px;
    gap: 16px;
    font-size: 18px;
    line-height: 20px;
@@ -636,7 +636,6 @@ input.spectrum.with-add-on:focus {
    background-color: #eaeaea;
 }
 .sidebar-menu-link.active {
-   background-color: rgba(127, 186, 255, 0.1);
    color: #0969da;
    font-weight: 600;
 }

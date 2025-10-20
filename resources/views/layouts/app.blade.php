@@ -27,9 +27,11 @@
 
     <div class="flex flex-1">
         {{-- Sidebar --}}
+{{--
         <div class="{{ isset($disableSidebar) && $disableSidebar ? 'opacity-60 pointer-events-none select-none' : '' }}">
             @include('includes.sidebar')
         </div>
+--}}
 
         {{-- Main Content Area --}}
         <main class="flex-1 p-6">

@@ -42,20 +42,20 @@
         </p>
         <form action="{{ route('profile.update') }}" method="POST" class=" w-100" enctype="multipart/form-data">
             @csrf
-             @method('PATCH') 
+             @method('PATCH')
                 <div class="card bg-white mb-3">
-                    
+
                     <div class="row">
                         <div class="col-12 mb-3">
                             <div class="">
                                 <label for="first_name" class="input-label mb-1 fw-medium">First Name
                                 <span class="tooltip-icon" data-bs-toggle="tooltip" aria-label="First name" data-bs-original-title="First name"><i class="fa fa-question-circle"></i></span>
                                 </label>
-                                 <input id="first_name" 
-                                    name="first_name" 
-                                    class="input-field w-100 rounded" 
-                                    placeholder="Placeholder" 
-                                    value="{{ old('first_name', $user->name) }}" 
+                                 <input id="first_name"
+                                    name="first_name"
+                                    class="input-field w-100 rounded"
+                                    placeholder="Placeholder"
+                                    value="{{ old('first_name', $user->name) }}"
                                     required>
                             </div>
                         </div>
@@ -65,11 +65,11 @@
                                 <label for="last_name" class="input-label mb-1 fw-medium">Last Name
                                 <span class="tooltip-icon" data-bs-toggle="tooltip" aria-label="Last name" data-bs-original-title="Last name"><i class="fa fa-question-circle"></i></span>
                                 </label>
-                                 <input id="last_name" 
-                                    name="last_name" 
-                                    class="input-field w-100 rounded" 
-                                    placeholder="Placeholder" 
-                                    value="{{ old('last_name', $user->last_name) }}" 
+                                 <input id="last_name"
+                                    name="last_name"
+                                    class="input-field w-100 rounded"
+                                    placeholder="Placeholder"
+                                    value="{{ old('last_name', $user->last_name) }}"
                                     required>
                             </div>
                         </div>
@@ -101,7 +101,7 @@
                         </div>
                         <div class="col-12 mb-3">
                             <div class="">
-                                <label for="user_type" class="input-label mb-1 fw-medium">Current Role 
+                                <label for="user_type" class="input-label mb-1 fw-medium">Current Role
                                 <span class="tooltip-icon" data-bs-toggle="tooltip" aria-label="First name" data-bs-original-title="Role"><i class="fa fa-question-circle"></i></span>
                                 </label>
                                 <select id="user_type" name="user_type" class="input-field w-100 rounded" required readonly>
@@ -122,17 +122,17 @@
                                 <textarea name="aboutme" id="aboutme" rows="3" class="input-field w-100 rounded"></textarea>
                             </div>
                         </div>
-                      
+
                         <div class="col-12">
                             <button type="submit" class="theme-btn rounded border-0 fw-bold let_spc">Update Profile</button>
                         </div>
                     </div>
 
                 </div>
-                
+
         </form>
-                   
-       
+
+
     </div>
 
 </section>

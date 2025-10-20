@@ -1,0 +1,405 @@
+body
+{
+     font-family: "Inter", sans-serif;
+}
+.gap24 
+{
+    gap: 24px;
+}
+.gap15
+{
+    gap: 15px;
+}
+.gap-10
+{
+    gap: 10px;
+}
+.font-16
+{
+    font-size: 16px;
+}
+.font-18
+{
+    font-size: 18px;
+}
+
+.mt-10px
+{
+    margin-top: 10px;
+}
+.mt-24
+{
+    margin-top: 24px;
+}
+.mt-20
+{
+    margin-top: 20px;
+}
+.mt-12
+{
+    margin-top: 12px;
+}
+.mt-15px , .header-dropdown .dropdown-menu.mt-15px
+{
+    margin-top: 13px!important;
+}
+.color-323232
+{
+    color: #323232;
+}
+.section-title h2
+{
+    line-height: 1.2;
+}
+.theme-btn
+{
+    padding: 4px 12px!important;
+    border-radius: 6px!important;
+    font-size: 12px!important;
+    font-weight: 400!important;
+
+}
+.table thead th
+{
+    border-top: 0;
+    border-bottom: 0;
+    font-weight: 400;
+
+}
+.table thead tr 
+{
+    border: 0;
+}
+.table tbody td:first-child
+{
+    border-top: 0;
+}
+.table thead th:first-child, .table tbody td:first-child
+{
+    border-left: 0;
+}
+.table thead th:last-child, .table tbody td:last-child
+{
+    border-right: 0;
+}
+.table tbody tr:first-child
+{
+    border-top: 0;
+}
+.header
+{
+    padding-left: 40px;
+    padding-right: 40px;
+}
+.header-dropdown .dropdown-menu
+{
+    margin-top: 15px!important;
+}
+.bg-corban
+{
+    background-color: #FAFAF9;
+}
+.color-support
+{
+    color: #535353;
+}
+.section-content-center
+{
+    max-width: 716px;
+    margin: 0 auto;
+}
+.main-content-wrapper
+{
+    padding: 40px;
+}
+.border-title
+{
+    border-bottom: 1px solid #E1E1E0;
+    padding: 10px 20px;
+}
+.border-title h4 
+{
+    font-size: 18px;
+    color: #323232;
+}
+.content-body
+{
+    padding: 20px;
+}
+.footer
+{
+    padding: 10px 40px;
+    background-color: #fff;
+  
+}
+
+    .footer
+    {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    }
+
+.listing-changelog
+{
+   max-width: 100%;
+    margin-left: 0;
+}
+
+.badge.published , .badge.more-category
+{
+    border: 1px solid #0969DA;
+    color: #0969DA;
+}
+.tooltip-icon
+{
+    margin-left: 0;
+}
+.badge 
+{
+    padding: 6px 8px;
+    font-size: 13px;
+}
+.badge.reaction
+{
+    border-radius: 6px;
+}
+.badge.action 
+{
+    padding: 6px 8px;
+}
+.view-changelog
+{
+    max-width: 1158px;
+    margin-left: 0;
+    margin-right: auto;
+}
+.view-changelog-details 
+{
+    max-width: 898px;
+}
+.my-profile-wrapper
+{
+    max-width: 898px;
+    margin-left: 0;
+}
+.view-changelog-stats
+{
+    max-width: 240px;
+}
+.icon-box {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border: 1px solid #e5e5e5;
+      border-radius: 6px;
+      padding: 0 8px;
+      width: fit-content;
+      background: #fff;
+    }
+
+    .icon-box .divider {
+      height: 30px;
+      width: 1px;
+      background-color: #e5e5e5;
+      margin: 0 10px;
+    }
+.badge.scheduled
+{
+    border: 1px solid #9A6700;
+    color: #9A6700;
+}
+.badge.draft
+{
+    border: 1px solid #1F2328;
+    color: #1F2328;
+}
+.badge.inactive
+{
+    border: 1px solid #8250DF;
+    color: #8250DF;
+}
+.upload-input label
+{
+    border: 1px solid #535353;
+    border-style: dashed;
+}
+.text-gray
+{
+    color: #8C9399;
+}
+input[type="time"]::-webkit-calendar-picker-indicator {
+  opacity: 0;
+  position: absolute;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+/* Hide it for Firefox too */
+input[type="time"]::-moz-focus-inner {
+  border: 0;
+}
+input[type="time"]::-moz-calendar-picker-indicator {
+  display: none;
+}
+/* Target the exact checkbox by ID for maximum specificity */
+#showImg.form-check-input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 44px !important;
+  height: 24px !important;
+  margin-top: 0;
+  margin-right: 5px;
+  border-radius: 999px !important;
+  background-color: #e9ecef !important;   /* off background */
+  border: none !important;
+  position: relative !important;
+  cursor: pointer !important;
+  box-shadow: none !important;
+  background-image: none !important;     /* remove any gradients/images */
+}
+
+/* Ensure checked background can be whatever you want */
+#showImg.form-check-input:checked {
+  background-color: #0d6efd !important;  /* on background - change if needed */
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+/* Force the switch "ball" to be white.
+   Try both ::before and ::after because Bootstrap variants differ. */
+#showImg.form-check-input::before,
+#showImg.form-check-input::after {
+  content: "" !important;
+  position: absolute !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  left: 3px !important;
+  width: 18px !important;
+  height: 18px !important;
+  border-radius: 50% !important;
+  background-color: #ffffff !important;  /* <-- white ball */
+  box-shadow: none !important;
+  transition: transform .25s ease !important;
+}
+
+/* Move the ball when checked */
+#showImg.form-check-input:checked::before,
+#showImg.form-check-input:checked::after {
+  transform: translateY(-50%) translateX(20px) !important;
+}
+
+/* In case Bootstrap uses an inner box-shadow to draw the ball, hide it */
+#showImg.form-check-input:focus,
+#showImg.form-check-input:active {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.upload-input {
+  cursor: pointer;
+  background-color: #f8f9fa;
+  transition: all 0.3s ease;
+}
+.upload-input:hover {
+  background-color: #f1f3f5;
+}
+#banner-preview img {
+  object-fit: cover;
+}
+
+.pagination .prev
+{
+    color: #59636E!important;
+    font-size: 14px!important;
+    font-weight: 400!important;
+}
+.pagination .next 
+{
+    color: #0969DA!important;
+    font-size: 14px!important;
+    font-weight: 400!important;
+}
+.pagination .pagination-number
+{
+    color: #1F2328;
+    font-weight: 400;
+    font-size: 14px;
+}
+.pagination .pagination-number.active {
+  background-color: #0969DA;
+  color: #fff !important;
+  font-weight: 400;
+  border-radius: 6px;
+  padding: 6px 10px;
+}
+.card-footer
+{
+    padding: 10px 20px;
+}
+/* form sign in and up */
+.form-input-wrapper
+{
+    max-width: 475px;
+    margin: 0 auto;
+    width: 100%;
+}
+.form-input-wrapper .form-btn.theme-btn
+{
+    padding: 6px 8px!important;
+}
+.border-dashed
+{
+    border: 1px dashed!important;
+}
+.nav-pills .nav-link.active
+{
+    border-bottom: 2px solid #0969DA;
+    background-color: transparent;
+    border-radius: 0;
+    color: #000;
+}
+.nav-pills .nav-link
+{
+    color: #000;
+    font-size: 14px;
+    font-weight: 500;
+}
+.nav-pills
+{
+    border-bottom: 1px solid #E1E1E0;
+}
+.vertically-center
+{
+     display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 85vh;
+}
+.mb-240{
+    margin-bottom: 240px;
+}
+.onboard-step input:checked ~ label .check-icon
+{
+    display: inline;
+}
+.onboard-step .check-icon
+{
+    display: none;
+}
+.input-btn:hover 
+{
+    background-color: #e8ecef;
+    color: #59636e;
+    border: 1px solid #d1d9e0;
+}
+.input-btn
+{
+    border-style: dashed;
+    border-width: 1.5px;
+    border-color: #969695;
+}
