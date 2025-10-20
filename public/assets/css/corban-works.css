@@ -344,7 +344,7 @@ input[type="time"]::-moz-calendar-picker-indicator {
 /* form sign in and up */
 .form-input-wrapper
 {
-    max-width: 475px;
+    max-width: 500px;
     margin: 0 auto;
     width: 100%;
 }
@@ -378,7 +378,7 @@ input[type="time"]::-moz-calendar-picker-indicator {
      display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 85vh;
+  min-height: 80vh;
 }
 .mb-240{
     margin-bottom: 240px;
