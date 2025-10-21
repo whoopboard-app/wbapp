@@ -1,5 +1,4 @@
-@extends('layouts.add_changelog')
-
+@extends('layouts.app')
 @section('content')
 <style>
     .para {
@@ -13,12 +12,12 @@
         color: #1C8139;
     }
     .badge.status-inactive {
-        background-color: #FFE5B4; 
-        color: #FF8C00;           
+        background-color: #FFE5B4;
+        color: #FF8C00;
     }
     .badge.status-pending {
-        background-color: #E0F0FF; 
-        color: #0056B3;           
+        background-color: #E0F0FF;
+        color: #0056B3;
     }
     .table thead th, .table tbody td {
         font-size: 14px;
@@ -65,7 +64,7 @@
             <form action="{{ route('invite.store') }}" method="POST" class=" w-100">
                 @csrf
                     <div class="card bg-white mb-3">
-                        
+
                         <div class="row">
                             <div class="col-12 mb-3">
                                 <div class="">
@@ -75,7 +74,7 @@
                                     <input id="firstName" name="firstName" class="input-field w-100 rounded" placeholder="Placeholder" required>
                                 </div>
                             </div>
-                            
+
                             <div class="col-12 mb-3">
                                 <div class="">
                                     <label for="email" class="mb-1 fw-medium">Email Address
@@ -107,7 +106,7 @@
                         </div>
 
                     </div>
-                    
+
             </form>
                             <!-- Table Section -->
             <div class="form-section card bg-white mt-3">
@@ -116,11 +115,11 @@
                     <input id="teamSearch" class="input-field w-100 rounded ps-5" placeholder="Search">
                     <img src="{{ asset('assets/img/icon/search.svg') }}" class="position-absolute category-search-icon" style="top: 50%; left: 10px; transform: translateY(-50%);" alt="">
                 </div>
-              
+
                 <div class="table-responsive">
                     @include('invite.partials.team_table', ['teamMembers' => $teamMembers])
                 </div>
-              
+
             </div>
         </div>
         <div class="modal fade" id="editMemberModal" tabindex="-1" aria-hidden="true">
@@ -198,7 +197,7 @@
 
         $('.edit-member').click(function(e) {
             e.preventDefault();
-            
+
             const button = $(this).closest('.dropdown').find('button');
             const id = button.data('id');
             const first_name = button.data('first_name');
@@ -217,7 +216,7 @@
 
             // Show modal or scroll to form
             $('#editMemberModal').modal('show'); // if using Bootstrap modal
-        
+
         });
     });
 </script>

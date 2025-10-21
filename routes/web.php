@@ -62,12 +62,12 @@
     Route::get('/', function () {
         return redirect()->route('login');
     });
-/*    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->middleware(['auth', 'verified'])->name('dashboard');*/
     Route::get('/dashboard', function () {
         return view('dashboard');
-    })->name('dashboard');
+    })->middleware(['auth', 'verified'])->name('dashboard');
+/*    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');*/
     Route::get('/guide_setup', [GuideSetupController::class, 'index'])->name('guide_setup');
     Route::post('/guide_setup/completed', [GuideSetupController::class, 'completed'])->name('guide.setup.completed');
 

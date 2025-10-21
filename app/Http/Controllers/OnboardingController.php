@@ -52,11 +52,14 @@ class OnboardingController extends Controller
             'product_name' => 'required|string',
             'current_url'  => 'nullable|string|max:255',
             'subdomain'    => 'required|string|max:255',
+            'url' => 'required|string|max:255',
         ]);
         $tenant = Tenant::updateOrCreate(
             ['client_user_id' => Auth::id()],
             [
-                'website_url'      => $request->current_url ? 'https://www.' . $request->current_url : null,
+                'website_url' => $request->url && $request->current_url
+                    ? $request->url . $request->current_url
+                    : null,
                 'custom_url'       => $request->subdomain,
                 'client_full_name' => Auth::user()->name,
                 'page_publish'     => 1,
@@ -77,11 +80,12 @@ class OnboardingController extends Controller
                 'website_url'      => $request->current_url ? 'https://www.' . $request->current_url : null,
                 'custom_url'       => $request->subdomain,
                 'client_full_name' => Auth::user()->name,
+                'completed'        => '1',
                 'page_publish'     => 1,
             ]
         );
 
-        return redirect()->route('guide_setup')
+        return redirect()->route('dashboard')
             ->with('success', 'Onboarding Completed!');
     }
     public function checkDomain(Request $request)

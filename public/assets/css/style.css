@@ -162,7 +162,7 @@ a {
 /* header section start */
 .header {
    border-bottom: 1px solid #d8dee3;
-   padding: 14px 40px;
+   padding: 8px 30px;
    background-color: #fff;
    z-index: 1030;
 }
@@ -527,7 +527,7 @@ input.spectrum.with-add-on:focus {
 }
 .onboard-step label {
    border: 1px solid #59636e;
-   padding: 14px 20px;
+   padding: 14px 10px;
    cursor: pointer;
    transition: all 0.3s;
 }
@@ -560,7 +560,7 @@ input.spectrum.with-add-on:focus {
    visibility: visible;
 }
 .step-form {
-   max-width: 404px;
+   max-width: 650px;
 }
 .step-form .form-title p {
    font-size: 17px;

@@ -14,8 +14,8 @@ class User extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
-    
-        
+
+
     /**
      * The attributes that are mass assignable.
      *
@@ -97,7 +97,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne(UserTheme::class);
     }
 
-   
+
 
     public function userTypeLabel()
     {
@@ -110,6 +110,9 @@ class User extends Authenticatable implements MustVerifyEmail
             default => 'Other',
         };
     }
-
+    public function onboarding()
+    {
+        return $this->hasOne(UserOnboarding::class, 'user_id', 'id');
+    }
 
 }

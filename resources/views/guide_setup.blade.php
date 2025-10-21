@@ -5,13 +5,13 @@ if($user->guide_setup = '0'){
 @extends('layouts.app')
 @section('content')
     <div class="py-1 ">
-        <div class="container mx-auto py-8">
-            <div class="max-w-full mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden sm:rounded-lg p-6 space-y-6 mx-28">
+        <div class="container ms-0" style="max-width: 60%;">
+            <div class="mx-auto">
+                <div class="bg-white overflow-hidden sm:rounded-lg space-y-6">
 
                     <!-- Breadcrumb -->
                     <nav class="text-md-center text-black mb-3 text-base">
-                        <ol class="list-reset flex space-x-2">
+                        <ol class="list-reset flex">
                             <li>
                                 Dashboard
                                 <span>/</span>

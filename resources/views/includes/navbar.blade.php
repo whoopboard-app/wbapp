@@ -1,4 +1,3 @@
-<!-- Instance Bar (keep this part as in your old code) -->
 <div id="instance" style="width: 100%;">
     @php
         $instanceClasses = [
@@ -13,27 +12,31 @@
 
     @if($instance == 'UAT' && $user)
         <div class="{{ $class }}">
-            <p class="text-center p-2">
+            <p class="text-center p-2 mb-0">
                 {{ $instance }} - User ID: {{ $user->id }}, Client ID: {{ $user->tenant_id }}, Tenant ID: {{ $user->tenant_id }}
             </p>
         </div>
     @endif
+    @php
+        $isGuideSetup = request()->is('guide_setup*'); // true if current page is guide_setup
+    @endphp
 </div>
 
 <!-- header section start -->
-<header class="header sticky-top bg-white" style="padding-left: 10px">
-    <div class="header-wrapper d-flex align-items-center justify-content-between gap-4 px-3">
+<header class="header sticky-top bg-white" style="padding-left: 18px">
+    <div class="header-wrapper d-flex align-items-center justify-content-between gap-4">
 
         <!-- Left icon -->
+        @if($user->onboarding->completed != '0')
         <div class="d-inline-block">
             <ul class="d-flex mb-0">
-                @if(isset($user) && $user->quick_setup == '0')
+                @if(isset($user) && $user->quick_setup == '1')
                     <li class="sidebar-menu-item">
-                        <a href="{{ route('guide_setup') }}"
+                        <a href="{{ route('dashboard', ['tenant' => Auth::user()->tenant->custom_url]) }}"
                            data-bs-toggle="tooltip"
                            data-bs-placement="bottom"
                            title="Quick Setup"
-                           class="{{ request()->routeIs('guide_setup') ? 'active text-primary' : 'text-gray-600' }}">
+                           class="sidebar-menu-link d-flex {{ request()->is('guide_setup') ? 'active text-blue-600' : 'text-gray-600' }}">
                             <img src="/assets/img/icon/home.png" alt="home" class="sidebar-menu-link-icon flex-shrink-0">
                         </a>
                     </li>
@@ -43,8 +46,9 @@
                            data-bs-toggle="tooltip"
                            data-bs-placement="bottom"
                            title="Dashboard"
-                           class="sidebar-menu-link d-flex {{ request()->routeIs('dashboard') ? 'active text-blue-600' : 'text-gray-600' }}">
-                            <img src="/assets/img/icon/home.png" alt="home" class="sidebar-menu-link-icon flex-shrink-0">
+                           class="sidebar-menu-link d-flex align-items-center
+                           {{ $isGuideSetup ? 'text-gray-400 pointer-events-none' : (request()->routeIs('dashboard') ? 'active text-blue-600' : 'text-gray-600') }}">
+                        <img src="/assets/img/icon/home.png" alt="home" class="sidebar-menu-link-icon flex-shrink-0">
                         </a>
                     </li>
                 <li class="sidebar-menu-item">
@@ -52,7 +56,8 @@
                        data-bs-toggle="tooltip"
                        data-bs-placement="bottom"
                        title="Announcement Listing"
-                       class="sidebar-menu-link d-flex align-items-center {{ request()->routeIs('announcement.*') ? 'active text-blue-600' : 'text-gray-600' }}">
+                       class="sidebar-menu-link d-flex align-items-center
+       {{ $isGuideSetup ? 'text-gray-400 pointer-events-none' : (request()->routeIs('announcement.*') ? 'active text-blue-600' : 'text-gray-600') }}">
                         <img src="/assets/img/icon/megaphone.png" alt="megaphone" class="sidebar-menu-link-icon flex-shrink-0">
                     </a>
                 </li>
@@ -84,12 +89,11 @@
                     </a>
                 </li>
                 <li class="sidebar-menu-item">
-
                     <a href="{{ route('board.index') }}"
                        data-bs-toggle="tooltip"
                        data-bs-placement="bottom"
                        title="Board Listing"
-                       class="sidebar-menu-link d-flex align-items-center {{ request()->routeIs('kbboard.*') ? 'active text-blue-600' : 'text-gray-600' }}">
+                       class="sidebar-menu-link d-flex align-items-center {{ request()->is('kbboards*') ? 'active text-blue-600' : 'text-gray-600' }}">
                         <img src="/assets/img/icon/book.png" alt="megaphone" class="sidebar-menu-link-icon flex-shrink-0">
                     </a>
                 </li>
@@ -104,18 +108,22 @@
                 </li>
             </ul>
         </div>
-
+        @else
+            <h4 class="fw-semibold mb-0 text-lg pl-6">Welcome {{$user->name}} ! Finish setting you account</h4>
+        @endif
         <!-- Right icon & Profile -->
+
         <div class="gap15 d-flex align-items-center justify-content-end pb-0">
 
             <div class="d-flex align-items-center gap-3">
                 <!-- Add Dropdown -->
+                @if($user->onboarding->completed != '0')
                 <div class="header-dropdown dropdown">
                     <button type="button" data-bs-toggle="dropdown" aria-expanded="false"
-                            class="align-baseline header-dropdown-toggle dropdown-toggle text-white theme-btn sm fw-semibold rounded border-0">
+                            class="align-baseline header-dropdown-toggle dropdown-toggle text-white theme-btn rounded border-0 w-100 py-1">
                         Add
                     </button>
-                    <ul class="dropdown-menu mt-15px rounded-0 border-top-0 border-bottom-0">
+                    <ul class="dropdown-menu rounded-0 border-top-0 border-bottom-0">
                         <li><a class="dropdown-item" href="{{ route('changelog.create')}}" >Add @customLabel('Announcement')</a></li>
                         <li><a class="dropdown-item" href="#">New Article</a></li>
                         <li><a class="dropdown-item" href="#">New Testimonial</a></li>
@@ -125,10 +133,11 @@
                 </div>
 
                 <!-- Action icon -->
-                <a href="#"><img src="{{ asset('assets/img/icon/window.svg') }}" alt="Window"></a>
+                <a href="#"><img src="{{ asset('assets/img/icon/team.svg') }}" alt="team"></a>
                 <a href="#"><img src="{{ asset('assets/img/icon/dashboard.svg') }}" alt="Dashboard"></a>
                 <a href="#"><img src="{{ asset('assets/img/icon/gear.svg') }}" alt="Settings"></a>
             </div>
+            @endif
 
             <!-- Profile Dropdown -->
             @if($user)
@@ -137,7 +146,7 @@
                         <div class="profile-wrapper d-flex align-items-center gap-2" role="button"
                              data-bs-toggle="dropdown" aria-expanded="false">
                             <img src="{{ $user->profile_img ? asset('storage/' . $user->profile_img) : asset('assets/img/icon/profile.svg') }}"
-                                 alt="profile-img" class="rounded-circle object-fit-cover" style="width: 35px; height: 35px;">
+                                 alt="profile-img" class="rounded-circle object-fit-cover">
 
                             <div class="profile-info">
                                 <h6 class="fw-semibold mb-0">{{ $user->name }}</h6>
