@@ -23,7 +23,8 @@ class ChangelogController extends Controller
         $announcements = Changelog::where('tenant_id', $tenantId)
             ->orderBy('created_at', 'desc')
             ->paginate(3);
-            
+        
+        $totalCount = $announcements->total();
             
         foreach ($announcements as $log) {
             $catIds = json_decode($log->category, true) ?? [];
@@ -36,7 +37,7 @@ class ChangelogController extends Controller
                 ->pluck('tag_name')
                 ->toArray();
         }
-        return view('announcement', compact('announcements', 'categories'))->with('filter', 'all');
+        return view('announcement', compact('announcements', 'categories', 'totalCount'))->with('filter', 'all');
     }
 
     public function filter(Request $request)
@@ -123,7 +124,7 @@ class ChangelogController extends Controller
             
             'action' => 'required|string|in:publish,draft,schedule',
         ]);
-// dd($validatedData);
+        // dd($validatedData);
         $validatedData['publishDate'] = Carbon::parse($validatedData['publishDate'])->format('Y-m-d');
        
         $validatedData['tenant_id'] = auth()->user()->tenant_id;
@@ -157,6 +158,11 @@ class ChangelogController extends Controller
             return redirect()->route('announcement.list')->with('success', 'Changelog scheduled for publishing successfully!');
         }
         
+    }
+
+    public function show($id)
+    {
+        dd($id);
     }
         
 }

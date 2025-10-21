@@ -1,9 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <style>
-    .breadcrumb-item {
-        font-size: 15px !important;
-    }
+   
     .p-text {
         font-size: 17px !important;
     }
@@ -13,7 +11,9 @@
     .theme-btn {
         line-height: unset !important;
     }
- 
+    .card{
+        padding: 0px !important;
+    }
 
     .badge.status-active {
         background-color: #E0FFE9;
@@ -37,6 +37,10 @@
         height: 400px;     
         object-fit: cover;  
         width: 100%;     
+    }
+
+    .custom-border {
+    border: var(--bs-border-width, 1px) solid var(--bs-border-color, #dee2e6) !important;
     }
 </style>
 <div class="mx-auto w-100">
@@ -107,12 +111,15 @@
             <div class="d-flex justify-content-between">
                     <h4 class="fw-medium font-16 ">Change Log</h4>
                     <div class="btn-wrapper d-flex align-items-center justify-content-center gap-2 flex-wrap mb-4">
-                        <a href="#" class="theme-btn bg-white sm secondary fw-semibold rounded d-inline-block"><img src="assets/img/icons/chevron-left.svg" class="align-text-bottom" alt=""> Back to Listing Page</a>
+                        <a href="#" class="theme-btn bg-white sm secondary fw-semibold rounded d-inline-flex align-items-center gap-2">
+                            <img src="{{ asset('assets/img/chevron-left.svg') }}" alt="Back" class="align-text-bottom">
+                            Back to Listing Page
+                        </a>
                         <a href="{{ route('changelog.create')}}" class="theme-btn sm fw-semibold rounded d-inline-block"> Add @customLabel('Announcement')</a>
                     </div>
                </div>
 
-            <div class=" border-bottom-0 mb-4 d-flex align-items-start">
+            <!-- <div class=" border-bottom-0 mb-4 d-flex align-items-start">
                 <nav class="d-flex align-items-center justify-content-center">
                     <div class="nav nav-tabs justify-content-center rounded">
                        
@@ -131,15 +138,15 @@
                     </div>
                 </nav>
                 
-            </div>
+            </div> -->
 
-            <div class="d-flex justify-content-between align-items-center mb-4">
+            <!-- <div class="d-flex justify-content-between align-items-center mb-4">
                 <div class=" position-relative form-group d-flex align-items-center">
                     <input type="search" id="search" name="search" class="input-field w-100 rounded ps-5" placeholder="Search">
                     <img src="/assets/img/icon/search.svg" class="position-absolute search-icon ml-3" alt="">
                 </div>
                 <div class="d-flex gap-2">
-                <!-- Filter -->
+               
                 <a href="#" class="theme-btn secondary rounded fw-medium btn-icon-text">
                     <div class="icon-text-wrap d-flex gap-2">
                         <img src="/assets/img/icon/filter.svg" alt="">
@@ -155,10 +162,37 @@
 
                 
                 </div>
+            </div> -->
+            <div class="card pt-0 px-0 bg-white">
+                <div class="d-flex border-title align-items-center justify-content-between">
+                    <h4 class="fw-medium mb-0 ">{{ $totalCount }} Change Log</h4>
+                    <div class="btn-wrapper d-flex align-items-center justify-content-center gap15 flex-wrap mb-0">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="showImg">
+                            <label class="form-check-label" for="showImg">
+                            Show Image
+                            </label>
+                        </div>
+                        <div class="position-relative form-group" style="width: 250px;">
+                            <input type="search" class="input-field w-100 rounded ps-5" placeholder="Search">
+                            <img src="{{ asset('assets/img/icon/search.svg') }}" alt="search"
+                                class="position-absolute top-50 start-0 translate-middle-y ms-3">
+                        </div>
+                        
+                        <div class="form-group">
+                        <select class="form-select rounded custom-border">
+                                    <option value="">Name</option>
+                                    <option value="active">Active</option>
+                                    <option value="inactive">Inactive</option>
+                                    <option value="draft">Draft</option>
+                        </select>
+                        </div>
+                    </div>
+                </div>
+               
             </div>
-
             <div class="announcement-list space-y-4">
-                    @include('changelog.partials.announcement_cards', ['announcements' => $announcements])
+                    @include('changelog.partials.announcement_cards', ['announcements' => $announcements,'categories' => $categories])
             </div>
         </div> 
          

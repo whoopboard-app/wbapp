@@ -1,40 +1,130 @@
-@forelse($announcements as $announcement)
-    <div class="p-4 border rounded bg-white shadow-sm">
-        @if($announcement->status != 'draft')
-            @if($announcement->feature_banner)
-                <img src="{{ asset('storage/'.$announcement->feature_banner) }}" 
-                    class="img-fixed rounded mb-2" 
-                    alt="">
-            @else
-                <img src="{{ asset('assets/img/image17.png') }}" 
-                    class="w-100 rounded mb-2" 
-                    alt="">
-            @endif
-        @endif
-        <span class="badge 
-            {{ $announcement->status == 'active' ? 'status-active' : '' }} 
-            {{ $announcement->status == 'draft' ? 'status-draft' : '' }} 
-            {{ $announcement->status == 'inactive' ? 'status-inactive' : '' }}">{{ ucfirst($announcement->status) }}</span>
-        <h3 class="text-xl font-semibold mt-2 mb-1">{{ $announcement->title }}</h3>
-        <p class="text-gray-600 mb-3">{{ $announcement->description }}</p>
-        <div class="d-flex align-items-center flex-wrap">
-            @if(!empty($announcement->tag_names))
-                @foreach($announcement->tag_names as $tag)
-                    <span class="badge bg-white rounded-pill text-dark border me-1">
-                        {{ $tag }}
-                    </span>
-                @endforeach
-            @else
-                <span class="badge bg-light rounded-pill text-muted border">No data</span>
-            @endif
-        </div>
-            
-    </div>
-@empty
-    <p class="text-gray-500 text-center">No announcements found.</p>
-@endforelse
+<style>
+    .changelog-table {
+        border: 1px solid #dee2e6; /* Light outer border */
+        border-collapse: separate;
+        border-spacing: 0;
+    }
 
-<div class="mt-4 pagination-wrapper">
-    {!! $announcements->links() !!}
+    .changelog-table th,
+    .changelog-table td {
+        border-left: none !important;  /* Remove vertical borders */
+        border-right: none !important; /* Remove vertical borders */
+    }
+
+    .changelog-table tr {
+        border-bottom: 1px solid #e9ecef; /* Light row separators */
+    }
+
+    .changelog-table thead tr {
+        border-bottom: 2px solid #dee2e6; /* Slightly stronger header border */
+    }
+
+    .table-responsive{
+        margin-top: 0px !important;
+    }
+
+    .card{
+        border-bottom-left-radius: 0;     
+        border-bottom-right-radius: 0;
+        border-bottom: none;
+    }
+
+    .reaction {
+        padding: 6px 10px;
+    }
+
+    .icon-sm {
+        width: 14px;
+        height: 14px;
+        object-fit: contain;
+    }
+    
+
+</style>
+<div class="table-responsive">
+    <div id="listingChangelog_wrapper" class="dt-container dt-bootstrap5 dt-empty-footer">
+        <table id="listingChangelog" class="table align-middle changelog-table" style="width: 100%;">
+            <thead class="table-light">
+                <tr>
+                    <th>Status</th>
+                    <th>Title</th>
+                    <th>Published Date</th>
+                    <th>Category</th>
+                    <th>Score</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse ($announcements as $announcement)
+                    <tr>
+                        <td>
+                            <span class="badge fw-normal bg-white 
+                                @if($announcement->status == 'draft') draft 
+                                @elseif($announcement->status == 'inactive') inactive 
+                                @else published @endif rounded-pill">
+                                {{ ucfirst($announcement->status) }}
+                            </span>
+                        </td>
+
+                        <td>
+                            <span class="text-sm">{{ $announcement->title }}</span>
+                        </td>
+
+                        <td>
+                            <span class="text-sm">{{ $announcement->created_at->format('F d, Y \\a\\t h:i A') }}</span>
+                        </td>
+
+                        <td>
+                            @php
+                                $catNames = $announcement->category_names ?? [];
+                            @endphp
+
+                            @if(count($catNames) > 0)
+                                @foreach(array_slice($catNames, 0, 2) as $cat)
+                                    <span class="badge fw-normal bg-white published-category border text-dark rounded-pill">
+                                        {{ $cat }}
+                                    </span>
+                                @endforeach
+                                @if(count($catNames) > 2)
+                                    <span class="badge fw-normal bg-white more-category rounded-pill tooltip-icon" data-bs-toggle="tooltip" title="Other categories">
+                                        +{{ count($catNames) - 2 }}
+                                    </span>
+                                @endif
+                            @else
+                                <span class="text-muted">—</span>
+                            @endif
+                        </td>
+
+
+                        <td>
+                            <span class="badge fw-normal bg-white border reaction text-dark d-inline-flex align-items-center gap-1">
+                                {{ $announcement->likes_percent ?? 0 }}%
+                                <img src="{{ asset('assets/img/icon/thumbs-up.svg') }}" alt="like" class="icon-sm">
+                            </span>
+                            <span class="badge fw-normal bg-white border reaction text-dark d-inline-flex align-items-center gap-1">
+                                {{ $announcement->dislikes_percent ?? 0 }}%
+                                <img src="{{ asset('assets/img/icon/thumbs-down.svg') }}" alt="dislike" class="icon-sm">
+                            </span>
+                        </td>
+
+                        <td>
+                            <span class="badge bg-white border text-dark tooltip-icon" data-bs-toggle="tooltip" title="View">
+                                <a href="{{ route('announcement.show', $announcement->id) }}">
+                                    <img src="{{ asset('assets/img/icon/eye.svg') }}" alt="">
+                                </a>
+                            </span>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="6" class="text-center text-muted">No change logs found.</td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+        <div class="mt-3 px-3 pb-3 d-flex justify-content-center">
+            {!! $announcements->links('pagination::bootstrap-5') !!}
+        </div>
+    </div>
 </div>
 
