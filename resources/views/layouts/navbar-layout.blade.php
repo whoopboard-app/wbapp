@@ -34,7 +34,7 @@
     @include('includes.navbar')
 
     {{-- Page content --}}
-    <main class="flex-1 p-6 bg-white">
+    <main class="flex-1 p-6" style="background-color: #f7f8fa;">
         @yield('content')
     </main>
 </div>

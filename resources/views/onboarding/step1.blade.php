@@ -15,7 +15,7 @@
         @if (session('warning'))
             <x-alert type="warning" :message="session('warning')" />
         @endif
-        <section class="section-content-center">
+        <section class="section-content-center" style="background-color: #f7f8fa;">
             <div class="container py-4">
                 <form action="{{ route('onboarding.storeStep1') }}" method="POST" class="mb-3 form mx-auto w-50">
                     @csrf

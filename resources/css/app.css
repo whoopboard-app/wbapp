@@ -6,10 +6,14 @@
 @tailwind utilities;
 /* Tom Select overrides */
 /* Tom Select styling */
+/* resources/css/app.css */
+body {
+    background-color: #f7f8fa !important;
+}
 .ts-control {
     @apply rounded-lg focus:ring-0;
-    border: none !important; /* remove border */
-    box-shadow: none !important; /* remove inner border highlight */
+    border: none !important;
+    box-shadow: none !important;
     background-color: #f8f9fa; /* light background */
     font-size: 15px !important;
     border-radius: 0.5rem !important;

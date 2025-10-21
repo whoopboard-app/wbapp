@@ -15,6 +15,7 @@
     .section-content-center {
         max-width: 60%; /* half screen width */
         margin-left: 0; /* align to left */
+        height: 1437px !important;
         margin-right: auto;
     }
 

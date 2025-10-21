@@ -145,8 +145,9 @@
                     <div class="header-dropdown dropdown">
                         <div class="profile-wrapper d-flex align-items-center gap-2" role="button"
                              data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="{{ $user->profile_img ? asset('storage/' . $user->profile_img) : asset('assets/img/icon/profile.svg') }}"
-                                 alt="profile-img" class="rounded-circle object-fit-cover">
+                            <img src="{{ Auth::user()->profile_img ? asset('storage/' . Auth::user()->profile_img) : asset('assets/img/profile-img.png') }}"
+                                 alt="profile-img"
+                                 class="profile-img rounded-circle object-fit-cover">
 
                             <div class="profile-info">
                                 <h6 class="fw-semibold mb-0">{{ $user->name }}</h6>
