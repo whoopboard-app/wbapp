@@ -131,17 +131,24 @@
 
                         {{-- Description --}}
                         <div class="col-12">
-                          <div class="">
+                            <div>
                                 <label for="desc" class="input-label mb-1 fw-medium">
                                     Short Description
                                     <span class="tooltip-icon" data-bs-toggle="tooltip" title="Add description">
-                                        <i class="fa fa-question-circle hover-blue"></i>
-                                    </span>
+                <i class="fa fa-question-circle hover-blue"></i>
+            </span>
                                 </label>
-                                <textarea id="desc" name="description" rows="1"
-                                        class="input-field w-100 rounded text-sm"
-                                        placeholder="Note : Maximum of 200 Character"
-                                maxlength="200">{{ old('description') }}</textarea>
+                                <textarea
+                                    id="desc"
+                                    name="description"
+                                    rows="1"
+                                    class="input-field w-100 rounded text-sm"
+                                    placeholder="Note : Maximum of 200 Character"
+                                    maxlength="200"
+                                >{{ old('description') }}</textarea>
+
+                                <!-- Character counter -->
+                                <small id="descCounter" class="text-muted d-block mt-1">0 / 200 characters</small>
                             </div>
                         </div>
                     </div>
@@ -306,6 +313,20 @@
     </section>
 
     <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const textarea = document.getElementById('desc');
+            const counter = document.getElementById('descCounter');
+            const max = textarea.getAttribute('maxlength');
+
+            function updateCounter() {
+                const length = textarea.value.length;
+                counter.textContent = `${length} / ${max} characters`;
+                counter.style.color = length > max ? 'red' : '';
+            }
+
+            textarea.addEventListener('input', updateCounter);
+            updateCounter(); // Initialize on page load
+        });
         function showFileName(event) {
             const input = event.target;
             const fileName = input.files.length > 0 ? input.files[0].name : "";
