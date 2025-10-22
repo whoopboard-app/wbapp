@@ -22,7 +22,7 @@ class ChangelogController extends Controller
             
         $announcements = Changelog::where('tenant_id', $tenantId)
             ->orderBy('created_at', 'desc')
-            ->paginate(3);
+            ->paginate(5);
         
         $totalCount = $announcements->total();
             
@@ -40,21 +40,17 @@ class ChangelogController extends Controller
         return view('announcement', compact('announcements', 'categories', 'totalCount'))->with('filter', 'all');
     }
 
-    public function filter(Request $request)
+   public function filter(Request $request)
     {
         $tenantId = auth()->user()->tenant_id;
-        $filter = $request->filter;
-        $categories = SettingCategoryChangelog::where('tenant_id', $tenantId)
-                ->where('status', '1')
-                ->get();
+        $search = $request->search;
+        $status = $request->status;
+
         $announcements = Changelog::where('tenant_id', $tenantId)
-            ->when($filter && $filter != 'all', function($q) use ($filter) {
-                // yahan $filter ab category_id hoga
-                $q->whereJsonContains('category', (string) $filter);
-            })
+            ->when($search, fn($q) => $q->where('title', 'like', "%{$search}%"))
+            ->when($status, fn($q) => $q->where('status', $status))
             ->orderBy('created_at', 'desc')
-            ->paginate(3)
-            ->appends(['filter' => $filter]);
+            ->paginate(5);
 
         foreach ($announcements as $log) {
             $catIds = json_decode($log->category, true) ?? [];
@@ -68,10 +64,9 @@ class ChangelogController extends Controller
                 ->toArray();
         }
 
-        return view('announcement', compact('announcements', 'categories'))
-            ->with('filter', $filter);
-
+        return view('changelog.partials.announcement_cards', compact('announcements'))->render();
     }
+
     
     public function index()
     {

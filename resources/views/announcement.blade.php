@@ -174,13 +174,13 @@
                             </label>
                         </div>
                         <div class="position-relative form-group" style="width: 250px;">
-                            <input type="search" class="input-field w-100 rounded ps-5" placeholder="Search">
+                            <input type="search" id="searchInput" class="input-field w-100 rounded ps-5" placeholder="Search">
                             <img src="{{ asset('assets/img/icon/search.svg') }}" alt="search"
                                 class="position-absolute top-50 start-0 translate-middle-y ms-3">
                         </div>
                         
                         <div class="form-group">
-                        <select class="form-select rounded custom-border">
+                        <select id="statusFilter" class="form-select rounded custom-border">
                                     <option value="">Name</option>
                                     <option value="active">Active</option>
                                     <option value="inactive">Inactive</option>
@@ -191,12 +191,54 @@
                 </div>
                
             </div>
-            <div class="announcement-list space-y-4">
+            <div class="announcement-list space-y-4" id="announcement-list">
                     @include('changelog.partials.announcement_cards', ['announcements' => $announcements,'categories' => $categories])
             </div>
         </div> 
          
     @endif
 </div>
+<script>
+    $(document).ready(function() {
+    function fetchAnnouncements(page = 1) {
+        let search = $('#searchInput').val();
+        let status = $('#statusFilter').val();
+
+        $.ajax({
+            url: "{{ route('announcement.filter') }}",
+            type: "GET",
+            data: { search, status, page },
+            beforeSend: function() {
+                $('#announcement-list').html('<p class="text-center">Loading...</p>');
+            },
+            success: function(response) {
+                $('#announcement-list').html(response);
+            },
+            error: function() {
+                $('#announcement-list').html('<p class="text-danger text-center">Error loading data.</p>');
+            }
+        });
+    }
+
+    // Search input with delay
+    let typingTimer;
+    $('#searchInput').on('keyup', function() {
+        clearTimeout(typingTimer);
+        typingTimer = setTimeout(() => fetchAnnouncements(1), 400);
+    });
+
+    $('#statusFilter').on('change', function() {
+        fetchAnnouncements(1);
+    });
+
+    // Handle pagination clicks
+    $(document).on('click', '.pagination a', function(e) {
+        e.preventDefault();
+        let page = $(this).data('page');
+            if(page) fetchAnnouncements(page);
+        });
+    });
+
+</script>
 
 @endsection

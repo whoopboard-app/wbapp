@@ -38,6 +38,15 @@
         height: 14px;
         object-fit: contain;
     }
+
+    table#listingChangelog{
+        margin-bottom: 0px !important;
+    }
+
+    .pagination{
+        border-bottom-left-radius: 10px;     
+        border-bottom-right-radius: 10px;
+    }
     
 
 </style>
@@ -122,9 +131,7 @@
                 @endforelse
             </tbody>
         </table>
-        <div class="mt-3 px-3 pb-3 d-flex justify-content-center">
-            {!! $announcements->links('pagination::bootstrap-5') !!}
-        </div>
+       @include('changelog.partials.pagination')
     </div>
 </div>
 
