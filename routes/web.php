@@ -140,6 +140,8 @@
         ->name('announcement.list');
         Route::post('store', [ChangelogController::class, 'store'])
         ->name('announcement.store');
+        Route::get('{id}', [ChangelogController::class, 'show'])
+        ->name('announcement.show');
         Route::get('filter', [ChangelogController::class, 'filter'])->name('announcement.filter');
     });
 

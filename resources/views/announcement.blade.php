@@ -1,9 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <style>
-    .breadcrumb-item {
-        font-size: 15px !important;
-    }
+   
     .p-text {
         font-size: 17px !important;
     }
@@ -13,12 +11,8 @@
     .theme-btn {
         line-height: unset !important;
     }
-    .widget-item-btn
-    {
-        line-height: unset !important;
-    }
     .card{
-        padding: 20px 35px 20px 20px !important;
+        padding: 0px !important;
     }
 
     .badge.status-active {
@@ -44,86 +38,88 @@
         object-fit: cover;  
         width: 100%;     
     }
+
+    .custom-border {
+    border: var(--bs-border-width, 1px) solid var(--bs-border-color, #dee2e6) !important;
+    }
 </style>
-<div class="mt-4 mx-auto w-100">
-    <!-- breadcrumbs start -->
-
-    <div class="max-w-6xl mx-auto px-2">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb mb-2">
-                <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-                <li class="breadcrumb-item text-black" aria-current="page">Announcement Listings</li>
-            </ol>
-        </nav>
-        <h2 class="fw-semibold fs-4">@customLabel('Announcement')</h2>
-        <p class="text-gray-900 mt-1 mb-3 p-text">
-            Keep track of all product updates in one place. Search, filter, and manage your @customLabel('Announcement') entries with ease.
-        </p>
-    </div>
+<div class="mx-auto w-100">
+   
     @if($announcements->isEmpty() && $filter == 'all')
-        <div class="announcement-wrapper mx-auto max-w-2xl w-full">
-            <div class="btn-wrapper d-flex align-items-center justify-content-center gap-2 flex-wrap mb-4">
-                <a href="{{ route('changelog.create')}}" class="theme-btn sm fw-semibold rounded d-inline-block">
-                    <i class="fa fa-plus"></i> Add Your First @customLabel('Announcement')
-                </a>
-                <a href="#" class="theme-btn sm secondary fw-semibold rounded d-inline-block">
-                    @customLabel('Announcement') Settings
-                </a>
+        <section class="section-content-center">
+            <div class="container">
+                        <div class="card pt-0 px-0 bg-white">
+                            <div class="border-title">
+                                <h4 class="fw-medium mb-0">Change Log</h4>
+                            </div>
+                            <div class="content-body">
+                            <img src="{{ asset('assets/img/placeholder.png') }}" alt="placeholder" class="empty-img">
+                            <div class="get-started-changelog">
+                        <div class="get-started-changelog-title mb-4">
+                            <h6 class="fw-semibold mb-2 pb-1">Get started with the Changelog</h6>
+                            <p class="mb-0">Here is a list of recommended actions to help you get the most out of our Changelog module.</p>
+                        </div>
+                        <div class="btn-wrapper d-flex align-items-center justify-content-center gap-2 flex-wrap mb-4">
+                        <a href="{{ route('changelog.create')}}" class="theme-btn sm fw-semibold rounded d-inline-block"> Add @customLabel('Announcement')</a>
+                        <a href="#" class="theme-btn sm bg-white secondary fw-semibold rounded d-inline-block">@customLabel('Announcement') Settings</a>
+                        </div>
+                        <div class="get-started-card-wrapper">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="get-started-card card align-items-start rounded-0 bg-white h-100">
+                                    <img src="{{ asset('assets/img/email-color.svg') }}" alt="email-color">
+                                    <h5 class="card-title my-2 fw-semibold text-black">Import email subscribers</h5>
+                                    <p class="card-desc mb-3">Import your email list to send notification emails to your users.</p>
+                                    <a href="#" class="widget-item-btn bg-white d-inline-block rounded fw-semibold">Changelog Settings</a>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="get-started-card card align-items-start rounded-0 bg-white h-100">
+                                    <img src="{{ asset('assets/img/email-color.svg') }}" alt="email-color">
+                                    <h5 class="card-title my-2 fw-semibold text-black">Embed the changelog in your app</h5>
+                                    <p class="card-desc mb-3">Embed the changelog widget in your app to show your users what's new.</p>
+                                    <a href="#" class="widget-item-btn bg-white d-inline-block rounded fw-semibold">Embed Widget</a>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="get-started-card card align-items-start rounded-0 bg-white h-100">
+                                <img src="{{ asset('assets/img/email-color.svg') }}" alt="email-color">
+                                    <h5 class="card-title my-2 fw-semibold text-black">Share your public changelog page</h5>
+                                    <p class="card-desc mb-3">Share your public changelog page to show your users what's new.</p>
+                                    <a href="#" class="widget-item-btn bg-white d-inline-block rounded fw-semibold">Copy Public Link</a>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="get-started-card card align-items-start rounded-0 bg-white h-100">
+                                    <img src="{{ asset('assets/img/email-color.svg') }}" alt="email-color">
+                                    <h5 class="card-title my-2 fw-semibold text-black">Publish your first changelog</h5>
+                                    <p class="card-desc mb-3">Create your first changelog to start tracking changes to your app.</p>
+                                    <a href="#" class="widget-item-btn bg-white d-inline-block rounded fw-semibold">Create Changelog</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                            
+                            </div>
+                        </div>
             </div>
-            <img src="{{ asset('assets/img/empty.png') }}" alt="empty" class="empty-img">
-            <div class="get-started-changelog">
-                <div class="mb-4">
-                    <h6 class="fw-semibold mb-1 pb-1">Get started with the @customLabel('Announcement')</h6>
-                    <p class="mb-0 text-gray-600 p-text">Here is a list of recommended actions to help you get the most out of our @customLabel('Announcement') module.</p>
-                </div>
-
-                <div class="get-started-card-wrapper">
-                    <div class="row">
-                        <div class="col-sm-6 mb-4">
-                            <div class="get-started-card card align-items-start rounded-0 bg-white h-100 border-blue-400">
-                                <h5 class="card-title mb-2 fw-semibold text-black">Import email subscribers</h5>
-                                <p class="card-desc mb-3">Import your email list to send notification emails to your users.</p>
-                                <a href="#" class="widget-item-btn d-inline-block rounded fw-semibold">@customLabel('Announcement') Settings</a>
-                            </div>
-                        </div>
-
-                        <div class="col-sm-6 mb-4">
-                            <div class="get-started-card card align-items-start rounded-0 bg-white h-100 border-blue-400">
-                                <h5 class="card-title mb-2 fw-semibold text-black">Embed the @customLabel('Announcement') in your app</h5>
-                                <p class="card-desc mb-3">Embed the @customLabel('Announcement') widget in your app to show your users what's new.</p>
-                                <a href="#" class="widget-item-btn d-inline-block rounded fw-semibold">Embed Widget</a>
-                            </div>
-                        </div>
-
-                        <div class="col-sm-6 mb-4">
-                            <div class="get-started-card card align-items-start rounded-0 bg-white h-100 border-blue-400">
-                                <h5 class="card-title mb-2 fw-semibold text-black">Share your public @customLabel('Announcement') page</h5>
-                                <p class="card-desc mb-3">Share your public @customLabel('Announcement') page to show your users what's new.</p>
-                                <a href="#" class="widget-item-btn d-inline-block rounded fw-semibold">Copy Public Link</a>
-                            </div>
-                        </div>
-
-                        <div class="col-sm-6 mb-4">
-                            <div class="get-started-card card align-items-start rounded-0 bg-white h-100 border-blue-400">
-                                <h5 class="card-title mb-2 fw-semibold text-black">Publish your first @customLabel('Announcement')</h5>
-                                <p class="card-desc mb-3">Create your first @customLabel('Announcement') to start tracking changes to your app.</p>
-                                <a href="#" class="widget-item-btn d-inline-block rounded fw-semibold">Create @customLabel('Announcement')</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        </section>
     @else
   
-        <div class="announcement-wrapper max-w-6xl mx-auto px-2">
-            <div class="btn-wrapper d-flex align-items-center gap-2 flex-wrap mb-4">
-                <a href="{{ route('changelog.create')}}" class="theme-btn sm fw-semibold rounded d-inline-block">
-                    <i class="fa fa-plus"></i> Add @customLabel('Announcement')
-                </a>
-            </div>
+        <div class="announcement-wrapper mx-auto px-2">
+            <div class="d-flex justify-content-between">
+                    <h4 class="fw-medium font-16 ">Change Log</h4>
+                    <div class="btn-wrapper d-flex align-items-center justify-content-center gap-2 flex-wrap mb-4">
+                        <a href="#" class="theme-btn bg-white sm secondary fw-semibold rounded d-inline-flex align-items-center gap-2">
+                            <img src="{{ asset('assets/img/chevron-left.svg') }}" alt="Back" class="align-text-bottom">
+                            Back to Listing Page
+                        </a>
+                        <a href="{{ route('changelog.create')}}" class="theme-btn sm fw-semibold rounded d-inline-block"> Add @customLabel('Announcement')</a>
+                    </div>
+               </div>
 
-            <div class=" border-bottom-0 mb-4 d-flex align-items-start">
+            <!-- <div class=" border-bottom-0 mb-4 d-flex align-items-start">
                 <nav class="d-flex align-items-center justify-content-center">
                     <div class="nav nav-tabs justify-content-center rounded">
                        
@@ -142,15 +138,15 @@
                     </div>
                 </nav>
                 
-            </div>
+            </div> -->
 
-            <div class="d-flex justify-content-between align-items-center mb-4">
+            <!-- <div class="d-flex justify-content-between align-items-center mb-4">
                 <div class=" position-relative form-group d-flex align-items-center">
                     <input type="search" id="search" name="search" class="input-field w-100 rounded ps-5" placeholder="Search">
                     <img src="/assets/img/icon/search.svg" class="position-absolute search-icon ml-3" alt="">
                 </div>
                 <div class="d-flex gap-2">
-                <!-- Filter -->
+               
                 <a href="#" class="theme-btn secondary rounded fw-medium btn-icon-text">
                     <div class="icon-text-wrap d-flex gap-2">
                         <img src="/assets/img/icon/filter.svg" alt="">
@@ -166,10 +162,37 @@
 
                 
                 </div>
+            </div> -->
+            <div class="card pt-0 px-0 bg-white">
+                <div class="d-flex border-title align-items-center justify-content-between">
+                    <h4 class="fw-medium mb-0 ">{{ $totalCount }} Change Log</h4>
+                    <div class="btn-wrapper d-flex align-items-center justify-content-center gap15 flex-wrap mb-0">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="showImg">
+                            <label class="form-check-label" for="showImg">
+                            Show Image
+                            </label>
+                        </div>
+                        <div class="position-relative form-group" style="width: 250px;">
+                            <input type="search" class="input-field w-100 rounded ps-5" placeholder="Search">
+                            <img src="{{ asset('assets/img/icon/search.svg') }}" alt="search"
+                                class="position-absolute top-50 start-0 translate-middle-y ms-3">
+                        </div>
+                        
+                        <div class="form-group">
+                        <select class="form-select rounded custom-border">
+                                    <option value="">Name</option>
+                                    <option value="active">Active</option>
+                                    <option value="inactive">Inactive</option>
+                                    <option value="draft">Draft</option>
+                        </select>
+                        </div>
+                    </div>
+                </div>
+               
             </div>
-
             <div class="announcement-list space-y-4">
-                    @include('changelog.partials.announcement_cards', ['announcements' => $announcements])
+                    @include('changelog.partials.announcement_cards', ['announcements' => $announcements,'categories' => $categories])
             </div>
         </div> 
          
