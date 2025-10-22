@@ -15,7 +15,6 @@
     .section-content-center {
         max-width: 60%; /* half screen width */
         margin-left: 0; /* align to left */
-        height: 1437px !important;
         margin-right: auto;
     }
 
@@ -39,12 +38,12 @@
 
 </style>
     {{-- Changelog Section --}}
-    <section class="section-content-center rounded border">
+    <section class="section-content-center border rounded pt-1 bg-white">
         <div class="container">
-            <div class="d-flex align-items-center border-title justify-content-between border-bottom rounded p-2 bg-white">
+            <div class="d-flex align-items-center border-title justify-content-between border-bottom p-2 bg-white">
                 <h4 class="fw-semibold text-2xl px-3">Add @customLabel('Announcement')</h4>
                 <div class="btn-wrapper mb-0 d-flex align-items-center justify-content-center flex-wrap px-3">
-                    <a href="#" class="theme-btn bg-white sm secondary fw-semibold rounded d-inline-block">Cancel</a>
+                    <a href="{{ route('changelog.create')}}" class="theme-btn bg-white sm secondary fw-semibold rounded d-inline-block">Cancel</a>
 
                 </div>
             </div>
@@ -230,7 +229,7 @@
                     </div>
                 </div> -->
 
-                <div class="card bg-white border-0 pt-0">
+                <div class="card bg-white border-0 pt-0 pb-0">
                     <div class="d-flex align-items-center border-title justify-content-between border-bottom pb-2">
                         <h6 class="fw-semibold mb-1 fs-5 text-gray-400">Tags &amp; Publishing</h6>
                         <span class="tooltip-icon " data-bs-toggle="tooltip" title="Help">
