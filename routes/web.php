@@ -14,6 +14,7 @@
     use App\Http\Controllers\KBBoardController;
     use App\Http\Controllers\InviteController;
     use App\Http\Controllers\ComingSoonController;
+    use App\Http\Controllers\AppSettingsController;
     Route::get('/debug', function () {
         return response()->json([
             'host' => request()->getHost(),
@@ -180,6 +181,9 @@
         Route::put('update', [InviteController::class, 'update'])->name('invite.update');
         Route::delete('destroy/{invite}', [InviteController::class, 'destroy'])->name('invite.destroy');
     });
+    Route::get('/app-settings', [App\Http\Controllers\AppSettingsController::class, 'index'])
+        ->name('app.settings');
+
     $mainDomain = preg_replace('/^.*?([^.]+\.[^.]+)$/', '$1', request()->getHost());
     // Tenant Public Routes
     Route::domain('{subdomain}.'.$mainDomain)

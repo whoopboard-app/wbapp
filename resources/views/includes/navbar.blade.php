@@ -135,7 +135,21 @@
                 <!-- Action icon -->
                 <a href="#"><img src="{{ asset('assets/img/icon/team.svg') }}" alt="team"></a>
                 <a href="#"><img src="{{ asset('assets/img/icon/dashboard.svg') }}" alt="Dashboard"></a>
-                <a href="#"><img src="{{ asset('assets/img/icon/gear.svg') }}" alt="Settings"></a>
+
+
+
+                    <ul class="d-flex mb-0">
+                        <li class="sidebar-menu-item">
+                            <a href="{{ route('app.settings') }}"
+                               data-bs-toggle="tooltip"
+                               data-bs-placement="bottom"
+                               title="Settings"
+                               class="sidebar-menu-link d-flex align-items-center
+                           {{ $isGuideSetup ? 'text-gray-400 pointer-events-none' : (request()->routeIs('app.settings') ? 'active text-blue-600' : 'text-gray-600') }}">
+                                <img src="{{ asset('assets/img/icon/gear.svg') }}" alt="Settings" class="sidebar-menu-link-icon flex-shrink-0">
+                            </a>
+                        </li>
+                    </ul>
             </div>
             @endif
 
