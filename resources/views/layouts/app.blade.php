@@ -34,7 +34,7 @@
 --}}
 
         {{-- Main Content Area --}}
-        <main class="flex-1 p-8">
+        <main class="flex-1 p-8 mb-8">
             @yield('content')
         </main>
 
