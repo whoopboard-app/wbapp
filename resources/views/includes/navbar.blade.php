@@ -30,24 +30,13 @@
         @if(isset($user->onboarding) && $user->onboarding->completed != '0')
         <div class="d-inline-block">
             <ul class="d-flex mb-0">
-                @if(isset($user) && $user->quick_setup == '0')
-                    <li class="sidebar-menu-item">
-                        <a href="{{ route('dashboard', ['tenant' => Auth::user()->tenant->custom_url]) }}"
-                           data-bs-toggle="tooltip"
-                           data-bs-placement="bottom"
-                           title="Quick Setup"
-                           class="sidebar-menu-link d-flex {{ request()->is('guide_setup') ? 'active text-blue-600' : 'text-gray-600' }}">
-                            <img src="/assets/img/icon/home.png" alt="home" class="sidebar-menu-link-icon flex-shrink-0">
-                        </a>
-                    </li>
-                @endif
                     <li class="sidebar-menu-item">
                         <a href="{{ route('dashboard', ['tenant' => Auth::user()->tenant->custom_url]) }}"
                            data-bs-toggle="tooltip"
                            data-bs-placement="bottom"
                            title="Dashboard"
                            class="sidebar-menu-link d-flex align-items-center
-                           {{ $isGuideSetup ? 'text-gray-400 pointer-events-none' : (request()->routeIs('dashboard') ? 'active text-blue-600' : 'text-gray-600') }}">
+                           {{(request()->routeIs('dashboard') ? 'active text-blue-600' : 'text-gray-600') }}">
                         <img src="/assets/img/icon/home.png" alt="home" class="sidebar-menu-link-icon flex-shrink-0">
                         </a>
                     </li>
@@ -57,7 +46,7 @@
                        data-bs-placement="bottom"
                        title="Announcement Listing"
                        class="sidebar-menu-link d-flex align-items-center
-       {{ $isGuideSetup ? 'text-gray-400 pointer-events-none' : (request()->routeIs('announcement.*') ? 'active text-blue-600' : 'text-gray-600') }}">
+                       {{ request()->routeIs('announcement.*') ? 'active text-blue-600' : 'text-gray-600' }}">
                         <img src="/assets/img/icon/megaphone.png" alt="megaphone" class="sidebar-menu-link-icon flex-shrink-0">
                     </a>
                 </li>
