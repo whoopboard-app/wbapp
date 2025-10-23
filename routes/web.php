@@ -123,6 +123,8 @@
     Route::middleware('auth')->group(function () {
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+        Route::patch('/profile/change-password', [ProfileController::class, 'changePassword'])
+        ->name('profile.changePassword');
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     });
     Route::get('/onboarding/step1', [OnboardingController::class, 'step1'])->name('onboarding.step1');

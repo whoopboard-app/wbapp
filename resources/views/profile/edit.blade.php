@@ -1,4 +1,4 @@
-@extends('layouts.add_changelog')
+@extends('layouts.app')
 
 @section('content')
 <style>
@@ -20,10 +20,16 @@
         color: #007bff; /* Bootstrap blue on hover */
         cursor: pointer;
     }
+    .label {
+        font-size: 15px;
+    }
+    main.flex-1.p-8.pb-48{
+        padding : 0px !important;
+    }
     @media (min-width: 992px) {
         .section-content-center {
-            max-width: 983px;
-            margin: 0 auto;
+            max-width: 898px;
+          
         }
     }
 </style>
@@ -34,7 +40,219 @@
     @endforeach
 @endif
 
-<section class="section-content-center">
+<section class="section-content-center my-profile-wrapper main-content-wrapper">
+        <div class="d-flex justify-content-start">
+            <h4 class="fw-medium font-16 mb-0">My Profile / Change Password</h4>
+        </div>
+    <div class="d-inline-block w-100 mt-10px">
+        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="true">My Profile</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="pills-password-tab" data-bs-toggle="pill" data-bs-target="#pills-password" type="button" role="tab" aria-controls="pills-password" aria-selected="false" tabindex="-1">Change Password</button>
+            </li>
+            
+        </ul>
+        
+    </div>
+    <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade show active" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                <div class="row mt-20">
+                    <div class="col-lg-12 view-changelog-details">
+                        <div class="card p-0 bg-white mb-3">
+                            <form action="{{ route('profile.update') }}" method="POST" class=" w-100" enctype="multipart/form-data">
+                                @csrf
+                                @method('PATCH')
+                                <div class="d-flex align-items-center border-title justify-content-between">
+                                    <h4 class="fw-medium mb-0">Last Updated on {{ $user->updated_at ? $user->updated_at->format('F d, Y') : 'Never' }}</h4>
+                                    <div class="btn-wrapper mb-0 d-flex align-items-center justify-content-center gap15 flex-wrap">
+                                        <a href="/" class="theme-btn bg-white sm secondary fw-semibold rounded d-inline-block">Cancel</a>
+                                        
+                                    </div>
+                                </div>
+                                <div class="mx-auto p-3">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <h6>Update your profile image</h6>
+                                        <h6 class="color-support fw-normal label">[Optional]</h6>
+                                    </div>
+                                   
+                                    <div class="upload-input text-center">
+                                        <input type="file" class="visually-hidden" id="profileImg" name="profileImg" accept="image/*" onchange="showPreview(event)">
+                                        <label for="profileImg" class="d-block text-center rounded-3">
+                                        <span class="upload-btn d-inline-block rounded fw-semibold mb-2"><img src="{{ asset('assets/img/icon/upload.svg') }}" alt=""></span>
+                                             <h6 class="fw-semibold">Drop files or browse</h6>
+                                            <span class="upload-input-text d-block mb-3">Format: .jpeg, .png &amp; Max file size: 25 MB</span>
+                                            <span class="theme-btn sm fw-semibold rounded ">Browse Files</span>
+                                            <span id="file-name" class="d-block mt-2 fw-medium">
+                                                {{ $user->profile_img ? basename($user->profile_img) : '' }}
+                                            </span>
+                                            <!-- <img id="preview-img"
+                                                src="{{ $user->profile_img ? asset('storage/'.$user->profile_img) : '' }}"
+                                                alt="Preview"
+                                                class="mt-2 mx-auto rounded shadow-sm {{ $user->profile_img ? '' : 'd-none' }}"
+                                                width="100"
+                                                height="100"> -->
+                                        </label>
+                                    </div>
+                                    <div class="basic-information mt-3">
+                                        <div class="d-flex justify-content-between px-0 border-title">
+                                            <h6 class="text-gray">Basic Information</h6>
+                                            <span class="tooltip-icon" data-bs-toggle="tooltip" aria-label="Help" data-bs-original-title="Help">
+                                                <a href="#"><img src="assets/img/icons/help.svg" alt=""></a>
+                                            </span>
+                                        </div>
+                                        <p class="label color-support fw-medium mt-2">
+                                            Provide the core details of your update, including the title, category, and description. This information helps users understand what the changelog is about.
+                                        </p>
+                                        <div class="row mt-3">
+                                        <div class="col-12 col-lg-6 mb-3">
+                                            <div class="">
+                                                <label for="firstName" class="input-label mb-1 fw-medium">First Name
+                                                </label>
+                                                <input id="first_name"
+                                                    name="first_name"
+                                                    class="input-field w-100 rounded"
+                                                    placeholder="Placeholder"
+                                                    value="{{ old('first_name', $user->name) }}"
+                                                    required>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-lg-6 mb-3">
+                                            <div class="">
+                                                <label for="lastName" class="input-label mb-1 fw-medium">Last Name
+                                                </label>
+                                                <input id="last_name"
+                                                    name="last_name"
+                                                    class="input-field w-100 rounded"
+                                                    placeholder="Placeholder"
+                                                    value="{{ old('last_name', $user->last_name) }}"
+                                                    required>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-lg-6 mb-3">
+                                            <div class="">
+                                                <label for="email" class="input-label mb-1 fw-medium"> Email
+                                                </label>
+                                                <input type="email" id="email" name="email" class="input-field w-100 rounded" placeholder="Placeholder" value="{{ old('email', $user->email) }}" readonly required>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-lg-6 mb-3">
+                                            <div class="">
+                                                <label for="user_type" class="input-label mb-1 fw-medium"> Current Role
+                                                </label>
+                                                <select id="user_type" name="user_type" class="input-field w-100 rounded" required readonly>
+                                                    <option value="">-- Select Role --</option>
+                                                    <option value="1" {{ $user->user_type == 1 ? 'selected' : '' }} >Super Administrator (Owner)</option>
+                                                    <option value="2" {{ $user->user_type == 2 ? 'selected' : '' }}>Administrator</option>
+                                                    <option value="3" {{ $user->user_type == 3 ? 'selected' : '' }}>Manager</option>
+                                                    <option value="4" {{ $user->user_type == 4 ? 'selected' : '' }}>Editor</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 mb-3">
+                                            <div class=" ">
+                                                <div class="">
+                                                    <label for="short-desc" class="input-label mb-1 fw-medium">Short Description
+                                                    </label>
+                                                    <textarea type="text" name="short-desc"  id="short-desc" rows="3" id="desc" class="input-field w-100 rounded" placeholder="Placeholder"></textarea>
+                                                    <span class="label color-support fw-normal">Note : Maximum of 200 Character</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                    </div>
+                                    
+                                    
+                                    
+                                </div>
+                            <div class="card-footer gap15 px-3 bg-white d-flex justify-content-start">
+                                <button type="submit" class="theme-btn sm fw-semibold rounded d-inline-block">Save</button>
+                                <a href="/" class="theme-btn bg-white sm secondary fw-semibold rounded d-inline-block">Cancel</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            
+            </div>
+            </div>
+            <div class="tab-pane fade" id="pills-password" role="tabpanel" aria-labelledby="pills-password-tab">
+                <div class="row mt-20">
+                    <div class="col-lg-12 view-changelog-details">
+                        <div class="card p-0 bg-white mb-3">
+                            <form action="{{ route('profile.changePassword') }}" method="POST" class="form">
+                                @csrf
+                                @method('PATCH')
+                                <div class="d-flex align-items-center border-title justify-content-between">
+                                    <h4 class="fw-medium mb-0">Last Updated on {{ $user->updated_at ? $user->updated_at->format('F d, Y') : 'Never' }}</h4>
+                                        <div class="btn-wrapper mb-0 d-flex align-items-center justify-content-center gap15 flex-wrap">
+                                        <a href="/" class="theme-btn bg-white sm secondary fw-semibold rounded d-inline-block">Cancel</a>
+                                            
+                                        </div>
+                                </div>
+                                    <div class="mx-auto p-3">
+                                    
+                                
+                                    <div class="basic-information">
+                                        <div class="d-flex justify-content-between px-0 border-title">
+                                            <h6 class="text-gray">Password Security</h6>
+                                            <span class="tooltip-icon" data-bs-toggle="tooltip" aria-label="Help" data-bs-original-title="Help">
+                                                <a href="#"><img src="assets/img/icons/help.svg" alt=""></a>
+                                            </span>
+                                            </div>
+                                            <p class="label color-support fw-medium mt-2">
+                                                Minimum 8 Character 
+                                                <br>
+                                                1 Upper Case
+                                                <br>
+                                                1 Number
+                                                <br>
+                                                1 Special Character
+                                            </p>
+                                            <div class="row mt-3">
+                                        <div class="col-12 mb-3">
+                                            <div class="">
+                                                <label for="current_password" class="input-label mb-1 fw-medium">Current Password
+                                                </label>
+                                                <input type="password" name="current_password" class="input-field w-100 rounded" placeholder="Placeholder" required>
+                                            </div>
+                                        </div>
+                                            <div class="col-12 mb-3">
+                                            <div class="">
+                                                <label for="new_password" class="input-label mb-1 fw-medium">New Password
+                                                </label>
+                                                <input type="password" name="new_password" class="input-field w-100 rounded" placeholder="Placeholder" required>
+                                            </div>
+                                        </div>
+                                            <div class="col-12 mb-3">
+                                            <div class="">
+                                                <label for="confirm_password" class="input-label mb-1 fw-medium">Confirm Password
+                                                </label>
+                                                <input type="password" name="confirm_password" class="input-field w-100 rounded" placeholder="Placeholder" required>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                    </div>
+                                    
+                                
+                                </div>
+                                <div class="card-footer gap15 px-3 bg-white d-flex justify-content-start">
+                                    <button type="submit" class="theme-btn sm fw-semibold rounded d-inline-block">Save</button>
+                                    <a href="/" class="theme-btn bg-white sm secondary fw-semibold rounded d-inline-block">Cancel</a>
+                                </div>
+                            </form>
+                </div>
+            </div>
+            
+            </div>
+            </div>
+    </div>
+    
+</section>
+
+<!-- <section class="section-content-center">
     <div class="container py-4">
         <h4 class="fw-bold fs-4 mb-2 let_spc">Update Profile</h4>
         <p class="text-muted label mb-4 para">
@@ -135,7 +353,8 @@
 
     </div>
 
-</section>
+</section> -->
+
 <script>
     function showPreview(event) {
         const input = event.target;
