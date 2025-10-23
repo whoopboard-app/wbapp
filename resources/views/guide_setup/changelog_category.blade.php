@@ -1,192 +1,172 @@
-@extends('layouts.navbar-cross')
+@extends('layouts.app')
 
 @section('content')
-        @if (session('success'))
-            <x-alert type="success" :message="session('success')" />
-        @endif
+    @if ($errors->any())
+        @foreach ($errors->all() as $error)
+            <x-alert type="error" :message="$error" />
+        @endforeach
+    @endif
 
-        @if (session('error'))
-            <x-alert type="error" :message="session('error')" />
-        @endif
+    @if (session('success'))
+        <x-alert type="success" :message="session('success')" />
+    @endif
 
-        @if (session('info'))
-            <x-alert type="info" :message="session('info')" />
-        @endif
+    @if (session('error'))
+        <x-alert type="error" :message="session('error')" />
+    @endif
 
-        @if (session('warning'))
-            <x-alert type="warning" :message="session('warning')" />
-        @endif
-    <main class="category-setting">
-        <section class="section-content-center">
-            <div class="container mx-auto py-8">
-                <div class="header bg-white w-3/5 mx-auto p-0 border-b-0">
-                    <div class="flex items-center justify-between">
-                        <!-- Header Text on Left -->
-                        <h4 class="text-2xl md:text-2xl font-bold text-gray-900">
-                            Manage Changelog Categories
-                        </h4>
-                    </div>
-                <p class="text-gray-600 text mt-z my-2">
-                    Create and organize categories to group your product updates. Categories make it easier for users to browse updates by topic or type.
-                </p>
-                </div>
+    <section class="section-content-center w-100 listing-changelog main-content-wrapper p-0">
+        <div class="d-flex justify-content-between mb-2">
+            <h4 class="fw-medium font-16">Manage Changelog Categories</h4>
+            <div class="btn-wrapper d-flex align-items-center justify-content-center gap-2 flex-wrap mb-2">
+                <a href="{{ route('app.settings') }}" class="theme-btn bg-white sm secondary fw-semibold rounded d-inline-flex align-items-center gap-2">
+                    <img src="{{ asset('assets/img/chevron-left.svg') }}" alt="Back" class="align-text-bottom">
+                    Back to Listing Page
+                </a>
+            </div>
+        </div>
 
-                <!-- Form Section -->
-                <div class="form-section card bg-white w-3/5 mx-auto">
-                    <form action="{{ isset($category) ? route('categories.update', $category->id) : route('categories.store') }}" method="POST" class="space-y-4">
+        <div class="row">
+            <div class="col-lg-12 view-changelog-details">
+                <!-- Add / Edit Category -->
+                <div class="card p-0 bg-white mb-3">
+                    <form action="{{ isset($category) ? route('categories.update', $category->id) : route('categories.store') }}" method="POST" class="form">
                         @csrf
                         @if(isset($category))
                             @method('PUT')
                         @endif
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <!-- Category Name -->
-                            <div>
-                                <label for="category-name" class="block text-md font-medium text-gray-700">
-                                    Category Name
-                                    <span class="fa fa-question-circle hover-blue" data-bs-toggle="tooltip" title="Add category name">
-                </span>
-                                </label>
-                                <input
-                                    type="text"
-                                    id="category-name"
-                                    name="category_name"
-                                    value="{{ $category->category_name ?? old('category_name') }}"
-                                    class="mt-1 block w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
-                                    placeholder="Enter category name"
-                                    required
-                                >
-                                <p id="category-error" class="text-red-500 text-sm mt-1 hidden">Category name already exists.</p>
-                            </div>
 
-                            <!-- Brand Color -->
-                            <div>
-                                <label for="brand-color" class="block text-md font-medium text-gray-700">
-                                    Brand Color
-                                </label>
-                                <div class="relative flex items-center">
-                                    <!-- Circle color picker -->
-                                    <input
-                                        type="color"
-                                        id="brand-color"
-                                        class="absolute left-3 w-6 h-6 rounded-full border-0 cursor-pointer p-0 appearance-none"
-                                        value="{{ $category->color_hex ?? old('color_hex', '#00FF00') }}"
-                                        onchange="document.getElementById('color_hex').value = this.value"
-                                        title="Select a color code"
-                                    >
+                        <div class="d-flex align-items-center border-title justify-content-between">
+                            <h4 class="fw-medium mb-0">{{ isset($category) ? 'Edit Category' : 'Add New Category' }}</h4>
+                        </div>
 
-                                    <!-- Text field -->
-                                    <input
-                                        type="text"
-                                        id="color_hex"
-                                        name="color_hex"
-                                        value="{{ $category->color_hex ?? old('color_hex', '#00FF00') }}"
-                                        class="w-full rounded-md border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 pl-12 pr-3 py-2 text-base"
-                                        onchange="document.getElementById('brand-color').value = this.value"
-                                        title="Select a color code"
-                                    >
+                        <div class="content-body px-3">
+                            <p class="label color-support fw-medium mt-2">
+                                Create and organize categories to group your product updates. Categories make it easier for users to browse updates by topic or type.
+                            </p>
+
+                            <div class="row">
+                                <!-- Category Name -->
+                                <div class="col-12 col-lg-6 mb-3">
+                                    <div class="form-input">
+                                        <label for="category-name" class="input-label mb-1 fw-medium">
+                                            Category Name
+                                        </label>
+                                        <input type="text" id="category-name" name="category_name"
+                                               value="{{ $category->category_name ?? old('category_name') }}"
+                                               class="input-field w-100 rounded"
+                                               placeholder="Enter category name"
+                                               required>
+                                        <p id="category-error" class="text-danger text-sm mt-1 d-none">Category name already exists.</p>
+                                    </div>
                                 </div>
 
+                                <!-- Brand Color -->
+                                <div class="col-12 col-lg-6 mb-3">
+                                    <div class="form-input">
+                                        <label for="brand-color" class="input-label mb-1 fw-medium">Brand Color</label>
+                                        <div class="d-flex align-items-center gap-2 border rounded px-2">
+                                            <input type="color" id="brand-color"
+                                                   class="form-control-color p-0 border-0 rounded-circle"
+                                                   style="width: 30px; height: 30px; cursor: pointer;"
+                                                   value="{{ $category->color_hex ?? old('color_hex', '#00FF00') }}"
+                                                   onchange="document.getElementById('color_hex').value = this.value">
+                                            <input type="text" id="color_hex" name="color_hex"
+                                                   value="{{ $category->color_hex ?? old('color_hex', '#00FF00') }}"
+                                                   class="border-0 bg-transparent w-100"
+                                                   style="outline: none; box-shadow: none;"
+                                                   onchange="document.getElementById('brand-color').value = this.value">
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <!-- Status -->
+                                <div class="col-12 col-lg-6 mb-3">
+                                    <div class="form-input">
+                                        <label for="status" class="input-label mb-1 fw-medium">
+                                            Select Status
+                                        </label>
+                                        <select id="status" name="status" class="input-field w-100 rounded" required>
+                                            <option value="" disabled {{ !isset($category) ? 'selected' : '' }}>Select Status</option>
+                                            <option value="1" {{ (isset($category) && $category->status == 1) ? 'selected' : '' }}>Active</option>
+                                            <option value="0" {{ (isset($category) && $category->status == 0) ? 'selected' : '' }}>Inactive</option>
+                                            <option value="2" {{ (isset($category) && $category->status == 2) ? 'selected' : '' }}>Draft</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
-                        <!-- Status -->
-                        <div>
-                            <label for="status" class="block text-md font-medium text-gray-700">
-                                Select Status
-                                <span class="tooltip-icon" data-bs-toggle="tooltip" title="Choose category status">
-                <i class="fa fa-question-circle hover-blue"></i>
-            </span>
-                            </label>
-                            <select
-                                id="status"
-                                name="status"
-                                class="mt-1 block w-full rounded-lg border-gray-300 focus:border-gray-400 focus:ring-0"
-                                required
-                            >
-                                <option value="" disabled selected>Select Status</option>
-                                <option value="1" {{ (isset($category) && $category->status == 1) ? 'selected' : '' }}>Active</option>
-                                <option value="0" {{ (isset($category) && $category->status == 0) ? 'selected' : '' }}>Inactive</option>
-                                <option value="2" {{ (isset($category) && $category->status == 2) ? 'selected' : '' }}>Draft</option>
-                            </select>
-                        </div>
-
-                        <!-- Submit -->
-                        <div>
-                            <button type="submit"
-                                    class="px-4 py-2 text-white rounded-lg hover:opacity-90 font-semibold"
-                                    style="background-color: #0969da;">
+                        <div class="card-footer gap15 px-3 d-flex justify-content-start" style="background-color: #FCFCFC;">
+                            <button type="submit" class="theme-btn sm fw-semibold rounded d-inline-block" style="background-color: #0969da;">
                                 {{ isset($category) ? 'Update Category' : 'Add Category' }}
                             </button>
-                            <!-- Cancel -->
-                            <button type="reset"
-                                    class="px-4 py-2 bg-gray-100 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-100 font-semibold">
-                                Cancel
-                            </button>
+                            <a href="{{ route('guide.setup.changelog.category') }}" class="theme-btn bg-white sm secondary fw-semibold rounded d-inline-block">Cancel</a>
                         </div>
+                    </form>
                 </div>
-            </form>
-            </div>
-            <!-- Table Section -->
-            <div class="bg-white border rounded-lg p-6 mt-4 w-3/5 mx-auto">
-                <h6 class="text-lg font-semibold mb-4">List of Categories</h6>
 
-                <form method="GET" action="{{ route('guide.setup.changelog.category') }}" class="relative mb-4">
-                    <input type="search" name="search" placeholder="Search"
-                           value="{{ request('search') }}"
-                           class="w-full rounded-lg border-gray-300 pl-10 focus:border-indigo-500 focus:ring-indigo-500">
-                    <svg class="w-5 h-5 absolute left-3 top-3 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none"
-                         viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1110.5 3a7.5 7.5 0 016.15 13.65z" />
-                    </svg>
-                </form>
-                <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200 border rounded-lg">
-                        <thead class="bg-gray-50">
-                        <tr>
-                            <th class="px-4 py-2 text-left text-md font-bold text-black-600">Category Name</th>
-                            <th class="px-4 py-2 text-left text-md font-bold text-black-600">Color Code</th>
-                            <th class="px-4 py-2 text-left text-md font-bold text-black-600">Status</th>
-                            <th class="px-4 py-2 text-left text-md font-bold text-black-600">Action</th>
-                        </tr>
-                        </thead>
-                        <tbody id="tag-table-body" class="divide-y divide-gray-100">
-                        @include('guide_setup.partials.logcategory_table', ['categories' => $categories])
-                        </tbody>
-                    </table>
-                    {{-- Pagination --}}
-                    <div class="mt-4">
+                <!-- Category Table -->
+                <div class="card pt-0 px-0 bg-white mt-3">
+                    <div class="d-flex border-title align-items-center justify-content-between px-3">
+                        <h4 class="fw-medium mb-0">List of Categories ({{ $categories->total() }})</h4>
+                        <div class="btn-wrapper d-flex align-items-center justify-content-center gap15 flex-wrap mb-0">
+                            <div class="position-relative form-group">
+                                <img src="{{ asset('assets/img/icon/search.svg') }}" class="position-absolute search-icon" alt="Search">
+                                <input type="search" name="search" id="categorySearch" placeholder="Search"
+                                       value="{{ request('search') }}" class="input-field w-100 rounded ps-5">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table id="categoryTable" class="table table-bordered align-middle mb-0">
+                            <thead class="table-light">
+                            <tr>
+                                <th>Status</th>
+                                <th>Category Name</th>
+                                <th>Color Code</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody id="tag-table-body">
+                            @include('guide_setup.partials.logcategory_table', ['categories' => $categories])
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="px-3 py-2">
                         {{ $categories->links() }}
                     </div>
                 </div>
             </div>
+        </div>
+    </section>
 
+    {{-- JavaScript --}}
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const categoryInput = document.getElementById('category-name');
+            const errorMsg = document.getElementById('category-error');
 
-            </div>
-        </section>
-    </main>
-        <script>
-            document.addEventListener("DOMContentLoaded", () => {
-                const categoryInput = document.getElementById('category-name');
-                const errorMsg = document.getElementById('category-error');
+            categoryInput.addEventListener('input', () => {
+                const value = categoryInput.value.trim();
+                if (value.length === 0) {
+                    errorMsg.classList.add('d-none');
+                    return;
+                }
 
-                categoryInput.addEventListener('input', () => {
-                    const value = categoryInput.value.trim();
-                    if (value.length === 0) {
-                        errorMsg.classList.add('hidden');
-                        return;
-                    }
-
-                    fetch(`{{ route('categories.checkName') }}?category_name=${encodeURIComponent(value)}`)
-                        .then(res => res.json())
-                        .then(data => {
-                            if (data.exists) {
-                                errorMsg.classList.remove('hidden');
-                            } else {
-                                errorMsg.classList.add('hidden');
-                            }
-                        });
-                });
+                fetch(`{{ route('categories.checkName') }}?category_name=${encodeURIComponent(value)}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.exists) {
+                            errorMsg.classList.remove('d-none');
+                        } else {
+                            errorMsg.classList.add('d-none');
+                        }
+                    });
             });
-        </script>
+        });
+    </script>
 @endsection
