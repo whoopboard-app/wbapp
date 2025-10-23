@@ -229,7 +229,7 @@
                     </div>
                 </div> -->
 
-                <div class="card bg-white border-0 pt-0 pb-0">
+                <div class="card bg-white border-0 pt-0 pb">
                     <div class="d-flex align-items-center border-title justify-content-between border-bottom pb-2">
                         <h6 class="fw-semibold mb-1 fs-5 text-gray-400">Tags &amp; Publishing</h6>
                         <span class="tooltip-icon " data-bs-toggle="tooltip" title="Help">

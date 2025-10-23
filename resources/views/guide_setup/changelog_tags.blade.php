@@ -1,157 +1,154 @@
-@extends('layouts.navbar-cross')
+@extends('layouts.app')
+
 @section('content')
-        @if (session('success'))
-            <x-alert type="success" :message="session('success')" />
-        @endif
+    @if ($errors->any())
+        @foreach ($errors->all() as $error)
+            <x-alert type="error" :message="$error" />
+        @endforeach
+    @endif
 
-        @if (session('error'))
-            <x-alert type="error" :message="session('error')" />
-        @endif
+    @if (session('success'))
+        <x-alert type="success" :message="session('success')" />
+    @endif
 
-        @if (session('info'))
-            <x-alert type="info" :message="session('info')" />
-        @endif
+    @if (session('error'))
+        <x-alert type="error" :message="session('error')" />
+    @endif
 
-        @if (session('warning'))
-            <x-alert type="warning" :message="session('warning')" />
-        @endif
-    <main class="tag-setting">
-        <section class="section-content-center">
-            <div class="container mx-auto py-8">
-                <div class="header bg-white w-3/5 mx-auto p-0 border-b-0">
-                    <div class="flex items-center justify-between">
-                        <!-- Header Text on Left -->
-                        <h4 class="text-2xl md:text-2xl font-bold text-gray-900">
-                            {{ isset($tag) ? 'Update Tag' : 'Add New Tag' }}
-                        </h4>
-                    </div>
+    @if (session('info'))
+        <x-alert type="info" :message="session('info')" />
+    @endif
 
-                    <p class="text-gray-500 text text-md mt-z my-2">
-                        Create tags to organize content across modules — including Changelog, Knowledge Board, Feedback, and Research. Tags help users quickly find related items.
-                    </p>
-                </div>
+    @if (session('warning'))
+        <x-alert type="warning" :message="session('warning')" />
+    @endif
 
-                <!-- Form Section -->
-                <div class="form-section card bg-white w-3/5 mx-auto">
-                    <form action="{{ isset($tag) ? route('tags.update', $tag) : route('tags.store') }}" method="POST" class="space-y-4">
+    <section class="section-content-center w-100 listing-changelog main-content-wrapper p-0">
+        <div class="d-flex justify-content-between mb-3">
+            <h4 class="fw-medium font-16">Manage Tags</h4>
+            <div class="btn-wrapper d-flex align-items-center justify-content-center gap-2 flex-wrap">
+                <a href="{{ route('app.settings') }}" class="theme-btn bg-white sm secondary fw-semibold rounded d-inline-flex align-items-center gap-2">
+                    <img src="{{ asset('assets/img/chevron-left.svg') }}" alt="Back" class="align-text-bottom">
+                    Back to Listing Page
+                </a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12 view-changelog-details">
+                <!-- Add / Edit Tag Form -->
+                <div class="card p-0 bg-white mb-3">
+                    <form action="{{ isset($tag) ? route('tags.update', $tag) : route('tags.store') }}" method="POST" class="form">
                         @csrf
                         @if(isset($tag))
                             @method('PUT')
                         @endif
 
-                        <!-- Tag Name -->
-                        <div>
-                            <label for="tag-name" class="block text-md font-medium text-gray-700">
-                                Tag Name
-                                <span class="fa fa-question-circle hover-blue" data-bs-toggle="tooltip" title="Add Tag name">
-                            </label>
-                            <input
-                                type="text"
-                                id="tag-name"
-                                name="tag_name"
-                                value="{{ $tag->tag_name ?? old('tag_name') }}"
-                                class="mt-1 block w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
-                                placeholder="Enter tag name"
-                                required
-                            >
-                            <p id="tag-error" class="text-red-500 text-sm mt-1 hidden">Tag name already exists.</p>
-                        </div>
-                        <!-- Module Group -->
-                        <div>
-                            <label for="functionality_id" class="block text-md font-medium text-gray-700">
-                                Module Group
-                                <span class="fa fa-question-circle hover-blue" data-bs-toggle="tooltip" title="Add Module Group">
-                            </label>
-                            <select
-                                id="functionality_id"
-                                name="functionality_id[]"
-                                placeholder="Select Module Group"
-                                class="mt-1 block w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
-                                required
-                                multiple
-                            >
-                                @foreach($functionalities as $func)
-                                    <option value="{{ $func->id }}"
-                                            @if(isset($tag) && $tag->functionalities && in_array($func->id, $tag->functionalities->pluck('id')->toArray())) selected @endif>
-                                        {{ $func->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-
+                        <div class="d-flex align-items-center border-title justify-content-between">
+                            <h4 class="fw-medium mb-0">{{ isset($tag) ? 'Edit Tag' : 'Add New Tag' }}</h4>
                         </div>
 
+                        <div class="content-body px-3">
+                            <p class="label color-support fw-medium mt-2">
+                                Create tags to organize content across modules — including Changelog, Knowledge Board, Feedback, and Research. Tags help users quickly find related items.
+                            </p>
 
-                        <!-- Description -->
-                        <div>
-                            <label for="description" class="block text-md font-medium text-gray-700">
-                                Short Description
-                                <span class="fa fa-question-circle hover-blue" data-bs-toggle="tooltip" title="Add Tag description">
-                </span>
-                            </label>
-                            <textarea
-                                id="short_description"
-                                name="short_description"
-                                rows="3"
-                                class="mt-1 block w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
-                                placeholder="Enter Tag Short Description"
-                            >{{ $tag->Short_description ?? old('Short_description') }}</textarea>
+                            <div class="row">
+                                <!-- Tag Name -->
+                                <div class="col-12">
+                                    <div class="form-input">
+                                        <label for="tag-name" class="input-label mb-1 fw-medium">Tag Name</label>
+                                        <input type="text"
+                                               id="tag-name"
+                                               name="tag_name"
+                                               value="{{ $tag->tag_name ?? old('tag_name') }}"
+                                               class="input-field w-100 rounded"
+                                               placeholder="Enter tag name"
+                                               required>
+                                        <p id="tag-error" class="text-danger text-sm mt-1 d-none">Tag name already exists.</p>
+                                    </div>
+                                </div>
+
+                                <!-- Module Group -->
+                                <div class="col-12">
+                                    <div class="form-input">
+                                        <label for="functionality_id" class="input-label mb-1 fw-medium">Module Group</label>
+                                        <select id="functionality_id"
+                                                name="functionality_id[]"
+                                                class="form-select w-100 rounded border py-0"
+                                                multiple
+                                                required>
+                                            @foreach($functionalities as $func)
+                                                <option value="{{ $func->id }}"
+                                                        @if(isset($tag) && $tag->functionalities && in_array($func->id, $tag->functionalities->pluck('id')->toArray())) selected @endif>
+                                                    {{ $func->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- Short Description -->
+                                <div class="col-12 mb-3">
+                                    <div class="form-input">
+                                        <label for="short_description" class="input-label mb-1 fw-medium">Short Description</label>
+                                        <textarea id="short_description"
+                                                  name="short_description"
+                                                  rows="2"
+                                                  maxlength="200"
+                                                  class="input-field w-100 rounded"
+                                                  placeholder="Enter tag short description">{{ $tag->short_description ?? old('short_description') }}</textarea>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
-                        <!-- Submit -->
-                        <div>
-                            <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-semibold"
-                                    style="background-color: #0969da;">
-                                {{ isset($tag) ? 'Update tag' : 'Add Tag' }}
+                        <div class="card-footer gap15 px-3 d-flex justify-content-start" style="background-color: #FCFCFC;">
+                            <button type="submit" class="theme-btn sm fw-semibold rounded d-inline-block" style="background-color: #0969da;">
+                                {{ isset($tag) ? 'Update Tag' : 'Add Tag' }}
                             </button>
-                            <!-- Cancel -->
-                            <button type="reset"
-                                    class="px-4 py-2 bg-gray-100 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-100 font-semibold">
-                                Cancel
-                            </button>
+                            <a href="{{ route('guide.setup.changelog.tags') }}" class="theme-btn bg-white sm secondary fw-semibold rounded d-inline-block">Cancel</a>
                         </div>
-
                     </form>
                 </div>
 
+                <!-- Tags Table -->
+                <div class="card pt-0 px-0 bg-white mt-3">
+                    <div class="d-flex border-title align-items-center justify-content-between px-3">
+                        <h4 class="fw-medium mb-0">List of Tags ({{ $tags->total() }})</h4>
+                        <div class="btn-wrapper d-flex align-items-center justify-content-center gap15 flex-wrap mb-0">
+                            <div class="position-relative form-group">
+                                <img src="{{ asset('assets/img/icon/search.svg') }}" class="position-absolute search-icon" alt="Search">
+                                <input type="search" name="search" id="tagSearch" placeholder="Search"
+                                       value="{{ request('search') }}" class="input-field w-100 rounded ps-5">
+                            </div>
+                        </div>
+                    </div>
 
-                <!-- Table Section -->
-                <div class="bg-white border rounded-lg p-6 mt-4 w-3/5 mx-auto">
-                    <h6 class="text-lg font-semibold mb-4">List of Tags</h6>
-
-                    <form method="GET" action="{{ route('guide.setup.changelog.tags') }}" class="relative mb-4">
-                        <input type="search" name="search" placeholder="Search"
-                               value="{{ request('search') }}"
-                               class="w-full rounded-lg border-gray-300 pl-10 focus:border-indigo-500 focus:ring-indigo-500">
-                        <svg class="w-5 h-5 absolute left-3 top-3 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none"
-                             viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1110.5 3a7.5 7.5 0 016.15 13.65z" />
-                        </svg>
-                    </form>
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-200 border rounded-lg">
-                            <thead class="bg-gray-50">
+                    <div class="table-responsive">
+                        <table id="tagTable" class="table table-bordered align-middle mb-0">
+                            <thead class="table-light">
                             <tr>
-                                <th class="px-4 py-2 text-left text-md font-bold text-black-600">Tag Name</th>
-                                <th class="px-4 py-2 text-left text-md font-bold text-black-600">Module Group</th>
-                                <th class="px-4 py-2 text-left text-md font-bold text-black-600">Action</th>
+                                <th>Tag Name</th>
+                                <th>Module Group</th>
+                                <th>Action</th>
                             </tr>
                             </thead>
-                            <tbody id="tag-table-body" class="divide-y divide-gray-100">
+                            <tbody id="tag-table-body">
                             @include('guide_setup.partials.tags_table', ['tags' => $tags])
                             </tbody>
                         </table>
-                        {{-- Pagination --}}
-                        <div class="mt-4">
-                            {{ $tags->links() }}
-                        </div>
+                    </div>
+
+                    <div class="px-3 py-2">
+                        {{ $tags->links('pagination::bootstrap-5') }}
                     </div>
                 </div>
-
-
             </div>
-        </section>
-    </main>
+        </div>
+    </section>
+
+    {{-- JavaScript --}}
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const tagInput = document.getElementById('tag-name');
@@ -160,7 +157,7 @@
             tagInput.addEventListener('input', () => {
                 const value = tagInput.value.trim();
                 if (value.length === 0) {
-                    errorMsg.classList.add('hidden');
+                    errorMsg.classList.add('d-none');
                     return;
                 }
 
@@ -168,13 +165,12 @@
                     .then(res => res.json())
                     .then(data => {
                         if (data.exists) {
-                            errorMsg.classList.remove('hidden');
+                            errorMsg.classList.remove('d-none');
                         } else {
-                            errorMsg.classList.add('hidden');
+                            errorMsg.classList.add('d-none');
                         }
                     });
             });
         });
     </script>
-
 @endsection

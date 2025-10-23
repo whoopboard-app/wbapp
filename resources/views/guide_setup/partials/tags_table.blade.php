@@ -20,43 +20,35 @@
                 @endif
             </td>
             <td class="px-4 py-2 text-left relative w-32">
-                <div x-data="{ open: false }" class="inline-block relative">
-                    <!-- Three dots button -->
-                    <button @click="open = !open"
-                            class="p-2 rounded-full hover:bg-gray-100 focus:outline-none font-bold">
-                        &#x2026;
-                    </button>
+                    <!-- Action Dropdown -->
+                        <div class="d-flex align-items-center sm justify-content-start gap-2 action-icons-wrapper">
+                            <!-- Edit -->
+                            <a href="{{ route('tags.edit', $tag->id) }}">
+                                <img src="{{ asset('assets/img/icon/edit.svg') }}" alt="Edit" class="action-icon">
+                            </a>
 
-                    <!-- Dropdown -->
-                    <div x-show="open"
-                         @click.away="open = false"
-                         x-transition:enter="transition ease-out duration-200"
-                         x-transition:enter-start="opacity-0 -translate-x-2"
-                         x-transition:enter-end="opacity-100 translate-x-0"
-                         x-transition:leave="transition ease-in duration-150"
-                         x-transition:leave-start="opacity-100 translate-x-0"
-                         x-transition:leave-end="opacity-0 -translate-x-2"
-                         class="absolute left-0 top-1/2 -translate-y-1/2 mr-2 w-24 bg-white border border-gray-200 rounded-lg z-10">
+                            <div class="divider"></div>
 
-                        <!-- Edit -->
-                        <a href="{{ route('tags.edit', $tag->id) }}"
-                           class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                            Edit
-                        </a>
+                            <!-- View / Status -->
+                            <a href="javascript:void(0)"
+                               class="view-category"
+                               data-id="{{ $tag->id }}">
+                                <img src="{{ asset('assets/img/icon/oval.svg') }}" alt="oval" class="action-icon">
+                            </a>
 
-                        <!-- Delete -->
-                        <form action="{{ route('tags.destroy', $tag->id) }}" method="POST"
-                              onsubmit="return confirm('Are you sure you want to delete this Tag ?');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit"
-                                    class="w-full text-left block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">
-                                Delete
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </td>
+                            <div class="divider"></div>
+
+                            <!-- Delete -->
+                            <form action="{{ route('tags.destroy', $tag->id) }}" method="POST" class="m-0 p-0 d-inline"
+                                  onsubmit="return confirm('Are you sure you want to delete this category?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="border-0 bg-transparent p-0">
+                                    <img src="{{ asset('assets/img/icon/trash.svg') }}" alt="trash" class="action-icon">
+                                </button>
+                            </form>
+                        </div>
+                    </td>
         </tr>
     @endforeach
 @endif
