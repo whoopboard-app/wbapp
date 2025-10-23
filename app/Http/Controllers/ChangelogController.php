@@ -157,7 +157,22 @@ class ChangelogController extends Controller
 
     public function show($id)
     {
-        dd($id);
+        $tenantId = auth()->user()->tenant_id;
+
+        $changelog = Changelog::where('tenant_id', $tenantId)->findOrFail($id);
+
+        $catIds = json_decode($changelog->category, true) ?? [];
+        $changelog->category_names = SettingCategoryChangelog::whereIn('id', $catIds)
+            ->pluck('category_name')
+            ->toArray();
+
+        $tagIds = json_decode($changelog->tags, true) ?? [];
+        $changelog->tag_names = ChangelogTag::whereIn('id', $tagIds)
+            ->pluck('tag_name')
+            ->toArray();
+
+        return view('changelog.view', compact('changelog'));
     }
+
         
 }
