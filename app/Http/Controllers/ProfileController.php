@@ -6,6 +6,7 @@ use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Storage;
@@ -33,6 +34,7 @@ class ProfileController extends Controller
             'email'      => 'required|email|max:255',
             'user_type'  => 'required|in:1,2,3,4,5',
             'aboutme'    => 'nullable|string|max:1000',
+            'short-desc'  => 'nullable|string|max:200',
             'profileImg' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
         
@@ -59,6 +61,35 @@ class ProfileController extends Controller
 
         return Redirect::route('dashboard')->with('success', 'User updated successfully!');
     }
+
+    public function changePassword(Request $request)
+    {
+        $request->validate([
+            'current_password' => ['required'],
+            'new_password' => [
+                'required',
+                'string',
+                'min:8',
+                'regex:/[A-Z]/',       // must contain at least one uppercase letter
+                'regex:/[0-9]/',       // must contain at least one number
+                'regex:/[@$!%*#?&]/',  // must contain at least one special character
+            ],
+            'confirm_password' => ['required', 'same:new_password'],
+        ]);
+
+        if (!Hash::check($request->current_password, auth()->user()->password)) {
+            return back()->withErrors(['current_password' => 'The current password is incorrect.']);
+        }
+        $user = Auth::user();
+        $user->update([
+            'password' => Hash::make($request->new_password),
+        ]);
+        
+        return redirect()   
+            ->route('dashboard')
+            ->with('success', 'Password changed successfully!');
+    }
+
 
     /**
      * Delete the user's account.
