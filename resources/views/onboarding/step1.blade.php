@@ -40,7 +40,8 @@
                                                id="step-{{ $product->id }}"
                                                name="functionalities[]"
                                                value="{{ $product->id }}"
-                                               class="visually-hidden">
+                                               class="visually-hidden"
+                                               @if(in_array($product->id, $selectedFunctionalities)) checked @endif>
 
                                         <label for="step-{{ $product->id }}" class="d-block rounded-1">
                                             <div class="d-flex gap-2 mb-2">

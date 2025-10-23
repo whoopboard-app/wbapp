@@ -32,15 +32,17 @@ class InviteController extends Controller
     {
         $validatedData = $request->validate([
             'firstName' => 'required|string|max:255',
+            'lastName' => 'required|string|max:255',
             'email' => 'required|email|unique:invites,email|unique:users,email',
             'user_type'    => 'required|integer|in:1,2,3,4',
         ]);
 
         $tenantId = auth()->user()->tenant_id;
         $userId = auth()->user()->id;
-            
+
         $invite = Invite::create([
             'first_name' => $validatedData['firstName'],
+            'last_name' => $validatedData['lastName'],
             'email' => $validatedData['email'],
             'user_type' => $validatedData['user_type'],
             'status'  => 3,
@@ -62,7 +64,7 @@ class InviteController extends Controller
 
 
     public function complete(Request $request)
-    {   
+    {
         $validated = $request->validate([
             'invite_token' => 'required|exists:invites,token',
             'email'        => 'required|email|exists:invites,email|unique:users,email',
@@ -90,9 +92,9 @@ class InviteController extends Controller
         $ip = $request->ip(); // user ka ip
         $location = Location::get($ip);
 
-      
+
         $fullName = $validated['firstName'] . ' ' . $validated['lastName'];
-        
+
         $user = User::create([
             'name'       => $validated['firstName'],
             'last_name'  => $validated['lastName'],
@@ -115,9 +117,9 @@ class InviteController extends Controller
 
         Auth::login($user);
         return redirect()->route('verification.notice')->with('success', 'Success! Team member invite has been sent.');
-    
+
     }
-    
+
     public function search(Request $request)
     {
         $tenantId = auth()->user()->tenant_id;
@@ -129,14 +131,14 @@ class InviteController extends Controller
         }
 
         $teamMembers = $query->latest()->paginate(5);
-        
+
         return view('invite.partials.team_table', compact('teamMembers'))->render();
     }
 
     public function update(Request $request )
     {
         $id = $request->input('id');
-        
+
         $validatedData = $request->validate([
             'first_name' => 'required|string|max:255',
             'email'      => 'required|email|max:255',

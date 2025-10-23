@@ -24,7 +24,7 @@
     }
 
     .card{
-        border-bottom-left-radius: 0;     
+        border-bottom-left-radius: 0;
         border-bottom-right-radius: 0;
         border-bottom: none;
     }
@@ -44,10 +44,10 @@
     }
 
     .pagination{
-        border-bottom-left-radius: 10px;     
+        border-bottom-left-radius: 10px;
         border-bottom-right-radius: 10px;
     }
-    
+
 
 </style>
 <div class="table-responsive">
@@ -67,9 +67,9 @@
                 @forelse ($announcements as $announcement)
                     <tr>
                         <td>
-                            <span class="badge fw-normal bg-white 
-                                @if($announcement->status == 'draft') draft 
-                                @elseif($announcement->status == 'inactive') inactive 
+                            <span class="badge fw-normal bg-white
+                                @if($announcement->status == 'draft') draft
+                                @elseif($announcement->status == 'inactive') inactive
                                 @else published @endif rounded-pill">
                                 {{ ucfirst($announcement->status) }}
                             </span>

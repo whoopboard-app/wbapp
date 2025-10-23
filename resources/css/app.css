@@ -125,6 +125,30 @@ body {
 .input-field {
     padding-left: 40px; /* space for the calendar icon */
 }
-
+.form-input {
+    border-width: 0 !important;
+    border: none !important;
+    padding-left: 0px !important;
+}
+.para { font-size: 15px !important; }
+.let_spc { letter-spacing: 0.4px !important; }
+.badge.status-active { background-color: #E0FFE9; color: #1C8139; border: 1px solid #1C8139; }
+.badge.status-inactive { background-color: #FFE5B4; color: #FF8C00; border: 1px solid #FF8C00; }
+.badge.status-pending { background-color: #E0F0FF; color: #0056B3; border: 1px solid #0056B3; }
+.table thead th, .table tbody td {
+    font-size: 14px; border: 0; border-bottom: 1px solid #dee2e6;
+}
+table.table-bordered.dataTable { border-right-width: 1px !important; border-left-width: 1px !important; }
+.input-field { border: 1px solid #d1d9e0 !important; }
+.input-field[readonly] { background-color: #59636E1A; border: 1px solid #D1D9E0; pointer-events: none; }
+.tooltip-icon:hover i { color: #007bff; cursor: pointer; }
+.position-absolute.search-icon {
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    width: 16px; /* adjust size if needed */
+    height: 16px;
+    pointer-events: none;
+}
 
 

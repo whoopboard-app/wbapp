@@ -634,7 +634,7 @@ input.spectrum.with-add-on:focus {
    transition: all 0.3s;
 }
 .sidebar-menu-link:hover {
-   background-color: #eaeaea;
+   background-color: transparent !important;
 }
 .sidebar-menu-link.active {
    color: #0969da;

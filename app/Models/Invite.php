@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Invite extends Model
 {
-    protected $fillable = ['first_name', 'email', 'user_type', 'token' , 'invited_by_tenant' , 'invited_by_user', 'status'];
+    protected $fillable = ['first_name','last_name', 'email', 'user_type', 'token' , 'invited_by_tenant' , 'invited_by_user', 'status'];
 
     public function userTypeLabel()
     {
@@ -20,5 +20,5 @@ class Invite extends Model
         };
     }
 
-  
+
 }

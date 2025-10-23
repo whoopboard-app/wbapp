@@ -15,10 +15,17 @@ class OnboardingController extends Controller
     public function step1()
     {
         $products = GlobalProduct::where('status', 'active')->get();
-        return view('onboarding.step1', compact('products'));
+        $tenant = auth()->user()->tenant;
+
+        $selectedFunctionalities = [];
+
+        if ($tenant && $tenant->product_goals) {
+            $selectedFunctionalities = explode(',', $tenant->product_goals);
+        }
+
+        return view('onboarding.step1', compact('products', 'selectedFunctionalities'));
     }
 
-    // STEP 1 - Save Goals & Functionalities
     public function storeStep1(Request $request)
     {
         $request->validate([
@@ -93,7 +100,6 @@ class OnboardingController extends Controller
         $request->validate([
             'subdomain' => 'required|string|alpha_dash',
         ]);
-
         $exists = Tenant::where('custom_url', $request->subdomain)->exists();
 
         if ($exists) {

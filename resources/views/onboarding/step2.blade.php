@@ -68,7 +68,7 @@
                                        class="input-field input-btn rounded rounded-start-0 flex-grow-1 text-start"
                                        value="insighthq.app" disabled>
                             </div>
-                            <div class="form-msg-container d-flex flex-column gap-1">
+                            <div class="form-msg-container d-flex flex-column gap-1 pb-2">
                                 <p id="subdomain-success" class="form-msg success-msg d-flex align-items-center gap-2 fw-medium mb-0 d-none mb-2">
                                     <i class="fa-solid fa-check-circle"></i>
                                     <span></span>
@@ -115,6 +115,9 @@
                 $('#subdomain-error, #subdomain-success').addClass('d-none');
 
                 if (subdomain.length > 0) {
+                    $('#subdomain-success span').text('Checking availability...');
+                    $('#subdomain-success').removeClass('d-none');
+                    $('#subdomain-error').addClass('d-none');
                     $.ajax({
                         url: "{{ route('check.domain') }}",
                         method: "POST",

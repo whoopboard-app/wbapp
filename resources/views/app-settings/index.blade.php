@@ -31,7 +31,7 @@
                     </div>
                     <div class="content-body">
                         <img src="assets/img/icon/user-profile.svg" alt="">
-                        <h5 class="fw-normal label mt-1">Team Member (show count TM)</h5>
+                        <h5 class="fw-normal label mt-1">Team Member ({{$totalTeamMembers}})</h5>
                         <p class="card-desc mb-2">Add Team Member or Invite Member for Login Credentials.</p>
                         <a href="{{ route('invite.create') }}" class="widget-item-btn mb-1 text-primary bg-white d-inline-block rounded fw-normal font-12">Add/Invite Team Member</a>
                     </div>
