@@ -97,7 +97,7 @@
                                                   rows="2"
                                                   maxlength="200"
                                                   class="input-field w-100 rounded"
-                                                  placeholder="Enter tag short description">{{ $tag->short_description ?? old('short_description') }}</textarea>
+                                                  placeholder="Enter tag short description">{{ $tag->Short_description ?? old('short_description') }}</textarea>
                                     </div>
                                 </div>
                             </div>

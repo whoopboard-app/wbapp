@@ -67,7 +67,7 @@ class ChangelogTagController extends Controller
         $functionalities = Functionality::all();
         $tags = ChangelogTag::where('tenant_id', auth()->user()->tenant_id)
             ->orderBy('id', 'desc')
-            ->paginate(3);
+            ->paginate(25);
         return view('guide_setup.changelog_tags', compact('tag','tags', 'functionalities'))
             ->with('editMode', true);
     }

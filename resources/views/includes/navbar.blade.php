@@ -30,7 +30,7 @@
         @if(isset($user->onboarding) && $user->onboarding->completed != '0')
         <div class="d-inline-block">
             <ul class="d-flex mb-0">
-                @if(isset($user) && $user->quick_setup == '1')
+                @if(isset($user) && $user->quick_setup == '0')
                     <li class="sidebar-menu-item">
                         <a href="{{ route('dashboard', ['tenant' => Auth::user()->tenant->custom_url]) }}"
                            data-bs-toggle="tooltip"
