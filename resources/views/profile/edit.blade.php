@@ -24,7 +24,9 @@
         font-size: 15px;
     }
     main.flex-1.p-8.pb-48{
-        padding : 0px !important;
+        padding-top : 0px !important;
+        padding-left : 0px !important;
+        padding-right : 0px !important;
     }
     @media (min-width: 992px) {
         .section-content-center {
@@ -155,7 +157,7 @@
                                                 <div class="">
                                                     <label for="short-desc" class="input-label mb-1 fw-medium">Short Description
                                                     </label>
-                                                    <textarea type="text" name="short-desc"  id="short-desc" rows="3" id="desc" class="input-field w-100 rounded" placeholder="Placeholder"></textarea>
+                                                    <textarea type="text" name="short-desc"  id="short-desc" rows="3" id="desc" class="input-field w-100 rounded" placeholder="Placeholder" required></textarea>
                                                     <span class="label color-support fw-normal">Note : Maximum of 200 Character</span>
                                                 </div>
                                             </div>
@@ -201,15 +203,7 @@
                                                 <a href="#"><img src="assets/img/icons/help.svg" alt=""></a>
                                             </span>
                                             </div>
-                                            <p class="label color-support fw-medium mt-2">
-                                                Minimum 8 Character 
-                                                <br>
-                                                1 Upper Case
-                                                <br>
-                                                1 Number
-                                                <br>
-                                                1 Special Character
-                                            </p>
+                                            
                                             <div class="row mt-3">
                                         <div class="col-12 mb-3">
                                             <div class="">
@@ -218,21 +212,57 @@
                                                 <input type="password" name="current_password" class="input-field w-100 rounded" placeholder="Placeholder" required>
                                             </div>
                                         </div>
-                                            <div class="col-12 mb-3">
+                                       
+                                        <div x-data="{ new_password: '', confirm_password: '' }">
+                                            <!-- Password -->
                                             <div class="">
                                                 <label for="new_password" class="input-label mb-1 fw-medium">New Password
                                                 </label>
-                                                <input type="password" name="new_password" class="input-field w-100 rounded" placeholder="Placeholder" required>
+                                                <x-text-input 
+                                                    id="new_password" 
+                                                    class="block mt-1 w-full" 
+                                                    type="password" 
+                                                    name="new_password" 
+                                                    x-model="new_password"
+                                                    required 
+                                                    autocomplete="new-password" 
+                                                    placeholder="Placeholder"
+                                                />
+                                                <!-- <x-input-error :messages="$errors->first('password')" class="mt-2" /> -->
                                             </div>
-                                        </div>
-                                            <div class="col-12 mb-3">
-                                            <div class="">
+
+                                            <!-- Confirm Password -->
+                                            <div class="mt-3">
                                                 <label for="confirm_password" class="input-label mb-1 fw-medium">Confirm Password
                                                 </label>
-                                                <input type="password" name="confirm_password" class="input-field w-100 rounded" placeholder="Placeholder" required>
+                                                <x-text-input id="confirm_password" class="block mt-1 w-full"
+                                                    type="password"
+                                                    x-model="confirm_password"
+                                                    name="confirm_password" required autocomplete="new-password" 
+                                                    placeholder="Placeholder"/>
+                                                <!-- <x-input-error :messages="$errors->first('password_confirmation')" class="mt-2" /> -->
                                             </div>
+
+                                            <!-- Password Requirements -->
+                                            <ul class="mt-4 text-sm text-gray-500 space-y-1">
+                                                <li class="flex items-center" :class="new_password.length >= 8 ? 'text-green-500' : 'text-gray-500'">
+                                                    <i class="fa-regular fa-circle-check mr-2" :class="new_password.length >= 8 ? 'text-green-500' : 'text-gray-500'"></i> Minimum 8 Characters
+                                                </li>
+                                                <li class="flex items-center" :class="/[A-Z]/.test(new_password) ? 'text-green-500' : 'text-gray-500'">
+                                                    <i class="fa-regular fa-circle-check mr-2" :class="/[A-Z]/.test(new_password) ? 'text-green-500' : 'text-gray-500'"></i> At least one uppercase letter
+                                                </li>
+                                                <li class="flex items-center" :class="/[\W_]/.test(new_password) ? 'text-green-500' : 'text-gray-500'">
+                                                    <i class="fa-regular fa-circle-check mr-2" :class="/[\W_]/.test(new_password) ? 'text-green-500' : 'text-gray-500'"></i> At least one special character
+                                                </li>
+                                                <li class="flex items-center" :class="/[0-9]/.test(new_password) ? 'text-green-500' : 'text-gray-500'">
+                                                    <i class="fa-regular fa-circle-check mr-2" :class="/[0-9]/.test(new_password) ? 'text-green-500' : 'text-gray-500'"></i> At least one number
+                                                </li>
+                                                <li class="flex items-center" :class="new_password && new_password === confirm_password ? 'text-green-500' : 'text-gray-500'">
+                                                    <i class="fa-regular fa-circle-check mr-2" :class="new_password && new_password === confirm_password ? 'text-green-500' : 'text-gray-500'"></i>
+                                                    Passwords match
+                                                </li>
+                                            </ul>
                                         </div>
-                                        
                                     </div>
                                     </div>
                                     
