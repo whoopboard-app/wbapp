@@ -88,9 +88,9 @@
                         <img src="assets/img/icon/user-profile.svg" alt="">
                         <h5 class="fw-normal label mt-1">Billings / Subscriptions</h5>
                             <p class="card-desc mb-2">Track all your payment, subscriptions plan.</p>
-                            <a href="#" class="widget-item-btn mb-1 text-primary bg-white d-inline-block rounded fw-normal font-12">Billing History</a>
-                            <a href="#" class="widget-item-btn mb-1 text-primary bg-white d-inline-block rounded fw-normal font-12">My Subscription</a>
-                            <a href="#" class="widget-item-btn mb-1 text-primary bg-white d-inline-block rounded fw-normal font-12">Delete Account</a>
+                            <a href="{{ route('billing.index') }}" class="widget-item-btn mb-1 text-primary bg-white d-inline-block rounded fw-normal font-12">Billing History</a>
+                            <a href="{{ route('billing.index') }}" class="widget-item-btn mb-1 text-primary bg-white d-inline-block rounded fw-normal font-12">My Subscription</a>
+                            <a href="{{ route('billing.index') }}" class="widget-item-btn mb-1 text-primary bg-white d-inline-block rounded fw-normal font-12">Delete Account</a>
                     </div>
                 </div>
             </div>
