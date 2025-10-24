@@ -13,6 +13,7 @@
     use App\Http\Controllers\KBCategoryController;
     use App\Http\Controllers\KBBoardController;
     use App\Http\Controllers\InviteController;
+    use App\Http\Controllers\AppBillingController;
     use App\Http\Controllers\ComingSoonController;
     use App\Http\Controllers\AppSettingsController;
     Route::get('/debug', function () {
@@ -188,6 +189,14 @@
         Route::put('update', [InviteController::class, 'update'])->name('invite.update');
         Route::delete('destroy/{invite}', [InviteController::class, 'destroy'])->name('invite.destroy');
     });
+
+     Route::prefix('app')->group(function () {
+        Route::get('billing', [AppBillingController::class, 'index'])
+        ->name('billing.index');
+    });
+
+
+
     Route::get('/app-settings', [App\Http\Controllers\AppSettingsController::class, 'index'])
         ->name('app.settings');
 

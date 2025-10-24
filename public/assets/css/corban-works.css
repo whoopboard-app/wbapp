@@ -14,6 +14,10 @@ body
 {
     gap: 10px;
 }
+.font-12
+{
+    font-size: 12px;
+}
 .font-16
 {
     font-size: 16px;
@@ -22,7 +26,10 @@ body
 {
     font-size: 18px;
 }
-
+.font-24 
+{
+    font-size: 24px;
+}
 .mt-10px
 {
     margin-top: 10px;
@@ -151,6 +158,11 @@ body
 {
     border: 1px solid #0969DA;
     color: #0969DA;
+}
+.badge.active 
+{
+    border: 1px solid #1A7F37;
+    color: #1A7F37;
 }
 .tooltip-icon
 {
@@ -344,7 +356,7 @@ input[type="time"]::-moz-calendar-picker-indicator {
 /* form sign in and up */
 .form-input-wrapper
 {
-    max-width: 500px;
+    max-width: 475px;
     margin: 0 auto;
     width: 100%;
 }
@@ -378,7 +390,7 @@ input[type="time"]::-moz-calendar-picker-indicator {
      display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 80vh;
+  min-height: 85vh;
 }
 .mb-240{
     margin-bottom: 240px;
@@ -403,3 +415,133 @@ input[type="time"]::-moz-calendar-picker-indicator {
     border-width: 1.5px;
     border-color: #969695;
 }
+.header-right-bar a.active , .header-left-bar a.active{
+ 
+      filter: brightness(0) saturate(100%) invert(26%) sepia(96%) saturate(1870%) hue-rotate(203deg) brightness(91%) contrast(95%);
+}
+/* app settign */
+.app-settings .main-content-wrapper .card 
+{
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.app-settings .app-settings-content
+{
+    max-width: 1324px;
+}
+.card.card-badge.modal-note-card
+{
+    padding: 12px;
+}
+.list-type-disc
+{
+    list-style-type: disc;
+}
+.min-height-66
+{
+    min-height: 66px;
+}
+.toggle-btn-group {
+      background-color: #f3f3f3;
+      border-radius: 8px;
+      display: inline-flex;
+      padding: 2px;
+    }
+
+    .toggle-btn {
+      border: none;
+      background: transparent;
+      color: #555;
+      font-weight: 500;
+      padding: 4px 12px;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+
+    .toggle-btn.active {
+      background-color: white;
+      box-shadow: 0 0 0 1px #ddd;
+      font-weight: 600;
+      color: #000;
+    }
+.reason-option {
+      border: 1px solid #E1E1E0;
+      border-radius: 8px;
+      padding: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+       display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .reason-option:hover {
+      border-color: #999;
+      background-color: #f9f9f9;
+    }
+
+    .reason-option input[type="radio"] {
+      accent-color: #000;
+      margin-right: 10px;
+    }
+
+    .reason-option.active {
+      
+      background-color: #fff; 
+    }
+
+    .app-themes .theme-card
+    {
+            border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 1.5rem;
+    background: #fff;
+    }
+
+.dashboard .report-wrapper .report-card
+{
+    border: 1px solid #8C9399;
+    box-shadow: 4px 4px 4px 0 #0000001A;
+} 
+.dashboard hr
+{
+    border-bottom: 1px solid #8C9399
+}
+.dashboard .report-wrapper .report-card .card-number 
+{
+    font-size: 32px;
+    font-weight: 700;
+}
+.dashboard .feedback-request
+{
+    border-bottom: 1px solid #D1D9E0;
+}
+.text-accepted
+{
+    color: #1FBB6A;
+}
+.member-sign-in .upload-container {
+  display: inline-block;
+}
+
+.member-sign-in .profile-pic-wrapper {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center; 
+}
+
+.member-sign-in .profile-pic {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
