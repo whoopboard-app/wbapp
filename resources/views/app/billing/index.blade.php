@@ -82,7 +82,7 @@
             <div class="tab-pane fade show active" id="history-data" role="tabpanel" aria-labelledby="history-tab">
                 <div class="row mt-20 card pt-0 px-0 bg-white mb-3">
                     <div class="d-flex border-title align-items-center justify-content-between flex-wrap py-2 px-3 bg-white rounded">
-                        <h4 class="fw-medium mb-0">33 Billing History</h4>
+                        <h4 class="fw-medium mb-0">{{ $count }} Billing History</h4>
                         
                         <!-- ✅ Custom Search -->
                         <div class="btn-wrapper d-flex align-items-center justify-content-center gap-3 flex-wrap mb-0">

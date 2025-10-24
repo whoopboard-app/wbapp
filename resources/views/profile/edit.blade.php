@@ -89,12 +89,12 @@
                                             <span id="file-name" class="d-block mt-2 fw-medium">
                                                 {{ $user->profile_img ? basename($user->profile_img) : '' }}
                                             </span>
-                                            <!-- <img id="preview-img"
+                                            <img id="preview-img"
                                                 src="{{ $user->profile_img ? asset('storage/'.$user->profile_img) : '' }}"
                                                 alt="Preview"
                                                 class="mt-2 mx-auto rounded shadow-sm {{ $user->profile_img ? '' : 'd-none' }}"
                                                 width="100"
-                                                height="100"> -->
+                                                height="100">
                                         </label>
                                     </div>
                                     <div class="basic-information mt-3">
@@ -157,7 +157,7 @@
                                                 <div class="">
                                                     <label for="short-desc" class="input-label mb-1 fw-medium">Short Description
                                                     </label>
-                                                    <textarea type="text" name="short-desc"  id="short-desc" rows="3" id="desc" class="input-field w-100 rounded" placeholder="Placeholder" required></textarea>
+                                                    <textarea type="text" name="short-desc"  id="short-desc" rows="3" id="desc" class="input-field w-100 rounded" placeholder="Placeholder" required>{{ old('short-desc', $user->short_desc) }}</textarea>
                                                     <span class="label color-support fw-normal">Note : Maximum of 200 Character</span>
                                                 </div>
                                             </div>

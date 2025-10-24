@@ -33,7 +33,6 @@ class ProfileController extends Controller
             'last_name'  => 'required|string|max:255',
             'email'      => 'required|email|max:255',
             'user_type'  => 'required|in:1,2,3,4,5',
-            'aboutme'    => 'nullable|string|max:1000',
             'short-desc'  => 'nullable|string|max:200',
             'profileImg' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
@@ -56,10 +55,11 @@ class ProfileController extends Controller
         $user->update([
             'name' => $validatedData['first_name'],
             'last_name'  => $validatedData['last_name'],
+            'short_desc'  => $validatedData['short-desc'],
             'profile_img' => $profileImgPath,
         ]);
 
-        return Redirect::route('dashboard')->with('success', 'User updated successfully!');
+        return Redirect::route('app.settings')->with('success', 'User updated successfully!');
     }
 
     public function changePassword(Request $request)
@@ -86,7 +86,7 @@ class ProfileController extends Controller
         ]);
         
         return redirect()   
-            ->route('dashboard')
+            ->route('app.settings')
             ->with('success', 'Password changed successfully!');
     }
 

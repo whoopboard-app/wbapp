@@ -32,6 +32,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'tenant_id',
         'invited',
         'profile_img',
+        'short_desc',
     ];
 
     /**
