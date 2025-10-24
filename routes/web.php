@@ -14,6 +14,7 @@
     use App\Http\Controllers\KBBoardController;
     use App\Http\Controllers\InviteController;
     use App\Http\Controllers\ComingSoonController;
+    use App\Http\Controllers\DashboardController;
     use App\Http\Controllers\AppSettingsController;
     Route::get('/debug', function () {
         return response()->json([
@@ -68,9 +69,12 @@
     Route::get('/', function () {
         return redirect()->route('login');
     });
-    Route::get('/dashboard', function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])
+        ->middleware(['auth', 'verified'])
+        ->name('dashboard');
+/*    Route::get('/dashboard', function () {
         return view('dashboard');
-    })->middleware(['auth', 'verified'])->name('dashboard');
+    })->middleware(['auth', 'verified'])->name('dashboard');*/
 /*    Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');*/
