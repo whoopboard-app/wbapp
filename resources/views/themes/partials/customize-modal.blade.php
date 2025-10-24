@@ -1,175 +1,179 @@
-<div class="modal fade" id="customizeThemeModal_{{ $userTheme->id }}" tabindex="-1" aria-labelledby="customizeThemeLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered custom-modal-width modal-dialog-centered modal-dialog-scrollable">
-            <div class="modal-content rounded-3">
+<div class="modal fade" id="themeSettings_{{ $theme->id }}" tabindex="-1" aria-labelledby="themeSettingsLabel_{{ $theme->id }}" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+        <div class="modal-content border-0">
             <div class="modal-header">
-                <h5 class="text-2xl md:text-2xl font-bold text-gray-900" id="customizeThemeLabel">Customize Your Theme</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="mb-0">
+                    <h3 class="fw-semibold mb-0">Theme Settings</h3>
+                </div>
+                <button type="button" class="modal-close bg-transparent border-0 ms-auto d-flex align-items-center justify-content-center"
+                        data-bs-dismiss="modal" aria-label="Close">
+                    <img src="{{ asset('assets/img/icon/modal-exit.svg') }}" alt="Close">
+                </button>
             </div>
-            <form method="POST" action="{{ route('themes.customize') }}">
-                @csrf
-                <div class="modal-body mt-2 mb-4">
-                    <p class="form-para">
-                        Set up your theme with the right details. Update your page title, description, welcome message, and rename modules to match your business needs.
-                    </p>
-                    <div class="form-input border-0 p-0 mb-4 mt-2">
-                        <label for="page-title" class="input-label mb-1 fw-medium">Page Title</label>
-                        <span class="tooltip-icon" data-bs-toggle="tooltip" title="Add Theme Title">
-                        <i class="fa fa-question-circle hover-blue"></i>
-                    </span>
-                        <input type="text" id="page-title" name="theme_title"
-                               class="input-field w-100 rounded border"
-                               placeholder="Placeholder"
-                               required
-                               value="{{ old('theme_title', $userTheme->theme_title ?? '') }}">
+
+            {{-- ⚠️ No <form> tag here --}}
+            <div class="modal-body overflow-auto" style="max-height: 70vh;">
+                <input type="hidden" name="theme_id" value="{{ $theme->id }}">
+
+                <!-- Brand Color -->
+                <div class="col-12 col-lg-12 mb-3">
+                    <div class="form-input px-0">
+                        <label for="brand-color" class="input-label mb-1 fw-medium">Brand Color</label>
+                        <div class="d-flex align-items-center gap-2 border rounded px-2">
+                            <input type="color" id="brand-color"
+                                   class="form-control-color p-0 border-0 rounded-circle"
+                                   style="width: 30px; height: 30px; cursor: pointer;"
+                                   value="{{ $theme->brand_color ?? old('color_hex', '#00FF00') }}"
+                                   onchange="document.getElementById('color_hex').value = this.value">
+                            <input type="text" id="color_hex" name="color_hex"
+                                   value="{{ $theme->brand_color ?? old('color_hex', '#00FF00') }}"
+                                   class="border-0 bg-transparent w-100"
+                                   style="outline: none; box-shadow: none;"
+                                   onchange="document.getElementById('brand-color').value = this.value">
+                        </div>
                     </div>
-                    <div class="form-input border-0 p-0 mb-4">
-                        <label for="meta_title" class="input-label mb-1 fw-medium">Meta Title</label>
-                        <span class="tooltip-icon" data-bs-toggle="tooltip" title="Add meta_title">
-                        <i class="fa fa-question-circle hover-blue"></i>
-                        </span>
-                        <input type="text" id="meta_title" name="meta_title"
-                               class="input-field w-100 rounded border"
-                               placeholder="Placeholder"
-                               value="{{ old('meta_title', $userTheme->meta_title ?? '') }}">
+                </div>
+
+                <!-- Website Visibility -->
+                <div class="mb-3 card bg-white p-3">
+                    <label class="form-label fw-bold">Website Visibility</label>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input"
+                               type="checkbox"
+                               id="visibility_{{ $theme->id }}"
+                               name="is_visible"
+                            {{ old('is_visible', $theme->is_visible ?? false) ? 'checked' : '' }}>
+                        <label class="form-check-label" for="visibility_{{ $theme->id }}">
+                            On (Published — Your board is live and accessible at [subdomain])
+                        </label>
                     </div>
-                    <div class="form-input border-0 p-0 mb-4">
-                        <label for="meta_description" class="input-label mb-1 fw-medium">Meta Description</label>
-                        <span class="tooltip-icon" data-bs-toggle="tooltip" title="Add meta_description">
-                        <i class="fa fa-question-circle hover-blue"></i>
-                        </span>
-                        <input type="text" id="meta_description" name="meta_description"
-                               class="input-field w-100 rounded border"
-                               placeholder="Placeholder"
-                               value="{{ old('meta_description', $userTheme->meta_description ?? '') }}">
-                    </div>
-                    <div class="form-input border-0 p-0 mb-4">
-                        <label for="meta_keywords" class="input-label mb-1 fw-medium">Meta Keywords</label>
-                        <span class="tooltip-icon" data-bs-toggle="tooltip" title="Add meta_keywords">
-                        <i class="fa fa-question-circle hover-blue"></i>
-                        </span>
-                        <input type="text" id="meta_keywords" name="meta_keywords"
-                               class="input-field w-100 rounded border"
-                               placeholder="Placeholder"
-                               value="{{ old('meta_keywords', $userTheme->meta_keywords ?? '') }}">
-                    </div>
-                    <div class="form-input border-0 p-0 mb-4">
-                        <label for="google_analytics" class="input-label mb-1 fw-medium">Google Analytics</label>
-                        <span class="tooltip-icon" data-bs-toggle="tooltip" title="Add google_analytics">
-                        <i class="fa fa-question-circle hover-blue"></i>
-                        </span>
-                        <input type="text" id="google_analytics" name="google_analytics"
-                               class="input-field w-100 rounded border"
-                               placeholder="Placeholder"
-                               value="{{ old('google_analytics', $userTheme->google_analytics ?? '') }}">
-                    </div>
-                    <div class="form-input border-0 p-0 mb-4">
-                        <label for="alignment" class="input-label mb-1 fw-medium">Alignment</label>
-                        <span class="tooltip-icon" data-bs-toggle="tooltip" title="Add Alignment">
-                        <i class="fa fa-question-circle hover-blue"></i>
-                        </span>
-                        @php
-                            $alignment = old('alignment', $usertheme->alignment ?? 'left');
-                            if (!in_array($alignment, ['left', 'center', 'right'])) {
-                                $alignment = 'left';
-                            }
-                        @endphp
-                        <select id="alignment" name="alignment" class="input-field w-100 rounded border">
-                            <option value="left" {{ $alignment === 'left' ? 'selected' : '' }}>Left</option>
-                            <option value="center" {{ $alignment === 'center' ? 'selected' : '' }}>Center</option>
-                            <option value="right" {{ $alignment === 'right' ? 'selected' : '' }}>Right</option>
-                        </select>
-                    </div>
-                    <div class="form-input border-0 p-0 mb-4">
-                        <label for="welcome" class="input-label mb-1 fw-medium">Welcome Message</label>
-                        <span class="tooltip-icon" data-bs-toggle="tooltip" title="Add Welcome Message">
-                        <i class="fa fa-question-circle hover-blue"></i>
-                        </span>
-                        <input type="text" id="welcome" name="welcome_message"
-                               class="input-field w-100 rounded border"
-                               placeholder="Placeholder"
-                               maxlength="191"
-                               required
-                               value="{{ old('welcome_message', $userTheme->welcome_message ?? '') }}">
+                </div>
+
+                <!-- Password Protection -->
+                <div class="mb-3 card bg-white p-3">
+                    <label class="form-label fw-bold">Password Protected</label>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input"
+                               type="checkbox"
+                               id="password_toggle_{{ $theme->id }}"
+                               name="is_password_protected"
+                            {{ old('is_password_protected', $theme->is_password_protected ?? false) ? 'checked' : '' }}>
+                        <label class="form-check-label" for="password_toggle_{{ $theme->id }}">
+                            Off (Disabled — Anyone can access your board based on its visibility setting.)
+                        </label>
                     </div>
 
-                    <div class="form-input border-0 p-0 mb-4">
-                        <label for="description" class="input-label mb-1 fw-medium">Short Description</label>
-                        <span class="tooltip-icon" data-bs-toggle="tooltip" title="Add Short Description">
-                        <i class="fa fa-question-circle hover-blue"></i>
-                        </span>
-                        <input type="text" id="description" name="short_description"
-                               class="input-field w-100 rounded border"
-                               placeholder="Placeholder"
-                               required
-                               value="{{ old('short_description', $userTheme->short_description ?? '') }}">
+                    <div id="passwordAlert_{{ $theme->id }}"
+                         class="{{ old('is_password_protected', $theme->is_password_protected ?? false) ? '' : 'd-none' }}">
+                        <input type="password"
+                               name="board_password"
+                               class="input-field w-100 mt-2 rounded border"
+                               placeholder="Enter board password"
+                               value="{{ old('board_password', $theme->board_password ?? '') }}">
                     </div>
-                    <div class="form-input border-0 p-0 mb-4">
-                        <label for="theme_flag" class="input-label mb-1 fw-medium">Status</label>
-                        <span class="tooltip-icon" data-bs-toggle="tooltip" title="Set status as Active or Inactive">
-                            <i class="fa fa-question-circle hover-blue"></i>
-                        </span>
-                        @php
-                            $status = old('theme_flag', $userTheme->theme_flag ?? 0);
-                        @endphp
-                        <select id="theme_flag" name="theme_flag" class="input-field w-100 rounded border">
-                            <option value="0" {{ $status == 0 ? 'selected' : '' }}>Inactive</option>
-                            <option value="1" {{ $status == 1 ? 'selected' : '' }}>Active</option>
-                        </select>
+                </div>
+
+                <!-- Upload Logo -->
+                <div class="mb-3">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6>Upload Logo</h6>
+                        <h6 class="color-support fw-normal label">[Optional]</h6>
                     </div>
-                    <div class="card bg-white mb-3">
-                        <div class="upload-input">
-                            <input type="file" class="visually-hidden" id="feature-banner" name="feature_banner" onchange="showFileName(event)">
-                            <label for="feature-banner" class="d-block text-center rounded-3">
-                            <span class="upload-btn widget-item-btn d-inline-block rounded fw-semibold mb-2">
-                                Upload Logo
+
+                    <div class="upload-input">
+                        <input type="hidden" name="existing_feature_banner" value="{{ $theme->feature_banner ?? '' }}">
+                        <input type="file" class="visually-hidden" id="feature-banner-{{ $theme->id }}" name="feature_banner"
+                               onchange="showFileName('{{ $theme->id }}', event)">
+                        <label for="feature-banner-{{ $theme->id }}" class="d-block text-center rounded-3">
+                            <span class="upload-btn d-inline-block rounded fw-semibold mb-2">
+                                <img src="{{ asset('assets/img/icon/upload.svg') }}" alt="Upload">
                             </span>
-                                <span class="upload-input-text d-block">Recommended size 600 / 400</span>
-                            </label>
-                            <span id="file-name" class="d-block mt-2 text-muted"></span>
-                        </div>
-                    </div>
-                    <div class="card card-badge">
-                        <p class="mb-0 text-primary label">
-                            You can rename modules to match your business language.<br> For example, change “Changelog” to “Announcements” or “Knowledge Board” to “Help Center.”
-                        </p>
-                    </div>
-                    <br>
-                    {{-- Loop for modules --}}
-                    @foreach($functionalities as $functionality)
-                        <div class="form-section row align-items-center mb-3">
-                            <div class="col-md-5">
-                                <label class="input-label mb-1 fw-medium">Module Label</label>
-                                <input type="text" class="input-field w-100 rounded border bg-dark-subtle"
-                                       value="{{ $functionality->name }}" readonly>
+                            <h6 class="fw-semibold">Drop files or browse</h6>
+                            <span class="upload-input-text d-block mb-3">Format: .jpeg, .png &amp; Max file size: 25 MB</span>
+                            <span class="theme-btn sm fw-semibold rounded">Browse Files</span>
+                            <div id="file-name-{{ $theme->id }}" class="file-name mt-2 text-center fw-medium text-muted">
+                                {{ $theme->feature_banner ? basename($theme->feature_banner) : '' }}
                             </div>
-                            <div class="col-md-2 text-center arrow" style="font-size: 25px;">→</div>
-                            <div class="col-md-5">
-                                <label class="input-label mb-1 fw-medium d-flex justify-content-between">
-                                    <span>Update label name</span>
-                                    <span class="optional-label text-muted">Optional</span>
-                                </label>
-                                <input type="text" name="module_labels[{{ $functionality->name }}]"
-                                       class="input-field w-100 rounded border"
-                                       placeholder="Placeholder"
-                                       value="{{ old('module_labels.'.$functionality->name, $labels[$functionality->name] ?? '') }}">
-                            </div>
-                        </div>
-                    @endforeach
+                        </label>
+                    </div>
                 </div>
+            </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary fw-semibold">Save Theme</button>
-                </div>
-            </form>
-
+            <!-- Footer (no submit here) -->
+            <div class="modal-footer justify-content-start border-top-0">
+                <button type="button" class="theme-btn fw-semibold rounded border-0" data-bs-dismiss="modal">Continue</button>
+                <button type="canel" class="theme-btn secondary fw-semibold rounded" data-bs-dismiss="modal">Cancel</button>
+                <a href="{{ route('themes.index') }}" class="theme-btn secondary fw-semibold rounded">Back to Themes</a>
+            </div>
         </div>
     </div>
 </div>
+
 <script>
-    function showFileName(event) {
-        const input = event.target;
-        const fileName = input.files.length > 0 ? input.files[0].name : "";
-        document.getElementById("file-name").textContent = fileName;
+    document.addEventListener("DOMContentLoaded", function () {
+        const visibilityToggles = document.querySelectorAll("[id^='visibility_']");
+        const passwordToggles = document.querySelectorAll("[id^='password_toggle_']");
+
+        function togglePasswordField(id) {
+            const visibility = document.getElementById(`visibility_${id}`);
+            const passwordToggle = document.getElementById(`password_toggle_${id}`);
+            const alertBox = document.getElementById(`passwordAlert_${id}`);
+
+            // ✅ Get their own labels
+            const visibilityLabel = document.querySelector(`label[for='visibility_${id}']`);
+            const passwordLabel = document.querySelector(`label[for='password_toggle_${id}']`);
+
+            // 🟢 Update visibility label
+            if (visibility) {
+                if (visibility.checked) {
+                    visibilityLabel.textContent = "On (Published — Your board is live and accessible at [subdomain]).";
+                } else {
+                    visibilityLabel.textContent = "Off — Your board is not visible to anyone.";
+                }
+            }
+
+            // 🟢 Update password protection label
+            if (passwordToggle) {
+                if (passwordToggle.checked) {
+                    passwordLabel.textContent = "Enabled — Visitors must enter a password to access your board.";
+                } else {
+                    passwordLabel.textContent = "Disabled — Anyone can access your board based on its visibility setting.";
+                }
+            }
+
+            // 🟢 Toggle password input field
+            if (visibility.checked && passwordToggle.checked) {
+                alertBox.classList.remove("d-none");
+            } else {
+                alertBox.classList.add("d-none");
+            }
+        }
+
+        // 🔄 Attach events
+        visibilityToggles.forEach(el => {
+            const id = el.id.split("_").pop();
+            el.addEventListener("change", () => togglePasswordField(id));
+        });
+
+        passwordToggles.forEach(el => {
+            const id = el.id.split("_").pop();
+            el.addEventListener("change", () => togglePasswordField(id));
+        });
+
+        // 🧠 Run once to set correct initial text + states
+        visibilityToggles.forEach(el => {
+            const id = el.id.split("_").pop();
+            togglePasswordField(id);
+        });
+    });
+
+    // 🧾 File name helper
+    function showFileName(id, event) {
+        const fileName = event.target.files.length ? event.target.files[0].name : '';
+        document.getElementById(`file-name-${id}`).textContent = fileName;
     }
 </script>
+
+
+
+

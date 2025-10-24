@@ -7,6 +7,7 @@ use App\Models\Theme;
 use App\Models\UserTheme;
 use App\Models\Functionality;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class ThemeController extends Controller
 {
@@ -34,20 +35,6 @@ class ThemeController extends Controller
 
     public function customize(Request $request)
     {
-        $themes = Theme::first();
-        if (empty($request->theme_title)) {
-            $request->merge([
-                'theme_title'       => $themes->theme_title,
-                'short_description' => $themes->short_description,
-                'welcome_message'   => $themes->welcome_message,
-            ]);
-        }
-        if ($request->theme_flag == 0){
-            $request->merge([
-            'short_description' => '',
-            'welcome_message'  => '',
-                ]);
-        }
         $moduleLabels = [];
         if ($request->filled('module_labels') && is_array($request->module_labels)) {
             foreach ($request->module_labels as $key => $label) {
@@ -59,53 +46,53 @@ class ThemeController extends Controller
         } else {
             $moduleLabels = null;
         }
+            $request->validate([
+                'color_hex'       => 'nullable|string|max:20',
+                'theme_title'        => 'nullable|string|max:255',
+                'welcome_message'   => 'nullable|string|max:500',
+                'short_description' => 'nullable|string|max:500',
+                'module_labels'     => 'nullable|array',
+                'module_labels.*'   => 'nullable|string|max:255',
+                'meta_title'        => 'nullable|string|max:255',
+                'meta_description'  => 'nullable|string|max:500',
+                'meta_keywords'     => 'nullable|string|max:500',
+                'google_analytics'  => 'nullable|string|max:1000',
+                'is_visible' => 'nullable|in:on,off,1,0',
+                'is_password_protected' => 'nullable|in:on,off,1,0',
+                'password'          => 'nullable|string|max:255',
+            ]);
 
-        $request->validate([
-            'brand_color'       => 'nullable|string|max:20',
-            'theme_title'        => 'nullable|string|max:255',
-            'welcome_message'   => 'nullable|string|max:500',
-            'short_description' => 'nullable|string|max:500',
-            'module_labels'     => 'nullable|array',
-            'module_labels.*'   => 'nullable|string|max:255',
-            'meta_title'        => 'nullable|string|max:255',
-            'meta_description'  => 'nullable|string|max:500',
-            'meta_keywords'     => 'nullable|string|max:500',
-            'google_analytics'  => 'nullable|string|max:1000',
-            'is_visible'        => 'nullable|boolean',
-            'is_password_protected' => 'nullable|boolean',
-            'password'          => 'nullable|string|max:255',
-        ]);
         $featureBannerPath = null;
         if ($request->hasFile('feature_banner')) {
             $featureBannerPath = $request->file('feature_banner')->store('feature-banners', 'public');
+        }
+        else{
+            $featureBannerPath = $request->existing_feature_banner;
         }
         $user = auth()->user();
         $userTheme = UserTheme::updateOrCreate(
             ['user_id' => $user->id],
             [
-                'tenant_id' => $user->tenant->tenant_id,
-                'theme_id'         => $themes->id,
-                'brand_color'      => $request->brand_color,
-                'theme_title'       => $request->theme_title,
-                'welcome_message'  => $request->welcome_message,
-                'short_description'=> $request->short_description,
-                'module_labels'    => $moduleLabels ? json_encode($moduleLabels) : null,
-                'meta_title'       => $request->meta_title,
-                'meta_description' => $request->meta_description,
-                'meta_keywords'    => $request->meta_keywords,
-                'google_analytics' => $request->google_analytics,
-                'is_visible'       => $request->boolean('is_visible'),
-                'is_password_protected' => $request->boolean('is_password_protected'),
-                'password'         => Hash::make($request->password),
-                'theme_flag' => $request->theme_flag,
-                'feature_banner'       => $featureBannerPath,
+                'tenant_id'             => $user->tenant->tenant_id,
+                'theme_id'              => 1,
+                'brand_color'           => $request->color_hex,
+                'theme_title'           => $request->theme_title,
+                'welcome_message'       => $request->welcome_message,
+                'short_description'     => $request->short_description,
+                'module_labels'         => $moduleLabels ? json_encode($moduleLabels) : null,
+                'meta_title'            => $request->meta_title,
+                'meta_description'      => $request->meta_description,
+                'meta_keywords'         => $request->meta_keywords,
+                'google_analytics'      => $request->google_analytics,
+                'is_visible'            => $request->is_visible === 'on' || $request->is_visible == 1,
+                'is_password_protected' => $request->is_password_protected === 'on' || $request->is_password_protected == 1,
+                'password'              => Hash::make($request->board_password),
+                'theme_flag'            => $request->theme_flag,
+                'feature_banner'        => $featureBannerPath,
             ]
         );
-
         return back()->with('success', 'Theme customized successfully!');
     }
-
-
     public function getModuleLabel($functionality)
     {
         $labels = $this->module_labels ? json_decode($this->module_labels, true) : [];

@@ -56,6 +56,11 @@
     Route::middleware(['auth'])->group(function () {
         Route::get('/themes', [ThemeController::class, 'index'])->name('themes.index');
         Route::post('/themes/select', [ThemeController::class, 'selectTheme'])->name('themes.select');
+        Route::post('/themes/customize/settings', [ThemeController::class, 'customizeThemeSettings'])->name('themes.customize.settings');
+        Route::post('/themes/customize/content', [ThemeController::class, 'customizeContent'])
+            ->name('themes.customizeContent');
+        Route::post('/themes/customize/seo', [ThemeController::class, 'customizeThemeSeo'])->name('themes.customize.seo');
+
         Route::post('/themes/customize', [ThemeController::class, 'customize'])->name('themes.customize');
         Route::post('/themes/base-config', [ThemeController::class, 'saveBaseConfig'])
             ->name('themes.base-config');

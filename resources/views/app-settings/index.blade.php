@@ -68,6 +68,20 @@
             <div class="col-lg-4 mb-3" style="width:30%;">
                 <div class="get-started-card card p-0 align-items-start bg-white h-100">
                     <div class="border-title w-100">
+                        <h5 class="card-title my-0 fw-medium text-black">Themes</h5>
+                    </div>
+                    <div class="content-body">
+                        <img src="assets/img/icon/user-profile.svg" alt="">
+                        <h5 class="fw-normal label mt-1">Theme Settings / Custom Labels / Meta Settings</h5>
+                        <p class="card-desc mb-2">Select and Customize Themes.Change Label Preference.</p>
+                        <a  href="{{ route('themes.index') }}" class="widget-item-btn mb-1 text-primary bg-white d-inline-block rounded fw-normal font-12">Add Theme</a>
+                        <a href="{{ route('themes.index') }}" class="widget-item-btn mb-1 text-primary bg-white d-inline-block rounded fw-normal font-12">Theme View</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 mb-3" style="width:30%;">
+                <div class="get-started-card card p-0 align-items-start bg-white h-100">
+                    <div class="border-title w-100">
                         <h5 class="card-title my-0 fw-medium text-black">Billings & Subscriptions</h5>
                     </div>
                     <div class="content-body">
@@ -77,20 +91,6 @@
                             <a href="#" class="widget-item-btn mb-1 text-primary bg-white d-inline-block rounded fw-normal font-12">Billing History</a>
                             <a href="#" class="widget-item-btn mb-1 text-primary bg-white d-inline-block rounded fw-normal font-12">My Subscription</a>
                             <a href="#" class="widget-item-btn mb-1 text-primary bg-white d-inline-block rounded fw-normal font-12">Delete Account</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 mb-3" style="width:30%;">
-                <div class="get-started-card card p-0 align-items-start bg-white h-100">
-                    <div class="border-title w-100">
-                        <h5 class="card-title my-0 fw-medium text-black">My Profile & Change Password</h5>
-                    </div>
-                    <div class="content-body">
-                        <img src="assets/img/icon/user-profile.svg" alt="">
-                        <h5 class="fw-normal label mt-1">My Profile / Change Password</h5>
-                        <p class="card-desc mb-2">Keep your profile up-to-date.</p>
-                        <a  href="{{ route('profile.edit') }}" class="widget-item-btn mb-1 text-primary bg-white d-inline-block rounded fw-normal font-12">Update profile</a>
-                        <a href="#" class="widget-item-btn mb-1 text-primary bg-white d-inline-block rounded fw-normal font-12">Change Password</a>
                     </div>
                 </div>
             </div>
