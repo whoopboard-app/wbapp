@@ -32,4 +32,9 @@ class Tenant extends Model
     {
         return $this->hasMany(User::class, 'tenant_id', 'tenant_id');
     }
+
+    public function planTransactions()
+    {
+        return $this->hasMany(PlanTransaction::class, 'tenant_id', 'tenant_id');
+    }
 }

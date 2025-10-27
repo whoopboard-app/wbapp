@@ -197,6 +197,10 @@
      Route::prefix('app')->group(function () {
         Route::get('billing', [AppBillingController::class, 'index'])
         ->name('billing.index');
+        Route::post('billing', [AppBillingController::class, 'delete'])
+        ->name('billing.delete');
+        Route::post('/billing/upgrade', [AppBillingController::class, 'upgrade'])
+        ->name('billing.upgrade');
     });
 
 
