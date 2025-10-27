@@ -157,7 +157,7 @@
                                                 <div class="">
                                                     <label for="short-desc" class="input-label mb-1 fw-medium">Short Description
                                                     </label>
-                                                    <textarea type="text" name="short-desc"  id="short-desc" rows="3" id="desc" class="input-field w-100 rounded" placeholder="Placeholder" required>{{ old('short-desc', $user->short_desc) }}</textarea>
+                                                    <textarea type="text" name="short-desc"  id="short-desc" rows="3" id="desc" class="input-field w-100 rounded" maxlength="200" placeholder="Placeholder" required>{{ old('short-desc', $user->short_desc) }}</textarea>
                                                     <span class="label color-support fw-normal">Note : Maximum of 200 Character</span>
                                                 </div>
                                             </div>
