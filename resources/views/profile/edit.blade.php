@@ -219,7 +219,14 @@
                                             </div>
                                         </div>
                                        
-                                        <div x-data="{ new_password: '', confirm_password: '' }">
+                                        <div x-data="{ new_password: '', confirm_password: '',
+                                            get isValid() {
+                                                return this.new_password.length >= 8
+                                                    && /[A-Z]/.test(this.new_password)
+                                                    && /[\W_]/.test(this.new_password)
+                                                    && /[0-9]/.test(this.new_password)
+                                                    && this.new_password === this.confirm_password;
+                                            } }">
                                             <!-- Password -->
                                             <div class="">
                                                 <label for="new_password" class="input-label mb-1 fw-medium">New Password
@@ -250,7 +257,7 @@
                                             </div>
 
                                             <!-- Password Requirements -->
-                                            <ul class="mt-4 text-sm text-gray-500 space-y-1">
+                                            <ul class="my-4 text-sm text-gray-500 space-y-1">
                                                 <li class="flex items-center" :class="new_password.length >= 8 ? 'text-green-500' : 'text-gray-500'">
                                                     <i class="fa-regular fa-circle-check mr-2" :class="new_password.length >= 8 ? 'text-green-500' : 'text-gray-500'"></i> Minimum 8 Characters
                                                 </li>
@@ -268,16 +275,18 @@
                                                     Passwords match
                                                 </li>
                                             </ul>
+                                            <div class="card-footer gap15 px-3 bg-white d-flex justify-content-start">
+                                    <button type="submit" class="theme-btn sm fw-semibold rounded d-inline-block"  :disabled="!isValid"
+                                    :class="!isValid ? 'opacity-50 cursor-not-allowed' : ''">Save</button>
+                                    <button class="theme-btn bg-white sm secondary fw-semibold rounded d-inline-block"  type="reset">Cancel</button>
+                                </div>
                                         </div>
                                     </div>
                                     </div>
                                     
                                 
                                 </div>
-                                <div class="card-footer gap15 px-3 bg-white d-flex justify-content-start">
-                                    <button type="submit" class="theme-btn sm fw-semibold rounded d-inline-block">Save</button>
-                                    <button class="theme-btn bg-white sm secondary fw-semibold rounded d-inline-block"  type="reset">Cancel</button>
-                                </div>
+                                
                             </form>
                 </div>
             </div>
