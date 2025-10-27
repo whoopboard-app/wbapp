@@ -80,6 +80,9 @@ class ProfileController extends Controller
         if (!Hash::check($request->current_password, auth()->user()->password)) {
             return back()->withErrors(['current_password' => 'The current password is incorrect.']);
         }
+        if (Hash::check($request->new_password, auth()->user()->password)) {
+            return back()->withErrors(['new_password' => 'The new password cannot be the same as the current password.']);
+        }
         $user = Auth::user();
         $user->update([
             'password' => Hash::make($request->new_password),

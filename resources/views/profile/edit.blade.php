@@ -46,7 +46,7 @@
         <div class="d-flex justify-content-between">
             <h4 class="fw-medium font-16 mb-0">My Profile / Change Password</h4>
             <div class="btn-wrapper d-flex align-items-center justify-content-center gap-2 flex-wrap mb-2">
-                <a href="{{route('app.settings')}}" class="theme-btn bg-white sm secondary fw-semibold rounded d-inline-flex align-items-center gap-2">
+                <a href="{{route('app.settings')}}" class="theme-btn bg-white sm secondary fw-semibold rounded d-inline-flex align-items-center gap-2 position-absolute" style="right: 40px;">
                     <img src="{{ asset('assets/img/chevron-left.svg') }}" alt="Back" class="align-text-bottom">
                     Back to Listing Page
                 </a>
@@ -177,7 +177,7 @@
                                     
                                 </div>
                             <div class="card-footer gap15 px-3 bg-white d-flex justify-content-start">
-                                <button type="submit" class="theme-btn sm fw-semibold rounded d-inline-block">Save</button>
+                                <button type="submit" class="theme-btn sm fw-semibold rounded d-inline-block">Update Profile</button>
                                 <button class="theme-btn bg-white sm secondary fw-semibold rounded d-inline-block" type="button" 
                                         onclick="window.location.reload();">Cancel</button>
                             </div>
@@ -215,48 +215,84 @@
                                             
                                             <div class="row mt-3">
                                         <div class="col-12 mb-3">
-                                            <div class="">
-                                                <label for="current_password" class="input-label mb-1 fw-medium">Current Password
-                                                </label>
-                                                <input type="password" name="current_password" class="input-field w-100 rounded" placeholder="Placeholder" required>
+                                            <div x-data="{ show: false }" class="position-relative">
+                                                <label for="current_password" class="input-label mb-1 fw-medium">Current Password</label>
+                                                <input 
+                                                    :type="show ? 'text' : 'password'" 
+                                                    name="current_password" 
+                                                    class="input-field w-100 rounded pe-5" 
+                                                    placeholder="Placeholder" 
+                                                    required
+                                                >
+                                                <!-- Eye Icon -->
+                                                <span 
+                                                    class="position-absolute top-50 end-0 translate-middle-y me-3 cursor-pointer"
+                                                    @click="show = !show"
+                                                    style="cursor: pointer; margin-top: 15px;"
+                                                >
+                                                    <i :class="show ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye'"></i>
+                                                </span>
                                             </div>
                                         </div>
                                        
-                                        <div x-data="{ new_password: '', confirm_password: '',
-                                            get isValid() {
-                                                return this.new_password.length >= 8
-                                                    && /[A-Z]/.test(this.new_password)
-                                                    && /[\W_]/.test(this.new_password)
-                                                    && /[0-9]/.test(this.new_password)
-                                                    && this.new_password === this.confirm_password;
-                                            } }">
+                                        <div  x-data="{ 
+                                                new_password: '', 
+                                                confirm_password: '', 
+                                                showNew: false,
+                                                showConfirm: false,
+                                                get isValid() {
+                                                    return this.new_password.length >= 8
+                                                        && /[A-Z]/.test(this.new_password)
+                                                        && /[\W_]/.test(this.new_password)
+                                                        && /[0-9]/.test(this.new_password)
+                                                        && this.new_password === this.confirm_password;
+                                                }
+                                            }">
                                             <!-- Password -->
-                                            <div class="">
+                                            <div class="position-relative">
                                                 <label for="new_password" class="input-label mb-1 fw-medium">New Password
                                                 </label>
                                                 <x-text-input 
                                                     id="new_password" 
-                                                    class="block mt-1 w-full" 
-                                                    type="password" 
+                                                    class="block mt-1 w-full shadow-none pe-5" 
+                                                    x-bind:type="showNew ? 'text' : 'password'" 
                                                     name="new_password" 
                                                     x-model="new_password"
                                                     required 
                                                     autocomplete="new-password" 
                                                     placeholder="Placeholder"
                                                 />
-                                                <!-- <x-input-error :messages="$errors->first('password')" class="mt-2" /> -->
+                                                <!-- Eye Icon -->
+                                                <span 
+                                                    class="position-absolute top-50 end-0 translate-middle-y me-3 cursor-pointer"
+                                                    @click="showNew = !showNew"
+                                                    style="cursor: pointer; margin-top: 15px;"
+                                                >
+                                                    <i :class="showNew ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye'"></i>
+                                                </span>
                                             </div>
 
                                             <!-- Confirm Password -->
-                                            <div class="mt-3">
-                                                <label for="confirm_password" class="input-label mb-1 fw-medium">Confirm Password
-                                                </label>
-                                                <x-text-input id="confirm_password" class="block mt-1 w-full"
-                                                    type="password"
+                                            <div class="position-relative mt-3">
+                                                <label for="confirm_password" class="input-label mb-1 fw-medium">Confirm Password</label>
+                                                <x-text-input 
+                                                    id="confirm_password" 
+                                                    class="block mt-1 w-full shadow-none pe-5" 
+                                                    x-bind:type="showConfirm ? 'text' : 'password'" 
+                                                    name="confirm_password" 
                                                     x-model="confirm_password"
-                                                    name="confirm_password" required autocomplete="new-password" 
-                                                    placeholder="Placeholder"/>
-                                                <!-- <x-input-error :messages="$errors->first('password_confirmation')" class="mt-2" /> -->
+                                                    required 
+                                                    autocomplete="new-password" 
+                                                    placeholder="Placeholder"
+                                                />
+                                                <!-- Eye Icon -->
+                                                <span 
+                                                    class="position-absolute top-50 end-0 translate-middle-y me-3 cursor-pointer"
+                                                    @click="showConfirm = !showConfirm"
+                                                    style="cursor: pointer; margin-top: 15px;"
+                                                >
+                                                    <i :class="showConfirm ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye'"></i>
+                                                </span>
                                             </div>
 
                                             <!-- Password Requirements -->
@@ -278,9 +314,9 @@
                                                     Passwords match
                                                 </li>
                                             </ul>
-                                            <div class="card-footer gap15 px-3 bg-white d-flex justify-content-start">
+                                            <div class="card-footer gap15 px-0 bg-white d-flex justify-content-start">
                                     <button type="submit" class="theme-btn sm fw-semibold rounded d-inline-block"  :disabled="!isValid"
-                                    :class="!isValid ? 'opacity-50 cursor-not-allowed' : ''">Save</button>
+                                    :class="!isValid ? 'opacity-50 cursor-not-allowed' : ''">Update Password</button>
                                     <button class="theme-btn bg-white sm secondary fw-semibold rounded d-inline-block" type="button" 
                                         onclick="window.location.reload();">Cancel</button>
                                 </div>
@@ -421,5 +457,20 @@
             reader.readAsDataURL(file);
         }
     }
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const tab = urlParams.get('tab');
+
+        if (tab === 'password') {
+            const tabButton = document.getElementById('pills-password-tab');
+            const tabInstance = new bootstrap.Tab(tabButton);
+            tabInstance.show();
+
+            // Optional: scroll to the section
+            document.getElementById('pills-password').scrollIntoView({ behavior: 'smooth' });
+        }
+    });
 </script>
 @endsection

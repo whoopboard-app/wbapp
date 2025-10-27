@@ -163,7 +163,7 @@
 
                         <ul class="dropdown-menu rounded-0 border-top-0 border-bottom-0">
                             <li><a class="dropdown-item" href="{{ route('profile.edit') }}">My Profile</a></li>
-                            <li><a class="dropdown-item" href="#">Change Password</a></li>
+                            <li><a class="dropdown-item" href="{{ route('profile.edit', ['tab' => 'password']) }}">Change Password</a></li>
                             <li>
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
