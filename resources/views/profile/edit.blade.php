@@ -43,8 +43,14 @@
 @endif
 
 <section class="section-content-center my-profile-wrapper main-content-wrapper">
-        <div class="d-flex justify-content-start">
+        <div class="d-flex justify-content-between">
             <h4 class="fw-medium font-16 mb-0">My Profile / Change Password</h4>
+            <div class="btn-wrapper d-flex align-items-center justify-content-center gap-2 flex-wrap mb-2">
+                <a href="{{route('app.settings')}}" class="theme-btn bg-white sm secondary fw-semibold rounded d-inline-flex align-items-center gap-2">
+                    <img src="{{ asset('assets/img/chevron-left.svg') }}" alt="Back" class="align-text-bottom">
+                    Back to Listing Page
+                </a>
+            </div>
         </div>
     <div class="d-inline-block w-100 mt-10px">
         <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
