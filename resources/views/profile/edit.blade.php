@@ -75,7 +75,8 @@
                                 <div class="d-flex align-items-center border-title justify-content-between">
                                     <h4 class="fw-medium mb-0">Last Updated on {{ $user->updated_at ? $user->updated_at->format('F d, Y') : 'Never' }}</h4>
                                     <div class="btn-wrapper mb-0 d-flex align-items-center justify-content-center gap15 flex-wrap">
-                                        <button class="theme-btn bg-white sm secondary fw-semibold rounded d-inline-block"  type="reset">Cancel</button>
+                                        <button class="theme-btn bg-white sm secondary fw-semibold rounded d-inline-block" type="button" 
+                                        onclick="window.location.reload();">Cancel</button>
                                         
                                     </div>
                                 </div>
@@ -177,7 +178,8 @@
                                 </div>
                             <div class="card-footer gap15 px-3 bg-white d-flex justify-content-start">
                                 <button type="submit" class="theme-btn sm fw-semibold rounded d-inline-block">Save</button>
-                                <button class="theme-btn bg-white sm secondary fw-semibold rounded d-inline-block"  type="reset">Cancel</button>
+                                <button class="theme-btn bg-white sm secondary fw-semibold rounded d-inline-block" type="button" 
+                                        onclick="window.location.reload();">Cancel</button>
                             </div>
                         </form>
                     </div>
@@ -195,11 +197,12 @@
                                 <div class="d-flex align-items-center border-title justify-content-between">
                                     <h4 class="fw-medium mb-0">Last Updated on {{ $user->updated_at ? $user->updated_at->format('F d, Y') : 'Never' }}</h4>
                                         <div class="btn-wrapper mb-0 d-flex align-items-center justify-content-center gap15 flex-wrap">
-                                        <button class="theme-btn bg-white sm secondary fw-semibold rounded d-inline-block"  type="reset">Cancel</button>
+                                        <button class="theme-btn bg-white sm secondary fw-semibold rounded d-inline-block" type="button" 
+                                        onclick="window.location.reload();">Cancel</button>
                                             
                                         </div>
                                 </div>
-                                    <div class="mx-auto p-3">
+                                    <div class="mx-auto p-3 pb-0">
                                     
                                 
                                     <div class="basic-information">
@@ -278,7 +281,8 @@
                                             <div class="card-footer gap15 px-3 bg-white d-flex justify-content-start">
                                     <button type="submit" class="theme-btn sm fw-semibold rounded d-inline-block"  :disabled="!isValid"
                                     :class="!isValid ? 'opacity-50 cursor-not-allowed' : ''">Save</button>
-                                    <button class="theme-btn bg-white sm secondary fw-semibold rounded d-inline-block"  type="reset">Cancel</button>
+                                    <button class="theme-btn bg-white sm secondary fw-semibold rounded d-inline-block" type="button" 
+                                        onclick="window.location.reload();">Cancel</button>
                                 </div>
                                         </div>
                                     </div>
