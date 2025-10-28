@@ -350,10 +350,15 @@
         </div>
         
         <!-- Modal Footer -->
-        <div class="modal-footer justify-content-start border-top-0">
-            <button type="button" class="theme-btn fw-semibold rounded border-0">Upgrade &amp; Continue</button>
-            <button type="button" class="theme-btn secondary fw-semibold rounded" data-bs-dismiss="modal">Cancel</button>
-        </div>
+            <form action="{{ route('billing.upgrade') }}" method="POST">
+                @csrf
+                <input type="hidden" name="plan_id" id="selectedPlanId">
+
+                <div class="modal-footer justify-content-start border-top-0">
+                    <button type="submit" class="theme-btn fw-semibold rounded border-0">Upgrade &amp; Continue</button>
+                    <button type="button" class="theme-btn secondary fw-semibold rounded" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </form>
         
         </div>
     </div>
@@ -391,6 +396,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.openPlanModal').forEach(button => {
         button.addEventListener('click', function() {
             currentPlan = {
+                id: this.dataset.id,
                 name: this.dataset.name,
                 description: this.dataset.description,
                 monthPrice: parseFloat(this.dataset.priceMonth),
@@ -400,6 +406,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 emailLimit: this.dataset.email
             };
 
+            document.getElementById('selectedPlanId').value = currentPlan.id;
             // Populate modal content
             document.getElementById('planName').textContent = currentPlan.name;
             document.getElementById('planDescription').textContent = currentPlan.description;

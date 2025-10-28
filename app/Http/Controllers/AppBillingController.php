@@ -38,4 +38,26 @@ class AppBillingController extends Controller
         return redirect()->route('billing.index')->with('success', 'Success! Deleted successfully.');
     }
     
+    public function upgrade(Request $request)
+    {
+        $request->validate([
+            'plan_id' => 'required|integer',
+        ]);
+
+        $tenantId = auth()->user()->tenant_id; 
+        $currentTransaction = PlanTransaction::where('tenant_id', $tenantId)
+            ->latest('transaction_date')
+            ->first();
+        $currentTransaction->plan_id = $request->plan_id;
+        $currentTransaction->save();
+        
+        
+        // dd($currentTransaction->plan_id);
+
+        // $user = auth()->user();
+        // $user->plan_id = $request->plan_id;
+        // $user->save();
+
+        return redirect()->back()->with('success', 'Your plan has been upgraded successfully!');
+    }
 }
