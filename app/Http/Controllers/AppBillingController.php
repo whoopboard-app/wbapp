@@ -35,7 +35,15 @@ class AppBillingController extends Controller
             'reason' => 'required|string',
         ]);
 
-        return redirect()->route('billing.index')->with('success', 'Success! Deleted successfully.');
+        $tenantId = auth()->user()->tenant_id; 
+        $currentTransaction = PlanTransaction::where('tenant_id', $tenantId)
+            ->latest('transaction_date')
+            ->first();
+        // dd($currentTransaction);
+        $currentTransaction->status = 2;
+        $currentTransaction->save();
+
+        return redirect()->route('billing.index')->with('success', 'Success! Plan is now pending.');
     }
     
     public function upgrade(Request $request)
@@ -49,6 +57,7 @@ class AppBillingController extends Controller
             ->latest('transaction_date')
             ->first();
         $currentTransaction->plan_id = $request->plan_id;
+        $currentTransaction->status = 1;
         $currentTransaction->save();
         
         
