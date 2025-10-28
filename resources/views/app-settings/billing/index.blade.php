@@ -155,7 +155,7 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        <div id="customPagination" class="d-flex align-items-center gap-3 p-3 pagination bg-white border-bottom"></div>
+                        <div id="customPagination" class="d-flex align-items-center gap-3 p-3 pt-0 pagination bg-white border-bottom"></div>
                     </div>
                 
                 </div>
