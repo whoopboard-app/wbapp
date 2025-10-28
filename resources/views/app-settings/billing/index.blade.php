@@ -155,6 +155,7 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        <div id="customPagination" class="d-flex align-items-center gap-3 p-3 pagination bg-white border-bottom"></div>
                     </div>
                 
                 </div>
@@ -374,11 +375,54 @@ document.addEventListener('DOMContentLoaded', function() {
     // ✅ Initialize DataTable and assign it to a variable
     let table = $('#billingHistory').DataTable({
         ordering: false,
-        pageLength: 10,
+        pageLength: 5,
         lengthChange: false, // hide "Show entries"
         info: false,         // hide "Showing X of Y"
         searching: true,    // hide default search
+        paging: true,
+        dom: 't', 
     });
+
+    const paginationContainer = document.querySelector('#customPagination');
+
+    function renderPagination() {
+        const pageInfo = table.page.info();
+        const currentPage = pageInfo.page + 1;
+        const totalPages = pageInfo.pages;
+
+        let html = '';
+
+        // Previous button
+        if(currentPage > 1) {
+            html += `<a href="#" class="prev fw-semibold rounded sm" data-page="${currentPage-1}">&lt; Previous</a>`;
+        }
+
+        // Page numbers
+        html += `<div class="page-numbers d-flex align-items-center gap-2">`;
+        for(let i=1; i<=totalPages; i++) {
+            html += `<a href="#" class="pagination-number ${i===currentPage?'active':''}" data-page="${i}">${i}</a>`;
+        }
+        html += `</div>`;
+
+        // Next button
+        if(currentPage < totalPages) {
+            html += `<a href="#" class="next fw-semibold rounded sm" data-page="${currentPage+1}">Next &gt;</a>`;
+        }
+
+        paginationContainer.innerHTML = html;
+
+        // Click events
+        paginationContainer.querySelectorAll('a[data-page]').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const page = parseInt(this.getAttribute('data-page')) - 1;
+                table.page(page).draw('page');
+                renderPagination();
+            });
+        });
+    }
+
+    renderPagination();
 
     // Connect your custom search input
     let customSearch = document.querySelector('#customSearch');
