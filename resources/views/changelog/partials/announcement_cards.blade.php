@@ -131,7 +131,7 @@
                 @endforelse
             </tbody>
         </table>
-       @include('changelog.partials.pagination')
+        @include('changelog.partials.pagination', ['paginator' => $announcements])
     </div>
 </div>
 

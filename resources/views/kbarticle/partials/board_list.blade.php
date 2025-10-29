@@ -54,10 +54,5 @@
         @endforelse
         </tbody>
     </table>
+    @include('changelog.partials.pagination', ['paginator' => $boards])
 </div>
-
-@if ($boards->hasPages())
-    <div class="d-flex justify-content-center align-items-center py-3 border-top">
-        {{ $boards->onEachSide(1)->links('pagination::bootstrap-4') }}
-    </div>
-@endif
