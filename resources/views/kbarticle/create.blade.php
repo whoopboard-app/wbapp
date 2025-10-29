@@ -65,8 +65,8 @@
                             </div>
 
                             <div class="upload-input text-center">
-                                        <input type="file" class="visually-hidden" id="article_img" name="article_img" accept="image/*" onchange="showPreview(event)">
-                                        <label for="article_img" class="d-block text-center rounded-3">
+                                        <input type="file" class="visually-hidden" id="article_banner" name="article_banner" accept="image/*" onchange="showPreview(event)">
+                                        <label for="article_banner" class="d-block text-center rounded-3">
                                         <span class="upload-btn d-inline-block rounded fw-semibold mb-2"><img src="{{ asset('assets/img/icon/upload.svg') }}" alt=""></span>
                                              <h6 class="fw-semibold">Drop files or browse</h6>
                                             <span class="upload-input-text d-block mb-3">Format: .jpeg, .png &amp; Max file size: 25 MB</span>

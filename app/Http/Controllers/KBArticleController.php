@@ -43,7 +43,7 @@ class KBArticleController extends Controller
             'tagsSelect'             => 'required|array|min:1',
             'other_article_category' => 'nullable|integer|exists:kb_categories,id',
             'status'                 => 'required|string|in:active,inactive,draft',
-            'article_img'         => 'nullable|image|mimes:jpg,jpeg,png,gif,webp|max:2048',
+            'article_banner'         => 'nullable|image|mimes:jpg,jpeg,png,gif,webp|max:2048',
             'recName'            => 'nullable|string',
             'recDateTime'            => 'nullable|date',
         ]);
@@ -57,8 +57,8 @@ class KBArticleController extends Controller
             $validatedData['link_changelog'] = implode(',', $validatedData['link_changelog']);
         }
 
-        if ($request->hasFile('article_img')) {
-            $validatedData['article_img'] = $request->file('article_img')->store('article_img', 'public');
+        if ($request->hasFile('article_banner')) {
+            $validatedData['article_banner'] = $request->file('article_banner')->store('article_banner', 'public');
         }
 
         $article = KBArticle::create($validatedData);
