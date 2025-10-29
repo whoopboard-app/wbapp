@@ -38,32 +38,34 @@
 
             <!-- Action Dropdown -->
             <td>
-                <div class="d-flex align-items-center sm justify-content-start gap-2 action-icons-wrapper">
+                <div class="icon-box d-flex align-items-center gap-2">
                     <!-- Edit -->
                     <a href="{{ route('categories.edit', $category->id) }}">
-                        <img src="{{ asset('assets/img/icon/edit.svg') }}" alt="Edit" class="action-icon">
+                        <img src="{{ asset('assets/img/icon/edit.svg') }}" alt="Edit" style="max-width:15px;">
                     </a>
 
                     <div class="divider"></div>
 
-                    <!-- View / Status -->
+                    <!-- View -->
                     <a href="javascript:void(0)"
-                       class="view-category"
+                       class="view-member"
                        data-id="{{ $category->id }}">
-                        <img src="{{ asset('assets/img/icon/oval.svg') }}" alt="oval" class="action-icon">
+                        <img src="{{ asset('assets/img/icon/oval.svg') }}" alt="View" style="max-width:15px;">
                     </a>
 
                     <div class="divider"></div>
 
                     <!-- Delete -->
-                    <form action="{{ route('categories.destroy', $category->id) }}" method="POST" class="m-0 p-0 d-inline"
-                          onsubmit="return confirm('Are you sure you want to delete this category?');">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="border-0 bg-transparent p-0">
-                            <img src="{{ asset('assets/img/icon/trash.svg') }}" alt="trash" class="action-icon">
-                        </button>
-                    </form>
+                    <a href="javascript:void(0)">
+                        <form action="{{ route('categories.destroy', $category->id) }}" method="POST" class="m-0 p-0 d-inline"
+                              onsubmit="return confirm('Are you sure you want to delete this Category?');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="border-0 bg-transparent p-0">
+                                <img src="{{ asset('assets/img/icon/trash.svg') }}" alt="trash" class="action-icon">
+                            </button>
+                        </form>
+                    </a>
                 </div>
             </td>
         </tr>

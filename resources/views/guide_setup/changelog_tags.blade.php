@@ -96,8 +96,10 @@
                                                   name="short_description"
                                                   rows="2"
                                                   maxlength="200"
-                                                  class="input-field w-100 rounded"
+                                                  class="short-desc descinput-field w-100 rounded"
                                                   placeholder="Enter tag short description">{{ $tag->Short_description ?? old('short_description') }}</textarea>
+                                        <!-- Character counter -->
+                                        <small id="descCounter" class="desc-counter text-muted d-block mt-1">0 / 200 characters</small>
                                     </div>
                                 </div>
                             </div>

@@ -127,7 +127,7 @@
                                 <th>Status</th>
                                 <th>Category Name</th>
                                 <th>Color Code</th>
-                                <th>Action</th>
+                                <th class="w-25">Action</th>
                             </tr>
                             </thead>
                             <tbody id="tag-table-body">

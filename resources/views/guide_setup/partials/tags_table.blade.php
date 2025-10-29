@@ -21,33 +21,34 @@
             </td>
             <td class="px-4 py-2 text-left relative w-32">
                     <!-- Action Dropdown -->
-                        <div class="d-flex align-items-center sm justify-content-start gap-2 action-icons-wrapper">
-                            <!-- Edit -->
-                            <a href="{{ route('tags.edit', $tag->id) }}">
-                                <img src="{{ asset('assets/img/icon/edit.svg') }}" alt="Edit" class="action-icon">
-                            </a>
+                <div class="icon-box d-flex align-items-center gap-2">
+                    <!-- Edit -->
+                    <a href="{{ route('tags.edit', $tag->id) }}">
+                        <img src="{{ asset('assets/img/icon/edit.svg') }}" alt="Edit" style="max-width:15px;">
+                    </a>
 
-                            <div class="divider"></div>
+                    <div class="divider"></div>
 
-                            <!-- View / Status -->
-                            <a href="javascript:void(0)"
-                               class="view-category"
-                               data-id="{{ $tag->id }}">
-                                <img src="{{ asset('assets/img/icon/oval.svg') }}" alt="oval" class="action-icon">
-                            </a>
+                    <!-- View -->
+                    <a href="javascript:void(0)"
+                       class="view-category"
+                       data-id="{{ $tag->id }}">
+                        <img src="{{ asset('assets/img/icon/oval.svg') }}" alt="View" style="max-width:15px;">
+                    </a>
 
-                            <div class="divider"></div>
+                    <div class="divider"></div>
 
-                            <!-- Delete -->
-                            <form action="{{ route('tags.destroy', $tag->id) }}" method="POST" class="m-0 p-0 d-inline"
-                                  onsubmit="return confirm('Are you sure you want to delete this category?');">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="border-0 bg-transparent p-0">
-                                    <img src="{{ asset('assets/img/icon/trash.svg') }}" alt="trash" class="action-icon">
-                                </button>
-                            </form>
-                        </div>
+                    <!-- Delete -->
+                    <form action="{{ route('tags.destroy', $tag->id) }}" method="POST" class="m-0 p-0 d-inline"
+                          onsubmit="return confirm('Are you sure you want to delete this tag?');">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="border-0 bg-transparent p-0">
+                            <img src="{{ asset('assets/img/icon/trash.svg') }}" alt="Delete" style="max-width:15px;">
+                        </button>
+                    </form>
+                </div>
+
                     </td>
         </tr>
     @endforeach
