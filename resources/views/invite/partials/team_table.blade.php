@@ -26,30 +26,32 @@
                     </td>
                     <td>
                         @isSuperAdmin
-                        <div class="d-flex align-items-center sm justify-content-start gap-2 action-icons-wrapper">
+                        <div class="icon-box d-flex align-items-center gap-2">
                             <!-- Edit -->
                             <a href="javascript:void(0)"
                                class="edit-member"
                                data-id="{{ $member->id }}"
                                data-first_name="{{ $member->first_name }}"
+                               data-last_name="{{ $member->last_name }}"
                                data-email="{{ $member->email }}"
                                data-user_type="{{ $member->user_type }}"
                                data-status="{{ $member->status }}">
-                                <img src="{{ asset('assets/img/icon/edit.svg') }}" alt="Edit" class="action-icon">
+                                <img src="{{ asset('assets/img/icon/edit.svg') }}" alt="Edit" style="max-width:15px;">
                             </a>
 
                             <div class="divider"></div>
 
-                            <!-- View / Status -->
+                            <!-- View -->
                             <a href="javascript:void(0)"
                                class="view-member"
                                data-id="{{ $member->id }}">
-                                <img src="{{ asset('assets/img/icon/oval.svg') }}" alt="oval" class="action-icon">
+                                <img src="{{ asset('assets/img/icon/oval.svg') }}" alt="View" style="max-width:15px;">
                             </a>
 
                             <div class="divider"></div>
 
                             <!-- Delete -->
+                            <a href="javascript:void(0)">
                             <form action="{{ route('invite.destroy', $member->id) }}" method="POST" class="m-0 p-0 d-inline"
                                   onsubmit="return confirm('Are you sure you want to delete this member?');">
                                 @csrf
@@ -58,12 +60,12 @@
                                     <img src="{{ asset('assets/img/icon/trash.svg') }}" alt="trash" class="action-icon">
                                 </button>
                             </form>
+                            </a>
                         </div>
                         @else
                             <div class="text-muted">—</div>
                             @endisSuperAdmin
                     </td>
-
                 </tr>
             @empty
                 <tr>

@@ -141,13 +141,13 @@
                                     id="desc"
                                     name="description"
                                     rows="1"
-                                    class="input-field w-100 rounded text-sm"
+                                    class="short-desc input-field w-100 rounded text-sm"
                                     placeholder="Note : Maximum of 200 Character"
                                     maxlength="200"
                                 >{{ old('description') }}</textarea>
 
                                 <!-- Character counter -->
-                                <small id="descCounter" class="text-muted d-block mt-1">0 / 200 characters</small>
+                                <small id="descCounter" class="desc-counter text-muted d-block mt-1">0 / 200 characters</small>
                             </div>
                         </div>
                     </div>
@@ -176,59 +176,8 @@
                                 </label>
                             </div>
                         </div>
-
-                        <!-- <div class="text-sm border p-2 rounded">
-                            <div class="form-check">
-                                <input type="hidden" name="send_email" value="0">
-
-                                <input type="checkbox" id="send-email" name="send_email" value="1" class="form-check-input">
-                                    <label for="send-email" class="form-check-label">
-                                        Send email to 450 subscriber
-                                    </label>
-                            </div>
-                        </div> -->
                     </div>
-
-
-                    <!-- Target Subscriber -->
-                    <!-- <div>
-                        <label for="targetSubscriber" class="input-label mb-1 fw-medium">
-                            Select Target Subscriber
-                            <span class="tooltip-icon  transition-colors duration-200"
-                                data-bs-toggle="tooltip" title="Select target subscriber">
-                                <i class="fa fa-question-circle hover-blue"></i>
-                            </span>
-                        </label>
-                        <input id="targetSubscriber" name="targetSubscriber" class="input-field w-100 rounded text-sm" placeholder="Subscriber" readonly>
-                    </div> -->
                 </div>
-
-                <!-- <div class="card bg-white mb-3">
-                    <h6 class="fw-bold mb-2">Link to Feedback</h6>
-                    <p class="label text-gray-800 mb-3 text-sm tracking-wide">
-                        Connect this @customLabel('Announcement') to related feedback requests. This helps close the loop with users who suggested or voted on the idea.
-                    </p>
-
-                    <div>
-                        <label for="feedbackRequest" class="input-label mb-1 fw-medium">
-                            Link to Feedback Request
-                            <span class="tooltip-icon  transition-colors duration-200"
-                                data-bs-toggle="tooltip" title="Feedback request">
-                                <i class="fa fa-question-circle hover-blue"></i>
-                            </span>
-                        </label>
-                        <select class="form-select w-100 rounded text-sm input-field" id="feedbackRequest" name="feedbackRequest">
-                            <option value="">Select</option>
-                            <option value="active" {{ old('feedbackRequest') == 'active' ? 'selected' : '' }}>Active</option>
-                            <option value="inactive" {{ old('feedbackRequest') == 'inactive' ? 'selected' : '' }}>Inactive</option>
-                            <option value="draft" {{ old('feedbackRequest') == 'draft' ? 'selected' : '' }}>Draft</option>
-                        </select>
-                        @error('feedbackRequest')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
-                </div> -->
-
                 <div class="card bg-white border-0 pt-0 pb">
                     <div class="d-flex align-items-center border-title justify-content-between border-bottom pb-2">
                         <h6 class="fw-semibold mb-1 fs-5 text-gray-400">Tags &amp; Publishing</h6>
@@ -312,26 +261,11 @@
     </section>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const textarea = document.getElementById('desc');
-            const counter = document.getElementById('descCounter');
-            const max = textarea.getAttribute('maxlength');
-
-            function updateCounter() {
-                const length = textarea.value.length;
-                counter.textContent = `${length} / ${max} characters`;
-                counter.style.color = length > max ? 'red' : '';
-            }
-
-            textarea.addEventListener('input', updateCounter);
-            updateCounter(); // Initialize on page load
-        });
         function showFileName(event) {
             const input = event.target;
             const fileName = input.files.length > 0 ? input.files[0].name : "";
             document.getElementById("file-name").textContent = fileName;
 
-            // Preview image
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
                 reader.onload = function(e) {

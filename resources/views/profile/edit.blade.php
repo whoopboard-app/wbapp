@@ -31,7 +31,7 @@
     @media (min-width: 992px) {
         .section-content-center {
             max-width: 898px;
-          
+
         }
     }
 </style>
@@ -60,9 +60,9 @@
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="pills-password-tab" data-bs-toggle="pill" data-bs-target="#pills-password" type="button" role="tab" aria-controls="pills-password" aria-selected="false" tabindex="-1">Change Password</button>
             </li>
-            
+
         </ul>
-        
+
     </div>
     <div class="tab-content" id="pills-tabContent">
             <div class="tab-pane fade show active" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
@@ -75,9 +75,9 @@
                                 <div class="d-flex align-items-center border-title justify-content-between">
                                     <h4 class="fw-medium mb-0">Last Updated on {{ $user->updated_at ? $user->updated_at->format('F d, Y') : 'Never' }}</h4>
                                     <div class="btn-wrapper mb-0 d-flex align-items-center justify-content-center gap15 flex-wrap">
-                                        <button class="theme-btn bg-white sm secondary fw-semibold rounded d-inline-block" type="button" 
+                                        <button class="theme-btn bg-white sm secondary fw-semibold rounded d-inline-block" type="button"
                                         onclick="window.location.reload();">Cancel</button>
-                                        
+
                                     </div>
                                 </div>
                                 <div class="mx-auto p-3">
@@ -85,7 +85,7 @@
                                         <h6>Update your profile image</h6>
                                         <h6 class="color-support fw-normal label">[Optional]</h6>
                                     </div>
-                                   
+
                                     <div class="upload-input text-center">
                                         <input type="file" class="visually-hidden" id="profileImg" name="profileImg" accept="image/*" onchange="showPreview(event)">
                                         <label for="profileImg" class="d-block text-center rounded-3">
@@ -164,27 +164,28 @@
                                                 <div class="">
                                                     <label for="short-desc" class="input-label mb-1 fw-medium">Short Description
                                                     </label>
-                                                    <textarea type="text" name="short-desc"  id="short-desc" rows="3" id="desc" class="input-field w-100 rounded" maxlength="200" placeholder="Placeholder" required>{{ old('short-desc', $user->short_desc) }}</textarea>
-                                                    <span class="label color-support fw-normal">Note : Maximum of 200 Character</span>
+                                                    <textarea type="text" name="short-desc"  id="short-desc" rows="3" id="desc" class="short-desc input-field w-100 rounded" maxlength="200" placeholder="Placeholder" required>{{ old('short-desc', $user->short_desc) }}</textarea>
+                                                    <!-- Character counter -->
+                                                    <small id="descCounter" class="desc-counter text-muted d-block mt-1">0 / 200 characters</small>
                                                 </div>
                                             </div>
                                         </div>
-                                        
+
                                     </div>
                                     </div>
-                                    
-                                    
-                                    
+
+
+
                                 </div>
                             <div class="card-footer gap15 px-3 bg-white d-flex justify-content-start">
                                 <button type="submit" class="theme-btn sm fw-semibold rounded d-inline-block">Update Profile</button>
-                                <button class="theme-btn bg-white sm secondary fw-semibold rounded d-inline-block" type="button" 
+                                <button class="theme-btn bg-white sm secondary fw-semibold rounded d-inline-block" type="button"
                                         onclick="window.location.reload();">Cancel</button>
                             </div>
                         </form>
                     </div>
                 </div>
-            
+
             </div>
             </div>
             <div class="tab-pane fade" id="pills-password" role="tabpanel" aria-labelledby="pills-password-tab">
@@ -197,14 +198,14 @@
                                 <div class="d-flex align-items-center border-title justify-content-between">
                                     <h4 class="fw-medium mb-0">Last Updated on {{ $user->updated_at ? $user->updated_at->format('F d, Y') : 'Never' }}</h4>
                                         <div class="btn-wrapper mb-0 d-flex align-items-center justify-content-center gap15 flex-wrap">
-                                        <button class="theme-btn bg-white sm secondary fw-semibold rounded d-inline-block" type="button" 
+                                        <button class="theme-btn bg-white sm secondary fw-semibold rounded d-inline-block" type="button"
                                         onclick="window.location.reload();">Cancel</button>
-                                            
+
                                         </div>
                                 </div>
                                     <div class="mx-auto p-3 pb-0">
-                                    
-                                
+
+
                                     <div class="basic-information">
                                         <div class="d-flex justify-content-between px-0 border-title">
                                             <h6 class="text-gray">Password Security</h6>
@@ -212,20 +213,20 @@
                                                 <a href="#"><img src="assets/img/icons/help.svg" alt=""></a>
                                             </span>
                                             </div>
-                                            
+
                                             <div class="row mt-3">
                                         <div class="col-12 mb-3">
                                             <div x-data="{ show: false }" class="position-relative">
                                                 <label for="current_password" class="input-label mb-1 fw-medium">Current Password</label>
-                                                <input 
-                                                    :type="show ? 'text' : 'password'" 
-                                                    name="current_password" 
-                                                    class="input-field w-100 rounded pe-5" 
-                                                    placeholder="Placeholder" 
+                                                <input
+                                                    :type="show ? 'text' : 'password'"
+                                                    name="current_password"
+                                                    class="input-field w-100 rounded pe-5"
+                                                    placeholder="Placeholder"
                                                     required
                                                 >
                                                 <!-- Eye Icon -->
-                                                <span 
+                                                <span
                                                     class="position-absolute top-50 end-0 translate-middle-y me-3 cursor-pointer"
                                                     @click="show = !show"
                                                     style="cursor: pointer; margin-top: 15px;"
@@ -234,10 +235,10 @@
                                                 </span>
                                             </div>
                                         </div>
-                                       
-                                        <div  x-data="{ 
-                                                new_password: '', 
-                                                confirm_password: '', 
+
+                                        <div  x-data="{
+                                                new_password: '',
+                                                confirm_password: '',
                                                 showNew: false,
                                                 showConfirm: false,
                                                 get isValid() {
@@ -252,18 +253,18 @@
                                             <div class="position-relative">
                                                 <label for="new_password" class="input-label mb-1 fw-medium">New Password
                                                 </label>
-                                                <x-text-input 
-                                                    id="new_password" 
-                                                    class="block mt-1 w-full shadow-none pe-5" 
-                                                    x-bind:type="showNew ? 'text' : 'password'" 
-                                                    name="new_password" 
+                                                <x-text-input
+                                                    id="new_password"
+                                                    class="block mt-1 w-full shadow-none pe-5"
+                                                    x-bind:type="showNew ? 'text' : 'password'"
+                                                    name="new_password"
                                                     x-model="new_password"
-                                                    required 
-                                                    autocomplete="new-password" 
+                                                    required
+                                                    autocomplete="new-password"
                                                     placeholder="Placeholder"
                                                 />
                                                 <!-- Eye Icon -->
-                                                <span 
+                                                <span
                                                     class="position-absolute top-50 end-0 translate-middle-y me-3 cursor-pointer"
                                                     @click="showNew = !showNew"
                                                     style="cursor: pointer; margin-top: 15px;"
@@ -275,18 +276,18 @@
                                             <!-- Confirm Password -->
                                             <div class="position-relative mt-3">
                                                 <label for="confirm_password" class="input-label mb-1 fw-medium">Confirm Password</label>
-                                                <x-text-input 
-                                                    id="confirm_password" 
-                                                    class="block mt-1 w-full shadow-none pe-5" 
-                                                    x-bind:type="showConfirm ? 'text' : 'password'" 
-                                                    name="confirm_password" 
+                                                <x-text-input
+                                                    id="confirm_password"
+                                                    class="block mt-1 w-full shadow-none pe-5"
+                                                    x-bind:type="showConfirm ? 'text' : 'password'"
+                                                    name="confirm_password"
                                                     x-model="confirm_password"
-                                                    required 
-                                                    autocomplete="new-password" 
+                                                    required
+                                                    autocomplete="new-password"
                                                     placeholder="Placeholder"
                                                 />
                                                 <!-- Eye Icon -->
-                                                <span 
+                                                <span
                                                     class="position-absolute top-50 end-0 translate-middle-y me-3 cursor-pointer"
                                                     @click="showConfirm = !showConfirm"
                                                     style="cursor: pointer; margin-top: 15px;"
@@ -317,24 +318,24 @@
                                             <div class="card-footer gap15 px-0 bg-white d-flex justify-content-start">
                                     <button type="submit" class="theme-btn sm fw-semibold rounded d-inline-block"  :disabled="!isValid"
                                     :class="!isValid ? 'opacity-50 cursor-not-allowed' : ''">Update Password</button>
-                                    <button class="theme-btn bg-white sm secondary fw-semibold rounded d-inline-block" type="button" 
+                                    <button class="theme-btn bg-white sm secondary fw-semibold rounded d-inline-block" type="button"
                                         onclick="window.location.reload();">Cancel</button>
                                 </div>
                                         </div>
                                     </div>
                                     </div>
-                                    
-                                
+
+
                                 </div>
-                                
+
                             </form>
                 </div>
             </div>
-            
+
             </div>
             </div>
     </div>
-    
+
 </section>
 
 <!-- <section class="section-content-center">

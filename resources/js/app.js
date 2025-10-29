@@ -14,6 +14,24 @@ import "flatpickr/dist/flatpickr.css";
 window.Alpine = Alpine;
 Alpine.start();
 document.addEventListener("DOMContentLoaded", () => {
+        const textareas = document.querySelectorAll('.short-desc');
+
+        textareas.forEach(textarea => {
+            const counter = textarea.parentElement.querySelector('.desc-counter');
+            const max = textarea.getAttribute('maxlength');
+
+            if (!counter || !max) return; // skip if not properly set
+
+            function updateCounter() {
+                const length = textarea.value.length;
+                counter.textContent = `${length} / ${max} characters`;
+                counter.style.color = length > max ? 'red' : '';
+            }
+
+            textarea.addEventListener('input', updateCounter);
+            updateCounter();
+        });
+
     const recdateInput = document.querySelector("#recDateTime");
     if (recdateInput) {
         flatpickr(recdateInput, {
@@ -29,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const btnPublish = document.querySelector("#btnPublish");
         const btnSchedule = document.querySelector("#btnSchedule");
 
-        
+
         if (dateInput) {
             flatpickr(dateInput, {
                 enableTime: true,
@@ -64,7 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 },
             });
         }
-        
+
     const testimonialSlider = document.querySelector('.testimonial-slider');
     if (testimonialSlider) {
         new Swiper(testimonialSlider, {

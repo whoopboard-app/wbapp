@@ -20,7 +20,7 @@
                         <h5 class="fw-normal label mt-1">My Profile / Change Password</h5>
                         <p class="card-desc mb-2">Keep your profile up-to-date.</p>
                         <a  href="{{ route('profile.edit') }}" class="widget-item-btn mb-1 text-primary bg-white d-inline-block rounded fw-normal font-12">Update profile</a>
-                        <a href="#" class="widget-item-btn mb-1 text-primary bg-white d-inline-block rounded fw-normal font-12">Change Password</a>
+                        <a href="{{ route('profile.edit', ['tab' => 'password']) }}" class="widget-item-btn mb-1 text-primary bg-white d-inline-block rounded fw-normal font-12">Change Password</a>
                     </div>
                 </div>
             </div>
@@ -33,7 +33,7 @@
                         <img src="assets/img/icon/user-profile.svg" alt="">
                         <h5 class="fw-normal label mt-1">Team Member ({{$totalTeamMembers}})</h5>
                         <p class="card-desc mb-2">Add Team Member or Invite Member for Login Credentials.</p>
-                        <a href="{{ route('invite.create') }}" class="widget-item-btn mb-1 text-primary bg-white d-inline-block rounded fw-normal font-12">Add/Invite Team Member</a>
+                        <a href="{{ route('invite.create') }}" class="widget-item-btn mb-1 text-primary bg-white d-inline-block rounded fw-normal font-12">Add / Invite Team Member</a>
                     </div>
                 </div>
             </div>
@@ -44,7 +44,7 @@
                     </div>
                     <div class="content-body">
                         <img src="assets/img/icon/user-profile.svg" alt="">
-                        <h5 class="fw-normal label mt-1">Add/Edit/Delete Categories</h5>
+                        <h5 class="fw-normal label mt-1">Add / Edit / Delete Categories</h5>
                         <p class="card-desc mb-2">Track all Categories for @customLabel('Announcement').</p>
                         <a href="{{ route('guide.setup.changelog.category') }}" class="widget-item-btn mb-1 text-primary bg-white d-inline-block rounded fw-normal font-12">Add Categories</a>
                         <a href="{{ route('guide.setup.changelog.category') }}" class="widget-item-btn mb-1 text-primary bg-white d-inline-block rounded fw-normal font-12">Listing Categories</a>
@@ -58,7 +58,7 @@
                     </div>
                     <div class="content-body">
                         <img src="assets/img/icon/user-profile.svg" alt="">
-                        <h5 class="fw-normal label mt-1">Add/Edit/Delete @customLabel('Announcement') Tags </h5>
+                        <h5 class="fw-normal label mt-1">Add / Edit / Delete @customLabel('Announcement') Tags </h5>
                             <p class="card-desc mb-2">Track all your Tags for @customLabel('Announcement').</p>
                             <a href="{{ route('guide.setup.changelog.tags') }}" class="widget-item-btn mb-1 text-primary bg-white d-inline-block rounded fw-normal font-12">Add Tags</a>
                             <a href="{{ route('guide.setup.changelog.tags') }}" class="widget-item-btn mb-1 text-primary bg-white d-inline-block rounded fw-normal font-12">Tags Listing</a>

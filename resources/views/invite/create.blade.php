@@ -10,7 +10,8 @@
         <div class="d-flex justify-content-between mb-2">
             <h4 class="fw-medium font-16">Team Members</h4>
             <div class="btn-wrapper d-flex align-items-center justify-content-center gap-2 flex-wrap mb-2">
-                <a href="{{route('app.settings')}}" class="theme-btn bg-white sm secondary fw-semibold rounded d-inline-flex align-items-center gap-2">
+                <a href="{{ route('app.settings') }}"
+                   class="theme-btn bg-white sm secondary fw-semibold rounded d-inline-flex align-items-center gap-2">
                     <img src="{{ asset('assets/img/chevron-left.svg') }}" alt="Back" class="align-text-bottom">
                     Back to Listing Page
                 </a>
@@ -21,10 +22,11 @@
             <div class="col-lg-12 view-changelog-details">
                 <!-- Add New Team Member -->
                 <div class="card p-0 bg-white mb-3">
-                    <form action="{{ route('invite.store') }}" method="POST" class="form">
+                    <form id="teamMemberForm" method="POST" class="form">
                         @csrf
+                        <input type="hidden" name="id" id="memberId">
                         <div class="d-flex align-items-center border-title justify-content-between">
-                            <h4 class="fw-medium mb-0">Add New Team Member</h4>
+                            <h4 id="formTitle" class="fw-medium mb-0">Add New Team Member</h4>
                         </div>
 
                         <div class="content-body px-3">
@@ -68,8 +70,8 @@
                         </div>
 
                         <div class="card-footer gap15 px-3 d-flex justify-content-start" style="background-color: #FCFCFC;">
-                            <button type="submit" class="theme-btn sm fw-semibold rounded d-inline-block">Send Invite/ Add Team Member</button>
-                            <a href="#" class="theme-btn bg-white sm secondary fw-semibold rounded d-inline-block">Cancel</a>
+                            <button type="submit" id="submitBtn" class="theme-btn sm fw-semibold rounded d-inline-block">Send Invite / Add Team Member</button>
+                            <a href="{{ route('invite.create') }}" type="button" class="theme-btn bg-white sm secondary fw-semibold rounded d-inline-block">Canel</a>
                         </div>
                     </form>
                 </div>
@@ -134,7 +136,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <a href="{{ route('invite.create') }}" type="button" class="theme-btn bg-white sm secondary fw-semibold rounded d-inline-block">Canel</a>
                             <button class="btn btn-primary" type="submit">Save Changes</button>
                         </div>
                     </div>
@@ -142,8 +144,6 @@
             </div>
         </div>
     </section>
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
             $('#teamSearch').on('keyup', function() {
@@ -157,25 +157,51 @@
                     }
                 });
             });
-
-            $('.edit-member').click(function(e) {
+            $('#teamSearch').on('search', function() {
+                if ($(this).val().trim() === '') {
+                    $.ajax({
+                        url: "{{ route('invite.search') }}",
+                        method: 'GET',
+                        data: { search: '' },
+                        success: function(response) {
+                            $('#teamTable').html(response);
+                        }
+                    });
+                }
+            });
+            resetForm();
+            $(document).on('click', '.edit-member', function(e) {
                 e.preventDefault();
-                const button = $(this).closest('.dropdown').find('button');
-                const id = button.data('id');
-                const first_name = button.data('first_name');
-                const last_name = button.data('last_name');
-                const email = button.data('email');
-                const user_type = button.data('user_type');
-                const status = button.data('status');
 
-                $('#editMemberForm input[name="id"]').val(id);
-                $('#editMemberForm input[name="first_name"]').val(first_name);
-                $('#editMemberForm input[name="last_name"]').val(last_name);
-                $('#editMemberForm input[name="email"]').val(email);
-                $('#editMemberForm select[name="user_type"]').val(user_type);
-                $('#editMemberForm select[name="status"]').val(status);
+                const member = $(this).data();
+                $('#memberId').val(member.id);
+                $('#firstName').val(member.first_name);
+                $('#lastName').val(member.last_name);
+                $('#email').val(member.email);
+                $('#user_type').val(member.user_type);
+                $('#status').val(member.status);
 
-                $('#editMemberModal').modal('show');
+                $('#formTitle').text('Edit Team Member');
+                $('#submitBtn').text('Save Changes');
+
+                $('#teamMemberForm')
+                    .attr('action', "{{ route('invite.update') }}")
+                    .attr('method', 'POST')
+                    .append('@method("PUT")');
+            });
+
+            function resetForm() {
+                $('#teamMemberForm').attr('action', "{{ route('invite.store') }}");
+                $('#formTitle').text('Add New Team Member');
+                $('#submitBtn').text('Send Invite / Add Team Member');
+                $('#teamMemberForm').find('input[type=text], input[type=email]').val('');
+                $('#teamMemberForm').find('select').val('');
+                $('#memberId').val('');
+                $('#teamMemberForm').find('input[name="_method"]').remove();
+            }
+            $('.cancel-btn').on('click', function(e) {
+                e.preventDefault();
+                resetForm();
             });
         });
     </script>
