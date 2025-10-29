@@ -37,28 +37,29 @@ class KBArticleController extends Controller
             'description'            => 'required|string',
             'category_id'            => 'required|integer|exists:kb_categories,id',
             'show_widget'            => 'nullable|boolean',
-            'link_changelog'         => 'nullable|string',
+            'link_changelog'         => 'nullable|array|min:1',
             'author'                 => 'required|array|min:1',
             'popular_article'        => 'nullable|boolean',
-            'list_order'             => 'required|integer',
             'tagsSelect'             => 'required|array|min:1',
             'other_article_category' => 'nullable|integer|exists:kb_categories,id',
-            'other_article_category2'=> 'nullable|integer|exists:kb_categories,id',
             'status'                 => 'required|string|in:active,inactive,draft',
-            'article_banner'         => 'nullable|image|mimes:jpg,jpeg,png,gif,webp|max:2048',
-            'action'                 => 'required|string|in:publish,draft',
+            'article_img'         => 'nullable|image|mimes:jpg,jpeg,png,gif,webp|max:2048',
+            'recName'            => 'nullable|string',
+            'recDateTime'            => 'nullable|date',
         ]);
+
+        // dd($validatedData);
 
         $validatedData['tenant_id'] = auth()->user()->tenant_id;
         $validatedData['tag_ids'] = implode(',', $request->tagsSelect);
         $validatedData['author'] = json_encode($validatedData['author']);
-
-        if ($request->hasFile('article_banner')) {
-            $validatedData['article_banner'] = $request->file('article_banner')->store('article_banners', 'public');
+        if (isset($validatedData['link_changelog']) && is_array($validatedData['link_changelog'])) {
+            $validatedData['link_changelog'] = implode(',', $validatedData['link_changelog']);
         }
 
-        $validatedData['status'] = $validatedData['action'] === 'publish' ? 'active' : 'draft';
-        unset($validatedData['action']);
+        if ($request->hasFile('article_img')) {
+            $validatedData['article_img'] = $request->file('article_img')->store('article_img', 'public');
+        }
 
         $article = KBArticle::create($validatedData);
 

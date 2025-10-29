@@ -14,11 +14,22 @@ import "flatpickr/dist/flatpickr.css";
 window.Alpine = Alpine;
 Alpine.start();
 document.addEventListener("DOMContentLoaded", () => {
+    const recdateInput = document.querySelector("#recDateTime");
+    if (recdateInput) {
+        flatpickr(recdateInput, {
+            enableTime: true,
+            dateFormat: "Y-m-d H:i",
+            altInput: true,
+            altFormat: "m/j/Y - h:i K",
+            allowInput: true, // now it’s editable
+        });
+    }
         const dateInput = document.querySelector("#publishDate");
         const statusSelect = document.querySelector("#status");
         const btnPublish = document.querySelector("#btnPublish");
         const btnSchedule = document.querySelector("#btnSchedule");
 
+        
         if (dateInput) {
             flatpickr(dateInput, {
                 enableTime: true,
@@ -53,7 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 },
             });
         }
-
+        
     const testimonialSlider = document.querySelector('.testimonial-slider');
     if (testimonialSlider) {
         new Swiper(testimonialSlider, {
@@ -73,7 +84,8 @@ document.addEventListener("DOMContentLoaded", () => {
         "#tagsSelect",
         "#author",
         "#other_article_category",
-        "#other_article_category2"
+        "#other_article_category2",
+        "#linkchangelog",
     ];
 
     const config = {

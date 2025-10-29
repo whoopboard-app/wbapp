@@ -61,7 +61,7 @@
                                 </p>
                             </div>
                             <div class="d-flex justify-content-between">
-                                <h6 class="mb-2 fw-medium">Category Icon</h6>
+                                <h6 class="mb-2 fw-medium">Category Banner</h6>
                                 <h6 class="color-support fw-normal label">[Optional]</h6>
                             </div>
 
@@ -99,7 +99,7 @@
                                     <div class="col-12 mb-2">
                                         <div class="">
                                             <label for="shortDesc" class="input-label mb-1 fw-medium">
-                                                Board Description
+                                                Category Description
                                             </label>
                                             <textarea rows="3" id="shortDesc" name="short_desc" maxlength="190" class="input-field w-100 rounded" placeholder="Placeholder"></textarea>
                                             <input type="hidden" value="{{ $board->id }}" name="board_id">
@@ -146,7 +146,7 @@
                                     <div class="col-12 mb-2">
                                         <div class="">
                                             <label for="status" class="input-label mb-1 fw-medium">
-                                                Status
+                                                Status of category
                                             </label>
                                             <select class="input-field w-100 rounded border" id="status" name="status" required>
                                                 <option value="">Select</option>
