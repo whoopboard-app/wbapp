@@ -3,13 +3,13 @@
     <main class="mb-240">
         <section class=" main-content-wrapper p-0">
             <div class="d-flex justify-content-between">
-                <h4 class="fw-medium font-16 ">Knowledge Board</h4>
+                <h4 class="fw-medium font-16 ">@customLabel('Knowledge Board')</h4>
                 <div class="btn-wrapper d-flex align-items-center justify-content-center gap-2 flex-wrap mb-0">
                     <a href="{{route('kbarticle.create')}}" class="theme-btn sm fw-semibold rounded d-inline-block">
                         Add Article
                     </a>
                     <a href="{{ route('board.create') }}" class="theme-btn text-primary bg-white sm secondary fw-semibold rounded d-inline-block">
-                        Add Knowledge Board
+                        Add @customLabel('Knowledge Board')
                     </a>
                     <a href="add-knowledgeboard-category.html" class="theme-btn text-primary bg-white sm secondary fw-semibold rounded d-inline-block">
                         Add Category
@@ -21,7 +21,7 @@
                 <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                     <li class="nav-item" role="presentation">
                         <button class="nav-link active" id="pills-kb-tab" data-bs-toggle="pill" data-bs-target="#pills-kb" type="button" role="tab" aria-controls="pills-kb" aria-selected="false">
-                            All Knowledge Board
+                            All @customLabel('Knowledge Board')
                         </button>
                     </li>
 {{--                    <li class="nav-item" role="presentation">
@@ -37,7 +37,7 @@
                     <div class="tab-pane fade show active" id="pills-kb" role="tabpanel" aria-labelledby="pills-kb-tab">
                         <div class="card p-0 bg-white rounded border">
                             <div class="d-flex border-title align-items-center justify-content-between px-3 pt-3">
-                                <h4 class="fw-medium mb-0">Knowledge Board ({{$totalKB}})</h4>
+                                <h4 class="fw-medium mb-0">@customLabel('Knowledge Board') ({{$totalKB}})</h4>
                                 <div class="btn-wrapper d-flex align-items-center justify-content-center gap15 flex-wrap mb-0">
                                     <div class="form-check form-switch">
                                         <input class="form-check-input" type="checkbox" id="showImg">
