@@ -109,9 +109,9 @@
 
         <div class="announcement-wrapper mx-auto px-2">
             <div class="d-flex justify-content-between">
-                    <h4 class="fw-medium font-16 ">Change Log</h4>
+                    <h4 class="fw-medium font-16 ">@customLabel('Announcement')</h4>
                     <div class="btn-wrapper d-flex align-items-center justify-content-center gap-2 flex-wrap mb-4">
-                        <a href="#" class="theme-btn bg-white sm secondary fw-semibold rounded d-inline-flex align-items-center gap-2">
+                        <a href="{{route('dashboard')}}" class="theme-btn bg-white sm secondary fw-semibold rounded d-inline-flex align-items-center gap-2">
                             <img src="{{ asset('assets/img/chevron-left.svg') }}" alt="Back" class="align-text-bottom">
                             Back to Listing Page
                         </a>
@@ -165,7 +165,7 @@
             </div> -->
             <div class="card pt-0 px-0 bg-white">
                 <div class="d-flex border-title align-items-center justify-content-between">
-                    <h4 class="fw-medium mb-0 ">{{ $totalCount }} Change Log</h4>
+                    <h4 class="fw-medium mb-0 ">{{ $totalCount }} @customLabel('Announcement')</h4>
                     <div class="btn-wrapper d-flex align-items-center justify-content-center gap15 flex-wrap mb-0">
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" id="showImg">
@@ -174,14 +174,14 @@
                             </label>
                         </div>
                         <div class="position-relative form-group" style="width: 250px;">
-                            <input type="search" id="searchInput" class="input-field w-100 rounded ps-5" placeholder="Search">
+                            <input type="search" id="searchInput" class="input-field w-100 rounded ps-5" placeholder="Search By Title">
                             <img src="{{ asset('assets/img/icon/search.svg') }}" alt="search"
                                 class="position-absolute top-50 start-0 translate-middle-y ms-3">
                         </div>
 
                         <div class="form-group">
                         <select id="statusFilter" class="form-select rounded custom-border">
-                                    <option value="">Name</option>
+                                    <option value="">Status</option>
                                     <option value="active">Active</option>
                                     <option value="inactive">Inactive</option>
                                     <option value="draft">Draft</option>
@@ -222,10 +222,16 @@
 
     // Search input with delay
     let typingTimer;
-    $('#searchInput').on('keyup', function() {
-        clearTimeout(typingTimer);
-        typingTimer = setTimeout(() => fetchAnnouncements(1), 400);
-    });
+        $('#searchInput').on('input keyup', function() {
+            clearTimeout(typingTimer);
+            const value = $(this).val();
+            if (value === '') {
+                fetchAnnouncements(1);
+            } else {
+                typingTimer = setTimeout(() => fetchAnnouncements(1), 400);
+            }
+        });
+
 
     $('#statusFilter').on('change', function() {
         fetchAnnouncements(1);

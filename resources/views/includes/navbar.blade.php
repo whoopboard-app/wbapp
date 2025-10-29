@@ -44,7 +44,7 @@
                     <a href="{{ route('announcement.list') }}"
                        data-bs-toggle="tooltip"
                        data-bs-placement="bottom"
-                       title="Announcement Listing"
+                       title=" @customLabel('Announcement') Listing"
                        class="sidebar-menu-link d-flex align-items-center
                        {{ request()->routeIs('announcement.*') ? 'active text-blue-600' : 'text-gray-600' }}">
                         <img src="/assets/img/icon/megaphone.png" alt="megaphone" class="sidebar-menu-link-icon flex-shrink-0">
