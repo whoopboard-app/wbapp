@@ -1,110 +1,174 @@
 @extends('layouts.app')
-<style>
-    .board-clickable:hover {
-        background: #0a53be;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        transition: 0.2s;
-    }
-</style>
 @section('content')
-    <div class="mt-4 mx-auto w-100">
-        <!-- Breadcrumb -->
-        <div class="max-w-6xl mx-auto px-2">
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb mb-2">
-                    <li class="breadcrumb-item text-black">Dashboard</li>
-                    <li class="breadcrumb-item">
-                        <a href="#" class="text-primary">@customLabel('Knowledge Board')</a>
-                    </li>
-                </ol>
-            </nav>
-            <h2 class="fw-semibold fs-4">@customLabel('Knowledge Board')</h2>
-            <p class="text-gray-900 mt-1 mb-3 p-text">
-                Create dedicated boards for your help guides, product manuals, and documentation.
-                Each board focuses on a single document type, making it easy for users to find the right resources quickly.
-            </p>
-        </div>
+    <main class="mb-240">
+        <section class=" main-content-wrapper p-0">
+            <div class="d-flex justify-content-between">
+                <h4 class="fw-medium font-16 ">Knowledge Board</h4>
+                <div class="btn-wrapper d-flex align-items-center justify-content-center gap-2 flex-wrap mb-0">
+                    <a href="{{route('kbarticle.create')}}" class="theme-btn sm fw-semibold rounded d-inline-block">
+                        Add Article
+                    </a>
+                    <a href="{{ route('board.create') }}" class="theme-btn text-primary bg-white sm secondary fw-semibold rounded d-inline-block">
+                        Add Knowledge Board
+                    </a>
+                    <a href="add-knowledgeboard-category.html" class="theme-btn text-primary bg-white sm secondary fw-semibold rounded d-inline-block">
+                        Add Category
+                    </a>
 
-        {{-- Empty State --}}
-        @if($boards->isEmpty() && $filter == 'all')
-            <div class="board-wrapper mx-auto max-w-2xl w-full text-center">
-                <img src="{{ asset('assets/img/empty.png') }}" alt="empty" class="empty-img">
-
-                <div class="get-started-changelog mt-4">
-                    <h6 class="fw-semibold mb-2">🚀 Get started with the @customLabel('Knowledge Board')</h6>
-                    <p class="text-gray-600 p-text">
-                        Create your first board to organize help docs, manuals, or product guides.
-                        Once your board is ready, you can start adding content right away.
-                    </p>
-
-                    <div class="btn-wrapper d-flex align-items-center justify-content-center gap-2 flex-wrap mt-4">
-                        <a href="javascript:void(0);"
-                           class="theme-btn sm fw-semibold rounded d-inline-block"
-                           data-bs-toggle="modal" data-bs-target="#createBoardModal">
-                            <i class="fa fa-plus"></i> Add @customLabel('Knowledge Board')
-                        </a>
-                    </div>
                 </div>
             </div>
-        @else
-            {{-- Non-empty State --}}
-            <div class="board-wrapper max-w-6xl mx-auto px-2">
-                <div class="btn-wrapper d-flex align-items-center gap-2 flex-wrap mb-4">
-                    <a href="javascript:void(0);"
-                       class="theme-btn sm fw-semibold rounded d-inline-block"
-                       data-bs-toggle="modal" data-bs-target="#createBoardModal">
-                        <i class="fa fa-plus"></i> Add @customLabel('Knowledge Board')
-                    </a>
-                </div>
+            <div class="d-inline-block w-100 mt-10px">
+                <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="pills-kb-tab" data-bs-toggle="pill" data-bs-target="#pills-kb" type="button" role="tab" aria-controls="pills-kb" aria-selected="false">
+                            All Knowledge Board
+                        </button>
+                    </li>
+{{--                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="pills-articles-tab" data-bs-toggle="pill" data-bs-target="#pills-articles" type="button" role="tab" aria-controls="pills-articles" aria-selected="true">
+                            All Articles
+                        </button>
+                    </li>--}}
+                </ul>
+            </div>
+            <div class="tab-content" id="pills-tabContent">
+                <div class="tab-content" id="pills-tabContent">
+                    <!-- ✅ All Knowledge Board Tab -->
+                    <div class="tab-pane fade show active" id="pills-kb" role="tabpanel" aria-labelledby="pills-kb-tab">
+                        <div class="card p-0 bg-white rounded border">
+                            <div class="d-flex border-title align-items-center justify-content-between px-3 pt-3">
+                                <h4 class="fw-medium mb-0">Knowledge Board ({{$totalKB}})</h4>
+                                <div class="btn-wrapper d-flex align-items-center justify-content-center gap15 flex-wrap mb-0">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="showImg">
+                                        <label class="form-check-label" for="showImg">Show Image</label>
+                                    </div>
 
-                {{-- Search + Actions --}}
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <div class="position-relative form-group d-flex align-items-center">
-                        <input type="search" id="search" name="search"
-                               class="input-field w-100 rounded ps-5" placeholder="Search">
-                        <img src="/assets/img/icon/search.svg" class="position-absolute search-icon ml-3" alt="">
+                                    <div class="position-relative form-group">
+                                        <input type="search" id="boardSearch" class="input-field w-100 rounded ps-5" placeholder="Search Boards">
+                                        <img src="{{ asset('assets/img/icon/search.svg') }}" class="position-absolute search-icon" alt="">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <select class="form-select rounded border" id="boardTypeFilter">
+                                            <option value="all">All Boards</option>
+                                            <option value="public">Public Board</option>
+                                            <option value="private">Private Board</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="listingWrapper">
+                                @include('kbarticle.partials.board_list', ['boards' => $boards])
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <h5 class="label fw-medium mb-2">Total @customLabel('Knowledge Board') <span>({{ count($boards) }})</span></h5>
-                <div id="boardsContainer">
-                    @include('kbarticle.partials.board_list', ['boards' => $boards])
+
+{{--
+                    <!-- 📰 All Articles Tab -->
+                    <div class="tab-pane fade" id="pills-articles" role="tabpanel" aria-labelledby="pills-articles-tab">
+                        <div class="card p-0 bg-white rounded border">
+                            <div class="d-flex border-title align-items-center justify-content-between px-3 pt-3">
+                                <h4 class="fw-medium mb-0">Articles({{$total}})</h4>
+                                <div class="btn-wrapper d-flex align-items-center justify-content-center gap15 flex-wrap mb-0">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="showImg">
+                                        <label class="form-check-label" for="showImg">Show Image</label>
+                                    </div>
+
+                                    <div class="position-relative form-group">
+                                        <input type="search" id="articleSearch" class="input-field w-100 rounded ps-5" placeholder="Search Boards">
+                                        <img src="{{ asset('assets/img/icon/search.svg') }}" class="position-absolute search-icon" alt="">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <select class="form-select rounded" id="articleTypeFilter">
+                                            <option value="all">All Boards</option>
+                                            <option value="public">Public Board</option>
+                                            <option value="private">Private Board</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="listingWrapper">
+                                @include('kbarticle.partials.article_list', ['articles' => $articles])
+                            </div>
+                        </div>
+                    </div>
+--}}
                 </div>
 
-                @endif
-    </div>
-    @include('kbarticle.partials.create_board_model')
+            </div>
+
+        </section>
+    </main>
 @endsection
-<script>
-                document.addEventListener('DOMContentLoaded', function () {
-                    const searchInput = document.getElementById('search');
-                    const boardsContainer = document.getElementById('boardsContainer');
-                    let timer;
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const searchInput = document.querySelector('#boardSearch');
+            const typeFilter = document.querySelector('#boardTypeFilter');
+            const listingWrapper = document.querySelector('#listingWrapper');
 
-                    searchInput.addEventListener('keyup', function () {
-                        clearTimeout(timer);
-                        timer = setTimeout(() => {
-                            const query = this.value;
+            let currentQuery = '';
+            let currentType = 'all';
 
-                            fetch(`{{ route('board.search') }}?q=${encodeURIComponent(query)}`, {
-                                headers: { 'X-Requested-With': 'XMLHttpRequest' }
-                            })
-                                .then(response => response.json())
-                                .then(data => {
-                                    boardsContainer.innerHTML = data.html;
-                                })
-                                .catch(err => console.error(err));
-                        }, 300);
+            // 🔁 Function to load boards (handles all + pagination + filters)
+            function loadBoards(page = 1) {
+                const query = searchInput?.value?.trim() || '';
+                const type = currentType || '';
+
+                const params = new URLSearchParams();
+                if (query) params.append('q', query);
+                params.append('type', type);
+                params.append('page', page);
+                fetch(`{{ route('board.search') }}?${params.toString()}`, {
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.html) {
+                            listingWrapper.innerHTML = data.html;
+                            initPagination(); // rebind pagination after load
+                        }
+                    })
+                    .catch(error => console.error('Error loading boards:', error));
+            }
+
+            // 🔎 Live search
+            if (searchInput) {
+                let searchTimeout = null;
+                searchInput.addEventListener('input', function () {
+                    clearTimeout(searchTimeout);
+                    searchTimeout = setTimeout(() => {
+                        currentQuery = this.value.trim();
+                        loadBoards(1);
+                    }, 400);
+                });
+            }
+
+            if (typeFilter) {
+                typeFilter.addEventListener('change', function () {
+                    currentType = this.value; // will be 'all', 'public', or 'private'
+                    loadBoards(1);
+                });
+            }
+
+            // 🔁 Handle pagination (AJAX)
+            function initPagination() {
+                document.querySelectorAll('.pagination a[data-page]').forEach(link => {
+                    link.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        const page = this.dataset.page;
+                        loadBoards(page);
                     });
                 });
-                document.addEventListener('DOMContentLoaded', function() {
-                    document.querySelectorAll('.board-clickable').forEach(card => {
-                        card.style.cursor = 'pointer'; // show pointer on hover
-                        card.addEventListener('click', function(e) {
-                            // Prevent click if dropdown, buttons, or links inside are clicked
-                            if (!e.target.closest('.dropdown, button, a')) {
-                                window.location.href = this.dataset.href;
-                            }
-                        });
-                    });
-                });
-</script>
+            }
+
+            // Initialize pagination once on page load
+            initPagination();
+        });
+
+    </script>
+

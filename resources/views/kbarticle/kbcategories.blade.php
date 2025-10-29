@@ -30,7 +30,7 @@
                     ];
                 @endphp
                 <div id="boardsContainer">
-                    @include('kbarticle.partials.board_list', ['boards' => collect([$board])])
+{{--                    @include('kbarticle.partials.board_list', ['boards' => collect([$board])])--}}
                 </div>
                 <div class="btn-wrapper d-flex align-items-center gap-2 flex-wrap mb-4">
                     <a href="javascript:void(0);"

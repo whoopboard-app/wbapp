@@ -113,4 +113,27 @@ class KBArticleController extends Controller
             'message' => 'Order changed successfully!'
         ]);
     }
+    public function search(Request $request)
+    {
+        $tenantId = auth()->user()->tenant_id;
+        $query = $request->get('q', '');
+        $type = $request->get('type', 'all');
+
+        $boards = KBArticle::where('tenant_id', $tenantId)
+            ->when($query, function ($qBuilder) use ($query) {
+                $qBuilder->where('title', 'like', "%{$query}%");
+            })
+            ->when($type === '1', function ($qBuilder) {
+                $qBuilder->where('popular_article', 1);
+            })
+            ->when($type === '0', function ($qBuilder) {
+                $qBuilder->where('popular_article', 0);
+            })
+            ->orderBy('created_at', 'desc')
+            ->paginate(5);
+
+        $html = view('kbarticle.partials.board_list', compact('boards'))->render();
+
+        return response()->json(['html' => $html]);
+    }
 }

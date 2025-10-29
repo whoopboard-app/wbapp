@@ -164,10 +164,12 @@
         Route::post('store', [KBArticleController::class, 'store'])->name('kbarticle.store');
         Route::get('{id}', [KBArticleController::class, 'view'])->name('kbarticle.view');
         Route::post('sort', [KBArticleController::class, 'sort'])->name('kbarticle.sort');
+        Route::get('search', [KBArticleController::class, 'search'])->name('kbarticle.search');
     });
 
     Route::prefix('kbboards')->middleware('auth')->group(function () {
         Route::get('/', [KBBoardController::class, 'index'])->name('board.index');
+        Route::get('/create', [KBBoardController::class, 'create'])->name('board.create');
         Route::post('store', [KBBoardController::class, 'store'])->name('board.store');
         Route::get('{board}/categories', [KBBoardController::class, 'categories'])->name('board.categories');
         Route::delete('{board}', [KBBoardController::class, 'destroy'])->name('board.destroy');

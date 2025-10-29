@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Changelog;
+use App\Models\KBArticle;
 use App\Models\KBCategory;
 use Illuminate\Http\Request;
 use App\Models\KBBoard;
@@ -15,13 +16,21 @@ class KBBoardController extends Controller
         $tenant = $user->tenant;
         $tenantId = auth()->user()->tenant_id;
         $categories = KBCategory::where('tenant_id', $tenantId)->get();
-        $boards = KBBoard::where('tenant_id', $tenantId)->orderBy('created_at', 'desc')->get();
+        $articles = KBArticle::where('tenant_id', $tenantId)->paginate(5);
+        $total = count(KBArticle::where('tenant_id', $tenantId)->get());
+        $boards = KBBoard::where('tenant_id', $tenantId)->orderBy('created_at', 'desc')->paginate(5);
+        $totalKB = count(KBBoard::where('tenant_id', $tenantId)->orderBy('created_at', 'desc')->get());
         $announcements = Changelog::where('tenant_id', $tenantId)
             ->orderBy('created_at', 'desc')
             ->paginate(3);
         $filter = $request->get('filter', 'all');
 
-        return view('kbarticle.index', compact('filter', 'announcements', 'categories', 'boards','tenant'));
+        return view('kbarticle.index', compact('filter', 'announcements', 'categories', 'boards','tenant','total','totalKB','articles'));
+    }
+    public function create()
+    {
+        $tenant = auth()->user()->tenant;
+        return view('kbarticle.create_board', compact('tenant'));
     }
     public function store(Request $request)
     {
@@ -45,7 +54,7 @@ class KBBoardController extends Controller
             'embed_code'  => $request->embedCode,
         ]);
 
-        return redirect()->back()->with('success', 'Board created successfully!');
+        return redirect()->route('board.index')->with('success', 'Board created successfully!');
     }
 
     public function destroy($id)
@@ -83,14 +92,25 @@ class KBBoardController extends Controller
     {
         $tenantId = auth()->user()->tenant_id;
         $query = $request->get('q', '');
+        $type = $request->get('type', 'all');
 
-        $boards = KBBoard::with('categories.articles')
-            ->where('tenant_id', $tenantId)
-            ->when($query, fn($qBuilder) => $qBuilder->where('name', 'like', "%{$query}%")
-                ->orWhere('description', 'like', "%{$query}%"))
-            ->get();
+        $boards = KBBoard::where('tenant_id', $tenantId)
+            ->when($query, function ($qBuilder) use ($query) {
+                $qBuilder->where('name', 'like', "%{$query}%");
+            })
+            ->when($type === 'public', function ($qBuilder) {
+                $qBuilder->where('type', 1);
+            })
+            ->when($type === 'private', function ($qBuilder) {
+                $qBuilder->where('type', 0);
+            })
+            ->orderBy('created_at', 'desc')
+            ->paginate(5);
 
         $html = view('kbarticle.partials.board_list', compact('boards'))->render();
+
         return response()->json(['html' => $html]);
     }
+
+
 }
