@@ -86,7 +86,8 @@
 
                 <!-- Footer -->
                 <div class="modal-footer justify-content-start border-top-0">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Continue</button>
+                    <button type="button" class="theme-btn fw-semibold rounded border-0" data-bs-dismiss="modal">Save & Continue</button>
+                    <button type="button" class="theme-btn secondary bg-white fw-semibold rounded" data-bs-dismiss="modal">Cancel</button>
                     <a href="{{ route('themes.index') }}" class="theme-btn secondary fw-semibold rounded">Back to Themes</a>
                 </div>
         </div>

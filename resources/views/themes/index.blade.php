@@ -86,12 +86,12 @@
                                                 Content Settings
                                             </a>
 
-                                        <a href="#"
-                                           class="widget-item-btn mb-1 text-primary bg-white d-inline-block rounded fw-normal font-12"
-                                           data-bs-toggle="modal"
-                                           data-bs-target="#analyticsSettings_{{ $activeTheme->id }}">
-                                            Analytics Settings
-                                        </a>
+                                            <a href="#"
+                                               class="widget-item-btn mb-1 text-primary bg-white d-inline-block rounded fw-normal font-12"
+                                               data-bs-toggle="modal"
+                                               data-bs-target="#analyticsSettings_{{ $activeTheme->id }}">
+                                                Analytics Settings
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -102,7 +102,8 @@
                                     </div>
                                 </div>
                             @include('themes.partials.customize-modal', ['theme' => $activeTheme])
-                                @include('themes.partials.content-model', ['theme' => $activeTheme])
+                            @include('themes.partials.content-model', ['theme' => $activeTheme])
+                            @include('themes.partials.analytic-model', ['theme' => $activeTheme])
                         </div>
                     </div>
 
