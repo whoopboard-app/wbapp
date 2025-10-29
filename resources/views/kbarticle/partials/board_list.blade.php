@@ -1,5 +1,5 @@
 <div class="table-responsive border-0">
-    <table id="listingKB" class="table align-middle board-table mb-0 border-0">
+    <table id="listingKB" class="table align-middle board-table mb-0 border-bottom">
         <thead class="table-light">
         <tr>
             <th>Status</th>

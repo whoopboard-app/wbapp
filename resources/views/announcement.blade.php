@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <style>
-   
+
     .p-text {
         font-size: 17px !important;
     }
@@ -34,9 +34,9 @@
     }
 
     .img-fixed {
-        height: 400px;     
-        object-fit: cover;  
-        width: 100%;     
+        height: 400px;
+        object-fit: cover;
+        width: 100%;
     }
 
     .custom-border {
@@ -44,7 +44,7 @@
     }
 </style>
 <div class="mx-auto w-100">
-   
+
     @if($announcements->isEmpty() && $filter == 'all')
         <section class="section-content-center">
             <div class="container">
@@ -100,13 +100,13 @@
                             </div>
                         </div>
                         </div>
-                            
+
                             </div>
                         </div>
             </div>
         </section>
     @else
-  
+
         <div class="announcement-wrapper mx-auto px-2">
             <div class="d-flex justify-content-between">
                     <h4 class="fw-medium font-16 ">Change Log</h4>
@@ -122,7 +122,7 @@
             <!-- <div class=" border-bottom-0 mb-4 d-flex align-items-start">
                 <nav class="d-flex align-items-center justify-content-center">
                     <div class="nav nav-tabs justify-content-center rounded">
-                       
+
                         <a href="{{ route('announcement.filter', ['filter' => 'all']) }}"
                         class="p-text1 dt-filter-btn nav-link rounded position-relative {{ request('filter', 'all') === 'all' ? 'active' : '' }}">
                         All
@@ -137,7 +137,7 @@
 
                     </div>
                 </nav>
-                
+
             </div> -->
 
             <!-- <div class="d-flex justify-content-between align-items-center mb-4">
@@ -146,7 +146,7 @@
                     <img src="/assets/img/icon/search.svg" class="position-absolute search-icon ml-3" alt="">
                 </div>
                 <div class="d-flex gap-2">
-               
+
                 <a href="#" class="theme-btn secondary rounded fw-medium btn-icon-text">
                     <div class="icon-text-wrap d-flex gap-2">
                         <img src="/assets/img/icon/filter.svg" alt="">
@@ -155,12 +155,12 @@
                 </a>
                 <a href="#" class="theme-btn secondary rounded fw-medium btn-icon-text">
                     <div class="icon-text-wrap d-flex gap-2">
-                        <img src="/assets/img/icon/view-as.svg" alt=""> 
+                        <img src="/assets/img/icon/view-as.svg" alt="">
                         <span>View as</span>
                     </div>
                 </a>
 
-                
+
                 </div>
             </div> -->
             <div class="card pt-0 px-0 bg-white">
@@ -178,7 +178,7 @@
                             <img src="{{ asset('assets/img/icon/search.svg') }}" alt="search"
                                 class="position-absolute top-50 start-0 translate-middle-y ms-3">
                         </div>
-                        
+
                         <div class="form-group">
                         <select id="statusFilter" class="form-select rounded custom-border">
                                     <option value="">Name</option>
@@ -189,13 +189,13 @@
                         </div>
                     </div>
                 </div>
-               
+
             </div>
             <div class="announcement-list space-y-4" id="announcement-list">
                     @include('changelog.partials.announcement_cards', ['announcements' => $announcements,'categories' => $categories])
             </div>
-        </div> 
-         
+        </div>
+
     @endif
 </div>
 <script>

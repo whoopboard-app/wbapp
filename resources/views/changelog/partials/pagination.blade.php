@@ -1,5 +1,5 @@
 @if(isset($paginator) && $paginator->hasPages())
-<div class="d-flex align-items-center gap-3 p-3 pagination bg-white border">
+<div class="d-flex align-items-center gap-3 p-3 pagination bg-white rounded">
         <a href="#"
            class="fw-semibold prev text-dark rounded sm {{ $paginator->onFirstPage() ? 'disabled text-muted' : '' }}"
            data-page="{{ $paginator->onFirstPage() ? 1 : $paginator->currentPage() - 1 }}"

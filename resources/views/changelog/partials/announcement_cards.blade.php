@@ -52,7 +52,7 @@
 </style>
 <div class="table-responsive">
     <div id="listingChangelog_wrapper" class="dt-container dt-bootstrap5 dt-empty-footer">
-        <table id="listingChangelog" class="table align-middle changelog-table" style="width: 100%;">
+        <table id="listingChangelog" class="table align-middle changelog-table border-top-0" style="width: 100%;">
             <thead class="table-light">
                 <tr>
                     <th>Status</th>
@@ -131,7 +131,10 @@
                 @endforelse
             </tbody>
         </table>
-        @include('changelog.partials.pagination', ['paginator' => $announcements])
+        <div class="border border-top-0 rounded-bottom">
+            @include('changelog.partials.pagination', ['paginator' => $announcements])
+        </div>
+
     </div>
 </div>
 

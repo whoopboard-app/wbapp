@@ -114,10 +114,10 @@
                     </button>
                     <ul class="dropdown-menu rounded-0 border-top-0 border-bottom-0">
                         <li><a class="dropdown-item" href="{{ route('changelog.create')}}" >Add @customLabel('Announcement')</a></li>
-                        <li><a class="dropdown-item" href="#">New Article</a></li>
+                        <li><a class="dropdown-item" href="{{ route('kbarticle.create') }}">New Article</a></li>
                         <li><a class="dropdown-item" href="#">New Testimonial</a></li>
                         <li><a class="dropdown-item" href="#">New Feedback</a></li>
-                        <li><a class="dropdown-item" href="#">New Research Board</a></li>
+                        <li><a class="dropdown-item" href="{{route('board.index')}}">New @customLabel('Knowledge Board')</a></li>
                     </ul>
                 </div>
 

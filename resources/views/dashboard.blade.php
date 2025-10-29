@@ -6,7 +6,6 @@
             <section class="main-content-wrapper p-0">
                 <div class="row">
                     @if($announcement || $board)
-                        {{-- ✅ WHEN DATA EXISTS --}}
                         <div class="col-lg-8">
                             {{-- ====== Analytics Section ====== --}}
                             <div class="card bg-white mb-3">

@@ -11,7 +11,7 @@
                     <a href="{{ route('board.create') }}" class="theme-btn text-primary bg-white sm secondary fw-semibold rounded d-inline-block">
                         Add @customLabel('Knowledge Board')
                     </a>
-                    <a href="add-knowledgeboard-category.html" class="theme-btn text-primary bg-white sm secondary fw-semibold rounded d-inline-block">
+                    <a href="{{--{{route('kbcategory.create')}}--}}" class="theme-btn text-primary bg-white sm secondary fw-semibold rounded d-inline-block">
                         Add Category
                     </a>
 
