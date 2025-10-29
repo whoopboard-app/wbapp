@@ -178,6 +178,7 @@
     });
 
     Route::prefix('kbcategories')->middleware('auth')->group(function () {
+        Route::get('{board}/categories/create', [KBCategoryController::class, 'create'])->name('kbcategory.create');
         Route::post('store', [KBCategoryController::class, 'store'])->name('kbcategory.store');
         Route::get('{category}/articles', [KBCategoryController::class, 'articles'])->name('kbcategory.articles');
     });
@@ -199,6 +200,10 @@
      Route::prefix('app')->group(function () {
         Route::get('billing', [AppBillingController::class, 'index'])
         ->name('billing.index');
+        Route::post('billing', [AppBillingController::class, 'delete'])
+        ->name('billing.delete');
+        Route::post('/billing/upgrade', [AppBillingController::class, 'upgrade'])
+        ->name('billing.upgrade');
     });
 
 

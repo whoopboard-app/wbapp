@@ -5,9 +5,18 @@ namespace App\Http\Controllers;
 use App\Models\KBArticle;
 use Illuminate\Http\Request;
 use App\Models\KBCategory;
+use App\Models\KBBoard;
 
 class KBCategoryController extends Controller
 {
+    public function create($board)
+    {
+        // Optionally, you can fetch the board if you need details
+        $board = KBBoard::with('categories')->findOrFail($board);
+        // dd($board);
+        return view('kbarticle.partials.create_category', compact('board'));
+    }
+
     public function store(Request $request)
     {
         $validatedData = $request->validate([
@@ -15,7 +24,7 @@ class KBCategoryController extends Controller
             'categoryName' => 'required|string|max:255',
             'status'       => 'required|string',
             'short_desc'   => 'nullable|string|max:255',
-            'imageAdd'     => 'nullable|image|mimes:jpg,jpeg,png,svg|max:2048',
+            'category_img'     => 'nullable|image|mimes:jpg,jpeg,png,svg|max:2048',
             'parent_id'    => 'nullable|exists:kb_categories,id',
         ]);
 
@@ -29,12 +38,13 @@ class KBCategoryController extends Controller
         $category->is_hidden  = $request->has('visibility') ? 1 : 0;
         $category->is_popular = $request->has('is_popular') ? 1 : 0;
 
-        if ($request->hasFile('imageAdd')) {
-            $category->image = $request->file('imageAdd')->store('categories', 'public');
+        if ($request->hasFile('category_img')) {
+            $category->image = $request->file('category_img')->store('categories', 'public');
         }
 
         $category->save();
-        return redirect()->back()->with('success', 'Category created successfully!');
+        return redirect()->route('board.categories', ['board' => $request->board_id])
+                 ->with('success', 'Category created successfully!');
     }
 
     public function articles($categoryId)

@@ -23,4 +23,14 @@ class PlanTransaction extends Model
 
     // Optional: disable timestamps if your table doesn't use created_at / updated_at
     // public $timestamps = false;
+
+    public function tenant()
+    {
+        return $this->belongsTo(Tenant::class, 'tenant_id', 'tenant_id');
+    }
+
+    public function membershipPlan()
+    {
+        return $this->belongsTo(MembershipPlan::class, 'plan_id', 'id');
+    }
 }

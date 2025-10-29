@@ -33,9 +33,8 @@
 {{--                    @include('kbarticle.partials.board_list', ['boards' => collect([$board])])--}}
                 </div>
                 <div class="btn-wrapper d-flex align-items-center gap-2 flex-wrap mb-4">
-                    <a href="javascript:void(0);"
-                       class="theme-btn sm fw-semibold rounded d-inline-block"
-                       data-bs-toggle="modal" data-bs-target="#createBoardCategoryModal">
+                    <a href="{{ route('kbcategory.create', ['board' => $board->id]) }}"
+                        class="theme-btn sm fw-semibold rounded d-inline-block">
                         <i class="fa fa-plus"></i> Add @customLabel('Knowledge Board') Categories
                     </a>
                     <a href="{{ route('kbarticle.create') }}"
@@ -60,5 +59,5 @@
 
             </div>
     </div>
-    @include('kbarticle.partials.create_boardcategory_model', ['board' => $board])
+    {{-- @include('kbarticle.partials.create_boardcategory_model', ['board' => $board]) --}}
 @endsection
