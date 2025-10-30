@@ -10,7 +10,7 @@
          $(".sidebar, .sidebar-overlay").removeClass("active");
       });
 
-      
+
       $('#publishDate').daterangepicker({
          singleDatePicker: true,
          showDropdowns: true,

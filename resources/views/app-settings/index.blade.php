@@ -6,7 +6,7 @@
             <h4 class="fw-medium font-16 ">App Settings</h4>
             <a href="{{route('dashboard')}}" class="theme-btn bg-white sm secondary fw-semibold rounded d-inline-flex align-items-center gap-2">
                 <img src="{{ asset('assets/img/chevron-left.svg') }}" alt="Back" class="align-text-bottom">
-                Back to Listing Page
+                Back to Dashboard
             </a>
         </div>
         <div class="row app-settings-content pt-3">
@@ -74,8 +74,7 @@
                         <img src="assets/img/icon/user-profile.svg" alt="">
                         <h5 class="fw-normal label mt-1">Theme Settings / Custom Labels / Meta Settings</h5>
                         <p class="card-desc mb-2">Select and Customize Themes.Change Label Preference.</p>
-                        <a  href="{{ route('themes.index') }}" class="widget-item-btn mb-1 text-primary bg-white d-inline-block rounded fw-normal font-12">Add Theme</a>
-                        <a href="{{ route('themes.index') }}" class="widget-item-btn mb-1 text-primary bg-white d-inline-block rounded fw-normal font-12">Theme View</a>
+                        <a  href="{{ route('themes.index') }}" class="widget-item-btn mb-1 text-primary bg-white d-inline-block rounded fw-normal font-12">Theme Settings</a>
                     </div>
                 </div>
             </div>

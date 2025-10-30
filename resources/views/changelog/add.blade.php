@@ -178,7 +178,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card bg-white border-0 pt-0 pb">
+                <div class="card bg-white border-0 pt-0 pb-3">
                     <div class="d-flex align-items-center border-title justify-content-between border-bottom pb-2">
                         <h6 class="fw-semibold mb-1 fs-5 text-gray-400">Tags &amp; Publishing</h6>
                         <span class="tooltip-icon " data-bs-toggle="tooltip" title="Help">
@@ -244,7 +244,9 @@
                             <option value="schedule">Schedule</option>
                         </select>
                     </div>
-                    <div class="d-inline-flex gap-2 mt-3">
+                </div>
+                <!-- Form Footer -->
+                <div class="card-footer gap15 px-3 bg-white d-flex justify-content-start border-top pt-3 pb-0">
                         <button type="submit" id="btnPublish" name="action" value="publish" class="theme-btn fw-semibold rounded">
                             Save &amp; Publish
                         </button>
@@ -254,7 +256,6 @@
                         <button type="submit" id="btnSchedule" name="action" value="schedule" class="theme-btn secondary fw-semibold rounded">
                             Schedule Publish
                         </button>
-                    </div>
                 </div>
             </form>
         </div>

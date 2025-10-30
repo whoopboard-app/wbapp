@@ -13,7 +13,7 @@
                 <a href="{{ route('app.settings') }}"
                    class="theme-btn bg-white sm secondary fw-semibold rounded d-inline-flex align-items-center gap-2">
                     <img src="{{ asset('assets/img/chevron-left.svg') }}" alt="Back" class="align-text-bottom">
-                    Back to Listing Page
+                    Back to App Settings
                 </a>
             </div>
         </div>

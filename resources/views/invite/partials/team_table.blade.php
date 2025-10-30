@@ -14,8 +14,8 @@
                 <tr>
                     <td>
                     <span class="badge fw-normal bg-white
-                        {{ $member->status == '1' ? 'status-active' : ($member->status == '2' ? 'status-inactive' : 'status-pending') }}
-                        rounded-pill border-1">
+                        {{ $member->status == '1' ? 'active' : ($member->status == '2' ? 'inactive' : 'scheduled') }}
+                        rounded-pill">
                         {{ $member->status == '1' ? 'Active' : ($member->status == '2' ? 'Inactive' : 'Pending') }}
                     </span>
                     </td>
