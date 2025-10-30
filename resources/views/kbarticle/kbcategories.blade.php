@@ -287,7 +287,7 @@
 
                                                     {{-- Subcategories Collapse --}}
                                                     @if($category->subcategories && $category->subcategories->count() > 0)
-                                                        <tr>
+                                                        <tr data-status="{{ strtolower($category->status ?? '') }}">
                                                             <td colspan="5" class="p-0">
                                                                 <div class="collapse" id="group{{ $index }}">
                                                                     <table class="table mb-0">
