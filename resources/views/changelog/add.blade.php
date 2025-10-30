@@ -222,6 +222,7 @@
                                     spellcheck="false"
                                     readonly
                                     value="{{ old('publishDate') }}"
+                                    required
                                 >
                                 <img src="{{ asset('assets/img/icon/calendar.svg') }}"
                                      class="position-absolute calendar-icon"

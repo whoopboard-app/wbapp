@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 dateFormat: "Y-m-d H:i",
                 altInput: true,
                 altFormat: "F j, Y - h:i K",
-                allowInput: false,
+                allowInput: true,
                 onChange: function(selectedDates) {
                     if (selectedDates.length === 0) return;
                     const selectedDate = selectedDates[0];
