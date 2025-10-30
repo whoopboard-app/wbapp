@@ -178,7 +178,7 @@
     });
 
     Route::prefix('kbcategories')->middleware('auth')->group(function () {
-        Route::get('{board}/categories/create', [KBCategoryController::class, 'create'])->name('kbcategory.create');
+        Route::get('categories/create', [KBCategoryController::class, 'create'])->name('kbcategory.create');
         Route::post('store', [KBCategoryController::class, 'store'])->name('kbcategory.store');
         Route::get('{category}/articles', [KBCategoryController::class, 'articles'])->name('kbcategory.articles');
     });
