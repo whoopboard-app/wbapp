@@ -67,11 +67,13 @@ class KBBoardController extends Controller
     public function categories($boardId)
     {
         $board = KBBoard::with('categories.articles')->findOrFail($boardId);
-        // dd( $board->categories);
+        $kbcategories = $board->categories;
+        $total_kbcategories = $board->categories->count();
+        // dd( $kbcategories);
         $totalCount = $board->categories->sum(function ($category) {
             return $category->articles->count();
         });
-        return view('kbarticle.kbcategories', compact('board', 'totalCount'));
+        return view('kbarticle.kbcategories', compact('board', 'totalCount', 'kbcategories', 'total_kbcategories'));
     }
 
     public function update(Request $request, $boardId)

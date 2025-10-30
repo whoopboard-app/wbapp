@@ -12,15 +12,16 @@ class PlanTransaction extends Model
     // Fields that are mass assignable
     protected $fillable = [
         'user_id',
+        'tenant_id',      // add this
         'plan_id',
         'invoice_number',
         'transaction_date',
         'transaction_id',
         'payment_type',
         'amount',
+        'status',         // add this
         'next_due_date',
     ];
-
     // Optional: disable timestamps if your table doesn't use created_at / updated_at
     // public $timestamps = false;
 

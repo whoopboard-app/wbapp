@@ -27,7 +27,9 @@
             pointer-events: none;
             cursor: default;
         }
-        
+        .collapse {
+            visibility: visible;
+        }
         
     </style>
         <section class=" main-content-wrapper">
@@ -48,28 +50,39 @@
                              </div>
                         </div>
                          <div class=" p-3">
-                        <div class="d-flex justify-content-start">
+                        <!-- <div class="d-flex justify-content-start">
                                 <div class="d-inline-block">
                                     <a href="#"><span class="badge fw-normal bg-white published rounded-pill">Published</span></a>
                                     <a href="#"><span class="badge fw-normal bg-white scheduled rounded-pill">Scheduled</span></a>
                                     <a href="#"><span class="badge fw-normal bg-white draft rounded-pill">Draft</span></a>
                                     <a href="#"><span class="badge fw-normal bg-white inactive rounded-pill">Draft</span></a>
                                 </div>
-                        </div>
+                        </div> -->
               
 
-                        <div class="section-title mb-4 mt-12">
+                        <div class="section-title mb-4">
                                 
                                 <h2 class="fw-semibold mb-2 pb-1 fs-2">
-                                    Freshdesk Omni 
+                                    {{$board->name}}
                                 </h2>
                                 <span class="font-12 mb-0 fw-normal color-support">
                                     Description
                                 </span>
                                 <p class="font-19 fw-normal text-black">
-                                    Explore How-To's and learn best practices from our knowledge base
+                                    {{$board->description}}
                                 </p>
-                                
+                                <span class="font-12 mb-0 fw-normal color-support">
+                                    Type
+                                </span>
+                                <p class="font-19 fw-normal text-black">
+                                    {{ $board->type == 1 ? 'Public' : 'Private' }}
+                                </p>
+                                <span class="font-12 mb-0 fw-normal color-support">
+                                    Docs Type
+                                </span>
+                                <p class="font-19 fw-normal text-black">
+                                    {{$board->docs_type}}
+                                </p>
                             </div>  
                     <div class="d-inline-block w-100 mt-10px">
                         <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
@@ -155,27 +168,10 @@
                                                                 </span>
                                                             </td>
                                                             <td>
-                                                                @php
-                                                                    // Collect all category names for this article
-                                                                    $catNames = $board->categories->pluck('name')->toArray() ?? [];
-                                                                @endphp
-
-                                                                @if(count($catNames) > 0)
-                                                                    {{-- Show first 2 category badges --}}
-                                                                    @foreach(array_slice($catNames, 0, 2) as $cat)
-                                                                        <span class="badge fw-normal bg-white published-category border text-dark rounded-pill">
-                                                                            {{ $cat }}
-                                                                        </span>
-                                                                    @endforeach
-
-                                                                    {{-- Show "+N" badge if there are more --}}
-                                                                    @if(count($catNames) > 2)
-                                                                        <span class="badge fw-normal bg-white more-category rounded-pill tooltip-icon"
-                                                                            data-bs-toggle="tooltip"
-                                                                            title="{{ implode(', ', array_slice($catNames, 2)) }}">
-                                                                            +{{ count($catNames) - 2 }}
-                                                                        </span>
-                                                                    @endif
+                                                                @if($article->category)
+                                                                    <span class="badge fw-normal bg-white published-category border text-dark rounded-pill">
+                                                                        {{ $article->category->name }}
+                                                                    </span>
                                                                 @else
                                                                     <span class="text-muted">—</span>
                                                                 @endif
@@ -245,7 +241,7 @@
                                  <div class="card pt-0 px-0 bg-white mt-10px mb-3 ">
                                    
                                     <div class="d-flex border-title align-items-center justify-content-between">
-                                    <h4 class="fw-medium mb-0 ">5 Categories</h4>
+                                    <h4 class="fw-medium mb-0 ">{{$total_kbcategories}} Categories</h4>
                                     <div class="btn-wrapper d-flex align-items-center justify-content-center gap15 flex-wrap mb-0">
                                         
                                        
@@ -260,285 +256,66 @@
                                     </div>
                                     </div>
                                     <div class="table-responsive">
-                                        <table id="" class="table table-bordered align-middle">
+                                        <table class="table table-bordered align-middle">
                                             <thead class="table-light">
                                                 <tr>
                                                     <th style="width: 50px;">#</th>
-                                                    <th>Article Name</th>
-                                                    <th style="width: 250px;">Categories / Subcategories</th>
+                                                    <th>Category Name</th>
+                                                    <th style="width: 250px;">Subcategories</th>
                                                     <th style="width: 200px;">Number of Articles</th>
                                                     <th style="width: 100px;">Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                               <tr>
-                                                    <td>
-                                                        <button class="expand-btn border-0 bg-transparent" data-bs-toggle="collapse" data-bs-target="#group1" aria-expanded="true">
-                                                            <i class="fa fa-plus-circle"></i>
-                                                        </button>
-                                                    </td>
-                                                    <td>Announcements, Feedback Forms,</td>
-                                                    <td>2</td>
-                                                    <td>23</td>
-                                                    <td>
-                                                        <span class="badge bg-white border text-dark tooltip-icon" data-bs-toggle="modal" data-bs-target="#listingOrder" title="Action">
-                                                        <a href="#">  <img src="{{ asset('assets/img/icon/eye.svg') }}" alt="View"></a>
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                                 <!-- Level 1 collapse -->
-                                                <tr>
-                                                <td colspan="5" class="p-0">
-                                                    <div class="collapse" id="group1">
-                                                    <table class="table mb-0">
-                                                        <tbody>
-                                                        <!-- Level 1 -->
-                                                        <tr class="level-1">
-                                                            <td style="width: 50px;"></td>
-                                                            <td><button class="expand-btn border-0 bg-transparent" data-bs-toggle="collapse" data-bs-target="#subgroup1" aria-expanded="true">
+                                                @foreach ($kbcategories as $index => $category)
+                                                    {{-- Parent Category Row --}}
+                                                    <tr>
+                                                        <td>
+                                                            <button class="expand-btn border-0 bg-transparent" data-bs-toggle="collapse" data-bs-target="#group{{ $index }}">
                                                                 <i class="fa fa-plus-circle"></i>
                                                             </button>
-                                                            Announcements, Feedback Forms,</td>
-                                                            <td style="width: 250px;">1</td>
-                                                            <td style="width: 200px;">0</td>
-                                                            <td style="width: 100px;">
-                                                                 <span class="badge bg-white border text-dark tooltip-icon" data-bs-toggle="tooltip" title="Action">
-                                                        <a href="#">  <img src="{{ asset('assets/img/icon/eye.svg') }}" alt="View"></a>
-                                                        </span>
-                                                            </td>
-                                                        </tr>
+                                                        </td>
+                                                        <td>{{ $category->name }}</td>
+                                                        <td>{{ $category->subcategories->count() ?? 0 }}</td>
+                                                        <td>{{ $category->articles->count() ?? 0 }}</td>
+                                                        <td>
+                                                            <span class="badge bg-white border text-dark tooltip-icon" title="View Articles">
+                                                                <a href="#"><img src="{{ asset('assets/img/icon/eye.svg') }}" alt="View"></a>
+                                                            </span>
+                                                        </td>
+                                                    </tr>
 
-                                                        <!-- Level 2 collapse -->
+                                                    {{-- Subcategories Collapse --}}
+                                                    @if($category->subcategories && $category->subcategories->count() > 0)
                                                         <tr>
                                                             <td colspan="5" class="p-0">
-                                                            <div class="collapse" id="subgroup1">
-                                                                <table class="table mb-0">
-                                                                <tbody>
-                                                                    <!-- Level 2 -->
-                                                                    <tr class="level-2">
-                                                                    <td style="width: 50px;"></td>
-                                                                    <td>Announcements, Feedback Forms,</td>
-                                                                    <td style="width: 250px;">0</td>
-                                                                    <td style="width: 200px;">23</td>
-                                                                    <td style="width: 100px;">
-                                                                         <span class="badge bg-white border text-dark tooltip-icon" data-bs-toggle="tooltip" title="Action">
-                                                        <a href="#">  <img src="{{ asset('assets/img/icon/eye.svg') }}" alt="View"></a>
-                                                        </span>
-                                                                    </td>
-                                                                    </tr>
-                                                                </tbody>
-                                                                </table>
-                                                            </div>
+                                                                <div class="collapse" id="group{{ $index }}">
+                                                                    <table class="table mb-0">
+                                                                        <tbody>
+                                                                            @foreach ($category->subcategories as $subIndex => $sub)
+                                                                                <tr class="level-1">
+                                                                                    <td style="width: 50px;"></td>
+                                                                                    <td>{{ $sub->name }}</td>
+                                                                                    <td style="width: 250px;">—</td>
+                                                                                    <td style="width: 200px;">{{ $sub->articles->count() ?? 0 }}</td>
+                                                                                    <td style="width: 100px;">
+                                                                                        <span class="badge bg-white border text-dark tooltip-icon" title="View Articles">
+                                                                                            <a href="#"><img src="{{ asset('assets/img/icon/eye.svg') }}" alt="View"></a>
+                                                                                        </span>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            @endforeach
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
                                                             </td>
                                                         </tr>
-
-                                                        </tbody>
-                                                    </table>
-                                                    </div>
-                                                </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <button class="expand-btn border-0 bg-transparent" data-bs-toggle="collapse" data-bs-target="#group2" aria-expanded="true">
-                                                            <i class="fa fa-plus-circle"></i>
-                                                        </button>
-                                                    </td>
-                                                    <td>Announcements, Feedback Forms,</td>
-                                                    <td>2</td>
-                                                    <td>23</td>
-                                                    <td>
-                                                        <span class="badge bg-white border text-dark tooltip-icon" data-bs-toggle="tooltip" title="Action">
-                                                        <a href="#">  <img src="{{ asset('assets/img/icon/eye.svg') }}" alt="View"></a>
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                                 <!-- Level 1 collapse -->
-                                                <tr>
-                                                <td colspan="5" class="p-0">
-                                                    <div class="collapse" id="group2">
-                                                    <table class="table mb-0">
-                                                        <tbody>
-                                                        <!-- Level 1 -->
-                                                        <tr class="level-1">
-                                                            <td style="width: 50px;"></td>
-                                                            <td><button class="expand-btn border-0 bg-transparent" data-bs-toggle="collapse" data-bs-target="#subgroup2" aria-expanded="true">
-                                                                <i class="fa fa-plus-circle"></i>
-                                                            </button>
-                                                            Announcements, Feedback Forms,</td>
-                                                            <td style="width: 250px;">1</td>
-                                                            <td style="width: 200px;">0</td>
-                                                            <td style="width: 100px;">
-                                                                 <span class="badge bg-white border text-dark tooltip-icon" data-bs-toggle="tooltip" title="Action">
-                                                        <a href="#">  <img src="{{ asset('assets/img/icon/eye.svg') }}" alt="View"></a>
-                                                        </span>
-                                                            </td>
-                                                        </tr>
-
-                                                        <!-- Level 2 collapse -->
-                                                        <tr>
-                                                            <td colspan="5" class="p-0">
-                                                            <div class="collapse" id="subgroup2">
-                                                                <table class="table mb-0">
-                                                                <tbody>
-                                                                    <!-- Level 2 -->
-                                                                    <tr class="level-2">
-                                                                    <td style="width: 50px;"></td>
-                                                                    <td>Announcements, Feedback Forms,</td>
-                                                                    <td style="width: 250px;">0</td>
-                                                                    <td style="width: 200px;">23</td>
-                                                                    <td style="width: 100px;">
-                                                                         <span class="badge bg-white border text-dark tooltip-icon" data-bs-toggle="tooltip" title="Action">
-                                                        <a href="#">  <img src="{{ asset('assets/img/icon/eye.svg') }}" alt="View"></a>
-                                                        </span>
-                                                                    </td>
-                                                                    </tr>
-                                                                </tbody>
-                                                                </table>
-                                                            </div>
-                                                            </td>
-                                                        </tr>
-
-                                                        </tbody>
-                                                    </table>
-                                                    </div>
-                                                </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <button class="expand-btn border-0 bg-transparent" data-bs-toggle="collapse" data-bs-target="#group3" aria-expanded="true">
-                                                            <i class="fa fa-plus-circle"></i>
-                                                        </button>
-                                                    </td>
-                                                    <td>Announcements, Feedback Forms,</td>
-                                                    <td>2</td>
-                                                    <td>23</td>
-                                                    <td>
-                                                        <span class="badge bg-white border text-dark tooltip-icon" data-bs-toggle="tooltip" title="Action">
-                                                        <a href="#">  <img src="{{ asset('assets/img/icon/eye.svg') }}" alt="View"></a>
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                                 <!-- Level 1 collapse -->
-                                                <tr>
-                                                <td colspan="5" class="p-0">
-                                                    <div class="collapse" id="group3">
-                                                    <table class="table mb-0">
-                                                        <tbody>
-                                                        <!-- Level 1 -->
-                                                        <tr class="level-1">
-                                                            <td style="width: 50px;"></td>
-                                                            <td><button class="expand-btn border-0 bg-transparent" data-bs-toggle="collapse" data-bs-target="#subgroup3" aria-expanded="true">
-                                                                <i class="fa fa-plus-circle"></i>
-                                                            </button>
-                                                            Announcements, Feedback Forms,</td>
-                                                            <td style="width: 250px;">1</td>
-                                                            <td style="width: 200px;">0</td>
-                                                            <td style="width: 100px;">
-                                                                 <span class="badge bg-white border text-dark tooltip-icon" data-bs-toggle="tooltip" title="Action">
-                                                        <a href="#">  <img src="{{ asset('assets/img/icon/eye.svg') }}" alt="View"></a>
-                                                        </span>
-                                                            </td>
-                                                        </tr>
-
-                                                        <!-- Level 2 collapse -->
-                                                        <tr>
-                                                            <td colspan="5" class="p-0">
-                                                            <div class="collapse" id="subgroup3">
-                                                                <table class="table mb-0">
-                                                                <tbody>
-                                                                    <!-- Level 2 -->
-                                                                    <tr class="level-2">
-                                                                    <td style="width: 50px;"></td>
-                                                                    <td>Announcements, Feedback Forms,</td>
-                                                                    <td style="width: 250px;">0</td>
-                                                                    <td style="width: 200px;">23</td>
-                                                                    <td style="width: 100px;">
-                                                                         <span class="badge bg-white border text-dark tooltip-icon" data-bs-toggle="tooltip" title="Action">
-                                                        <a href="#">  <img src="{{ asset('assets/img/icon/eye.svg') }}" alt="View"></a>
-                                                        </span>
-                                                                    </td>
-                                                                    </tr>
-                                                                </tbody>
-                                                                </table>
-                                                            </div>
-                                                            </td>
-                                                        </tr>
-
-                                                        </tbody>
-                                                    </table>
-                                                    </div>
-                                                </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <button class="expand-btn border-0 bg-transparent" data-bs-toggle="collapse" data-bs-target="#group4" aria-expanded="true">
-                                                            <i class="fa fa-plus-circle"></i>
-                                                        </button>
-                                                    </td>
-                                                    <td>Announcements, Feedback Forms,</td>
-                                                    <td>2</td>
-                                                    <td>23</td>
-                                                    <td>
-                                                        <span class="badge bg-white border text-dark tooltip-icon" data-bs-toggle="tooltip" title="Action">
-                                                        <a href="#">  <img src="{{ asset('assets/img/icon/eye.svg') }}" alt="View"></a>
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                                 <!-- Level 1 collapse -->
-                                                <tr>
-                                                <td colspan="5" class="p-0">
-                                                    <div class="collapse" id="group4">
-                                                    <table class="table mb-0">
-                                                        <tbody>
-                                                        <!-- Level 1 -->
-                                                        <tr class="level-1">
-                                                            <td style="width: 50px;"></td>
-                                                            <td><button class="expand-btn border-0 bg-transparent" data-bs-toggle="collapse" data-bs-target="#subgroup4" aria-expanded="true">
-                                                                <i class="fa fa-minus-circle"></i>
-                                                            </button>
-                                                            Announcements, Feedback Forms,</td>
-                                                            <td style="width: 250px;">1</td>
-                                                            <td style="width: 200px;">0</td>
-                                                            <td style="width: 100px;">
-                                                                 <span class="badge bg-white border text-dark tooltip-icon" data-bs-toggle="tooltip" title="Action">
-                                                        <a href="#">  <img src="{{ asset('assets/img/icon/eye.svg') }}" alt="View"></a>
-                                                        </span>
-                                                            </td>
-                                                        </tr>
-
-                                                        <!-- Level 2 collapse -->
-                                                        <tr>
-                                                            <td colspan="5" class="p-0">
-                                                            <div class="collapse" id="subgroup4">
-                                                                <table class="table mb-0">
-                                                                <tbody>
-                                                                    <!-- Level 2 -->
-                                                                    <tr class="level-2">
-                                                                    <td style="width: 50px;"></td>
-                                                                    <td>Announcements, Feedback Forms,</td>
-                                                                    <td style="width: 250px;">0</td>
-                                                                    <td style="width: 200px;">23</td>
-                                                                    <td style="width: 100px;">
-                                                                         <span class="badge bg-white border text-dark tooltip-icon" data-bs-toggle="tooltip" title="Action">
-                                                        <a href="#">  <img src="{{ asset('assets/img/icon/eye.svg') }}" alt="View"></a>
-                                                        </span>
-                                                                    </td>
-                                                                    </tr>
-                                                                </tbody>
-                                                                </table>
-                                                            </div>
-                                                            </td>
-                                                        </tr>
-
-                                                        </tbody>
-                                                    </table>
-                                                    </div>
-                                                </td>
-                                                </tr>
-                                                
+                                                    @endif
+                                                @endforeach
                                             </tbody>
                                         </table>
                                     </div>
+
                                     
                             </div>
                             </div>

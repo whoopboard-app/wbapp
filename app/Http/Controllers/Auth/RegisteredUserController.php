@@ -16,6 +16,7 @@ use Stevebauman\Location\Facades\Location;
 use App\Models\Tenant;
 use Illuminate\Validation\Rules\Password;
 use App\Models\Admin;
+use App\Models\PlanTransaction;
 
 class RegisteredUserController extends Controller
 {
@@ -81,6 +82,19 @@ class RegisteredUserController extends Controller
         ]);
         $user->update([
             'tenant_id' => $tenant->tenant_id, // use the PK from tenants
+        ]);
+
+        PlanTransaction::create([
+            'user_id'         => $user->id,
+            'tenant_id'       => $tenant->tenant_id,
+            'plan_id'         => 1, // default plan
+            'invoice_number'  => 'INV-' . time(),
+            'transaction_id'  => 'TXN-' . Str::upper(Str::random(5)),
+            'transaction_date'=> now()->toDateString(),
+            'amount'          => 0.00, // or the plan amount
+            'status'          => 1,    // active/completed
+            'payment_type'    => 'linkit', // optional default
+            'next_due_date'   => now()->addMonth()->toDateString(), // optional
         ]);
         $user->generateVerifyCode();
 
