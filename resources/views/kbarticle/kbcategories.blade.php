@@ -367,14 +367,26 @@
             });
 
             const totalPages = Math.ceil(filteredRows.length / perPage);
-            if (currentPage > totalPages) currentPage = 1; // Reset if current page > total
+            if (currentPage > totalPages) currentPage = 1;
 
             const start = (currentPage - 1) * perPage;
             const end = start + perPage;
 
             // Render visible rows
             tableBody.innerHTML = '';
-            filteredRows.slice(start, end).forEach(row => tableBody.appendChild(row));
+            
+            // Check if there are no filtered rows and display a message
+            if (filteredRows.length === 0) {
+                const noDataRow = document.createElement('tr');
+                const noDataCell = document.createElement('td');
+                noDataCell.textContent = 'No data available';
+                noDataCell.colSpan = 100; // Span across all columns
+                noDataCell.style.textAlign = 'center';
+                noDataRow.appendChild(noDataCell);
+                tableBody.appendChild(noDataRow);
+            } else {
+                filteredRows.slice(start, end).forEach(row => tableBody.appendChild(row));
+            }
 
             // Render pagination
             const pageNumbers = document.querySelector('.page-numbers');
