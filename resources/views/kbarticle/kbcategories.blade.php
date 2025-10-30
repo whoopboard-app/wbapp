@@ -246,7 +246,7 @@
                                         
                                        
                                         <div class="form-group">
-                                        <select class="form-select rounded">
+                                        <select class="form-select rounded" id="statusFilter_ctg">
                                                     <option value="">Sort by</option>
                                                     <option value="active">Active</option>
                                                     <option value="inactive">Inactive</option>
@@ -256,7 +256,7 @@
                                     </div>
                                     </div>
                                     <div class="table-responsive">
-                                        <table class="table table-bordered align-middle">
+                                        <table class="table table-bordered align-middle" id="listingCategories">
                                             <thead class="table-light">
                                                 <tr>
                                                     <th style="width: 50px;">#</th>
@@ -269,7 +269,7 @@
                                             <tbody>
                                                 @foreach ($kbcategories as $index => $category)
                                                     {{-- Parent Category Row --}}
-                                                    <tr>
+                                                    <tr data-status="{{ strtolower($category->status ?? '') }}">
                                                         <td>
                                                             <button class="expand-btn border-0 bg-transparent" data-bs-toggle="collapse" data-bs-target="#group{{ $index }}">
                                                                 <i class="fa fa-plus-circle"></i>
@@ -433,5 +433,45 @@
 
 </script>
 
- 
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const statusFilter = document.querySelector('#statusFilter_ctg');
+            const tableBody = document.querySelector('#listingCategories tbody');
+            const rows = Array.from(tableBody.querySelectorAll('tr'));
+
+            // Create "No data available" message
+            const noDataRow = document.createElement('tr');
+            noDataRow.innerHTML = `
+                <td colspan="100%" class="text-center py-3 text-gray-500">
+                    No data available
+                </td>
+            `;
+            noDataRow.style.display = 'none';
+            tableBody.appendChild(noDataRow);
+
+            statusFilter.addEventListener('change', function () {
+                const selected = this.value.toLowerCase();
+                let visibleCount = 0;
+
+                rows.forEach(row => {
+                    const rowStatus = row.getAttribute('data-status') || '';
+                    if (!selected || rowStatus === selected) {
+                        row.style.display = '';
+                        visibleCount++;
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+
+                // Show or hide "No data available" message
+                if (visibleCount === 0) {
+                    noDataRow.style.display = '';
+                } else {
+                    noDataRow.style.display = 'none';
+                }
+            });
+        });
+    </script>
+
+
 @endsection
