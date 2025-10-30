@@ -10,7 +10,7 @@ class AppBillingController extends Controller
 {
     public function index(Request $request)
     {
-        $tenantId = auth()->user()->tenant_id; 
+        $tenantId = auth()->user()->tenant_id;
         $planTransactions = PlanTransaction::where('tenant_id', $tenantId)->with('membershipPlan')->get();
         $plans = MembershipPlan::all();
         // dd($planTransactions->membershipPlan->name);
@@ -19,8 +19,8 @@ class AppBillingController extends Controller
         $currentTransaction = PlanTransaction::where('tenant_id', $tenantId)
             ->latest('transaction_date')
             ->first();
-        $currentPlan = $currentTransaction 
-            ? MembershipPlan::find($currentTransaction->plan_id) 
+        $currentPlan = $currentTransaction
+            ? MembershipPlan::find($currentTransaction->plan_id)
             : null;
         return view('app-settings.billing.index', [
            'planTransactions' => $planTransactions,
@@ -35,7 +35,7 @@ class AppBillingController extends Controller
             'reason' => 'required|string',
         ]);
 
-        $tenantId = auth()->user()->tenant_id; 
+        $tenantId = auth()->user()->tenant_id;
         $currentTransaction = PlanTransaction::where('tenant_id', $tenantId)
             ->latest('transaction_date')
             ->first();
@@ -45,22 +45,22 @@ class AppBillingController extends Controller
 
         return redirect()->route('billing.index')->with('success', 'Success! Plan is now pending.');
     }
-    
+
     public function upgrade(Request $request)
     {
         $request->validate([
             'plan_id' => 'required|integer',
         ]);
 
-        $tenantId = auth()->user()->tenant_id; 
+        $tenantId = auth()->user()->tenant_id;
         $currentTransaction = PlanTransaction::where('tenant_id', $tenantId)
             ->latest('transaction_date')
             ->first();
         $currentTransaction->plan_id = $request->plan_id;
         $currentTransaction->status = 1;
         $currentTransaction->save();
-        
-        
+
+
         // dd($currentTransaction->plan_id);
 
         // $user = auth()->user();

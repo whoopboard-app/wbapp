@@ -1,4 +1,4 @@
-<div id="teamTable" class="dataTables_wrapper dt-bootstrap5 no-footer">
+<div id="teamTable" class="dataTables_wrapper dt-bootstrap5 no-footer none-border">
     <table id="teamMemberSearch" class="table table-bordered align-middle dataTable no-footer" aria-describedby="teamMemberSearch_info">
         <thead class="table-light">
             <tr>
