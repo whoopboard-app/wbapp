@@ -102,7 +102,6 @@
                                                 Category Description
                                             </label>
                                             <textarea rows="3" id="shortDesc" name="short_desc" maxlength="190" class="input-field w-100 rounded" placeholder="Placeholder"></textarea>
-                                            <input type="hidden" value="{{ $board->id }}" name="board_id">
                                         </div>
                                     </div>
                                     <div class="col-12 mb-3">
@@ -112,13 +111,26 @@
                                                 
                                             </label>
                                             <select class="input-field w-100 rounded border" id="parentCategory" name="parent_id">
-                                                <option value="">None</option>
-                                                @if(isset($board))
-                                                    @foreach($board->categories as $category)
-                                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                                    @endforeach
-                                                @endif
-                                            </select>
+                                            <option value="">None</option>
+
+                                            @if($boards->isNotEmpty())
+                                                @foreach($boards as $board)
+                                                    @if($board->categories->isNotEmpty())
+                                                        <optgroup label="{{ $board->name }}">
+                                                            @foreach($board->categories as $category)
+                                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                                            @endforeach
+                                                        </optgroup>
+                                                    @else
+                                                        <optgroup label="{{ $board->name }}">
+                                                            <option disabled>No categories available</option>
+                                                        </optgroup>
+                                                    @endif
+                                                @endforeach
+                                            @else
+                                                <option disabled>No boards available</option>
+                                            @endif
+                                        </select>
                                         </div>
                                     </div>
                                     <div class="col-12 mb-3">

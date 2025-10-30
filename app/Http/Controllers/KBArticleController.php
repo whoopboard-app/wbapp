@@ -21,7 +21,11 @@ class KBArticleController extends Controller
         $tags = ChangelogTag::where('tenant_id', $tenantId)->pluck('tag_name', 'id');
 
         if ($categories->isEmpty()) {
-            $categories = collect([(object)['id' => null, 'category_name' => 'No Categories Found']]);
+            $categories = collect([(object)[
+                'id' => null,
+                'name' => 'No Categories Found', // 👈 match the property name used in Blade
+                'board' => (object)['name' => 'N/A'] // 👈 avoid undefined "board" when you access $category->board->name
+            ]]);
         }
         if ($tags->isEmpty()) {
             $tags = collect([null => 'No Data Found']);
