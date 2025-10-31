@@ -50,14 +50,14 @@
             <div class="container">
                         <div class="card pt-0 px-0 bg-white">
                             <div class="border-title">
-                                <h4 class="fw-medium mb-0">Change Log</h4>
+                                <h4 class="fw-medium mb-0">@customLabel('Announcement')</h4>
                             </div>
                             <div class="content-body">
                             <img src="{{ asset('assets/img/placeholder.png') }}" alt="placeholder" class="empty-img">
                             <div class="get-started-changelog">
                         <div class="get-started-changelog-title mb-4">
-                            <h6 class="fw-semibold mb-2 pb-1">Get started with the Changelog</h6>
-                            <p class="mb-0">Here is a list of recommended actions to help you get the most out of our Changelog module.</p>
+                            <h6 class="fw-semibold mb-2 pb-1">Get started with the @customLabel('Announcement')</h6>
+                            <p class="mb-0">Here is a list of recommended actions to help you get the most out of our @customLabel('Announcement') module.</p>
                         </div>
                         <div class="btn-wrapper d-flex align-items-center justify-content-center gap-2 flex-wrap mb-4">
                         <a href="{{ route('changelog.create')}}" class="theme-btn sm fw-semibold rounded d-inline-block"> Add @customLabel('Announcement')</a>
@@ -67,34 +67,42 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="get-started-card card align-items-start rounded-0 bg-white h-100">
+                                        <div class="p-4">
                                     <img src="{{ asset('assets/img/email-color.svg') }}" alt="email-color">
                                     <h5 class="card-title my-2 fw-semibold text-black">Import email subscribers</h5>
                                     <p class="card-desc mb-3">Import your email list to send notification emails to your users.</p>
-                                    <a href="#" class="widget-item-btn bg-white d-inline-block rounded fw-semibold">Changelog Settings</a>
+                                    <a href="#" class="widget-item-btn bg-white d-inline-block rounded fw-semibold">@customLabel('Announcement') Settings</a>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="get-started-card card align-items-start rounded-0 bg-white h-100">
-                                    <img src="{{ asset('assets/img/email-color.svg') }}" alt="email-color">
+                                        <div class="p-4">
+                                            <img src="{{ asset('assets/img/email-color.svg') }}" alt="email-color">
                                     <h5 class="card-title my-2 fw-semibold text-black">Embed the changelog in your app</h5>
                                     <p class="card-desc mb-3">Embed the changelog widget in your app to show your users what's new.</p>
                                     <a href="#" class="widget-item-btn bg-white d-inline-block rounded fw-semibold">Embed Widget</a>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="get-started-card card align-items-start rounded-0 bg-white h-100">
-                                <img src="{{ asset('assets/img/email-color.svg') }}" alt="email-color">
+                                        <div class="p-4">
+                                            <img src="{{ asset('assets/img/email-color.svg') }}" alt="email-color">
                                     <h5 class="card-title my-2 fw-semibold text-black">Share your public changelog page</h5>
                                     <p class="card-desc mb-3">Share your public changelog page to show your users what's new.</p>
                                     <a href="#" class="widget-item-btn bg-white d-inline-block rounded fw-semibold">Copy Public Link</a>
                                     </div>
+                                    </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="get-started-card card align-items-start rounded-0 bg-white h-100">
-                                    <img src="{{ asset('assets/img/email-color.svg') }}" alt="email-color">
+                                        <div class="p-4">
+                                            <img src="{{ asset('assets/img/email-color.svg') }}" alt="email-color">
                                     <h5 class="card-title my-2 fw-semibold text-black">Publish your first changelog</h5>
                                     <p class="card-desc mb-3">Create your first changelog to start tracking changes to your app.</p>
                                     <a href="#" class="widget-item-btn bg-white d-inline-block rounded fw-semibold">Create Changelog</a>
+                                    </div>
                                     </div>
                                 </div>
                             </div>
