@@ -27,7 +27,10 @@
     <div class="header-wrapper d-flex align-items-center justify-content-between gap-4">
 
         <!-- Left icon -->
-        @if((isset($user->onboarding) && $user->onboarding->completed != '0') || !isset($user->onboarding))
+        @if(
+            ($user->user_type == 1 && isset($user->onboarding) && $user->onboarding->completed != '0')
+            || ($user->user_type != 1)
+        )
         <div class="d-inline-block">
             <ul class="d-flex mb-0">
                     <li class="sidebar-menu-item">
@@ -106,7 +109,10 @@
 
             <div class="d-flex align-items-center gap-3">
                 <!-- Add Dropdown -->
-                @if((isset($user->onboarding) && $user->onboarding->completed != '0') || !isset($user->onboarding))
+                @if(
+                    ($user->user_type == 1 && isset($user->onboarding) && $user->onboarding->completed != '0')
+                    || ($user->user_type != 1)
+                )
                 <div class="header-dropdown dropdown">
                     <button type="button" data-bs-toggle="dropdown" aria-expanded="false"
                             class="align-baseline header-dropdown-toggle dropdown-toggle text-white theme-btn rounded border-0 w-100 py-1">

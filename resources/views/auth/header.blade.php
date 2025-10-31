@@ -15,11 +15,11 @@
                         </button>
                     </form>
                 @else
-                    <a href="#" class="theme-btn text-primary sm bg-white secondary fw-semibold rounded d-inline-block">Back to Home Page</a>
+                    <a href="{{ route('login') }}"" class="theme-btn text-primary sm bg-white secondary fw-semibold rounded d-inline-block">Back to Home Page</a>
                     <a href="{{ route('register') }}" class="theme-btn  sm fw-normal rounded border-0">New here? Create an Account</a>
                 @endif
             </div>
-            
+
         </div>
       </div>
    </header>

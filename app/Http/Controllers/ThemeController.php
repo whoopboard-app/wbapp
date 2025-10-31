@@ -129,6 +129,15 @@ class ThemeController extends Controller
 
         return back()->with('success', 'Base configuration updated successfully!');
     }
+    public function resetToDefaultTheme(Request $request)
+    {
+        dd('here');
+        $user = auth()->user();
+        $user->theme_id = null; // reset to default
+        $user->save();
+
+        return redirect()->back()->with('success', 'Default theme selected successfully!');
+    }
 
 
 

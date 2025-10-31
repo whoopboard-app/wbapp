@@ -64,6 +64,7 @@
         Route::post('/themes/customize/seo', [ThemeController::class, 'customizeThemeSeo'])->name('themes.customize.seo');
 
         Route::post('/themes/customize', [ThemeController::class, 'customize'])->name('themes.customize');
+        Route::post('/themes/reset', [ThemeController::class, 'reset'])->name('themes.reset');
         Route::post('/themes/base-config', [ThemeController::class, 'saveBaseConfig'])
             ->name('themes.base-config');
     });
