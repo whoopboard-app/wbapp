@@ -87,8 +87,8 @@
                     </div>
                 </div>
                 <div class="card bg-white border-0">
-                    <div class="d-flex align-items-center border-title justify-content-between border-bottom pb-2">
-                    <h6 class="fw-semibold mb-1 fs-5 text-gray-400">Basic Information</h6>
+                    <div class="d-flex align-items-center border-title justify-content-between border-bottom pb-2 px-0">
+                    <h6 class="fw-semibold mb-1 fs-6 text-gray-400">Basic Information</h6>
                         <span class="tooltip-icon " data-bs-toggle="tooltip" title="Help">
                                         <i class="fa fa-question-circle hover-blue"></i>
                                     </span>
@@ -154,8 +154,8 @@
                 </div>
 
                 <div class="card bg-white border-0 mb-0">
-                    <div class="d-flex align-items-center border-title justify-content-between border-bottom pb-2">
-                        <h6 class="fw-semibold mb-1 fs-5 text-gray-400">Visibility &amp; Notification</h6>
+                    <div class="d-flex align-items-center border-title justify-content-between border-bottom pb-2 px-0">
+                        <h6 class="fw-semibold mb-1 fs-6 text-gray-400">Visibility &amp; Notification</h6>
                         <span class="tooltip-icon " data-bs-toggle="tooltip" title="Help">
                                         <i class="fa fa-question-circle hover-blue"></i>
                                     </span>
@@ -179,8 +179,8 @@
                     </div>
                 </div>
                 <div class="card bg-white border-0 pt-0 pb-3">
-                    <div class="d-flex align-items-center border-title justify-content-between border-bottom pb-2">
-                        <h6 class="fw-semibold mb-1 fs-5 text-gray-400">Tags &amp; Publishing</h6>
+                    <div class="d-flex align-items-center border-title justify-content-between border-bottom pb-2 px-0">
+                        <h6 class="fw-semibold mb-1 fs-6 text-gray-400">Tags &amp; Publishing</h6>
                         <span class="tooltip-icon " data-bs-toggle="tooltip" title="Help">
                                         <i class="fa fa-question-circle hover-blue"></i>
                                     </span>
@@ -247,7 +247,7 @@
                     </div>
                 </div>
                 <!-- Form Footer -->
-                <div class="card-footer gap15 px-3 bg-white d-flex justify-content-start border-top pt-3 pb-0">
+                <div class="card-footer gap15 px-3 bg-white d-flex justify-content-start border-top pt-3 pb-0 px-0">
                         <button type="submit" id="btnPublish" name="action" value="publish" class="theme-btn fw-semibold rounded">
                             Save &amp; Publish
                         </button>

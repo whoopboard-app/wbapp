@@ -57,19 +57,20 @@
                                type="checkbox"
                                id="password_toggle_{{ $theme->id }}"
                                name="is_password_protected"
-                            {{ old('is_password_protected', $theme->is_password_protected ?? false) ? 'checked' : '' }}>
+                               value="1"
+                            {{ (old('is_password_protected', $theme->is_password_protected ?? false)) ? 'checked' : '' }}>
                         <label class="form-check-label" for="password_toggle_{{ $theme->id }}">
                             Off (Disabled — Anyone can access your board based on its visibility setting.)
                         </label>
                     </div>
 
                     <div id="passwordAlert_{{ $theme->id }}"
-                         class="{{ old('is_password_protected', $theme->is_password_protected ?? false) ? '' : 'd-none' }}">
+                         class="{{ ($theme->is_password_protected || old('is_password_protected')) ? '' : 'd-none' }}">
                         <input type="password"
-                               name="board_password"
+                               name="password"
                                class="input-field w-100 mt-2 rounded border"
                                placeholder="Enter board password"
-                               value="{{ old('board_password', $theme->board_password ?? '') }}">
+                               value="{{ old('password', $theme->password ?? '') }}">
                     </div>
                 </div>
 
@@ -108,71 +109,36 @@
         </div>
     </div>
 </div>
-
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        const visibilityToggles = document.querySelectorAll("[id^='visibility_']");
         const passwordToggles = document.querySelectorAll("[id^='password_toggle_']");
 
         function togglePasswordField(id) {
-            const visibility = document.getElementById(`visibility_${id}`);
             const passwordToggle = document.getElementById(`password_toggle_${id}`);
             const alertBox = document.getElementById(`passwordAlert_${id}`);
-
-            // ✅ Get their own labels
-            const visibilityLabel = document.querySelector(`label[for='visibility_${id}']`);
             const passwordLabel = document.querySelector(`label[for='password_toggle_${id}']`);
 
-            // 🟢 Update visibility label
-            if (visibility) {
-                if (visibility.checked) {
-                    visibilityLabel.textContent = "On (Published — Your board is live and accessible at [subdomain]).";
-                } else {
-                    visibilityLabel.textContent = "Off — Your board is not visible to anyone.";
-                }
-            }
+            if (!passwordToggle || !alertBox || !passwordLabel) return;
 
-            // 🟢 Update password protection label
-            if (passwordToggle) {
-                if (passwordToggle.checked) {
-                    passwordLabel.textContent = "Enabled — Visitors must enter a password to access your board.";
-                } else {
-                    passwordLabel.textContent = "Disabled — Anyone can access your board based on its visibility setting.";
-                }
-            }
-
-            // 🟢 Toggle password input field
-            if (visibility.checked && passwordToggle.checked) {
+            if (passwordToggle.checked) {
+                passwordLabel.textContent = "Enabled — Visitors must enter a password to access your board.";
                 alertBox.classList.remove("d-none");
             } else {
+                passwordLabel.textContent = "Off (Disabled — Anyone can access your board based on its visibility setting.)";
                 alertBox.classList.add("d-none");
             }
         }
 
-        // 🔄 Attach events
-        visibilityToggles.forEach(el => {
-            const id = el.id.split("_").pop();
-            el.addEventListener("change", () => togglePasswordField(id));
-        });
-
         passwordToggles.forEach(el => {
             const id = el.id.split("_").pop();
             el.addEventListener("change", () => togglePasswordField(id));
-        });
 
-        // 🧠 Run once to set correct initial text + states
-        visibilityToggles.forEach(el => {
-            const id = el.id.split("_").pop();
+            // run once on page load
             togglePasswordField(id);
         });
     });
-
-    // 🧾 File name helper
-    function showFileName(id, event) {
-        const fileName = event.target.files.length ? event.target.files[0].name : '';
-        document.getElementById(`file-name-${id}`).textContent = fileName;
-    }
 </script>
+
 
 
 
