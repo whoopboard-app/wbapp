@@ -121,7 +121,7 @@
                     <div class="btn-wrapper d-flex align-items-center justify-content-center gap-2 flex-wrap mb-4">
                         <a href="{{route('dashboard')}}" class="theme-btn bg-white sm secondary fw-semibold rounded d-inline-flex align-items-center gap-2">
                             <img src="{{ asset('assets/img/chevron-left.svg') }}" alt="Back" class="align-text-bottom">
-                            Back to Listing Page
+                            Back to Dashboard
                         </a>
                         <a href="{{ route('changelog.create')}}" class="theme-btn sm fw-semibold rounded d-inline-block"> Add @customLabel('Announcement')</a>
                     </div>
@@ -191,7 +191,7 @@
                         <select id="statusFilter" class="form-select rounded custom-border">
                                     <option value="">Status</option>
                                     <option value="active">Active</option>
-                                    <option value="inactive">Inactive</option>
+                                    <option value="schedule">Scheduled</option>
                                     <option value="draft">Draft</option>
                         </select>
                         </div>

@@ -154,9 +154,16 @@
         ->name('announcement.list');
         Route::post('store', [ChangelogController::class, 'store'])
         ->name('announcement.store');
+        Route::get('edit/{id}', [ChangelogController::class, 'edit'])
+            ->name('announcement.edit');
+        Route::post('update/{id}', [ChangelogController::class, 'update'])
+            ->name('announcement.update');
         Route::get('filter', [ChangelogController::class, 'filter'])->name('announcement.filter');
         Route::get('{id}', [ChangelogController::class, 'show'])
         ->name('announcement.show');
+        Route::delete('{id}', [ChangelogController::class, 'destroy'])
+            ->name('announcement.destroy');
+
     });
 
     Route::prefix('kbarticles')->middleware('auth')->group(function () {

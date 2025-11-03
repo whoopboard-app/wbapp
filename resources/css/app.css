@@ -14,16 +14,18 @@ body {
     @apply rounded-lg focus:ring-0;
     border: none !important;
     box-shadow: none !important;
-    background-color: #f8f9fa; /* light background */
-    font-size: 15px !important;
+    background-color: #f8f9fa;
+    font-size: 13px !important;
     border-radius: 0.5rem !important;
     line-height: 1.5 !important;
-    min-height: 48px; /* match your input-field height */
-    height: auto !important; /* allow it to expand naturally */
-    padding: 2px 2px; /* spacing inside */
+    min-height: 32px !important; /* fixed consistent height */
+    max-height: 72px !important;
+    overflow-y: auto !important;
+    margin: 3px 3px !important;
+    padding: 3px 3px !important;
     display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
+    flex-wrap: nowrap; /* keep everything on one line */
+    align-items: center;
     gap: 4px;
     transition: all 0.2s ease-in-out;
 }
