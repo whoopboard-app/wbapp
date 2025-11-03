@@ -12,15 +12,16 @@ class KBCategoryController extends Controller
     public function create()
     {
         // Optionally, you can fetch the board if you need details
-        $boards = KBBoard::with('categories')->get();
+        $boards = KBBoard::with('categories')->get()->sortByDesc('id');
         // dd($board->categories);
         return view('kbarticle.partials.create_category', compact('boards'));
     }
 
     public function store(Request $request)
     {
+
         $validatedData = $request->validate([
-            'board_id'     => 'required|exists:kb_boards,id',
+            'kboard'     => 'required|exists:kb_boards,id',
             'categoryName' => 'required|string|max:255',
             'status'       => 'required|string',
             'short_desc'   => 'nullable|string|max:255',
@@ -30,7 +31,7 @@ class KBCategoryController extends Controller
 
         $category = new KBCategory();
         $category->tenant_id  = auth()->user()->tenant_id;
-        $category->board_id   = $validatedData['board_id'];
+        $category->board_id   = $validatedData['kboard'];
         $category->parent_id  = $validatedData['parent_id'] ?? null;
         $category->name       = $validatedData['categoryName'];
         $category->short_desc = $validatedData['short_desc'];
@@ -43,7 +44,7 @@ class KBCategoryController extends Controller
         }
 
         $category->save();
-        return redirect()->route('board.categories', ['board' => $request->board_id])
+        return redirect()->route('board.index', ['board' => $request->board_id])
                  ->with('success', 'Category created successfully!');
     }
 

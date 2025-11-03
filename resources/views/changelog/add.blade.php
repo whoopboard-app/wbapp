@@ -156,7 +156,6 @@
                         </div>
 
                         {{-- Category --}}
-
                         <div class="col-12 mb-3">
                             <div>
                                 <label for="categorySelect" class="input-label mb-1 fw-medium">
