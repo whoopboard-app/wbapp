@@ -14,6 +14,7 @@
     use App\Http\Controllers\KBBoardController;
     use App\Http\Controllers\InviteController;
     use App\Http\Controllers\AppBillingController;
+    use App\Http\Controllers\SubscribeController;
     use App\Http\Controllers\ComingSoonController;
     use App\Http\Controllers\DashboardController;
     use App\Http\Controllers\AppSettingsController;
@@ -214,7 +215,15 @@
         ->name('billing.upgrade');
     });
 
+    Route::prefix('subscribe')->name('subscribe.')->group(function () {
+            Route::get('signup', [SubscribeController::class, 'create'])->name('create');
+            Route::post('signup', [SubscribeController::class, 'signup'])
+            ->name('signup');
+            // web.php
+            Route::get('confirm/{token}', [SubscribeController::class, 'confirm'])
+                ->name('confirmation');
 
+        });
 
     Route::get('/app-settings', [App\Http\Controllers\AppSettingsController::class, 'index'])
         ->name('app.settings');

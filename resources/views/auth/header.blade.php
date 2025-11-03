@@ -7,7 +7,11 @@
          </div>
          <div class="gap15 d-flex align-items-center justify-content-end pb-0">
             <div class="d-flex align-items-center gap15">
-                 @if (request()->is('verify-email'))
+                 @if (request()->is('subscribe') || request()->is('subscribe/*'))
+                    <a href="#" class="theme-btn text-primary sm bg-white secondary fw-semibold rounded d-inline-block">
+                        Back to Changelog
+                    </a>
+                 @elseif (request()->is('verify-email'))
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
                         <button type="submit" class="theme-btn text-primary sm bg-white secondary fw-semibold rounded d-inline-block">
@@ -15,7 +19,7 @@
                         </button>
                     </form>
                 @else
-                    <a href="{{ route('login') }}"" class="theme-btn text-primary sm bg-white secondary fw-semibold rounded d-inline-block">Back to Home Page</a>
+                    <a href="{{ route('login') }}" class="theme-btn text-primary sm bg-white secondary fw-semibold rounded d-inline-block">Back to Home Page</a>
                     <a href="{{ route('register') }}" class="theme-btn  sm fw-normal rounded border-0">New here? Create an Account</a>
                 @endif
             </div>
