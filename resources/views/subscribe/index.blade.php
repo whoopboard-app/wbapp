@@ -1,0 +1,482 @@
+@extends('layouts.app')
+
+@section('content')
+@if ($errors->any())
+    @foreach ($errors->all() as $error)
+        <x-alert type="error" :message="$errors->first()" />
+    @endforeach
+@endif
+<style>
+    .ts-wrapper {
+        padding: 0 10px !important;
+        border: 1px solid #d1d9e0;
+    }
+    .ts-control {
+        border: none !important;
+        align-content: center !important;
+    }
+    .form-select{
+        border: 1px solid #d1d9e0;
+    }
+    .p-text {
+        font-size: 17px !important;
+    }
+    .ts-dropdown, .ts-control, .ts-control input {
+        font-size: 14px !important;
+    }
+    label, .text-muted, .label {
+        font-size: 15px !important;
+    }
+    main.flex-1.p-8.pb-48{
+        padding-top : 0px !important;
+        padding-left : 0px !important;
+        padding-right : 0px !important;
+    }
+   
+</style>
+<section class=" main-content-wrapper">
+    <div class="d-flex justify-content-between">
+        <h4 class="fw-medium font-16 ">Subscribe List</h4>
+        <div class="btn-wrapper d-flex align-items-center justify-content-center gap-2 flex-wrap mb-0">
+                <a href="#" class="theme-btn sm fw-semibold rounded d-inline-block" data-bs-toggle="modal" data-bs-target="#addSegmentation"> 
+                Add Subscribe Member
+            </a>
+            
+            <a href="#" class="theme-btn text-primary bg-white sm secondary fw-semibold rounded d-inline-block">
+                New User Segmentation
+            </a>
+            
+        </div>
+    </div>
+    <div class="d-inline-block w-100 mt-10px">
+        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="pills-member-tab" data-bs-toggle="pill" data-bs-target="#pills-member" type="button" role="tab" aria-controls="pills-member" aria-selected="true">
+                    All Subscribe Member
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="pills-segmentatin-tab" data-bs-toggle="pill" data-bs-target="#pills-segmentation" type="button" role="tab" aria-controls="pills-segmentation" aria-selected="false" tabindex="-1">
+                    Subscribe Segmentation
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="pills-settings-tab" data-bs-toggle="pill" data-bs-target="#pills-settings" type="button" role="tab" aria-controls="pills-settings" aria-selected="false" tabindex="-1">
+                    Subscribe Member Settings
+                </button>
+            </li>
+            
+        </ul>
+        
+    </div>
+    <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade active show" id="pills-member" role="tabpanel">
+                <div class="row mt-20">
+                    <div class="col-lg-12">
+                        <div class="card pt-0 px-0 bg-white mb-3">
+                            <div class="d-flex border-title align-items-center justify-content-between">
+                                <h4 class="fw-medium mb-0">{{ $total_subs }} Subscribe List</h4>
+
+                                <div class="btn-wrapper d-flex align-items-center justify-content-center gap15 flex-wrap mb-0">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="showImg">
+                                        <label class="form-check-label" for="showImg">Show Image</label>
+                                    </div>
+
+                                    <div class="position-relative form-group">
+                                        <input type="search" class="input-field w-100 rounded ps-5" placeholder="Search">
+                                        <img src="{{ asset('assets/img/icon/search.svg') }}" class="position-absolute search-icon" alt="">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <select class="form-select rounded">
+                                            <option value="">All</option>
+                                            <option value="verified">Verified</option>
+                                            <option value="unverified">Unverified</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="table-responsive">
+                                <table class="table table-bordered align-middle">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Status</th>
+                                            <th>Name</th>
+                                            <th>Email Address</th>
+                                            <th>Subscribe Date</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @forelse($subscribers as $subscriber)
+                                            <tr>
+                                                <td>
+                                                    @if($subscriber->status == 1)
+                                                        <span class="badge fw-normal bg-white published rounded-pill">Active</span>
+                                                    @elseif ($subscriber->status == 2)
+                                                        <span class="badge fw-normal bg-white draft rounded-pill">Pending</span>
+                                                    @else
+                                                        <span class="badge fw-normal bg-white inactive rounded-pill">Inactive</span>
+                                                    @endif
+                                                </td>
+
+                                                <td>{{ $subscriber->full_name }}</td>
+                                                <td>{{ $subscriber->email }}</td>
+                                                <td>
+                                                    {{ $subscriber->subscribe_date ? $subscriber->subscribe_date->format('F d, Y') : '-' }}
+                                                </td>
+
+
+                                                <td>
+                                                    <a href="#" class="badge bg-white border text-dark tooltip-icon" title="View">
+                                                        <img src="{{ asset('assets/img/icon/eye.svg') }}" alt="">
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="5" class="text-center text-muted py-4">No subscribers found.</td>
+                                            </tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="d-flex align-items-center gap-3 px-3 pagination">
+                                <a href="#" class="fw-semibold prev text-dark rounded sm">&lt; Previous</a>
+                                <div class="page-numbers d-flex align-items-center gap-2">
+                                    <a href="#" class="pagination-number active">1</a>
+                                </div>
+                                <a href="#" class="next fw-semibold rounded sm">Next &gt;</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="pills-segmentation" role="tabpanel" aria-labelledby="pills-segmentation-tab">
+                <div class="row mt-20">
+                    <div class="col-lg-12 ">
+                            <div class="card pt-0 px-0 bg-white mb-3 ">
+                            <div class="d-flex border-title align-items-center justify-content-between">
+                            <h4 class="fw-medium mb-0 ">33 Subscriber List</h4>
+                            <div class="btn-wrapper d-flex align-items-center justify-content-center gap15 flex-wrap mb-0">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="showImg">
+                                    <label class="form-check-label" for="showImg">
+                                    Show Image
+                                    </label>
+                                </div>
+                                <div class=" position-relative form-group">
+                                    <input type="search" class="input-field w-100 rounded ps-5" placeholder="Search">
+                                    <img src="assets/img/icons/search.svg" class="position-absolute search-icon" alt="">
+                                </div>
+                                <div class="form-group">
+                                <select class="form-select rounded">
+                                            <option value="">Name</option>
+                                            <option value="active">Active</option>
+                                            <option value="inactive">Inactive</option>
+                                            <option value="draft">Draft</option>
+                                </select>
+                                </div>
+                            </div>
+                            </div>
+                            <div class="table-responsive">
+                                <div id="listingSegmentation_wrapper" class="dt-container dt-bootstrap5 dt-empty-footer"><table id="listingSegmentation" class="table table-bordered align-middle dataTable" style="width: 100%;"><colgroup><col data-dt-column="0" style="width: 156.646px;"><col data-dt-column="1" style="width: 275.167px;"><col data-dt-column="2" style="width: 229.229px;"><col data-dt-column="3" style="width: 409.896px;"><col data-dt-column="4" style="width: 112.396px;"></colgroup>
+                                    <thead class="table-light">
+                                        <tr><th data-dt-column="0" rowspan="1" colspan="1" class="dt-orderable-asc dt-orderable-desc dt-ordering-asc" aria-sort="ascending"><span class="dt-column-title">Status</span><span class="dt-column-order" role="button" aria-label="Status: Activate to invert sorting" tabindex="0"></span></th><th data-dt-column="1" rowspan="1" colspan="1" class="dt-orderable-asc dt-orderable-desc"><span class="dt-column-title">User Segmentation</span><span class="dt-column-order" role="button" aria-label="User Segmentation: Activate to sort" tabindex="0"></span></th><th data-dt-column="2" rowspan="1" colspan="1" class="dt-orderable-asc dt-orderable-desc"><span class="dt-column-title">Revenue Range</span><span class="dt-column-order" role="button" aria-label="Revenue Range: Activate to sort" tabindex="0"></span></th><th data-dt-column="3" rowspan="1" colspan="1" class="dt-orderable-asc dt-orderable-desc"><span class="dt-column-title">Segmentation</span><span class="dt-column-order" role="button" aria-label="Segmentation: Activate to sort" tabindex="0"></span></th><th data-dt-column="4" rowspan="1" colspan="1" class="dt-orderable-asc dt-orderable-desc"><span class="dt-column-title">Action</span><span class="dt-column-order" role="button" aria-label="Action: Activate to sort" tabindex="0"></span></th></tr>
+                                    </thead>
+                                    <tbody><tr>
+                                            <td class="sorting_1">
+                                                <span class="badge fw-normal bg-white inactive rounded-pill">Inactive</span>
+                                            </td>
+                                            <td>
+                                                <span>
+                                                    Caroline Hardacre
+                                                </span>
+                                            </td>
+                                                <td>
+                                                <span>
+                                                    $101 to $500
+                                                </span>
+                                            </td>
+                                                <td>
+                                                    <span class="badge fw-normal bg-white published-category border text-dark rounded-pill">Published</span>
+                                                <span class="badge fw-normal bg-white published-category border text-dark rounded-pill">Published</span>
+                                                <span class="badge fw-normal bg-white more-category rounded-pill tooltip-icon" data-bs-toggle="tooltip" data-bs-original-title="Others Category">
+                                                    +2
+                                                </span>
+                                            </td>
+                                            
+                                            <td>
+                                            <span class="badge bg-white border text-dark tooltip-icon" data-bs-toggle="tooltip" aria-label="Action" data-bs-original-title="Action">
+                                                <a href="#">  <img src="assets/img/icons/eye.svg" alt=""></a>
+                                                </span>
+                                            </td>
+                                        </tr><tr>
+                                            <td class="sorting_1">
+                                                <span class="badge fw-normal bg-white inactive rounded-pill">Inactive</span>
+                                            </td>
+                                            <td>
+                                                <span>
+                                                    Caroline Hardacre
+                                                </span>
+                                            </td>
+                                                <td>
+                                                <span>
+                                                    $101 to $500
+                                                </span>
+                                            </td>
+                                                <td>
+                                                    <span class="badge fw-normal bg-white published-category border text-dark rounded-pill">Published</span>
+                                                <span class="badge fw-normal bg-white published-category border text-dark rounded-pill">Published</span>
+                                                <span class="badge fw-normal bg-white more-category rounded-pill tooltip-icon" data-bs-toggle="tooltip" data-bs-original-title="Others Category">
+                                                    +2
+                                                </span>
+                                            </td>
+                                            
+                                            <td>
+                                            <span class="badge bg-white border text-dark tooltip-icon" data-bs-toggle="tooltip" aria-label="Action" data-bs-original-title="Action">
+                                                <a href="#">  <img src="assets/img/icons/eye.svg" alt=""></a>
+                                                </span>
+                                            </td>
+                                        </tr><tr>
+                                            <td class="sorting_1">
+                                                <span class="badge fw-normal bg-white inactive rounded-pill">Inactive</span>
+                                            </td>
+                                            <td>
+                                                <span>
+                                                    Caroline Hardacre
+                                                </span>
+                                            </td>
+                                                <td>
+                                                <span>
+                                                    $101 to $500
+                                                </span>
+                                            </td>
+                                                <td>
+                                                    <span class="badge fw-normal bg-white published-category border text-dark rounded-pill">Published</span>
+                                                <span class="badge fw-normal bg-white published-category border text-dark rounded-pill">Published</span>
+                                                <span class="badge fw-normal bg-white more-category rounded-pill tooltip-icon" data-bs-toggle="tooltip" data-bs-original-title="Others Category">
+                                                    +2
+                                                </span>
+                                            </td>
+                                            
+                                            <td>
+                                            <span class="badge bg-white border text-dark tooltip-icon" data-bs-toggle="tooltip" aria-label="Action" data-bs-original-title="Action">
+                                                <a href="#">  <img src="assets/img/icons/eye.svg" alt=""></a>
+                                                </span>
+                                            </td>
+                                        </tr><tr>
+                                            <td class="sorting_1">
+                                                <span class="badge fw-normal bg-white draft rounded-pill">Pending</span>
+                                            </td>
+                                            <td>
+                                                <span>
+                                                    Caroline Hardacre
+                                                </span>
+                                            </td>
+                                                <td>
+                                                <span>
+                                                    $101 to $500
+                                                </span>
+                                            </td>
+                                                <td>
+                                                    <span class="badge fw-normal bg-white published-category border text-dark rounded-pill">Published</span>
+                                                <span class="badge fw-normal bg-white published-category border text-dark rounded-pill">Published</span>
+                                                <span class="badge fw-normal bg-white more-category rounded-pill tooltip-icon" data-bs-toggle="tooltip" data-bs-original-title="Others Category">
+                                                    +2
+                                                </span>
+                                            </td>
+                                            
+                                            <td>
+                                            <span class="badge bg-white border text-dark tooltip-icon" data-bs-toggle="tooltip" aria-label="Action" data-bs-original-title="Action">
+                                                <a href="#">  <img src="assets/img/icons/eye.svg" alt=""></a>
+                                                </span>
+                                            </td>
+                                        </tr></tbody>
+                                <tfoot></tfoot></table><div class="dt-autosize" style="width: 100%; height: 0px;"></div></div>
+                            </div>
+                            <div class="d-flex align-items-center gap-3 px-3 pagination">
+                                <a href="#" type="button" class="fw-semibold  prev text-dark rounded  sm">&lt; Previous</a>  
+                                <div class="page-numbers d-flex align-items-center gap-2"><a href="#" class="pagination-number">1</a><a href="#" class="pagination-number active">2</a></div>
+                            
+                                <a href="#" type="button" class="next fw-semibold rounded  sm">Next &gt;</a>  
+                            </div>
+                    </div>
+                    </div>
+            
+                </div>
+            </div>
+    </div>
+    <div class=" modal fade" id="addSegmentation" tabindex="-1" aria-labelledby="addSegmentationLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+         <div class="modal-content border-0">
+            <div class="modal-header">
+               <div class="mb-0">
+                  <h3 class="fw-semibold mb-0">Add Subscribe Member</h3>
+               </div>
+               <button type="button" class="modal-close bg-transparent border-0 ms-auto d-flex align-items-center justify-content-center" data-bs-dismiss="modal" aria-label="Close">
+                <img src="{{ asset('assets/img/icon/modal-exit.svg') }}" alt="">
+            </button>
+            </div>
+           <div class="modal-body">
+             
+               <form action="{{ route('subscribe.store') }}" method="POST" class="d-flex flex-column gap-3">
+                    @csrf
+                  <div class="row mt-3">
+                    <div class="col-lg-6 mb-3">
+                        <div class="">
+                            <label for="first_name" class="input-label mb-1 fw-medium">
+                                First Name
+                            </label>
+                            <input 
+                                type="text" 
+                                id="first_name" 
+                                name="first_name" 
+                                class="input-field w-100 rounded" 
+                                placeholder="Placeholder" 
+                                required
+                            >
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-3">
+                        <div class="">
+                            <label for="last_name" class="input-label mb-1 fw-medium">
+                                Last Name
+                            </label>
+                            <input 
+                                type="text" 
+                                id="last_name" 
+                                name="last_name" 
+                                class="input-field w-100 rounded" 
+                                placeholder="Placeholder" 
+                                required
+                            >
+                        </div>
+                    </div>
+                    <div class="col-lg-12 mb-3">
+                        <div class="">
+                            <label for="email" class="input-label mb-1 fw-medium">Email Address</label>
+                            <input 
+                                type="email" 
+                                id="email" 
+                                name="email" 
+                                class="input-field w-100 rounded" 
+                                placeholder="Placeholder" 
+                                required
+                            >
+                        </div>
+                    </div>
+                    <div class="col-lg-12 mb-3">
+                        <div class="">
+                            <label for="linkedin_url" class="input-label mb-1 fw-medium">
+                                LinkedIn URL
+                            </label>
+                            <input 
+                                type="url" 
+                                id="linkedin_url" 
+                                name="linkedin_url" 
+                                class="input-field w-100 rounded" 
+                                placeholder="Placeholder" 
+                            >
+                        </div>
+                    </div>
+                    <div class="col-lg-12 mb-3">
+                        <div class="">
+                            <label for="subscribe_date" class="input-label mb-1 fw-medium">
+                                Subscribe Date
+                            </label>
+                            <div class="position-relative form-group">
+                                <input 
+                                    type="text" 
+                                    id="subscribe_date" 
+                                    name="subscribe_date" 
+                                    class="input-field rounded ps-5 w-100" 
+                                    placeholder="Placeholder" 
+                                    required
+                                >
+                                <img src="{{ asset('assets/img/icon/calendar.svg') }}" class="position-absolute search-icon" alt="">
+                            </div>    
+                        </div>
+                    </div>
+                    <div class="col-12 mb-3">
+                        <div class=" ">
+                             <label for="short_desc" class="input-label mb-1 fw-medium">
+                                About the User
+                            </label>
+                            <textarea 
+                                id="short_desc" 
+                                name="short_desc" 
+                                rows="3" 
+                                class="input-field w-100 rounded" 
+                                placeholder="Placeholder"
+                                maxlength="300"
+                            ></textarea>
+                        </div>
+                    </div>
+                    <div class="col-12 mb-3">
+                        <div class="">
+                            <label for="userSegments" class="input-label mb-1 fw-medium"> 
+                                User Segments
+                            </label>
+                            <select 
+                                class="form-select w-100 rounded" 
+                                id="userSegments" 
+                                name="userSegments[]" 
+                                multiple 
+                            >
+                                <option value="" disabled>Select</option>
+                                <option value="Premium">Premium health</option>
+                                <option value="General">General</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-12 mb-3">
+                        <div class="">
+                           <label for="addType" class="input-label mb-1 fw-medium"> 
+                                Type of Add
+                            </label>
+                            <select 
+                                class="form-select w-100 rounded" 
+                                id="addType" 
+                                name="addType" 
+                            >
+                                <option value="" disabled selected>Select</option>
+                                <option value="Premium">Premium health</option>
+                                <option value="General">General</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-12 mb-3">
+                        <div class="">
+                            <label for="Status" class="input-label mb-1 fw-medium"> 
+                               Status
+                            </label>
+                                <select class="form-select w-100 rounded" id="status" name="status" required>
+                                    <option value="">Select</option>
+                                    <option value="0">Inactive</option>
+                                    <option value="1">Active</option>
+                                    <option value="2">Pending</option>
+                                </select>
+                        </div>
+                    </div>
+                  
+                  </div>
+                    
+                 
+              
+            </div>
+                <div class="modal-footer justify-content-start border-top-0">
+                    <button type="submit" class="theme-btn fw-semibold rounded border-0">Add Subscribe</button>
+                    <button type="button" class="theme-btn secondary bg-white fw-semibold rounded" data-bs-dismiss="modal">Close</button> 
+                </div>
+            </form>
+          </div>
+        </div>
+    </div>
+</section>
+
+@endsection

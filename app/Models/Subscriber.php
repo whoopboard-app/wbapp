@@ -14,9 +14,18 @@ class Subscriber extends Model
         'email',
         'token',
         'verified',
+        'linkedin_url',
+        'subscribe_date',
+        'short_desc',
+        'userSegments',
+        'addType',
+        'status',
     ];
 
     protected $casts = [
         'verified' => 'boolean',
+        'subscribe_date' => 'datetime',
+        'userSegments' => 'array',
+        'status' => 'integer',
     ];
 }

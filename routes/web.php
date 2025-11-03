@@ -219,10 +219,11 @@
             Route::get('signup', [SubscribeController::class, 'create'])->name('create');
             Route::post('signup', [SubscribeController::class, 'signup'])
             ->name('signup');
-            // web.php
+            Route::post('subscribe', [SubscribeController::class, 'store'])->name('store');
             Route::get('confirm/{token}', [SubscribeController::class, 'confirm'])
                 ->name('confirmation');
-
+            Route::get('index', [SubscribeController::class, 'index'])
+                ->name('index');
         });
 
     Route::get('/app-settings', [App\Http\Controllers\AppSettingsController::class, 'index'])

@@ -30,10 +30,11 @@ class SubscribeController extends Controller
                 'full_name' => $request->full_name,
                 'email' => $request->email,
                 'token' => $token,
+                'status' => 2,
             ]);
             Mail::to($request->email)
                 ->send(new SubscriptionConfirmationMail($request->full_name, $token));
-            return back()->with('success', 'Email sent! You will receive a confirmation email.');
+            return back()->with('success', 'Email sent! You will receive an email.');
         } catch (\Exception $e) {
             // Mail failed
             return back()
@@ -47,12 +48,41 @@ class SubscribeController extends Controller
         $subscriber = Subscriber::where('token', $token)->first();
         if (!$subscriber) {
             // Token not found / invalid
-            return redirect()->route('subscribe.create')
+            return redirect()->route('login')
                             ->with('error', 'Invalid or expired subscription link.');
         }
         
-        $subscriber->update(['verified' => true, 'token' => null]);
+        $subscriber->update(['verified' => true, 'token' => null, 'status' => 1]);
         session()->flash('success', 'Your subscription has been confirmed!');
         return view('subscribe.confirmation_success');
+    }
+
+    public function index()
+    {
+        // dd("index");
+        $subscribers = Subscriber::orderBy('created_at', 'desc')->get();
+        return view('subscribe.index', [
+            'subscribers' => $subscribers,
+            'total_subs' => $subscribers->count(),
+        ]);
+    }
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email'          => 'required|email|unique:subscribers,email',
+            'linkedin_url' => 'nullable|url',
+            'subscribe_date' => 'required|date',
+            'short_desc' => 'nullable|string|max:300',
+            'userSegments' => 'nullable|array',
+            'addType' => 'nullable|string|max:255',
+            'status' => 'required|int'
+        ]);
+       
+        $validated['full_name'] = $validated['first_name'] . ' ' . $validated['last_name'];
+        Subscriber::create($validated);
+        return redirect()->route('subscribe.index')->with('success', 'Success! Subscribe created.');
     }
 }
