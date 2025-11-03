@@ -30,7 +30,7 @@
         .collapse {
             visibility: visible;
         }
-        
+
     </style>
         <section class=" main-content-wrapper">
             <div class="row">
@@ -58,10 +58,10 @@
                                     <a href="#"><span class="badge fw-normal bg-white inactive rounded-pill">Draft</span></a>
                                 </div>
                         </div> -->
-              
+
 
                         <div class="section-title mb-4">
-                                
+
                                 <h2 class="fw-semibold mb-2 pb-1 fs-2">
                                     {{$board->name}}
                                 </h2>
@@ -83,7 +83,7 @@
                                 <p class="font-19 fw-normal text-black">
                                     {{$board->docs_type}}
                                 </p>
-                            </div>  
+                            </div>
                     <div class="d-inline-block w-100 mt-10px">
                         <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                             <li class="nav-item" role="presentation">
@@ -101,9 +101,9 @@
                                    Board Settings
                                 </button>
                             </li>
-                        
+
                         </ul>
-                        
+
                     </div>
                      <div class="tab-content" id="pills-tabContent">
                     <div class="tab-pane fade show active" id="pills-articles" role="tabpanel" aria-labelledby="pills-articles-tab">
@@ -125,7 +125,7 @@
                                                     <img src="{{ asset('assets/img/icon/search.svg') }}" alt="search"
                                                         class="position-absolute top-50 start-0 translate-middle-y ms-3">
                                                 </div>
-                                                
+
                                                 <div class="form-group">
                                                 <select id="statusFilter" class="form-select rounded custom-border">
                                                             <option value="">Name</option>
@@ -136,7 +136,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    
+
                                     </div>
                                     <div class="article-list space-y-4" id="article-list">
                                         <div class="table-responsive">
@@ -161,7 +161,7 @@
                                                                     {{ ucfirst($article->title) }}
                                                                 </span>
                                                             </td>
-                                                            
+
                                                             <td>
                                                                 <span>
                                                                     {{ $article->created_at->format('F d, Y \\a\\t h:i A') }}
@@ -185,7 +185,7 @@
                                                                     {{ $article->dislikes_percent ?? 0 }}%
                                                                     <img src="{{ asset('assets/img/icon/thumbs-down.svg') }}" alt="dislike" class="icon-sm">
                                                                 </span>
-                                                                
+
                                                             </td>
                                                             <td>
                                                                 <span class="badge bg-white border text-dark tooltip-icon" data-bs-toggle="tooltip" title="Action">
@@ -202,20 +202,20 @@
                                         </div>
                                     </div>
                                     <div class="d-flex align-items-center gap-3 px-3 pagination">
-                                        <a href="#" type="button" class="fw-semibold  prev text-dark rounded  sm">&lt; Previous</a>  
+                                        <a href="#" type="button" class="fw-semibold  prev text-dark rounded  sm">&lt; Previous</a>
                                         <div class="page-numbers d-flex align-items-center gap-2"><a href="#" class="pagination-number active">1</a><a href="#" class="pagination-number">2</a></div>
-                                    
-                                        <a href="#" type="button" class="next fw-semibold rounded  sm">Next &gt;</a>  
+
+                                        <a href="#" type="button" class="next fw-semibold rounded  sm">Next &gt;</a>
                                     </div>
                             </div>
                             </div>
-                    
+
                         </div>
                     </div>
                     <div class="tab-pane fade" id="pills-kb" role="tabpanel" aria-labelledby="pills-kb-tab">
                         <div class="row">
                             <div class="col-lg-12 ">
-                                <div class="d-flex justify-content-between border-title"> 
+                                <div class="d-flex justify-content-between border-title">
                                     <h5 class="fw-medium font-16">List of Categories &amp; Sub-Categories</h5>
                                     <div class="form-check form-switch">
                                             <input class="form-check-input" type="checkbox" id="showImg">
@@ -239,12 +239,12 @@
                                     </a>
                                  </div>
                                  <div class="card pt-0 px-0 bg-white mt-10px mb-3 ">
-                                   
+
                                     <div class="d-flex border-title align-items-center justify-content-between">
                                     <h4 class="fw-medium mb-0 ">{{$total_kbcategories}} Categories</h4>
                                     <div class="btn-wrapper d-flex align-items-center justify-content-center gap15 flex-wrap mb-0">
-                                        
-                                       
+
+
                                         <div class="form-group">
                                         <select class="form-select rounded" id="statusFilter_ctg">
                                                     <option value="">Sort by</option>
@@ -267,68 +267,71 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($kbcategories as $index => $category)
-                                                    {{-- Parent Category Row --}}
-                                                    <tr data-status="{{ strtolower($category->status ?? '') }}">
-                                                        <td>
-                                                            <button class="expand-btn border-0 bg-transparent" data-bs-toggle="collapse" data-bs-target="#group{{ $index }}">
+                                            @foreach ($kbcategories->where('parent_id', null) as $index => $category)
+                                                {{-- Parent Category Row --}}
+                                                <tr data-status="{{ strtolower($category->status ?? '') }}">
+                                                    <td>
+                                                        @if($category->children->count() > 0)
+                                                            <button class="expand-btn border-0 bg-transparent"
+                                                                    data-bs-toggle="collapse"
+                                                                    data-bs-target="#group{{ $index }}">
                                                                 <i class="fa fa-plus-circle"></i>
                                                             </button>
-                                                        </td>
-                                                        <td>{{ $category->name }}</td>
-                                                        <td>{{ $category->subcategories->count() ?? 0 }}</td>
-                                                        <td>{{ $category->articles->count() ?? 0 }}</td>
-                                                        <td>
-                                                            <span class="badge bg-white border text-dark tooltip-icon" title="View Articles">
-                                                                <a href="#"><img src="{{ asset('assets/img/icon/eye.svg') }}" alt="View"></a>
-                                                            </span>
-                                                        </td>
-                                                    </tr>
+                                                        @else
+                                                            <i class="fa fa-circle text-muted"></i>
+                                                        @endif
+                                                    </td>
+                                                    <td class="fw-semibold">{{ $category->name }}</td>
+                                                    <td>{{ $category->children->count() ?? 0 }}</td>
+                                                    <td>{{ $category->articles->count() ?? 0 }}</td>
+                                                    <td>
+                <span class="badge bg-white border text-dark tooltip-icon" title="View Articles">
+                    <a href="#"><img src="{{ asset('assets/img/icon/eye.svg') }}" alt="View"></a>
+                </span>
+                                                    </td>
+                                                </tr>
 
-                                                    {{-- Subcategories Collapse --}}
-                                                    @if($category->subcategories && $category->subcategories->count() > 0)
-                                                        <tr data-status="{{ strtolower($category->status ?? '') }}">
-                                                            <td colspan="5" class="p-0">
-                                                                <div class="collapse" id="group{{ $index }}">
-                                                                    <table class="table mb-0">
-                                                                        <tbody>
-                                                                            @foreach ($category->subcategories as $subIndex => $sub)
-                                                                                <tr class="level-1">
-                                                                                    <td style="width: 50px;"></td>
-                                                                                    <td>{{ $sub->name }}</td>
-                                                                                    <td style="width: 250px;">—</td>
-                                                                                    <td style="width: 200px;">{{ $sub->articles->count() ?? 0 }}</td>
-                                                                                    <td style="width: 100px;">
-                                                                                        <span class="badge bg-white border text-dark tooltip-icon" title="View Articles">
-                                                                                            <a href="#"><img src="{{ asset('assets/img/icon/eye.svg') }}" alt="View"></a>
-                                                                                        </span>
-                                                                                    </td>
-                                                                                </tr>
-                                                                            @endforeach
-                                                                        </tbody>
-                                                                    </table>
-                                                                </div>
+                                                {{-- Subcategories Collapse --}}
+                                                @if($category->children && $category->children->count() > 0)
+                                                    @foreach ($category->children as $subIndex => $sub)
+                                                        <tr class="collapse level-1"
+                                                            id="group{{ $index }}"
+                                                            data-bs-parent="#listingCategories"
+                                                            data-status="{{ strtolower($sub->status ?? '') }}">
+                                                            <td></td>
+                                                            <td>
+                                                                <span class="ms-4 d-inline-block">↳ {{ $sub->name }}</span>
+                                                            </td>
+                                                            <td>—</td>
+                                                            <td>{{ $sub->articles->count() ?? 0 }}</td>
+                                                            <td>
+                        <span class="badge bg-white border text-dark tooltip-icon" title="View Articles">
+                            <a href="#"><img src="{{ asset('assets/img/icon/eye.svg') }}" alt="View"></a>
+                        </span>
                                                             </td>
                                                         </tr>
-                                                    @endif
-                                                @endforeach
+                                                    @endforeach
+                                                @endif
+                                            @endforeach
                                             </tbody>
+
+
                                         </table>
                                     </div>
 
-                                    
+
                             </div>
                             </div>
-                    
+
                         </div>
                     </div>
                 </div>
-                           
-                                             
+
+
                     </div>
                     <div class="card-footer gap15 bg-white d-flex justify-content-end">
                     <a href="{{route('board.index')}}" class="theme-btn bg-white sm secondary fw-semibold rounded d-inline-block">Back to Listing</a>
-                                      
+
                     <div class="icon-box">
                                     <a href="#"><img src="{{ asset('assets/img/icon/edit.svg') }}" alt=""></a>
                                     <div class="divider"></div>
@@ -341,7 +344,7 @@
             </div>
         </div>
         </section>
-   
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const searchInput = document.querySelector('#searchInput');
@@ -374,7 +377,7 @@
 
             // Render visible rows
             tableBody.innerHTML = '';
-            
+
             // Check if there are no filtered rows and display a message
             if (filteredRows.length === 0) {
                 const noDataRow = document.createElement('tr');

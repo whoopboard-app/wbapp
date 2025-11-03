@@ -6,41 +6,6 @@
         <x-alert type="error" :message="$errors->first()" />
     @endforeach
 @endif
-<style>
-    .ts-wrapper {
-        padding: 0 !important;
-        border: 1px solid #d1d9e0;
-    }
-    .ts-control {
-        border: none !important;
-        align-content: center !important;
-    }
-    .form-select{
-        border: 1px solid #d1d9e0;
-    }
-    .p-text {
-        font-size: 17px !important;
-    }
-    .ts-dropdown, .ts-control, .ts-control input {
-        font-size: 14px !important;
-    }
-    label, .text-muted, .label {
-        font-size: 15px !important;
-    }
-    main.flex-1.p-8.pb-48{
-        padding-top : 0px !important;
-        padding-left : 0px !important;
-        padding-right : 0px !important;
-    }
-    .theme-btn {
-        letter-spacing: 0.5px !important;
-    }
-
-
-
-
-   
-</style>
 <section class="section-content-center view-changelog main-content-wrapper">
             <div class="row">
                 <div class="col-lg-12 view-changelog-details">
@@ -50,9 +15,9 @@
                         <div class="d-flex align-items-center border-title justify-content-between">
                             <h4 class="fw-medium mb-0">New Article</h4>
                              <div class="btn-wrapper mb-0 d-flex align-items-center justify-content-center gap15 flex-wrap">
-                                <button class="theme-btn bg-white sm secondary fw-semibold rounded d-inline-block" type="button" 
+                                <button class="theme-btn bg-white sm secondary fw-semibold rounded d-inline-block" type="button"
                                         onclick="window.location.reload();">Cancel</button>
-                                 
+
                              </div>
                         </div>
                         <div class="mx-auto p-3">
@@ -85,7 +50,7 @@
                                     <h6 class="text-gray fw-medium">Basic Information</h6>
                                     <span class="tooltip-icon" data-bs-toggle="tooltip" aria-label="Help" data-bs-original-title="Help">
                                         <a href="#"><img src="{{ asset('assets/img/icon/help.svg') }}" alt=""></a>
-                                        
+
                                     </span>
                                 </div>
                                 <p class="label my-3">
@@ -95,9 +60,9 @@
                                     <div class="col-12 mb-3">
                                         <div class="">
                                             <label for="kboard" class="input-label mb-1 fw-medium">
-                                               Select Knowledge Board
+                                               Select @customLabel('Knowledge Board')
                                             </label>
-                                            <select class="form-select w-100 rounded text-sm" id="kboard" name="kboard" required>
+                                            <select class="form-select w-100 rounded border text-sm" id="kboard" name="kboard" required>
                                                 <option value="">Select Board</option>
                                                 @foreach($boards as $board)
                                                     <option value="{{ $board->id }}">{{ $board->name }}</option>
@@ -116,51 +81,49 @@
                                                 placeholder="Placeholder" required>
                                         </div>
                                     </div>
-                                   <div class="col-12 mb-3">
-                                        <div class="">
+                                    <div class="col-12 mb-3">
+                                        <div>
                                             <label for="category_id" class="input-label mb-1 fw-medium">
                                                 Select Category
                                             </label>
-                                            <select class="form-select w-100 rounded text-sm" id="category_id" name="category_id" required >
+                                            <select class="form-select w-100 rounded border text-sm" id="category_id" name="category_id" required>
                                                 <option value="">Select Category</option>
-                                                @foreach($categories as $category)
+                                                @foreach($parentCategories as $category)
                                                     <option value="{{ $category->id }}">
                                                         {{ $category->name }} (Board: {{ $category->board->name ?? 'N/A' }})
                                                     </option>
                                                 @endforeach
                                             </select>
-                                                
                                         </div>
                                     </div>
-                                    <div class="col-12 mb-3">
-                                        <div class="">
+{{--                                    <div class="col-12 mb-3">
+                                        <div class="mb-3">
                                             <label for="other_article_category" class="input-label mb-1 fw-medium">
                                                 Select Sub-Category
-                                                
                                             </label>
-                                            <select class="input-field w-100 rounded border" id="other_article_category" name="other_article_category">
-                                                <option value="">None</option>
+                                            <select class="form-select w-100 rounded text-sm" id="other_article_category" name="other_article_category">
+                                                <option value="">Select a parent category first</option>
                                             </select>
                                         </div>
-                                    </div>
+                                    </div>--}}
                                     <div class="col-12 mb-2">
                                         <div class="">
                                             <label for="description" class="input-label mb-1 fw-medium">
-                                                Article Description
+                                                Detail Post
                                             </label>
-                                            <textarea rows="3" id="description" name="description" maxlength="190" class="input-field w-100 rounded" placeholder="Placeholder"></textarea>
-                                          
+                                            <textarea rows="3" id="description" name="description" class="input-field w-100 rounded" placeholder="Placeholder"></textarea>
+
                                         </div>
                                     </div>
 
                                 </div>
                             </div>
-                            <div class="basic-information mt-3">
+{{--                            <div class="basic-information mt-3">
                                 <div class="d-flex justify-content-between px-0 border-title">
                                     <h6 class="text-gray fw-medium">Visibility & Notification</h6>
                                     <span class="tooltip-icon" data-bs-toggle="tooltip" aria-label="Help" data-bs-original-title="Help">
                                         <a href="#"><img src="{{ asset('assets/img/icon/help.svg') }}" alt=""></a>
-                                        
+
                                     </span>
                                 </div>
                                 <p class="label my-3">
@@ -175,18 +138,18 @@
                                             <label for="show-widget" class="d-flex align-items-center gap-2 rounded">
                                                 <span class="checkbox d-flex align-items-center justify-content-center rounded-1 text-white"><i class="fa-regular fa-check"></i></span> Yes </label>
                                         </div>
-                                        
-                                    
+
+
                                     </div>
-                                    
+
                                 </div>
-                            </div>
-                            <div class="basic-information mt-3">
+                            </div>--}}
+{{--                            <div class="basic-information mt-3">
                                 <div class="d-flex justify-content-between px-0 border-title">
                                     <h6 class="text-gray fw-medium">Link to Changelog</h6>
                                     <span class="tooltip-icon" data-bs-toggle="tooltip" aria-label="Help" data-bs-original-title="Help">
                                         <a href="#"><img src="{{ asset('assets/img/icon/help.svg') }}" alt=""></a>
-                                        
+
                                     </span>
                                 </div>
                                 <p class="label my-3">
@@ -196,68 +159,91 @@
                                     <div class="col-12 mb-2">
                                         <label for="link_changelog" class="input-label mb-1 fw-medium">
                                             Link to Change log
-                                            
+
                                         </label>
                                         <select class="form-select w-100 rounded text-sm input-field" id="linkchangelog" name="link_changelog[]" multiple>
                                             <option value="">Select</option>
                                             <option value="1">Premium health</option>
                                             <option value="2">General</option>
-                                          
+
                                         </select>
                                     </div>
                                  </div>
-                            </div>
+                            </div>--}}
                             <div class="basic-information mt-3">
                                 <div class="d-flex justify-content-between px-0 border-title">
                                     <h6 class="text-gray fw-medium">Tags & Publishing</h6>
                                     <span class="tooltip-icon" data-bs-toggle="tooltip" aria-label="Help" data-bs-original-title="Help">
                                         <a href="#"><img src="{{ asset('assets/img/icon/help.svg') }}" alt=""></a>
-                                        
+
                                     </span>
                                 </div>
                                 <p class="label my-3">
                                    Organize your update with tags, set its status, and choose a publish date. This ensures updates are well-structured and go live at the right time.
                                 </p>
                                 <div class="form-condition-container border-bottom-0 mb-0 pb-0">
-                                    <div class="d-flex flex-column gap-3 mb-3 pb-1">
-                                        <div class="form-input form-condition">
+                                    <div class="d-flex flex-column">
+                                        <div class="form-input form-condition p-0 pb-3">
                                             <input type="hidden" name="popular_article" value="0">
-                                            <span class="label">Tag to Popular category articles</span>
-                                            <input type="checkbox" class="visually-hidden" id="popular_article" name="popular_article" value="1" checked>
+                                            <input type="checkbox" class="visually-hidden" id="popular_article" name="popular_article" value="1">
                                             <label for="popular_article" class="d-flex align-items-center gap-2 rounded">
                                                 <span class="checkbox d-flex align-items-center justify-content-center rounded-1 text-white"><i class="fa-regular fa-check"></i></span> Display are popular article </label>
                                         </div>
-                                        
-                                    
+
+
                                     </div>
-                                    
+
                                 </div>
                                 <div class="row">
                                     <div class="col-12 mb-3">
-                                        <label for="author" class="input-label mb-1 fw-medium">
+                                        <label for="author" class="input-label mb-2 fw-medium flex items-center gap-2">
                                             Author for this article
-                                            
                                         </label>
-                                        <select class="form-select w-100 rounded text-sm" id="author" name="author[]" multiple required>
-                                            <option value="">Select</option>
+                                        <select
+                                            id="author"
+                                            name="author[]"
+                                            class="form-select select2 w-100 rounded border text-sm pl-0 pt-0 pb-0"
+                                            multiple
+                                            required
+                                        >
                                             @foreach($authors as $author)
-                                                <option value="{{ $author->id }}">
+                                                <option
+                                                    value="{{ $author->id }}"
+                                                    @if(isset($selectedAuthors) && in_array($author->id, old('author', $selectedAuthors))) selected @endif
+                                                >
                                                     {{ $author->name }} ({{ $author->email }})
                                                 </option>
                                             @endforeach
                                         </select>
                                     </div>
+                                    <div class="col-12">
+                                        <!-- Tags -->
+                                        @php
+                                            $selectedTags = [];
 
-                                    <div class="col-12 mb-3">
-                                        <label for="tagsSelect" class="input-label mb-2 fw-medium flex items-center gap-2">
-                                            Tags
-                                        </label>
-                                        <select id="tagsSelect" name="tagsSelect[]" class="form-select w-100 rounded text-sm" multiple required>
-                                            <option value="">Select</option>
-                                            @foreach($tags as $id => $name)
-                                                <option value="{{ $id }}">{{ $name }}</option>
-                                            @endforeach
-                                        </select>
+                                            if (isset($announcement) && !empty($announcement->tags)) {
+                                                $decoded = json_decode($announcement->tags, true);
+                                                if (is_array($decoded)) {
+                                                    $selectedTags = $decoded;
+                                                }
+                                            }
+                                        @endphp
+
+                                        <div class="col-12 mb-3">
+                                            <label for="tagsSelect" class="input-label mb-2 fw-medium flex items-center gap-2">
+                                                Tags
+                                            </label>
+                                            <select id="tagsSelect" name="tagsSelect[]" class="form-select select2 w-100 rounded border text-sm pl-0 pt-0 pb-0" multiple>
+                                                @foreach($tags as $id => $name)
+                                                    <option
+                                                        value="{{ $id }}"
+                                                        @if(in_array($id, old('tagsSelect', $selectedTags))) selected @endif
+                                                    >
+                                                        {{ $name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -279,7 +265,7 @@
                                         <div class="">
                                             <label for="recName" class="input-label mb-1 fw-medium">Name</label>
                                             <input id="recName" type="text" name="recName" placeholder="Name" class="input-field rounded w-100">
-                                            
+
                                         </div>
                                         </div>
                                         <div class="col-lg-12 col-12 mt-3">
@@ -295,10 +281,10 @@
                                             <a href="#" class="theme-btn text-primary bg-white sm secondary fw-semibold rounded d-inline-block">
                                                 Add Organization
                                             </a>
-                        
+
                                         </div>
                                         <div class="mt-3 faqs d-flex flex-wrap gap-3">
-                                           
+
                                         </div>
                                     </div>
                                 </div>
@@ -321,16 +307,42 @@
                         <div class="card-footer gap15 px-3 bg-white d-flex justify-content-start">
                             <button type="submit" class="theme-btn sm fw-semibold rounded d-inline-block">Create</button>
                             <button type="button" class="theme-btn bg-white sm secondary fw-semibold rounded" onclick="window.location.reload();">Cancel</button>
-                            
+
                         </div>
                     </form>
                 </div>
             </div>
-           
+
         </div>
 </section>
-
 <script>
+    const allCategories = @json($categories);
+    const $board = $('#kboard');
+    const $parentCategory = $('#category_id');
+//    const $subCategory = $('#other_article_category');
+    $board.on('change', function () {
+        const boardId = $(this).val();
+        $parentCategory.empty().append('<option value="">Select Category</option>');
+/*        $subCategory.empty().append('<option value="">Select a parent category first</option>');*/
+        if (!boardId) {
+            return;
+        }
+        const parentCategories = allCategories.filter(cat =>
+            cat.board_id == boardId
+        );
+
+        if (parentCategories.length > 0) {
+            parentCategories.forEach(cat => {
+                $parentCategory.append(
+                    `<option value="${cat.id}">${cat.name}</option>`
+                );
+            });
+        } else {
+            $parentCategory.append('<option value="">No categories found for this board</option>');
+        }
+    });
+
+    // --- Image preview logic ---
     function showPreview(event) {
         const input = event.target;
         const file = input.files[0];
@@ -339,18 +351,14 @@
 
         if (file) {
             const reader = new FileReader();
-            reader.onload = function(e) {
+            reader.onload = function (e) {
                 const previewImg = document.getElementById('preview-img');
                 previewImg.src = e.target.result;
-                previewImg.classList.remove('d-none'); // nayi file select hui to image dikhao
+                previewImg.classList.remove('d-none');
             };
             reader.readAsDataURL(file);
         }
     }
-    document.querySelector('form').addEventListener('submit', function(e){
-        e.preventDefault();
-    });
-    
 </script>
 
 @endsection

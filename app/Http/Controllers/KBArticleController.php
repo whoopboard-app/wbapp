@@ -15,24 +15,38 @@ class KBArticleController extends Controller
     public function create()
     {
         $tenantId = auth()->user()->tenant_id;
-        $boards = KBBoard::with('categories.articles')->where('tenant_id', $tenantId)->get();
+
+        $boards = KBBoard::with('categories.articles')
+            ->where('tenant_id', $tenantId)
+            ->orderByDesc('id')
+            ->get();
+
         $authors = User::where('tenant_id', $tenantId)->get();
-        $categories = KBCategory::with('board')->where('tenant_id', $tenantId)->where('status', 1)->get();
+
+        $categories = KBCategory::with('board')
+            ->where('tenant_id', $tenantId)
+            ->where('status', 1)
+            ->orderByDesc('id')
+            ->get();
+        $parentCategories = $categories;
+
         $tags = ChangelogTag::where('tenant_id', $tenantId)->pluck('tag_name', 'id');
 
-        if ($categories->isEmpty()) {
-            $categories = collect([(object)[
+        if ($parentCategories->isEmpty()) {
+            $parentCategories = collect([(object)[
                 'id' => null,
-                'name' => 'No Categories Found', // 👈 match the property name used in Blade
-                'board' => (object)['name' => 'N/A'] // 👈 avoid undefined "board" when you access $category->board->name
+                'name' => 'No Categories Found',
+                'board' => (object)['name' => 'N/A']
             ]]);
         }
+
         if ($tags->isEmpty()) {
             $tags = collect([null => 'No Data Found']);
         }
 
-        return view('kbarticle.create', compact('categories', 'tags', 'boards', 'authors'));
+        return view('kbarticle.create', compact('parentCategories', 'categories', 'tags', 'boards', 'authors'));
     }
+
 
     public function store(Request $request)
     {
@@ -76,8 +90,10 @@ class KBArticleController extends Controller
         $article = KBArticle::with('category', 'board')->findOrFail($articleId);
         $category = $article->category;
         $board = $article->board;
+        $tagIds = explode(',', $article->tag_ids);
+        $tagNames = ChangelogTag::whereIn('id', $tagIds)->pluck('tag_name')->toArray();
 
-        return view('kbarticle.view', compact('article', 'category', 'board'));
+        return view('kbarticle.view', compact('article', 'category', 'board','tagNames'));
     }
 
     public function showArticle($categoryId)

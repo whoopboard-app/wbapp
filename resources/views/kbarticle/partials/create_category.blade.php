@@ -49,9 +49,9 @@
                         <div class="d-flex align-items-center border-title justify-content-between">
                             <h4 class="fw-medium mb-0">New Category</h4>
                              <div class="btn-wrapper mb-0 d-flex align-items-center justify-content-center gap15 flex-wrap">
-                                <button class="theme-btn bg-white sm secondary fw-semibold rounded d-inline-block" type="button" 
+                                <button class="theme-btn bg-white sm secondary fw-semibold rounded d-inline-block" type="button"
                                         onclick="window.location.reload();">Cancel</button>
-                                 
+
                              </div>
                         </div>
                         <div class="mx-auto p-3">
@@ -86,16 +86,29 @@
                                 <div class="row">
                                     <div class="col-12 mb-3">
                                         <div class="">
+                                            <label for="kboard" class="input-label mb-1 fw-medium">
+                                                Select @customLabel('Knowledge Board')
+                                            </label>
+                                            <select class="form-select w-100 rounded text-sm border" id="kboard" name="kboard" required>
+                                                <option value="">Select Board</option>
+                                                @foreach($boards as $board)
+                                                    <option value="{{ $board->id }}">{{ $board->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 mb-3">
+                                        <div class="">
                                             <label for="categoryName" class="input-label mb-1 fw-medium">
                                                 Category Name
-                                                
+
                                             </label>
                                             <input type="text" id="categoryName" name="categoryName"
                                                 class="input-field w-100 rounded" placeholder="Placeholder" required>
-                                                
+
                                         </div>
                                     </div>
-                                   
+
                                     <div class="col-12 mb-2">
                                         <div class="">
                                             <label for="shortDesc" class="input-label mb-1 fw-medium">
@@ -108,7 +121,7 @@
                                         <div class="">
                                             <label for="parentCategory" class="input-label mb-1 fw-medium">
                                                 Select Parent Category
-                                                
+
                                             </label>
                                             <select class="input-field w-100 rounded border" id="parentCategory" name="parent_id">
                                             <option value="">None</option>
@@ -137,7 +150,7 @@
                                         <div class="">
                                             <label for="sub_category" class="input-label mb-1 fw-medium">
                                                 Select Sub-Category
-                                                
+
                                             </label>
                                             <select class="input-field w-100 rounded border" id="sub_category" name="sub_category_id">
                                                 <option value="">None</option>
@@ -170,19 +183,19 @@
                                     </div>
 
                                 </div>
-                               
-                            
+
+
                             </div>
                         </div>
                         <div class="card-footer gap15 px-3 bg-white d-flex justify-content-start">
                             <button type="submit" class="theme-btn sm fw-semibold rounded d-inline-block">Create</button>
                             <button type="button" class="theme-btn bg-white sm secondary fw-semibold rounded" onclick="window.location.reload();">Cancel</button>
-                            
+
                         </div>
                     </form>
                 </div>
             </div>
-           
+
         </div>
 </section>
 <script>
@@ -205,6 +218,6 @@
     document.querySelector('form').addEventListener('submit', function(e){
         e.preventDefault();
     });
-    
+
 </script>
 @endsection

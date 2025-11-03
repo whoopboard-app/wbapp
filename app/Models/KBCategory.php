@@ -22,34 +22,50 @@ class KBCategory extends Model
         'is_popular',
     ];
 
-    // A category may have subcategories
-    public function subcategories()
+    /**
+     * 🔹 A category may have multiple subcategories (children)
+     */
+    public function children()
     {
-        return $this->hasMany(KBCategory::class, 'parent_id');
+        return $this->hasMany(self::class, 'parent_id');
     }
+
+    /**
+     * 🔹 Recursive relationship for nested children (multi-level)
+     */
     public function childrenRecursive()
     {
-        return $this->hasMany(KBCategory::class, 'parent_id')
+        return $this->hasMany(self::class, 'parent_id')
             ->with(['articles', 'childrenRecursive']);
     }
 
-    // A category belongs to a parent category
+    /**
+     * 🔹 A category may belong to a parent category
+     */
     public function parent()
     {
-        return $this->belongsTo(KBCategory::class, 'parent_id');
+        return $this->belongsTo(self::class, 'parent_id');
     }
+
+    /**
+     * 🔹 A category belongs to a board
+     */
     public function board()
     {
         return $this->belongsTo(KBBoard::class, 'board_id');
     }
+
+    /**
+     * 🔹 A category can have multiple articles
+     */
     public function articles()
     {
         return $this->hasMany(KBArticle::class, 'category_id');
     }
-    public function children()
-    {
-        return $this->hasMany(KBCategory::class, 'parent_id');
-    }
+
+    /**
+     * 🔹 Get total article count including subcategories (recursive)
+     */
     public function totalArticlesCount()
     {
         $count = $this->articles ? $this->articles->count() : 0;
@@ -60,5 +76,4 @@ class KBCategory extends Model
 
         return $count;
     }
-
 }
