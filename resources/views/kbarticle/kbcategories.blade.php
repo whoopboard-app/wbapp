@@ -251,12 +251,12 @@
                                      <a href="#" id="collapseAllBtn" class="theme-btn bg-white text-primary sm secondary fw-semibold rounded d-inline-block">
                                          Collapse All
                                      </a>
-                                    <a href="#" class="theme-btn disabled-link bg-white text-primary sm secondary fw-semibold rounded d-inline-block">
+{{--                                    <a href="#" class="theme-btn disabled-link bg-white text-primary sm secondary fw-semibold rounded d-inline-block">
                                         Edit Parent Categories
                                     </a>
                                     <a href="#" class="theme-btn disabled-link bg-white text-primary sm secondary fw-semibold rounded d-inline-block">
                                         Edit Sub Categories
-                                    </a>
+                                    </a>--}}
                                  </div>
                                  <div class="card pt-0 px-0 bg-white mt-10px mb-3 ">
 
