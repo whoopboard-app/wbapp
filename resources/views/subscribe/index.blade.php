@@ -61,7 +61,7 @@
                 Add Subscribe Member
             </a>
             
-            <a href="#" class="theme-btn text-primary bg-white sm secondary fw-semibold rounded d-inline-block">
+            <a href="{{ route('segmentation.create') }}" class="theme-btn text-primary bg-white sm secondary fw-semibold rounded d-inline-block">
                 New User Segmentation
             </a>
             

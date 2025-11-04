@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
             updateCounter();
         });
     const subscribe_date = document.querySelector("#subscribe_date");
-     if (subscribe_date) {
+    if (subscribe_date) {
         flatpickr(subscribe_date, {
             enableTime: false,
             dateFormat: "Y-m-d",
@@ -40,7 +40,17 @@ document.addEventListener("DOMContentLoaded", () => {
             altFormat: "m/j/Y",
             allowInput: true, // now it’s editable
         });
-     }
+    }
+    const segmentDate = document.querySelector("#segmentDate");
+    if (segmentDate) {
+        flatpickr(segmentDate, {
+            enableTime: false,
+            dateFormat: "Y-m-d",
+            altInput: true,
+            altFormat: "m/j/Y",
+            allowInput: true,
+        });
+    }
     const recdateInput = document.querySelector("#recDateTime");
     if (recdateInput) {
         flatpickr(recdateInput, {
@@ -114,6 +124,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "#other_article_category2",
         "#linkchangelog",
         "#userSegments",
+        "#tier",
     ];
 
     const config = {

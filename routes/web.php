@@ -14,6 +14,7 @@
     use App\Http\Controllers\KBBoardController;
     use App\Http\Controllers\InviteController;
     use App\Http\Controllers\AppBillingController;
+    use App\Http\Controllers\SegmentationController;
     use App\Http\Controllers\SubscribeController;
     use App\Http\Controllers\ComingSoonController;
     use App\Http\Controllers\DashboardController;
@@ -221,16 +222,20 @@
     });
 
     Route::prefix('subscribe')->name('subscribe.')->group(function () {
-            Route::get('signup', [SubscribeController::class, 'create'])->name('create');
-            Route::post('signup', [SubscribeController::class, 'signup'])
-            ->name('signup');
-            Route::post('subscribe', [SubscribeController::class, 'store'])->name('store');
-            Route::get('confirm/{token}', [SubscribeController::class, 'confirm'])
-                ->name('confirmation');
-            Route::get('index', [SubscribeController::class, 'index'])
-                ->name('index');
-        });
+        Route::get('signup', [SubscribeController::class, 'create'])->name('create');
+        Route::post('signup', [SubscribeController::class, 'signup'])
+        ->name('signup');
+        Route::post('subscribe', [SubscribeController::class, 'store'])->name('store');
+        Route::get('confirm/{token}', [SubscribeController::class, 'confirm'])
+            ->name('confirmation');
+        Route::get('index', [SubscribeController::class, 'index'])
+            ->name('index');
+    });
 
+    Route::prefix('segmentation')->name('segmentation.')->group(function () {
+        Route::get('create', [SegmentationController::class, 'create'])->name('create');
+        Route::post('store', [SegmentationController::class, 'store'])->name('store');
+    });
     Route::get('/app-settings', [App\Http\Controllers\AppSettingsController::class, 'index'])
         ->name('app.settings');
 
