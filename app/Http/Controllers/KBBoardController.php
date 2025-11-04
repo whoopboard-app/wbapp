@@ -43,6 +43,7 @@ class KBBoardController extends Controller
             'embedCode' => 'nullable|string',
             'status' => 'integer|required',
         ]);
+        $status = $request->has('draft') && $request->draft == 1 ? 2 : $request->status;
         $tenantID = auth()->user()->tenant_id;
         $board = KBBoard::create([
             'tenant_id'   => $tenantID,
@@ -51,7 +52,7 @@ class KBBoardController extends Controller
             'type'        => $request->boardType,
             'docs_type'   => $request->docsType,
             'is_hidden'   => $request->has('visibility') ? 1 : 0,
-            'status'      => $request->status,
+            'status'      => $status,
             'public_url'  => $request->bublicURL,
             'embed_code'  => $request->embedCode,
         ]);
@@ -63,8 +64,7 @@ class KBBoardController extends Controller
     {
         $board = KBBoard::findOrFail($id);
         $board->delete();
-
-        return redirect()->back()->with('success', 'Board deleted successfully!');
+        return redirect()->route('board.index')->with('success', 'Board Deleted successfully!');
     }
     public function categories($boardId)
     {
@@ -77,10 +77,17 @@ class KBBoardController extends Controller
         });
         return view('kbarticle.kbcategories', compact('board', 'totalCount', 'kbcategories', 'total_kbcategories'));
     }
+    public function edit($id)
+    {
+        $tenant = auth()->user()->tenant;
+        $board = KBBoard::findOrFail($id);
 
+        return view('kbarticle.create_board', compact('tenant', 'board'));
+    }
     public function update(Request $request, $boardId)
     {
         $board = KBBoard::findOrFail($boardId);
+        $status = $request->has('draft') && $request->draft == 1 ? 2 : $request->status;
         $board->update([
             'name'         => $request->boardName,
             'description'  => $request->boardDesc,
@@ -88,12 +95,11 @@ class KBBoardController extends Controller
             'docs_type'    => $request->docsType,
             'public_url'   => $request->bublicURL,
             'embed_code'   => $request->embedCode,
+            'status'       => $status,
         ]);
-
         $board->is_hidden = $request->has('visibility') ? 1 : 0;
         $board->save();
-
-        return redirect()->back()->with('success', 'Board updated successfully!');
+        return redirect()->route('board.index')->with('success', 'Board updated successfully!');
     }
 
     public function search(Request $request)

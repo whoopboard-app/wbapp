@@ -39,13 +39,27 @@
                         <div class="d-flex align-items-center border-title justify-content-between">
                             <h4 class="fw-medium mb-0">33 Impression</h4>
                              <div class="btn-wrapper d-flex align-items-center justify-content-center gap15 flex-wrap mb-0">
+                                 {{--<a href="{{route('kbcategory.create')}}" class="theme-btn sm fw-semibold rounded d-inline-block">
+                                     Add Category
+                                 </a>
+                                 <a href="{{route('kbarticle.create')}}" class="theme-btn text-primary bg-white sm secondary fw-semibold rounded d-inline-block">
+                                     Add Article
+                                 </a>--}}
                                 <a href="{{route('board.index')}}" class="theme-btn bg-white sm secondary fw-semibold rounded d-inline-block">Back to Listing</a>
                                  <div class="icon-box">
-                                    <a href="#"><img src="{{ asset('assets/img/icon/edit.svg') }}" alt=""></a>
+                                     <a href="{{ route('board.edit', $board->id) }}">
+                                         <img src="{{ asset('assets/img/icon/edit.svg') }}" alt="Edit">
+                                     </a>
                                     <div class="divider"></div>
                                     <a href="#"><img src="{{ asset('assets/img/icon/oval.svg') }}" alt=""></a>
                                     <div class="divider"></div>
-                                    <a href="#"><img src="{{ asset('assets/img/icon/trash.svg') }}" alt=""></a>
+                                     <form action="{{ route('board.destroy', $board->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this board?');" style="display:inline;">
+                                         @csrf
+                                         @method('DELETE')
+                                         <button type="submit" style="border:none; background:none; padding:0;">
+                                             <img src="{{ asset('assets/img/icon/trash.svg') }}" alt="Delete">
+                                         </button>
+                                     </form>
                                 </div>
                              </div>
                         </div>
@@ -267,6 +281,7 @@
                                             <tr>
                                                 <th style="width: 50px;">#</th>
                                                 <th>Category Name</th>
+                                                <th>Category Name</th>
                                                 <th style="width: 250px;">Subcategories</th>
                                                 <th style="width: 200px;">Number of Articles</th>
                                                 <th style="width: 100px;">Action</th>
@@ -291,15 +306,24 @@
 
                     </div>
                     <div class="card-footer gap15 bg-white d-flex justify-content-end">
-                    <a href="{{route('board.index')}}" class="theme-btn bg-white sm secondary fw-semibold rounded d-inline-block">Back to Listing</a>
-
-                    <div class="icon-box">
-                                    <a href="#"><img src="{{ asset('assets/img/icon/edit.svg') }}" alt=""></a>
-                                    <div class="divider"></div>
-                                    <a href="#"><img src="{{ asset('assets/img/icon/oval.svg') }}" alt=""></a>
-                                    <div class="divider"></div>
-                                    <a href="#"><img src="{{ asset('assets/img/icon/trash.svg') }}" alt=""></a>
-                                </div>
+                        <div class="btn-wrapper d-flex align-items-center justify-content-center gap15 flex-wrap mb-0">
+                            <a href="{{route('board.index')}}" class="theme-btn bg-white sm secondary fw-semibold rounded d-inline-block">Back to Listing</a>
+                            <div class="icon-box">
+                                <a href="{{ route('board.edit', $board->id) }}">
+                                    <img src="{{ asset('assets/img/icon/edit.svg') }}" alt="Edit">
+                                </a>
+                                <div class="divider"></div>
+                                <a href="#"><img src="{{ asset('assets/img/icon/oval.svg') }}" alt=""></a>
+                                <div class="divider"></div>
+                                <form action="{{ route('board.destroy', $board->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this board?');" style="display:inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" style="border:none; background:none; padding:0;">
+                                        <img src="{{ asset('assets/img/icon/trash.svg') }}" alt="Delete">
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
                         </div>
                 </div>
             </div>

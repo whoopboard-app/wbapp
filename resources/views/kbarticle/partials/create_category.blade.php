@@ -133,19 +133,18 @@
                                             </label>
                                             <select class="input-field w-100 rounded border" id="parentCategory" name="parent_id">
                                             <option value="">None</option>
-
                                             @if($boards->isNotEmpty())
                                                 @foreach($boards as $board)
                                                     @if($board->categories->isNotEmpty())
-                                                        <optgroup label="{{ $board->name }}">
+                                                            <optgroup label="{{ $board->name }}">
                                                             @foreach($board->categories as $category)
                                                                 <option value="{{ $category->id }}">{{ $category->name }}</option>
                                                             @endforeach
-                                                        </optgroup>
+                                                    </optgroup>
                                                     @else
-                                                        <optgroup label="{{ $board->name }}">
+                                                    <optgroup label="{{ $board->name }}">
                                                             <option disabled>No categories available</option>
-                                                        </optgroup>
+                                                    </optgroup>
                                                     @endif
                                                 @endforeach
                                             @else

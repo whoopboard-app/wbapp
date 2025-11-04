@@ -18,6 +18,11 @@
             {{ str_repeat('↳ ', $level) }} {{ $category->name }}
         </span>
     </td>
+    <td>
+        <span class="d-inline-block ms">
+{{ ucfirst($category->status) }}
+        </span>
+    </td>
 
     <td>{{ $category->all_descendants_count }}</td>
     <td>{{ $category->articles->count() ?? 0 }}</td>

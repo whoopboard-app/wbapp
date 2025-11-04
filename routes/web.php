@@ -186,7 +186,8 @@
         Route::post('store', [KBBoardController::class, 'store'])->name('board.store');
         Route::get('{board}/categories', [KBBoardController::class, 'categories'])->name('board.categories');
         Route::delete('{board}', [KBBoardController::class, 'destroy'])->name('board.destroy');
-        Route::put('{board}', [KBBoardController::class, 'update'])->name('board.update');
+        Route::get('/boards/{id}/edit', [KBBoardController::class, 'edit'])->name('board.edit');
+        Route::put('/boards/{id}', [KBBoardController::class, 'update'])->name('board.update');
         Route::get('search', [KBBoardController::class, 'search'])->name('board.search');
     });
 

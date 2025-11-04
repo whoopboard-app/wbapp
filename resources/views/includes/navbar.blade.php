@@ -132,7 +132,7 @@
                         <li><a class="dropdown-item" href="{{ route('kbarticle.create') }}">New Article</a></li>
                         <li><a class="dropdown-item" href="#">New Testimonial</a></li>
                         <li><a class="dropdown-item" href="#">New Feedback</a></li>
-                        <li><a class="dropdown-item" href="{{route('board.index')}}">New @customLabel('Knowledge Board')</a></li>
+                        <li><a class="dropdown-item" href="{{route('board.create')}}">New @customLabel('Knowledge Board')</a></li>
                     </ul>
                 </div>
 
