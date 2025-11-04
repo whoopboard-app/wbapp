@@ -5,11 +5,11 @@
             <div class="d-flex justify-content-between">
                 <h4 class="fw-medium font-16 ">@customLabel('Knowledge Board')</h4>
                 <div class="btn-wrapper d-flex align-items-center justify-content-center gap-2 flex-wrap mb-0">
-                    <a href="{{route('kbarticle.create')}}" class="theme-btn sm fw-semibold rounded d-inline-block">
-                        Add Article
-                    </a>
-                    <a href="{{ route('board.create') }}" class="theme-btn text-primary bg-white sm secondary fw-semibold rounded d-inline-block">
+                    <a href="{{ route('board.create') }}" class="theme-btn sm fw-semibold rounded d-inline-block">
                         Add @customLabel('Knowledge Board')
+                    </a>
+                    <a href="{{route('kbarticle.create')}}" class="theme-btn text-primary bg-white sm secondary fw-semibold rounded d-inline-block">
+                        Add Article
                     </a>
                     <a href="{{route('kbcategory.create')}}" class="theme-btn text-primary bg-white sm secondary fw-semibold rounded d-inline-block">
                         Add Category
