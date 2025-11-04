@@ -41,6 +41,7 @@ class KBBoardController extends Controller
             'docsType'  => 'required|string',
             'bublicURL' => 'nullable',
             'embedCode' => 'nullable|string',
+            'status' => 'integer|required',
         ]);
         $tenantID = auth()->user()->tenant_id;
         $board = KBBoard::create([
@@ -50,6 +51,7 @@ class KBBoardController extends Controller
             'type'        => $request->boardType,
             'docs_type'   => $request->docsType,
             'is_hidden'   => $request->has('visibility') ? 1 : 0,
+            'status'      => $request->status,
             'public_url'  => $request->bublicURL,
             'embed_code'  => $request->embedCode,
         ]);

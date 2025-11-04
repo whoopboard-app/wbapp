@@ -39,8 +39,16 @@
         <x-alert type="error" :message="$errors->first()" />
     @endforeach
 @endif
-
-<section class="section-content-center view-changelog main-content-wrapper">
+<div class="d-flex justify-content-between px-5 py-4 pb-0">
+    <h4 class="fw-medium font-16">Add Board Category</h4>
+    <div class="btn-wrapper d-flex align-items-center justify-content-center gap-2 flex-wrap mb-2">
+        <a href="{{ route('board.index') }}" class="theme-btn bg-white sm secondary fw-semibold rounded d-inline-flex align-items-center gap-2">
+            <img src="{{ asset('assets/img/chevron-left.svg') }}" alt="Back" class="align-text-bottom">
+            Back to Listing Page
+        </a>
+    </div>
+</div>
+<section class="section-content-center view-changelog main-content-wrapper pt-0">
             <div class="row">
                 <div class="col-lg-12 view-changelog-details">
                     <div class="card p-0 bg-white mb-3">

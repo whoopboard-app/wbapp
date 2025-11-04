@@ -16,6 +16,7 @@ class KBBoard extends Model
         'tenant_id',
         'description',
         'type',
+        'status',
         'docs_type',
         'is_hidden',
         'public_url',

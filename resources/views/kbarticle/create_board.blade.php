@@ -86,19 +86,6 @@
                                                     </select>
                                                 </div>
                                             </div>
-
-                                            <div class="col-12 mb-3">
-                                                <div class="form-input">
-                                                    <label class="form-label fw-medium">Hide From Structure</label>
-                                                    <div class="form-check form-switch">
-                                                        <input class="form-check-input" type="checkbox" id="visibility1" name="visibility">
-                                                        <label class="form-check-label" for="visibility1" id="visibilityLabel">
-                                                            Private (Hidden from structure)
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-
                                             <div class="col-12 mb-3">
                                                 <div class="form-input">
                                                     <label for="bublicURL" class="input-label mb-1 fw-medium">Your Knowledge Path URL</label>
@@ -112,13 +99,39 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-12 mb-3">
+                                            <div class="col-12">
                                                 <div class="form-input">
                                                     <label for="embedCode" class="input-label mb-1 fw-medium">Embed Code</label>
                                                     <textarea id="embedCode" name="embedCode" rows="3" readonly class="input-field w-100 rounded border-dashed" placeholder="Placeholder"></textarea>
                                                     <a href="#" onclick="embedCodeFunction(event)" class="fw-medium label" id="copyBtn">Copy Embed Code</a>
                                                 </div>
                                             </div>
+                                            <div class="col-12">
+                                                <div class="form-input">
+                                                    <div class="form-check form-switch">
+                                                        <input class="form-check-input" type="checkbox" id="visibility1" name="visibility">
+                                                        <label class="form-check-label" for="visibility1" id="visibilityLabel">
+                                                            Private (Hidden from structure)
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="form-input">
+                                                    <label for="status" class="input-label mb-1 fw-medium">
+                                                        Status
+                                                    </label>
+                                                    <select class="form-select w-100 rounded border" id="status" name="status">
+                                                        <option value="">Select</option>
+                                                        <option value="1">Active</option>
+                                                        <option value="0">Inactive</option>
+                                                        <option value="2">Draft</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <span class="mt-3 label fw-medium" style="color: #CBD5E1;"><span id="schedulePostInfo" class="mt-3 label fw-medium" style="color: #CBD5E1;">
+    @customLabel('Knowledge Board') - Board Status (Pending)
+</span></span>
                                         </div>
                                     </div>
                                 </div>
@@ -137,7 +150,26 @@
         </section>
 
     <script>
-            const fileInput = document.getElementById('feature-banner');
+        document.addEventListener('DOMContentLoaded', function() {
+            const statusSelect = document.getElementById('status');
+            const scheduleSpan = document.getElementById('schedulePostInfo');
+            const statusMap = {
+                '0': 'Inactive',
+                '1': 'Active',
+                '2': 'Draft'
+            };
+            statusSelect.addEventListener('change', function() {
+                const selectedStatus = this.value;
+                if (!selectedStatus) {
+                    scheduleSpan.textContent = "Schedule Post - Will get post on time";
+                    return;
+                }
+                const statusLabel = statusMap[selectedStatus] || 'Unknown';
+                scheduleSpan.textContent = `Board Status - (${statusLabel} Board)`;
+            });
+        });
+
+        const fileInput = document.getElementById('feature-banner');
             const fileNameDiv = document.querySelector('.upload-input .file-name');
 
             fileInput.addEventListener('change', function() {

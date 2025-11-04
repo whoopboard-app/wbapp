@@ -49,19 +49,25 @@
                                 </div>
                              </div>
                         </div>
-                         <div class=" p-3">
-                        <!-- <div class="d-flex justify-content-start">
-                                <div class="d-inline-block">
-                                    <a href="#"><span class="badge fw-normal bg-white published rounded-pill">Published</span></a>
-                                    <a href="#"><span class="badge fw-normal bg-white scheduled rounded-pill">Scheduled</span></a>
-                                    <a href="#"><span class="badge fw-normal bg-white draft rounded-pill">Draft</span></a>
-                                    <a href="#"><span class="badge fw-normal bg-white inactive rounded-pill">Draft</span></a>
-                                </div>
-                        </div> -->
-
-
+                         <div class=" p-3 border-top">
+                             @php
+                                 $statusClasses = [
+                                     0 => 'status-inactive',    // Inactive
+                                     1 => 'status-active',  // Active
+                                     2 => 'status-draft' // Draft
+                                 ];
+                                 $statusLabels = [
+                                     0 => 'Inactive',
+                                     1 => 'Active',
+                                     2 => 'Draft'
+                                 ];
+                             @endphp
+                             <span class="badge fw-normal bg-white
+                        {{ $board->status == '1' ? 'status-active' : ($board->status == '2' ? 'status-draft' : 'status-inactive') }}
+                        rounded-pill border-1">
+                        {{ $board->status == '1' ? 'Active' : ($board->status == '2' ? 'Draft' : 'Inactive') }}
+                    </span>
                         <div class="section-title mb-4">
-
                                 <h2 class="fw-semibold mb-2 pb-1 fs-2">
                                     {{$board->name}}
                                 </h2>
