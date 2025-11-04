@@ -1,95 +1,39 @@
 @php
-    $collapseId = 'collapseCategory' . $category->id;
+    $collapseId = 'group' . $category->id;
+    $rowClasses = $level > 0 ? "child-row d-none {$parentClass}" : '';
 @endphp
 
-<div class="{{ $level === 0 ? 'card mb-2 rounded border bg-white' : 'mb-2 ps-3' }}">
-    <!-- Category Header -->
-    <div class="card-header d-flex justify-content-between align-items-center board-clickable
-                {{ $level === 0 ? 'rounded border-0' : 'border-0 ps-0 bg-transparent' }}"
-         style="cursor: pointer;"
-         onclick="toggleCategory('{{ $collapseId }}', event)">
-        <div class="d-flex align-items-center">
-            @if($category->children && $category->children->count())
-                <i id="arrow-{{ $collapseId }}"
-                   class="fa fa-chevron-right me-2 text-muted"
-                   style="transition: transform 0.3s;"></i>
-            @else
-                <span class="me-2"></span>
-            @endif
-
-            <span class="fw-semibold">{{ $category->name }}</span>
-
-            @php
-                $totalCount = $category->totalArticlesCount();
-            @endphp
-
-            @if($totalCount > 0)
-                <span class="badge bg-primary ms-2">Total Articles {{ $totalCount }}</span>
-            @else
-                <span class="text-muted small ms-2">No articles yet</span>
-            @endif
-
-            @if($category->articles && $category->articles->count())
-                <span class="badge bg-primary ms-2">{{ $category->articles->count() }} Associated Articles</span>
-            @endif
-        </div>
-
-        @if($totalCount > 0)
-            <a href="{{ route('kbcategory.articles', ['category' => $category->id]) }}"
-               class="btn btn-sm btn-outline-primary d-flex align-items-center"
-               onclick="event.stopPropagation()">
-                <i class="fa fa-eye me-1"></i> View Articles
-            </a>
+<tr class="level-{{ $level }} {{ $rowClasses }}" data-status="{{ strtolower($category->status ?? '') }}" data-id="{{ $category->id }}">
+    <td>
+        @if($category->children->count() > 0)
+            <button class="expand-btn border-0 bg-transparent" data-group="{{ $collapseId }}">
+                <i class="fa fa-plus-circle"></i>
+            </button>
+        @else
+            <i class="fa fa-circle text-muted"></i>
         @endif
-    </div>
+    </td>
+    <td>
+        <span class="d-inline-block ms-{{ $level * 4 }}">
+            {{ str_repeat('↳ ', $level) }} {{ $category->name }}
+        </span>
+    </td>
 
-    <!-- Child Categories -->
-    @if($category->children && $category->children->count())
-        <div class="child-collapse" id="{{ $collapseId }}" style="display: none;">
-            <div class="card-body ps-4 {{ $level === 0 ? '' : 'pt-1 pb-1 ps-3' }}">
-                @foreach($category->children as $child)
-                    @include('kbarticle.partials.category_tree', ['category' => $child, 'level' => $level + 1])
-                @endforeach
-            </div>
-        </div>
-    @endif
-</div>
+    <td>{{ $category->all_descendants_count }}</td>
+    <td>{{ $category->articles->count() ?? 0 }}</td>
+    <td>
+        <span class="badge bg-white border text-dark tooltip-icon" title="View Articles">
+            <a href="#"><img src="{{ asset('assets/img/icon/eye.svg') }}" alt="View"></a>
+        </span>
+    </td>
+</tr>
 
-<script>
-    function toggleCategory(collapseId, event) {
-        if (event.target.closest('.dropdown') || event.target.tagName === 'A') return;
-
-        const el = document.getElementById(collapseId);
-        const arrow = document.getElementById('arrow-' + collapseId);
-
-        if (el.style.display === 'none' || el.style.display === '') {
-            // Expand
-            el.style.display = 'block';
-            el.style.height = '0px';
-            const fullHeight = el.scrollHeight + 'px';
-            el.style.transition = 'height 0.3s ease';
-            setTimeout(() => el.style.height = fullHeight, 10);
-
-            // Rotate arrow
-            if (arrow) arrow.style.transform = 'rotate(90deg)';
-
-            el.addEventListener('transitionend', function handler() {
-                el.style.height = 'auto';
-                el.removeEventListener('transitionend', handler);
-            });
-        } else {
-            // Collapse
-            el.style.height = el.scrollHeight + 'px';
-            setTimeout(() => el.style.height = '0px', 10);
-
-            // Rotate arrow back
-            if (arrow) arrow.style.transform = 'rotate(0deg)';
-
-            el.addEventListener('transitionend', function handler() {
-                el.style.display = 'none';
-                el.removeEventListener('transitionend', handler);
-            });
-        }
-    }
-</script>
-
+@if($category->children && $category->children->count() > 0)
+    @foreach($category->children as $child)
+        @include('kbarticle.partials.category_tree', [
+            'category' => $child,
+            'level' => $level + 1,
+            'parentClass' => $collapseId
+        ])
+    @endforeach
+@endif

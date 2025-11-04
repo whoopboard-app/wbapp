@@ -157,4 +157,30 @@ class KBArticleController extends Controller
 
         return response()->json(['html' => $html]);
     }
+    public function edit($articleId)
+    {
+        $tenantId = auth()->user()->tenant_id;
+        $categories = KBCategory::with('board')
+            ->where('tenant_id', $tenantId)
+            ->where('status', 1)
+            ->orderByDesc('id')
+            ->get();
+        $parentCategories = $categories;
+        $authors = User::where('tenant_id', $tenantId)->get();
+        $article = KBArticle::with('category', 'board')->where('tenant_id', $tenantId)->findOrFail($articleId);
+        $boards = KBBoard::with('categories.articles')
+            ->where('tenant_id', $tenantId)
+            ->orderByDesc('id')
+            ->get();
+        $tags = ChangelogTag::where('tenant_id', $tenantId)->pluck('tag_name', 'id');
+        return view('kbarticle.create', compact('article','boards', 'parentCategories', 'categories','tags','authors'));
+    }
+    public function update(Request $request, $articleId)
+    {
+     dd('update');
+    }
+    public function destroy($articleId)
+    {
+        dd('destroy');
+    }
 }

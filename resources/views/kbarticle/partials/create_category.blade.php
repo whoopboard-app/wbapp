@@ -199,25 +199,39 @@
         </div>
 </section>
 <script>
-    function showPreview(event) {
-        const input = event.target;
-        const file = input.files[0];
-        const fileName = file ? file.name : "";
-        document.getElementById('file-name').textContent = fileName;
+    document.addEventListener('DOMContentLoaded', function() {
+        const kboardSelect = document.getElementById('kboard');
+        const parentCategorySelect = document.getElementById('parentCategory');
 
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const previewImg = document.getElementById('preview-img');
-                previewImg.src = e.target.result;
-                previewImg.classList.remove('d-none'); // nayi file select hui to image dikhao
-            };
-            reader.readAsDataURL(file);
-        }
-    }
-    document.querySelector('form').addEventListener('submit', function(e){
-        e.preventDefault();
+        // Store original optgroups for later
+        const originalOptgroups = Array.from(parentCategorySelect.querySelectorAll('optgroup'));
+
+        kboardSelect.addEventListener('change', function() {
+            const selectedBoardText = kboardSelect.options[kboardSelect.selectedIndex].text;
+
+            // Clear current options
+            parentCategorySelect.innerHTML = '';
+
+            // Always add "None" option
+            const noneOption = document.createElement('option');
+            noneOption.value = '';
+            noneOption.textContent = 'None';
+            parentCategorySelect.appendChild(noneOption);
+
+            if(!selectedBoardText) {
+                // No board selected, restore all optgroups
+                originalOptgroups.forEach(og => parentCategorySelect.appendChild(og.cloneNode(true)));
+                return;
+            }
+
+            // Filter optgroups: only keep the one matching the selected KB
+            originalOptgroups.forEach(og => {
+                if(og.label === selectedBoardText) {
+                    parentCategorySelect.appendChild(og.cloneNode(true));
+                }
+            });
+        });
     });
-
 </script>
+
 @endsection

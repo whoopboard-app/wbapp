@@ -225,12 +225,12 @@
                                     </div>
                                 </div>
                                  <div class="d-inline-block mt-10px">
-                                    <a href="#" class="theme-btn bg-white text-primary sm secondary fw-semibold rounded d-inline-block">
-                                        Expand All
-                                    </a>
-                                    <a href="#" class="theme-btn bg-white text-primary sm secondary fw-semibold rounded d-inline-block">
-                                        Collapse All
-                                    </a>
+                                     <a href="#" id="expandAllBtn" class="theme-btn bg-white text-primary sm secondary fw-semibold rounded d-inline-block">
+                                         Expand All
+                                     </a>
+                                     <a href="#" id="collapseAllBtn" class="theme-btn bg-white text-primary sm secondary fw-semibold rounded d-inline-block">
+                                         Collapse All
+                                     </a>
                                     <a href="#" class="theme-btn disabled-link bg-white text-primary sm secondary fw-semibold rounded d-inline-block">
                                         Edit Parent Categories
                                     </a>
@@ -258,64 +258,19 @@
                                     <div class="table-responsive">
                                         <table class="table table-bordered align-middle" id="listingCategories">
                                             <thead class="table-light">
-                                                <tr>
-                                                    <th style="width: 50px;">#</th>
-                                                    <th>Category Name</th>
-                                                    <th style="width: 250px;">Subcategories</th>
-                                                    <th style="width: 200px;">Number of Articles</th>
-                                                    <th style="width: 100px;">Action</th>
-                                                </tr>
+                                            <tr>
+                                                <th style="width: 50px;">#</th>
+                                                <th>Category Name</th>
+                                                <th style="width: 250px;">Subcategories</th>
+                                                <th style="width: 200px;">Number of Articles</th>
+                                                <th style="width: 100px;">Action</th>
+                                            </tr>
                                             </thead>
                                             <tbody>
-                                            @foreach ($kbcategories->where('parent_id', null) as $index => $category)
-                                                {{-- Parent Category Row --}}
-                                                <tr data-status="{{ strtolower($category->status ?? '') }}">
-                                                    <td>
-                                                        @if($category->children->count() > 0)
-                                                            <button class="expand-btn border-0 bg-transparent"
-                                                                    data-bs-toggle="collapse"
-                                                                    data-bs-target="#group{{ $index }}">
-                                                                <i class="fa fa-plus-circle"></i>
-                                                            </button>
-                                                        @else
-                                                            <i class="fa fa-circle text-muted"></i>
-                                                        @endif
-                                                    </td>
-                                                    <td class="fw-semibold">{{ $category->name }}</td>
-                                                    <td>{{ $category->children->count() ?? 0 }}</td>
-                                                    <td>{{ $category->articles->count() ?? 0 }}</td>
-                                                    <td>
-                <span class="badge bg-white border text-dark tooltip-icon" title="View Articles">
-                    <a href="#"><img src="{{ asset('assets/img/icon/eye.svg') }}" alt="View"></a>
-                </span>
-                                                    </td>
-                                                </tr>
-
-                                                {{-- Subcategories Collapse --}}
-                                                @if($category->children && $category->children->count() > 0)
-                                                    @foreach ($category->children as $subIndex => $sub)
-                                                        <tr class="collapse level-1"
-                                                            id="group{{ $index }}"
-                                                            data-bs-parent="#listingCategories"
-                                                            data-status="{{ strtolower($sub->status ?? '') }}">
-                                                            <td></td>
-                                                            <td>
-                                                                <span class="ms-4 d-inline-block">↳ {{ $sub->name }}</span>
-                                                            </td>
-                                                            <td>—</td>
-                                                            <td>{{ $sub->articles->count() ?? 0 }}</td>
-                                                            <td>
-                        <span class="badge bg-white border text-dark tooltip-icon" title="View Articles">
-                            <a href="#"><img src="{{ asset('assets/img/icon/eye.svg') }}" alt="View"></a>
-                        </span>
-                                                            </td>
-                                                        </tr>
-                                                    @endforeach
-                                                @endif
+                                            @foreach ($kbcategories->where('parent_id', null) as $category)
+                                                @include('kbarticle.partials.category_tree', ['category' => $category, 'level' => 0])
                                             @endforeach
                                             </tbody>
-
-
                                         </table>
                                     </div>
 
@@ -344,149 +299,182 @@
             </div>
         </div>
         </section>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const searchInput = document.querySelector('#searchInput');
-        const statusFilter = document.querySelector('#statusFilter');
-        const tableBody = document.querySelector('#listingArticles tbody');
-        const rows = Array.from(tableBody.querySelectorAll('tr'));
-        const perPage = 5;
-        let currentPage = 1;
-        let filteredRows = [...rows];
-
-        function renderTable() {
-            const searchValue = searchInput.value.toLowerCase().trim();
-            const statusValue = statusFilter.value.toLowerCase().trim();
-
-            // Filter rows
-            filteredRows = rows.filter(row => {
-                const title = row.querySelector('td:nth-child(2)')?.textContent.toLowerCase().trim() || '';
-                const status = row.querySelector('td:nth-child(1) span')?.textContent.toLowerCase().trim() || '';
-                return (
-                    title.includes(searchValue) &&
-                    (statusValue === '' || status === statusValue)
-                );
-            });
-
-            const totalPages = Math.ceil(filteredRows.length / perPage);
-            if (currentPage > totalPages) currentPage = 1;
-
-            const start = (currentPage - 1) * perPage;
-            const end = start + perPage;
-
-            // Render visible rows
-            tableBody.innerHTML = '';
-
-            // Check if there are no filtered rows and display a message
-            if (filteredRows.length === 0) {
-                const noDataRow = document.createElement('tr');
-                const noDataCell = document.createElement('td');
-                noDataCell.textContent = 'No data available';
-                noDataCell.colSpan = 100; // Span across all columns
-                noDataCell.style.textAlign = 'center';
-                noDataRow.appendChild(noDataCell);
-                tableBody.appendChild(noDataRow);
-            } else {
-                filteredRows.slice(start, end).forEach(row => tableBody.appendChild(row));
-            }
-
-            // Render pagination
-            const pageNumbers = document.querySelector('.page-numbers');
-            pageNumbers.innerHTML = '';
-
-            if (totalPages === 0) {
-                pageNumbers.innerHTML = '<span class="text-muted small">-</span>';
-                return;
-            }
-
-            for (let i = 1; i <= totalPages; i++) {
-                const pageLink = document.createElement('a');
-                pageLink.href = '#';
-                pageLink.textContent = i;
-                pageLink.className = 'pagination-number' + (i === currentPage ? ' active' : '');
-                pageLink.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    currentPage = i;
-                    renderTable();
-                });
-                pageNumbers.appendChild(pageLink);
-            }
-        }
-
-        // Prev/Next buttons
-        document.querySelector('.prev').addEventListener('click', (e) => {
-            e.preventDefault();
-            const totalPages = Math.ceil(filteredRows.length / perPage);
-            if (currentPage > 1) {
-                currentPage--;
-                renderTable();
-            }
-        });
-
-        document.querySelector('.next').addEventListener('click', (e) => {
-            e.preventDefault();
-            const totalPages = Math.ceil(filteredRows.length / perPage);
-            if (currentPage < totalPages) {
-                currentPage++;
-                renderTable();
-            }
-        });
-
-        // Reset to first page when search or filter changes
-        searchInput.addEventListener('input', () => {
-            currentPage = 1;
-            renderTable();
-        });
-        statusFilter.addEventListener('change', () => {
-            currentPage = 1;
-            renderTable();
-        });
-
-        renderTable();
-    });
-
-</script>
-
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const statusFilter = document.querySelector('#statusFilter_ctg');
-            const tableBody = document.querySelector('#listingCategories tbody');
-            const rows = Array.from(tableBody.querySelectorAll('tr'));
+            // --------------------------
+            // 1. Expand / Collapse All
+            // --------------------------
+            const expandBtn = document.querySelector('#expandAllBtn');
+            const collapseBtn = document.querySelector('#collapseAllBtn');
 
-            // Create "No data available" message
-            const noDataRow = document.createElement('tr');
-            noDataRow.innerHTML = `
-                <td colspan="100%" class="text-center py-3 text-gray-500">
-                    No data available
-                </td>
-            `;
-            noDataRow.style.display = 'none';
-            tableBody.appendChild(noDataRow);
+            function toggleAllRows(show = true) {
+                const childRows = document.querySelectorAll('#listingCategories tbody .child-row');
+                childRows.forEach(row => row.classList.toggle('d-none', !show));
 
-            statusFilter.addEventListener('change', function () {
-                const selected = this.value.toLowerCase();
-                let visibleCount = 0;
+                const icons = document.querySelectorAll('#listingCategories tbody .expand-btn i');
+                icons.forEach(icon => {
+                    icon.classList.toggle('fa-plus-circle', !show);
+                    icon.classList.toggle('fa-minus-circle', show);
+                });
+            }
+
+            if(expandBtn) {
+                expandBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    toggleAllRows(true);
+                });
+            }
+
+            if(collapseBtn) {
+                collapseBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    toggleAllRows(false);
+                });
+            }
+
+            // --------------------------
+            // 2. Row-level expand/collapse
+            // --------------------------
+            document.addEventListener('click', function(e) {
+                const button = e.target.closest('.expand-btn');
+                if (!button) return;
+
+                const groupClass = button.dataset.group;
+                const icon = button.querySelector('i');
+                const rows = document.querySelectorAll('.' + groupClass);
 
                 rows.forEach(row => {
-                    const rowStatus = row.getAttribute('data-status') || '';
-                    if (!selected || rowStatus === selected) {
-                        row.style.display = '';
-                        visibleCount++;
-                    } else {
-                        row.style.display = 'none';
+                    const isHidden = row.classList.contains('d-none');
+                    row.classList.toggle('d-none', !isHidden);
+
+                    // If hiding parent row, hide all nested children recursively
+                    if (!isHidden) {
+                        const nestedButtons = row.querySelectorAll('.expand-btn');
+                        nestedButtons.forEach(nBtn => {
+                            const nGroup = nBtn.dataset.group;
+                            const nestedRows = document.querySelectorAll('.' + nGroup);
+                            nestedRows.forEach(nr => nr.classList.add('d-none'));
+                            const nIcon = nBtn.querySelector('i');
+                            if(nIcon) {
+                                nIcon.classList.remove('fa-minus-circle');
+                                nIcon.classList.add('fa-plus-circle');
+                            }
+                        });
                     }
                 });
 
-                // Show or hide "No data available" message
-                if (visibleCount === 0) {
-                    noDataRow.style.display = '';
-                } else {
-                    noDataRow.style.display = 'none';
+                if(icon) {
+                    icon.classList.toggle('fa-plus-circle');
+                    icon.classList.toggle('fa-minus-circle');
                 }
             });
+
+            // --------------------------
+            // 3. Articles table search, filter, pagination
+            // --------------------------
+            const searchInput = document.querySelector('#searchInput');
+            const statusFilter = document.querySelector('#statusFilter');
+            const tableBody = document.querySelector('#listingArticles tbody');
+            const rows = Array.from(tableBody.querySelectorAll('tr'));
+            const perPage = 5;
+            let currentPage = 1;
+            let filteredRows = [...rows];
+
+            function renderTable() {
+                const searchValue = searchInput?.value.toLowerCase().trim() || '';
+                const statusValue = statusFilter?.value.toLowerCase().trim() || '';
+
+                filteredRows = rows.filter(row => {
+                    const title = row.querySelector('td:nth-child(2)')?.textContent.toLowerCase().trim() || '';
+                    const status = row.querySelector('td:nth-child(1) span')?.textContent.toLowerCase().trim() || '';
+                    return title.includes(searchValue) && (!statusValue || status === statusValue);
+                });
+
+                const totalPages = Math.ceil(filteredRows.length / perPage);
+                if(currentPage > totalPages) currentPage = 1;
+
+                const start = (currentPage - 1) * perPage;
+                const end = start + perPage;
+
+                tableBody.innerHTML = '';
+                if(filteredRows.length === 0) {
+                    const noDataRow = document.createElement('tr');
+                    const noDataCell = document.createElement('td');
+                    noDataCell.textContent = 'No data available';
+                    noDataCell.colSpan = 100;
+                    noDataCell.style.textAlign = 'center';
+                    noDataRow.appendChild(noDataCell);
+                    tableBody.appendChild(noDataRow);
+                } else {
+                    filteredRows.slice(start, end).forEach(row => tableBody.appendChild(row));
+                }
+
+                // Render pagination
+                const pageNumbers = document.querySelector('.page-numbers');
+                if(pageNumbers){
+                    pageNumbers.innerHTML = '';
+                    if(totalPages === 0){
+                        pageNumbers.innerHTML = '<span class="text-muted small">-</span>';
+                    } else {
+                        for(let i=1; i<=totalPages; i++){
+                            const pageLink = document.createElement('a');
+                            pageLink.href = '#';
+                            pageLink.textContent = i;
+                            pageLink.className = 'pagination-number' + (i===currentPage?' active':'');
+                            pageLink.addEventListener('click', e=>{
+                                e.preventDefault();
+                                currentPage=i;
+                                renderTable();
+                            });
+                            pageNumbers.appendChild(pageLink);
+                        }
+                    }
+                }
+            }
+
+            document.querySelector('.prev')?.addEventListener('click', e=>{
+                e.preventDefault();
+                if(currentPage>1){ currentPage--; renderTable(); }
+            });
+            document.querySelector('.next')?.addEventListener('click', e=>{
+                e.preventDefault();
+                const totalPages = Math.ceil(filteredRows.length / perPage);
+                if(currentPage<totalPages){ currentPage++; renderTable(); }
+            });
+
+            searchInput?.addEventListener('input', ()=>{ currentPage=1; renderTable(); });
+            statusFilter?.addEventListener('change', ()=>{ currentPage=1; renderTable(); });
+            renderTable();
+
+            // --------------------------
+            // 4. Category status filter
+            // --------------------------
+            const statusFilterCtg = document.querySelector('#statusFilter_ctg');
+            const catRows = Array.from(document.querySelectorAll('#listingCategories tbody tr'));
+            if(statusFilterCtg){
+                const noDataRow = document.createElement('tr');
+                noDataRow.innerHTML = `<td colspan="100%" class="text-center py-3 text-gray-500">No data available</td>`;
+                noDataRow.style.display='none';
+                document.querySelector('#listingCategories tbody').appendChild(noDataRow);
+
+                statusFilterCtg.addEventListener('change', function(){
+                    const selected = this.value.toLowerCase();
+                    let visibleCount = 0;
+                    catRows.forEach(row => {
+                        const rowStatus = row.getAttribute('data-status') || '';
+                        if(!selected || rowStatus === selected){
+                            row.style.display='';
+                            visibleCount++;
+                        } else {
+                            row.style.display='none';
+                        }
+                    });
+                    noDataRow.style.display = visibleCount===0 ? '' : 'none';
+                });
+            }
         });
     </script>
+
 
 
 @endsection

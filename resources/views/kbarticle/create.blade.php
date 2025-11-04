@@ -10,10 +10,20 @@
             <div class="row">
                 <div class="col-lg-12 view-changelog-details">
                     <div class="card p-0 bg-white mb-3">
-                    <form action="{{ route('kbarticle.store') }}" method="POST" enctype="multipart/form-data" class="form">
-                        @csrf
+                        <form
+                            action="{{ isset($article) ? route('kbarticle.update', $article->id) : route('kbarticle.store') }}"
+                            method="POST"
+                            enctype="multipart/form-data"
+                            class="form"
+                        >
+                            @csrf
+                            @if(isset($article))
+                                @method('PUT')
+                            @endif
                         <div class="d-flex align-items-center border-title justify-content-between">
-                            <h4 class="fw-medium mb-0">New Article</h4>
+                            <h4 class="fw-medium mb-0">
+                                {{ isset($article) ? 'Edit Article' : 'New Article' }}
+                            </h4>
                              <div class="btn-wrapper mb-0 d-flex align-items-center justify-content-center gap15 flex-wrap">
                                 <button class="theme-btn bg-white sm secondary fw-semibold rounded d-inline-block" type="button"
                                         onclick="window.location.reload();">Cancel</button>
@@ -60,12 +70,16 @@
                                     <div class="col-12 mb-3">
                                         <div class="">
                                             <label for="kboard" class="input-label mb-1 fw-medium">
-                                               Select @customLabel('Knowledge Board')
+                                                Select @customLabel('Knowledge Board')
                                             </label>
+
                                             <select class="form-select w-100 rounded border text-sm" id="kboard" name="kboard" required>
                                                 <option value="">Select Board</option>
                                                 @foreach($boards as $board)
-                                                    <option value="{{ $board->id }}">{{ $board->name }}</option>
+                                                    <option value="{{ $board->id }}"
+                                                        {{ old('kboard', $article->board_id ?? '') == $board->id ? 'selected' : '' }}>
+                                                        {{ $board->name }}
+                                                    </option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -78,6 +92,7 @@
                                             </label>
                                             <input id="title" name="title"
                                                 class="input-field w-100 rounded text-sm"
+                                                   value="{{ old('title', $article->title ?? '') }}"
                                                 placeholder="Placeholder" required>
                                         </div>
                                     </div>
@@ -305,7 +320,9 @@
                             </div>
                         </div>
                         <div class="card-footer gap15 px-3 bg-white d-flex justify-content-start">
-                            <button type="submit" class="theme-btn sm fw-semibold rounded d-inline-block">Create</button>
+                            <button type="submit" class="theme-btn sm fw-semibold rounded d-inline-block">
+                                {{ isset($article) ? 'Update' : 'Create' }}
+                            </button>
                             <button type="button" class="theme-btn bg-white sm secondary fw-semibold rounded" onclick="window.location.reload();">Cancel</button>
 
                         </div>

@@ -76,4 +76,18 @@ class KBCategory extends Model
 
         return $count;
     }
+    public function allDescendantsCount(): int
+    {
+        $count = $this->children->count();
+        foreach ($this->children as $child) {
+            $count += $child->allDescendantsCount();
+        }
+        return $count;
+    }
+
+    // Accessor
+    public function getAllDescendantsCountAttribute(): int
+    {
+        return $this->allDescendantsCount();
+    }
 }

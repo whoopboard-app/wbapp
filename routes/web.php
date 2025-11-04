@@ -171,6 +171,10 @@
         Route::get('/', [KBArticleController::class, 'index'])->name('kbarticle.index');
         Route::get('create', [KBArticleController::class, 'create'])->name('kbarticle.create');
         Route::post('store', [KBArticleController::class, 'store'])->name('kbarticle.store');
+        Route::get('edit/{id}', [KBArticleController::class, 'edit'])
+            ->name('kbarticle.edit');
+        Route::post('update/{id}', [KBArticleController::class, 'update'])
+            ->name('kbarticle.update');
         Route::get('{id}', [KBArticleController::class, 'view'])->name('kbarticle.view');
         Route::post('sort', [KBArticleController::class, 'sort'])->name('kbarticle.sort');
         Route::get('search', [KBArticleController::class, 'search'])->name('kbarticle.search');
