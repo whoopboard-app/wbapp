@@ -31,7 +31,16 @@ document.addEventListener("DOMContentLoaded", () => {
             textarea.addEventListener('input', updateCounter);
             updateCounter();
         });
-
+    const subscribe_date = document.querySelector("#subscribe_date");
+     if (subscribe_date) {
+        flatpickr(subscribe_date, {
+            enableTime: false,
+            dateFormat: "Y-m-d",
+            altInput: true,
+            altFormat: "m/j/Y",
+            allowInput: true, // now it’s editable
+        });
+     }
     const recdateInput = document.querySelector("#recDateTime");
     if (recdateInput) {
         flatpickr(recdateInput, {
@@ -104,6 +113,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "#other_article_category",
         "#other_article_category2",
         "#linkchangelog",
+        "#userSegments",
     ];
 
     const config = {

@@ -98,6 +98,15 @@
                         <img src="/assets/img/icon/research-repository.svg" alt="research-repository" class="sidebar-menu-link-icon flex-shrink-0">
                     </a>
                 </li>
+                <li class="sidebar-menu-item">
+                    <a href="{{ route('subscribe.index') }}"
+                       data-bs-toggle="tooltip"
+                       data-bs-placement="bottom"
+                       title="Subscribe Listing"
+                       class="sidebar-menu-link d-flex align-items-center {{ request()->routeIs('subscribe.*') ? 'active text-blue-600' : 'text-gray-600' }}">
+                        <img src="{{ asset('assets/img/icon/list.svg') }}" alt="subscribelist" class="sidebar-menu-link-icon flex-shrink-0">
+                    </a>
+                </li>
             </ul>
         </div>
         @else
