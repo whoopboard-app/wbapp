@@ -18,6 +18,7 @@ class RestrictSubdomainAccess
                 'coming-soon',
                 'announcementlist',
                 'announcementlist/*',
+                'subscribe*',
             ];
 
             foreach ($allowedPaths as $allowed) {

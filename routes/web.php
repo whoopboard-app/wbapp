@@ -222,7 +222,7 @@
     });
 
     Route::prefix('subscribe')->name('subscribe.')->group(function () {
-        Route::get('signup', [SubscribeController::class, 'create'])->name('create');
+        // Route::get('signup', [SubscribeController::class, 'create'])->name('create');
         Route::post('signup', [SubscribeController::class, 'signup'])
         ->name('signup');
         Route::post('subscribe', [SubscribeController::class, 'store'])->name('store');
@@ -244,6 +244,13 @@
     Route::domain('{subdomain}.'.$mainDomain)
         ->where(['subdomain' => '^(?!www$)[a-zA-Z0-9-]+$'])
         ->group(function () {
+            Route::get('/debug-host', function () {
+                return request()->getHost();
+            });
+            Route::prefix('subscribe')->name('subscribe.')->group(function () {
+                Route::get('signup', [SubscribeController::class, 'create'])->name('subsc.create');
+            });
+
             Route::get('/coming-soon', [ComingSoonController::class, 'show'])->name('coming.soon');
             Route::post('/coming-soon', [ComingSoonController::class, 'checkPassword'])->name('coming.soon.check');
             Route::get('/announcementlist/category/{slug?}', [ComingSoonController::class, 'detailsByCategory'])->name('announcement.category');
