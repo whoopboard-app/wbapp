@@ -110,7 +110,7 @@
                                     <div class="form-group">
                                         <select id="statusFilter" class="form-select rounded">
                                             <option value="">All</option>
-                                            <option value="1">Active</option>
+                                            <option value="1">Subscribe</option>
                                             <option value="0">Inactive</option>
                                             <option value="2">Pending</option>
                                         </select>
@@ -134,7 +134,7 @@
                                             <tr>
                                                 <td>
                                                     @if($subscriber->status == 1)
-                                                        <span class="badge fw-normal bg-white published rounded-pill">Active</span>
+                                                        <span class="badge fw-normal bg-white published rounded-pill">Subscribe</span>
                                                     @elseif ($subscriber->status == 2)
                                                         <span class="badge fw-normal bg-white draft rounded-pill">Pending</span>
                                                     @else
@@ -482,8 +482,8 @@
                             </label>
                                 <select class="form-select w-100 rounded" id="status" name="status" required>
                                     <option value="">Select</option>
+                                    <option value="1">Subscribe</option>
                                     <option value="0">Inactive</option>
-                                    <option value="1">Active</option>
                                     <option value="2">Pending</option>
                                 </select>
                         </div>
@@ -669,7 +669,7 @@ document.addEventListener('DOMContentLoaded', function() {
             let searchValue = '';
 
             if (value === '') searchValue = '';
-            else if (value === '1') searchValue = '^Active$';
+            else if (value === '1') searchValue = '^Subscribe$';
             else if (value === '2') searchValue = '^Pending$';
             else if (value === '0') searchValue = '^Inactive$';
 
@@ -698,7 +698,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const status = this.dataset.status;
             const statusContainer = document.getElementById('modalStatus');
             let statusHtml = '';
-            if (status == 1) statusHtml = '<span class="badge fw-normal bg-white published rounded-pill">Active</span>';
+            if (status == 1) statusHtml = '<span class="badge fw-normal bg-white published rounded-pill">Subscribe</span>';
             else if (status == 2) statusHtml = '<span class="badge fw-normal bg-white draft rounded-pill">Pending</span>';
             else statusHtml = '<span class="badge fw-normal bg-white inactive rounded-pill">Inactive</span>';
 
