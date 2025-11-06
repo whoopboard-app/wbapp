@@ -175,10 +175,53 @@ class KBArticleController extends Controller
         $tags = ChangelogTag::where('tenant_id', $tenantId)->pluck('tag_name', 'id');
         return view('kbarticle.create', compact('article','boards', 'parentCategories', 'categories','tags','authors'));
     }
-    public function update(Request $request, $articleId)
+    public function update(Request $request, $id)
     {
-     dd('update');
+        $validatedData = $request->validate([
+            'title'                  => 'required|string|max:255',
+            'description'            => 'required|string',
+            'category_id'            => 'required|integer|exists:kb_categories,id',
+            'show_widget'            => 'nullable|boolean',
+            'link_changelog'         => 'nullable|array|min:1',
+            'author'                 => 'required|array|min:1',
+            'popular_article'        => 'nullable|boolean',
+            'tagsSelect'             => 'required|array|min:1',
+            'other_article_category' => 'nullable|integer|exists:kb_categories,id',
+            'status'                 => 'required|string|in:active,inactive,draft',
+            'article_banner'         => 'nullable|image|mimes:jpg,jpeg,png,gif,webp|max:2048',
+            'recName'                => 'nullable|string',
+            'recDateTime'            => 'nullable|date',
+        ]);
+
+        // find existing article
+        $article = KBArticle::findOrFail($id);
+
+        $validatedData['tenant_id'] = auth()->user()->tenant_id;
+        $validatedData['tag_ids'] = implode(',', $request->tagsSelect);
+        $validatedData['author'] = json_encode($validatedData['author']);
+
+        if (isset($validatedData['link_changelog']) && is_array($validatedData['link_changelog'])) {
+            $validatedData['link_changelog'] = implode(',', $validatedData['link_changelog']);
+        }
+
+        // handle banner upload if provided
+        if ($request->hasFile('article_banner')) {
+            // delete old file if exists
+            if ($article->article_banner && \Storage::disk('public')->exists($article->article_banner)) {
+                \Storage::disk('public')->delete($article->article_banner);
+            }
+
+            $validatedData['article_banner'] = $request->file('article_banner')->store('article_banner', 'public');
+        }
+
+        // update record
+        $article->update($validatedData);
+
+        return redirect()
+            ->route('kbarticle.view', $article->id)
+            ->with('success', 'Article updated successfully.');
     }
+
     public function destroy($articleId)
     {
         dd('destroy');

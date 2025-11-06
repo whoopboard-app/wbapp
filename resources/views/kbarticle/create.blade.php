@@ -49,21 +49,34 @@
                             </div>
 
                             <div class="upload-input text-center">
-                                        <input type="file" class="visually-hidden" id="article_banner" name="article_banner" accept="image/*" onchange="showPreview(event)">
-                                        <label for="article_banner" class="d-block text-center rounded-3">
-                                        <span class="upload-btn d-inline-block rounded fw-semibold mb-2"><img src="{{ asset('assets/img/icon/upload.svg') }}" alt=""></span>
-                                             <h6 class="fw-semibold">Drop files or browse</h6>
-                                            <span class="upload-input-text d-block mb-3">Format: .jpeg, .png &amp; Max file size: 25 MB</span>
-                                            <span class="theme-btn sm fw-semibold rounded ">Browse Files</span>
-                                            <span id="file-name" class="d-block mt-2 fw-medium text-secondary"></span>
-                                            <img id="preview-img"
-                                                src=""
-                                                alt="Preview"
-                                                class="mt-2 mx-auto rounded shadow-sm d-none"
-                                                width="100"
-                                                height="100">
-                                        </label>
+                                <input type="file" class="visually-hidden" id="article_banner" name="article_banner" accept="image/*" onchange="showPreview(event)">
+                                <label for="article_banner" class="d-block text-center rounded-3">
+                                    <span class="upload-btn d-inline-block rounded fw-semibold mb-2">
+                                        <img src="{{ asset('assets/img/icon/upload.svg') }}" alt="">
+                                    </span>
+                                    <h6 class="fw-semibold">Drop files or browse</h6>
+                                    <span class="upload-input-text d-block mb-3">Format: .jpeg, .png & Max file size: 25 MB</span>
+                                    <span class="theme-btn sm fw-semibold rounded">Browse Files</span>
+                                    <span id="file-name" class="d-block mt-2 fw-medium text-secondary"></span>
+
+                                    @if(isset($article) && $article->article_banner)
+                                        <img id="preview-img"
+                                             src="{{ asset('storage/' . $article->article_banner) }}"
+                                             alt="Current Banner"
+                                             class="mt-2 mx-auto rounded shadow-sm"
+                                             width="100"
+                                             height="100">
+                                    @else
+                                        <img id="preview-img"
+                                             src=""
+                                             alt="Preview"
+                                             class="mt-2 mx-auto rounded shadow-sm d-none"
+                                             width="100"
+                                             height="100">
+                                    @endif
+                                </label>
                             </div>
+
                             <div class="basic-information mt-3">
                                 <div class="d-flex justify-content-between px-0 border-title">
                                     <h6 class="text-gray fw-medium">Basic Information</h6>
@@ -81,7 +94,6 @@
                                             <label for="kboard" class="input-label mb-1 fw-medium">
                                                 Select @customLabel('Knowledge Board')
                                             </label>
-
                                             <select class="form-select w-100 rounded border text-sm" id="kboard" name="kboard" required>
                                                 <option value="">Select Board</option>
                                                 @foreach($boards as $board)

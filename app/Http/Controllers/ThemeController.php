@@ -86,7 +86,7 @@ class ThemeController extends Controller
                 'google_analytics'      => $request->google_analytics,
                 'is_visible'            => $request->is_visible === 'on' || $request->is_visible == 1,
                 'is_password_protected' => $request->is_password_protected === 'on' || $request->is_password_protected == 1,
-                'password'              => Hash::make($request->board_password),
+                'password'              => Hash::make($request->password),
                 'theme_flag'            => $request->theme_flag,
                 'feature_banner'        => $featureBannerPath,
             ]

@@ -173,7 +173,7 @@
         Route::post('store', [KBArticleController::class, 'store'])->name('kbarticle.store');
         Route::get('edit/{id}', [KBArticleController::class, 'edit'])
             ->name('kbarticle.edit');
-        Route::post('update/{id}', [KBArticleController::class, 'update'])
+        Route::put('update/{id}', [KBArticleController::class, 'update'])
             ->name('kbarticle.update');
         Route::get('{id}', [KBArticleController::class, 'view'])->name('kbarticle.view');
         Route::post('sort', [KBArticleController::class, 'sort'])->name('kbarticle.sort');
