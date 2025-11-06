@@ -17,7 +17,7 @@
                 <!-- Session Status -->
                 <x-auth-session-status class="mb-4" :status="session('status')" />
 
-                <form method="POST" action="{{ route('subscribe.signup', ['subdomain' => request()->route('subdomain')]) }}">
+                <form method="POST" action="{{ route('subscribe.signup', ['subdomain' => request()->route('subdomain') ]) }}">
                     @csrf
 
                     <div class="">

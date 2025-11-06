@@ -45,7 +45,6 @@ class SubscribeController extends Controller
 
     public function signup(Request $request)
     {
-       
        $request->validate([
             'full_name'  => 'required|string|max:255',
             'email' => 'required|email|unique:subscribers,email',
@@ -65,6 +64,7 @@ class SubscribeController extends Controller
                 ));
                 
             $subscriber = Subscriber::create([
+                'tenant_id' => $this->tenant->tenant_id ?? null,
                 'full_name' => $request->full_name,
                 'email' => $request->email,
                 'token' => $token,
@@ -120,7 +120,7 @@ class SubscribeController extends Controller
             'addType' => 'nullable|string|max:255',
             'status' => 'required|int'
         ]);
-       
+        $validated['tenant_id'] = $this->tenant->tenant_id ?? null;
         $validated['full_name'] = $validated['first_name'] . ' ' . $validated['last_name'];
         Subscriber::create($validated);
         return redirect()->route('subscribe.index')->with('success', 'Success! Subscribe created.');
