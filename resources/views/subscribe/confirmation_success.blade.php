@@ -24,7 +24,7 @@
                     
                     
                 </div>
-                <a href="#" class="theme-btn w-full justify-center text-sm text-center inline-block"> Continue to Changelog </a>
+                <a href="{{ route('themes.details', ['subdomain' => $tenant->custom_url]) }}" class="theme-btn w-full justify-center text-sm text-center inline-block"> Continue to Changelog </a>
                   
             </div>
         </div>

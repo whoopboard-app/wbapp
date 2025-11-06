@@ -1,4 +1,7 @@
 <x-guest-layout>
+     @if ($errors->any())
+        <x-alert type="error" :message="$errors->first()" />
+    @endif
     <style>
         .flex.flex-col.items-center.p-4.relative {
             padding: 0px !important;
@@ -14,7 +17,7 @@
                 <!-- Session Status -->
                 <x-auth-session-status class="mb-4" :status="session('status')" />
 
-                <form method="POST" action="{{ route('subscribe.signup') }}">
+                <form method="POST" action="{{ route('subscribe.signup', ['subdomain' => request()->route('subdomain')]) }}">
                     @csrf
 
                     <div class="">

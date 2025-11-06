@@ -7,13 +7,40 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\SubscriptionConfirmationMail;
 use Illuminate\Support\Str;
 use App\Models\Subscriber;
+use App\Models\Tenant;
 
 class SubscribeController extends Controller
 {
+    protected $tenant;
+
+    public function __construct()
+    {
+        $this->tenant = $this->resolveTenantFromHost();
+    }
+    protected function resolveTenantFromHost()
+    {
+        $host = request()->getHost();
+        $parts = explode('.', $host);
+
+        if (count($parts) >= 3) {
+            $subdomain = $parts[0];
+        } else {
+            $subdomain = null;
+        }
+
+        if ($subdomain) {
+            $tenant = Tenant::where('custom_url', $subdomain)->first();
+            if ($tenant) {
+                return $tenant;
+            }
+        }
+        return Tenant::where('page_publish', 1)->first();
+    }
     public function create()
     {
-        // dd("create");
-        return view('subscribe.signup'); 
+        return view('subscribe.signup', [
+            'tenant' => $this->tenant
+        ]); 
     }
 
     public function signup(Request $request)
@@ -21,11 +48,22 @@ class SubscribeController extends Controller
        
        $request->validate([
             'full_name'  => 'required|string|max:255',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:subscribers,email',
         ]);
-        //  dd($request->all());
         try {
             $token = Str::random(40);
+            $host = $request->getHost();
+            $parts = explode('.', $host);
+
+            // If there’s no subdomain, fallback to 'demo' (or whatever default tenant)
+            $subdomain = count($parts) >= 3 ? $parts[0] : 'demo';
+            Mail::to($request->email)
+                ->send(new SubscriptionConfirmationMail(
+                    $request->full_name,
+                    $token,
+                    $subdomain
+                ));
+                
             $subscriber = Subscriber::create([
                 'full_name' => $request->full_name,
                 'email' => $request->email,
@@ -33,8 +71,7 @@ class SubscribeController extends Controller
                 'status' => 2,
                 'subscribe_date' => now(),
             ]);
-            Mail::to($request->email)
-                ->send(new SubscriptionConfirmationMail($request->full_name, $token));
+           
             return back()->with('success', 'Email sent! You will receive an email.');
         } catch (\Exception $e) {
             // Mail failed
@@ -44,7 +81,7 @@ class SubscribeController extends Controller
         }
     }
 
-    public function confirm($token)
+    public function confirm($subdomain, $token)
     {
         $subscriber = Subscriber::where('token', $token)->first();
         if (!$subscriber) {
@@ -53,9 +90,11 @@ class SubscribeController extends Controller
                             ->with('error', 'Invalid or expired subscription link.');
         }
         
-        $subscriber->update(['verified' => true, 'token' => null, 'status' => 1]);
+        $subscriber->update(['verified' => true, 'status' => 1]);
         session()->flash('success', 'Your subscription has been confirmed!');
-        return view('subscribe.confirmation_success');
+        return view('subscribe.confirmation_success', [
+            'tenant' => $this->tenant
+        ]);
     }
 
     public function index()
