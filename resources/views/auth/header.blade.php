@@ -1,6 +1,6 @@
 <header class="header sticky-top">
       <div class="header-wrapper d-flex align-items-center justify-content-between gap-4">
-         <div class="d-inline-block">
+         <div class="d-flex">
             <a href="#" class="inline-flex items-center">
                 <x-application-logo class="w-20 h-20 fill-current" />
             </a>

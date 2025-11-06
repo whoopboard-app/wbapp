@@ -31,6 +31,7 @@ class SubscribeController extends Controller
                 'email' => $request->email,
                 'token' => $token,
                 'status' => 2,
+                'subscribe_date' => now(),
             ]);
             Mail::to($request->email)
                 ->send(new SubscriptionConfirmationMail($request->full_name, $token));

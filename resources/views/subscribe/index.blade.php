@@ -32,8 +32,27 @@
         padding-left : 0px !important;
         padding-right : 0px !important;
     }
+    .pagination a.disabled {
+        pointer-events: none;
+        opacity: 0.5;
+    }
+
+    td{
+        border-bottom: 1px solid #dee2e6 !important;
+    }
+
+    .table thead th {
+        border-top: 0;
+        border-bottom: 0 !important;
+        font-weight: 400 !important;
+    }
+
+    .info-card {
+        border-bottom: 0.5px solid #969695;
+    }
    
 </style>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
 <section class=" main-content-wrapper">
     <div class="d-flex justify-content-between">
         <h4 class="fw-medium font-16 ">Subscribe List</h4>
@@ -42,7 +61,7 @@
                 Add Subscribe Member
             </a>
             
-            <a href="#" class="theme-btn text-primary bg-white sm secondary fw-semibold rounded d-inline-block">
+            <a href="{{ route('segmentation.create') }}" class="theme-btn text-primary bg-white sm secondary fw-semibold rounded d-inline-block">
                 New User Segmentation
             </a>
             
@@ -84,22 +103,23 @@
                                     </div>
 
                                     <div class="position-relative form-group">
-                                        <input type="search" class="input-field w-100 rounded ps-5" placeholder="Search">
+                                        <input type="search" class="input-field w-100 rounded ps-5" placeholder="Search" id="customSearch">
                                         <img src="{{ asset('assets/img/icon/search.svg') }}" class="position-absolute search-icon" alt="">
                                     </div>
 
                                     <div class="form-group">
-                                        <select class="form-select rounded">
+                                        <select id="statusFilter" class="form-select rounded">
                                             <option value="">All</option>
-                                            <option value="verified">Verified</option>
-                                            <option value="unverified">Unverified</option>
+                                            <option value="1">Subscribe</option>
+                                            <option value="0">Inactive</option>
+                                            <option value="2">Pending</option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="table-responsive">
-                                <table class="table table-bordered align-middle">
+                                <table id="subscribersTable" class="table table-bordered align-middle">
                                     <thead class="table-light">
                                         <tr>
                                             <th>Status</th>
@@ -114,7 +134,7 @@
                                             <tr>
                                                 <td>
                                                     @if($subscriber->status == 1)
-                                                        <span class="badge fw-normal bg-white published rounded-pill">Active</span>
+                                                        <span class="badge fw-normal bg-white published rounded-pill">Subscribe</span>
                                                     @elseif ($subscriber->status == 2)
                                                         <span class="badge fw-normal bg-white draft rounded-pill">Pending</span>
                                                     @else
@@ -130,7 +150,18 @@
 
 
                                                 <td>
-                                                    <a href="#" class="badge bg-white border text-dark tooltip-icon" title="View">
+                                                    <a href="#"
+                                                    class="badge bg-white border text-dark tooltip-icon view-subscriber"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#viewSegmentation"
+                                                    data-full_name="{{ $subscriber->full_name }}"
+                                                   
+                                                    data-email="{{ $subscriber->email }}"
+                                                    data-subscribe_date="{{ $subscriber->subscribe_date ? $subscriber->subscribe_date->format('F d, Y') : '-' }}"
+                                                    data-user_segments="{{ implode(', ', $subscriber->userSegments ?? []) }}"
+                                                    data-status="{{ $subscriber->status }}"
+                                                    data-about="{{ $subscriber->short_desc }}"
+                                                    title="View">
                                                         <img src="{{ asset('assets/img/icon/eye.svg') }}" alt="">
                                                     </a>
                                                 </td>
@@ -144,13 +175,7 @@
                                 </table>
                             </div>
 
-                            <div class="d-flex align-items-center gap-3 px-3 pagination">
-                                <a href="#" class="fw-semibold prev text-dark rounded sm">&lt; Previous</a>
-                                <div class="page-numbers d-flex align-items-center gap-2">
-                                    <a href="#" class="pagination-number active">1</a>
-                                </div>
-                                <a href="#" class="next fw-semibold rounded sm">Next &gt;</a>
-                            </div>
+                            <div id="customPagination" class="d-flex align-items-center gap-3 px-3 pagination mt-3"></div>
                         </div>
                     </div>
                 </div>
@@ -171,7 +196,7 @@
                                 </div>
                                 <div class=" position-relative form-group">
                                     <input type="search" class="input-field w-100 rounded ps-5" placeholder="Search">
-                                    <img src="assets/img/icons/search.svg" class="position-absolute search-icon" alt="">
+                                    <img src="{{ asset('assets/img/icon/search.svg') }}" class="position-absolute search-icon" alt="">
                                 </div>
                                 <div class="form-group">
                                 <select class="form-select rounded">
@@ -212,7 +237,7 @@
                                             
                                             <td>
                                             <span class="badge bg-white border text-dark tooltip-icon" data-bs-toggle="tooltip" aria-label="Action" data-bs-original-title="Action">
-                                                <a href="#">  <img src="assets/img/icons/eye.svg" alt=""></a>
+                                                <a href="#">  <img src="{{ asset('assets/img/icon/eye.svg') }}" alt=""></a>
                                                 </span>
                                             </td>
                                         </tr><tr>
@@ -239,7 +264,7 @@
                                             
                                             <td>
                                             <span class="badge bg-white border text-dark tooltip-icon" data-bs-toggle="tooltip" aria-label="Action" data-bs-original-title="Action">
-                                                <a href="#">  <img src="assets/img/icons/eye.svg" alt=""></a>
+                                                <a href="#">  <img src="{{ asset('assets/img/icon/eye.svg') }}" alt=""></a>
                                                 </span>
                                             </td>
                                         </tr><tr>
@@ -266,7 +291,7 @@
                                             
                                             <td>
                                             <span class="badge bg-white border text-dark tooltip-icon" data-bs-toggle="tooltip" aria-label="Action" data-bs-original-title="Action">
-                                                <a href="#">  <img src="assets/img/icons/eye.svg" alt=""></a>
+                                                <a href="#">  <img src="{{ asset('assets/img/icon/eye.svg') }}" alt=""></a>
                                                 </span>
                                             </td>
                                         </tr><tr>
@@ -293,7 +318,7 @@
                                             
                                             <td>
                                             <span class="badge bg-white border text-dark tooltip-icon" data-bs-toggle="tooltip" aria-label="Action" data-bs-original-title="Action">
-                                                <a href="#">  <img src="assets/img/icons/eye.svg" alt=""></a>
+                                                <a href="#">  <img src="{{ asset('assets/img/icon/eye.svg') }}" alt=""></a>
                                                 </span>
                                             </td>
                                         </tr></tbody>
@@ -457,8 +482,8 @@
                             </label>
                                 <select class="form-select w-100 rounded" id="status" name="status" required>
                                     <option value="">Select</option>
+                                    <option value="1">Subscribe</option>
                                     <option value="0">Inactive</option>
-                                    <option value="1">Active</option>
                                     <option value="2">Pending</option>
                                 </select>
                         </div>
@@ -477,6 +502,209 @@
           </div>
         </div>
     </div>
+    <div class=" modal fade" id="viewSegmentation" tabindex="-1" aria-labelledby="viewSegmentationLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+         <div class="modal-content border-0">
+            <div class="modal-header">
+               <div class="mb-0">
+                  <h3 class="fw-semibold mb-0 fs-5">Subscribe View</h3>
+               </div>
+               <button type="button" class="modal-close bg-transparent border-0 ms-auto d-flex align-items-center justify-content-center" data-bs-dismiss="modal" aria-label="Close">
+                <img src="{{ asset('assets/img/icon/modal-exit.svg') }}" alt="">
+            </button>
+            </div>
+           <div class="modal-body">
+             
+               <form action="#" class="d-flex flex-column gap-3">
+                  <div class="info-card">
+                    <div class="row mb-3 mt-3">
+                   
+                    <div class="col-md-6">
+                        <div class="info-label">First Name</div>
+                        <div class="info-value fw-bold" id="modalFirstName"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="info-label">Last Name</div>
+                        <div class="info-value fw-bold" id="modalLastName"></div>
+                    </div>
+                    </div>
+                </div>
+                <div class="info-card">
+                    <div class="row mb-3">
+                        <div class="col-12">
+                             <div class="info-label">Email Address</div>
+                            <div class="info-value fw-bold" id="modalEmail"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="info-card">
+                    <div class="row mb-3">
+                        <div class="col-12">
+                             <div class="info-label">Subscribe Date</div>
+                            <div class="info-value fw-bold" id="modalSubscribeDate"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="info-card">
+                    <div class="row mb-3">
+                        <div class="col-12">
+                             <div class="info-label">User Segmentation</div>
+                            <div class="d-flex justify-content-start gap-2">
+                                <span class="info-tag">General Subscribe</span>
+                                <span class="info-tag">General Subscribe</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="info-card">
+                    <div class="row mb-3">
+                        <div class="col-12">
+                             <div class="info-label">Status</div>
+                            <div class="d-flex justify-content-start gap-2" id="modalStatus">
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="info-card">
+                    <div class="row mb-3">
+                        <div class="col-12">
+                             <div class="info-label">About Us</div>
+                            <div class="info-value" id="modalAbout">
+                               <i>
+                                
+                               </i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="info-card">
+                    <div class="row mb-3">
+                        <div class="col-12">
+                             <div class="info-label">Unsubscribe Date</div>
+                            <div class="info-value fw-bold text-danger">
+                              April 10, 2025 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                    
+                 
+               </form>
+            </div>
+            <div class="modal-footer justify-content-start border-top-0">
+               <button type="button" class="theme-btn secondary bg-white fw-semibold rounded" data-bs-dismiss="modal">Close</button> 
+            </div>
+          </div>
+        </div>
+    </div>
 </section>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    let table = $('#subscribersTable').DataTable({
+        ordering: false,
+        pageLength: 5,
+        lengthChange: false,
+        info: false,
+        searching: true,
+        paging: true,
+        dom: 't',
+    });
+
+    const paginationContainer = document.querySelector('#customPagination');
+
+    // 🔹 Custom Pagination Renderer
+    function renderPagination() {
+        const pageInfo = table.page.info();
+        const currentPage = pageInfo.page + 1;
+        const totalPages = pageInfo.pages;
+        let html = '';
+
+        html += `
+            <a href="#" class="fw-semibold prev text-dark rounded sm ${currentPage === 1 ? 'disabled' : ''}" data-page="${currentPage - 1}">&lt; Previous</a>
+            <div class="page-numbers d-flex align-items-center gap-2">
+        `;
+
+        for (let i = 1; i <= totalPages; i++) {
+            html += `<a href="#" class="pagination-number ${i === currentPage ? 'active' : ''}" data-page="${i}">${i}</a>`;
+        }
+
+        html += `
+            </div>
+            <a href="#" class="next fw-semibold text-dark rounded sm ${currentPage === totalPages ? 'disabled' : ''}" data-page="${currentPage + 1}">Next &gt;</a>
+        `;
+
+        paginationContainer.innerHTML = html;
+
+        // 🔸 Pagination click events
+        paginationContainer.querySelectorAll('a[data-page]').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (this.classList.contains('disabled')) return; // prevent click on disabled
+                const page = parseInt(this.getAttribute('data-page')) - 1;
+                table.page(page).draw('page');
+                renderPagination();
+            });
+        });
+    }
+
+    renderPagination();
+
+    // 🔹 Custom Search Input
+    const customSearch = document.querySelector('#customSearch');
+    if (customSearch) {
+        customSearch.addEventListener('input', function() {
+            table.search(this.value).draw();
+        });
+    }
+
+    // 🔹 Status Dropdown Filter
+    const statusFilter = document.querySelector('#statusFilter');
+    if (statusFilter) {
+        statusFilter.addEventListener('change', function() {
+            const value = this.value;
+            let searchValue = '';
+
+            if (value === '') searchValue = '';
+            else if (value === '1') searchValue = '^Subscribe$';
+            else if (value === '2') searchValue = '^Pending$';
+            else if (value === '0') searchValue = '^Inactive$';
+
+            table.column(0).search(searchValue, true, false).draw();
+        });
+    }
+
+    table.on('draw', renderPagination);
+});
+</script>
+
+<script>
+    document.querySelectorAll('.view-subscriber').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const fullName = this.dataset.full_name;
+            const [firstName, ...lastNameParts] = fullName.split(' ');
+            const lastName = lastNameParts.join(' ');
+
+        
+            document.getElementById('modalFirstName').textContent = firstName || '';
+            document.getElementById('modalLastName').textContent = lastName || '';
+            document.getElementById('modalSubscribeDate').textContent = this.dataset.subscribe_date;
+            document.getElementById('modalEmail').textContent = this.dataset.email;
+            document.getElementById('modalAbout').textContent = this.dataset.about || '-';
+            // Status badges
+            const status = this.dataset.status;
+            const statusContainer = document.getElementById('modalStatus');
+            let statusHtml = '';
+            if (status == 1) statusHtml = '<span class="badge fw-normal bg-white published rounded-pill">Subscribe</span>';
+            else if (status == 2) statusHtml = '<span class="badge fw-normal bg-white draft rounded-pill">Pending</span>';
+            else statusHtml = '<span class="badge fw-normal bg-white inactive rounded-pill">Inactive</span>';
+
+            statusContainer.innerHTML = statusHtml;
+        });
+    });
+</script>
 
 @endsection
