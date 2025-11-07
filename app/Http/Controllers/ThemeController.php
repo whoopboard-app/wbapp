@@ -76,7 +76,7 @@ class ThemeController extends Controller
                 'tenant_id'             => $user->tenant->tenant_id,
                 'theme_id'              => 1,
                 'brand_color'           => $request->color_hex,
-                'theme_title'           => $request->theme_title,
+                'page_title'           => $request->theme_title,
                 'welcome_message'       => $request->welcome_message,
                 'short_description'     => $request->short_description,
                 'module_labels'         => $moduleLabels ? json_encode($moduleLabels) : null,

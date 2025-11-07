@@ -27,7 +27,7 @@ class SubscriptionConfirmationMail extends Mailable
         ]);
         // dd($url);
         return $this->subject('Confirm Your Subscription')
-                    ->view('emails.subscription_confirmation')
+                    ->markdown('emails.subscription_confirmation')
                     ->with([
                         'name' => $this->name,
                         'confirmationUrl' => $url,

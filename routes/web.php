@@ -221,16 +221,16 @@
         ->name('billing.upgrade');
     });
 
-    // Route::prefix('subscribe')->name('subscribe.')->group(function () {
+    Route::prefix('subscribe')->name('subscribe.')->group(function () {
         // Route::get('signup', [SubscribeController::class, 'create'])->name('create');
         // Route::post('signup', [SubscribeController::class, 'signup'])
         // ->name('signup');
-        // Route::post('subscribe', [SubscribeController::class, 'store'])->name('store');
+        Route::post('subscribe', [SubscribeController::class, 'store'])->name('store');
         // Route::get('confirm/{token}', [SubscribeController::class, 'confirm'])
             // ->name('confirmation');
-        // Route::get('index', [SubscribeController::class, 'index'])
-            // ->name('index');
-    // });
+        Route::get('index', [SubscribeController::class, 'index'])
+            ->name('index');
+    });
 
     Route::prefix('segmentation')->name('segmentation.')->group(function () {
         Route::get('create', [SegmentationController::class, 'create'])->name('create');
