@@ -8,6 +8,8 @@ use App\Mail\SubscriptionConfirmationMail;
 use Illuminate\Support\Str;
 use App\Models\Subscriber;
 use App\Models\Tenant;
+use Illuminate\Support\Facades\Auth;
+
 
 class SubscribeController extends Controller
 {
@@ -109,6 +111,8 @@ class SubscribeController extends Controller
 
     public function store(Request $request)
     {
+        $tenantId = auth()->user()->tenant_id;
+      
         $validated = $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
@@ -120,7 +124,7 @@ class SubscribeController extends Controller
             'addType' => 'nullable|string|max:255',
             'status' => 'required|int'
         ]);
-        $validated['tenant_id'] = $this->tenant->tenant_id ?? null;
+        $validated['tenant_id'] = $tenantId;
         $validated['full_name'] = $validated['first_name'] . ' ' . $validated['last_name'];
         Subscriber::create($validated);
         return redirect()->route('subscribe.index')->with('success', 'Success! Subscribe created.');
