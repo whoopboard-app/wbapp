@@ -196,6 +196,7 @@
         Route::get('categories/create', [KBCategoryController::class, 'create'])->name('kbcategory.create');
         Route::post('store', [KBCategoryController::class, 'store'])->name('kbcategory.store');
         Route::get('{category}/articles', [KBCategoryController::class, 'articles'])->name('kbcategory.articles');
+        Route::post('/categories/reorder', [KBCategoryController::class, 'reorder'])->name('categories.reorder');
     });
 
     Route::prefix('invite')->group(function () {

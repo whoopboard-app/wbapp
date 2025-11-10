@@ -16,9 +16,9 @@ class KBBoardController extends Controller
         $tenant = $user->tenant;
         $tenantId = auth()->user()->tenant_id;
         $categories = KBCategory::where('tenant_id', $tenantId)->get();
-        $articles = KBArticle::where('tenant_id', $tenantId)->paginate(5);
+        $articles = KBArticle::where('tenant_id', $tenantId)->paginate(10);
         $total = count(KBArticle::where('tenant_id', $tenantId)->get());
-        $boards = KBBoard::where('tenant_id', $tenantId)->orderBy('created_at', 'desc')->paginate(5);
+        $boards = KBBoard::where('tenant_id', $tenantId)->orderBy('created_at', 'desc')->paginate(10);
         $totalKB = count(KBBoard::where('tenant_id', $tenantId)->orderBy('created_at', 'desc')->get());
         $announcements = Changelog::where('tenant_id', $tenantId)
             ->orderBy('created_at', 'desc')
@@ -69,7 +69,7 @@ class KBBoardController extends Controller
     public function categories($boardId)
     {
         $board = KBBoard::with('categories.articles')->findOrFail($boardId);
-        $kbcategories = $board->categories;
+        $kbcategories = $board->categories->sortBy('sort_order')->values();
         $total_kbcategories = $board->categories->count();
         // dd( $kbcategories);
         $totalCount = $board->categories->sum(function ($category) {

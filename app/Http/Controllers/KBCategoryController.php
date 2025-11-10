@@ -78,4 +78,17 @@ class KBCategoryController extends Controller
 
         return $ids;
     }
+    public function reorder(Request $request)
+    {
+        $order = $request->input('order', []);
+
+        foreach ($order as $index => $id) {
+            KBCategory::where('id', $id)->update(['sort_order' => $index + 1]);
+        }
+        return response()->json([
+            'success' => true,
+            'message' => 'Parent categories reordered successfully!',
+            'redirect' => url()->previous()
+        ]);
+    }
 }

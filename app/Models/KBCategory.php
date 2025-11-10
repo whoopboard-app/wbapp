@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class KBCategory extends Model
 {
     use HasFactory;
-
+    protected $with = ['articles', 'children.articles', 'children.children.articles'];
     protected $table = 'kb_categories';
 
     protected $fillable = [
@@ -76,6 +76,17 @@ class KBCategory extends Model
 
         return $count;
     }
+    public function getTotalArticlesCountAttribute()
+    {
+        $count = $this->articles ? $this->articles->count() : 0;
+
+        foreach ($this->children as $child) {
+            $count += $child->total_articles_count; // recursive call to accessor
+        }
+
+        return $count;
+    }
+
     public function allDescendantsCount(): int
     {
         $count = $this->children->count();

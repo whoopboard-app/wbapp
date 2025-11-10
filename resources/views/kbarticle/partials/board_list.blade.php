@@ -1,3 +1,10 @@
+<style>
+    .icon-sm {
+        width: 14px;
+        height: 14px;
+        object-fit: contain;
+    }
+</style>
 <div class="table-responsive border-0">
     <table id="listingKB" class="table align-middle board-table mb-0 border-bottom">
         <thead class="table-light">

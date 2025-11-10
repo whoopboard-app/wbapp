@@ -15,7 +15,7 @@
         rel="stylesheet"
         />
 
-    
+
     <script src="{{ asset('assets/admin/js/config.min.js') }}"></script>
 </head>
 <body class="@if(Route::is('admin.login')) authentication-bg @endif">

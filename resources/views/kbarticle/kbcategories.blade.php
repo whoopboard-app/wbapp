@@ -236,12 +236,12 @@
                         <div class="row">
                             <div class="col-lg-12 ">
                                 <div class="d-flex justify-content-between border-title">
-                                    <h5 class="fw-medium font-16">List of Categories &amp; Sub-Categories</h5>
+                                    <h5 class="fw-medium font-16">
+                                        <span id="modeLabel">List of Categories &amp; Sub-Categories</span>
+                                    </h5>
                                     <div class="form-check form-switch">
-                                            <input class="form-check-input" type="checkbox" id="showImg">
-                                            <label class="form-check-label" for="showImg">
-                                            View Mode
-                                            </label>
+                                        <input class="form-check-input" type="checkbox" id="editModeToggle">
+                                        <label class="form-check-label" for="editModeToggle">View Mode</label>
                                     </div>
                                 </div>
                                  <div class="d-inline-block mt-10px">
@@ -251,12 +251,25 @@
                                      <a href="#" id="collapseAllBtn" class="theme-btn bg-white text-primary sm secondary fw-semibold rounded d-inline-block">
                                          Collapse All
                                      </a>
-{{--                                    <a href="#" class="theme-btn disabled-link bg-white text-primary sm secondary fw-semibold rounded d-inline-block">
-                                        Edit Parent Categories
-                                    </a>
-                                    <a href="#" class="theme-btn disabled-link bg-white text-primary sm secondary fw-semibold rounded d-inline-block">
-                                        Edit Sub Categories
-                                    </a>--}}
+                                     <a href="#" id="editParent" class="theme-btn disabled-link bg-white text-primary sm secondary fw-semibold rounded d-inline-block">
+                                         Edit Parent Categories
+                                     </a>
+                                     <a href="#" id="editSub" class="theme-btn disabled-link bg-white text-primary sm secondary fw-semibold rounded d-inline-block">
+                                         Edit Sub Categories
+                                     </a>
+                                     {{-- Edit Parent Categories Modal --}}
+                                     @include('kbarticle.partials.edit_parentcategory', [
+                                         'modalId' => 'editParentModal',
+                                         'kbcategories' => $kbcategories,
+                                         'isSubCategory' => false
+                                     ])
+
+                                     {{-- Edit Sub Categories Modal --}}
+                                     @include('kbarticle.partials.edit_parentcategory', [
+                                         'modalId' => 'editSubModal',
+                                         'kbcategories' => $kbcategories,
+                                         'isSubCategory' => true
+                                     ])
                                  </div>
                                  <div class="card pt-0 px-0 bg-white mt-10px mb-3 ">
 
@@ -330,6 +343,38 @@
         </div>
         </section>
     <script>
+        document.getElementById('editModeToggle').addEventListener('change', function() {
+            const isChecked = this.checked;
+            const parentBtn = document.getElementById('editParent');
+            const subBtn = document.getElementById('editSub');
+            const label = document.querySelector('label[for="editModeToggle"]');
+            const modeLabel = document.getElementById('modeLabel');
+
+            if (isChecked) {
+                // Enable buttons and change text to Edit Mode
+                parentBtn.classList.remove('disabled-link');
+                subBtn.classList.remove('disabled-link');
+                label.textContent = 'Edit Mode';
+                modeLabel.textContent = 'Edit Categories & Sub-Categories';
+            } else {
+                // Disable buttons and revert to View Mode
+                parentBtn.classList.add('disabled-link');
+                subBtn.classList.add('disabled-link');
+                label.textContent = 'View Mode';
+                modeLabel.textContent = 'List of Categories & Sub-Categories';
+            }
+        });
+        document.getElementById('editParent').addEventListener('click', function (e) {
+            e.preventDefault();
+            const modal = new bootstrap.Modal(document.getElementById('editParentModal'));
+            modal.show();
+        });
+
+        document.getElementById('editSub').addEventListener('click', function (e) {
+            e.preventDefault();
+            const modal = new bootstrap.Modal(document.getElementById('editSubModal'));
+            modal.show();
+        });
         document.addEventListener('DOMContentLoaded', function () {
             // --------------------------
             // 1. Expand / Collapse All

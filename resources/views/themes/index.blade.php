@@ -90,14 +90,14 @@
                                                         <a href="#"
                                                            class="widget-item-btn mb-1 text-primary bg-white d-inline-block rounded fw-normal font-12"
                                                            data-bs-toggle="modal"
-                                                           data-bs-target="#themeSettings_{{ $theme->id }}">
-                                                            Theme Settings
+                                                           data-bs-target="#contentSettings_{{ $theme->id }}">
+                                                            Content Settings
                                                         </a>
                                                         <a href="#"
                                                            class="widget-item-btn mb-1 text-primary bg-white d-inline-block rounded fw-normal font-12"
                                                            data-bs-toggle="modal"
-                                                           data-bs-target="#contentSettings_{{ $theme->id }}">
-                                                            Content Settings
+                                                           data-bs-target="#themeSettings_{{ $theme->id }}">
+                                                            Theme Settings
                                                         </a>
                                                         <a href="#"
                                                            class="widget-item-btn mb-1 text-primary bg-white d-inline-block rounded fw-normal font-12"
