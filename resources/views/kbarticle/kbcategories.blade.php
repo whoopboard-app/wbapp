@@ -254,9 +254,9 @@
                                      <a href="#" id="editParent" class="theme-btn disabled-link bg-white text-primary sm secondary fw-semibold rounded d-inline-block">
                                          Edit Parent Categories
                                      </a>
-{{--                                     <a href="#" id="editSub" class="theme-btn disabled-link bg-white text-primary sm secondary fw-semibold rounded d-inline-block">
+                                     <a href="#" id="editSub" class="theme-btn disabled-link bg-white text-primary sm secondary fw-semibold rounded d-inline-block">
                                          Edit Sub Categories
-                                     </a>--}}
+                                     </a>
                                      {{-- Edit Parent Categories Modal --}}
                                      @include('kbarticle.partials.edit_parentcategory', [
                                          'modalId' => 'editParentModal',
