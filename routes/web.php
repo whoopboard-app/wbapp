@@ -174,7 +174,7 @@
         Route::post('store', [KBArticleController::class, 'store'])->name('kbarticle.store');
         Route::get('edit/{id}', [KBArticleController::class, 'edit'])
             ->name('kbarticle.edit');
-        Route::put('update/{id}', [KBArticleController::class, 'update'])
+        Route::post('update/{id}', [KBArticleController::class, 'update'])
             ->name('kbarticle.update');
         Route::get('{id}', [KBArticleController::class, 'view'])->name('kbarticle.view');
         Route::post('sort', [KBArticleController::class, 'sort'])->name('kbarticle.sort');
@@ -224,11 +224,11 @@
 
     Route::prefix('subscribe')->name('subscribe.')->group(function () {
         // Route::get('signup', [SubscribeController::class, 'create'])->name('create');
-        Route::post('signup', [SubscribeController::class, 'signup'])
-        ->name('signup');
+        // Route::post('signup', [SubscribeController::class, 'signup'])
+        // ->name('signup');
         Route::post('subscribe', [SubscribeController::class, 'store'])->name('store');
-        Route::get('confirm/{token}', [SubscribeController::class, 'confirm'])
-            ->name('confirmation');
+        // Route::get('confirm/{token}', [SubscribeController::class, 'confirm'])
+            // ->name('confirmation');
         Route::get('index', [SubscribeController::class, 'index'])
             ->name('index');
     });
@@ -245,11 +245,13 @@
     Route::domain('{subdomain}.'.$mainDomain)
         ->where(['subdomain' => '^(?!www$)[a-zA-Z0-9-]+$'])
         ->group(function () {
-            Route::get('/debug-host', function () {
-                return request()->getHost();
-            });
+           
             Route::prefix('subscribe')->name('subscribe.')->group(function () {
-                Route::get('signup', [SubscribeController::class, 'create'])->name('subsc.create');
+                Route::get('signup', [SubscribeController::class, 'create'])->name('create');
+                Route::post('signup', [SubscribeController::class, 'signup'])
+                    ->name('signup');
+                Route::get('confirm/{token}', [SubscribeController::class, 'confirm'])
+                    ->name('confirmation');
             });
 
             Route::get('/coming-soon', [ComingSoonController::class, 'show'])->name('coming.soon');

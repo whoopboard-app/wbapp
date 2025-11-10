@@ -1,10 +1,13 @@
-<!DOCTYPE html>
-<html>
-<body>
-    <p>Hello {{ $name }},</p>
-    <p>Thank you for subscribing! Please confirm your subscription:</p>
-    <p><a href="{{ route('subscribe.confirmation', ['token' => $token]) }}">
-        Confirm Subscription
-    </a></p>
-</body>
-</html>
+@component('mail::message')
+# Hello {{ ucfirst($name) }}
+
+Thank you for subscribing!  
+Please confirm your subscription by clicking the button below:
+
+@component('mail::button', ['url' => $confirmationUrl])
+Confirm Subscription
+@endcomponent
+
+Thanks,<br>
+{{ config('app.name') }}
+@endcomponent

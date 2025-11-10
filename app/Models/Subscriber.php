@@ -10,6 +10,7 @@ class Subscriber extends Model
     use HasFactory;
 
     protected $fillable = [
+        'tenant_id',
         'full_name',
         'email',
         'token',
@@ -28,4 +29,9 @@ class Subscriber extends Model
         'userSegments' => 'array',
         'status' => 'integer',
     ];
+
+    public function tenant()
+    {
+        return $this->belongsTo(Tenant::class, 'tenant_id', 'tenant_id');
+    }
 }

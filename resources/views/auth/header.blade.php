@@ -8,9 +8,12 @@
          <div class="gap15 d-flex align-items-center justify-content-end pb-0">
             <div class="d-flex align-items-center gap15">
                  @if (request()->is('subscribe') || request()->is('subscribe/*'))
-                    <a href="#" class="theme-btn text-primary sm bg-white secondary fw-semibold rounded d-inline-block">
+                    @if(isset($tenant) && $tenant)
+                        <a href="{{ route('themes.details', ['subdomain' => $tenant->custom_url]) }}"
+                        class="theme-btn text-primary sm bg-white secondary fw-semibold rounded d-inline-block">
                         Back to Changelog
-                    </a>
+                        </a>
+                    @endif
                  @elseif (request()->is('verify-email'))
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
