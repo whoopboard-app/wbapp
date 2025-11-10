@@ -116,7 +116,26 @@
                                     @endforeach
 
                                 </div>
+                                <div class="basic-information my-2">
+                                    <div class="form-condition-container border-bottom-0 mb-0 pb-0">
+                                        @php
+                                            $subdomain = $tenant->custom_url ?? 'mysubdomain';
+                                            $domain = $mainDomain ?? 'domainname.com';
+                                            $url = "http://{$subdomain}.{$domain}/coming-soon";
+                                        @endphp
 
+                                        @if(isset($userTheme) && $userTheme->is_visible == 1)
+                                            <span class="label fw-medium" style="color: #CBD5E1;">
+                                            Subdomain is available at
+                                            <a href="{{ $url }}" target="_blank">{{ $url }}</a>
+                                        </span>
+                                                                    @else
+                                                                        <span class="label fw-medium" style="color: #F87171;"> <!-- red text for not published -->
+                                            Subdomain Not Available Yet.
+                                        </span>
+                                        @endif
+                                    </div>
+                                </div>
                                 <!-- Footer Save Button -->
                                 <div class="card-footer gap15 bg-white d-flex justify-content-start border-top"
                                      style="margin-left: -16px; margin-right: -16px; padding: 12px 16px;">

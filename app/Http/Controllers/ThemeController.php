@@ -13,13 +13,15 @@ class ThemeController extends Controller
 {
     public function index()
     {
+        $mainDomain = preg_replace('/^.*?([^.]+\.[^.]+)$/', '$1', request()->getHost());
         $themes = Theme::first();
         $user = auth()->user();
+        $tenant = $user->tenant;
         $userTheme = UserTheme::where('user_id', $user->id)->first();
         // Get all functionalities
         $functionalities = Functionality::where('status', 1)->get();
 
-        return view('themes.index', compact( 'themes','functionalities','userTheme'));
+        return view('themes.index', compact( 'themes','functionalities','userTheme','tenant','mainDomain'));
     }
     public function selectTheme(Request $request)
     {
