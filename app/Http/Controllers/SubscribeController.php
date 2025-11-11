@@ -104,6 +104,16 @@ class SubscribeController extends Controller
     {
         $segments = Segmentation::orderBy('created_at', 'desc')->get();
         $subscribers = Subscriber::orderBy('created_at', 'desc')->get();
+        foreach ($subscribers as $subscriber) {
+            $segmentNames = [];
+            if ($subscriber->userSegments) {
+                $segmentNames = Segmentation::whereIn('id', $subscriber->userSegments)
+                                            ->pluck('name')
+                                            ->toArray();
+            }
+            $subscriber->segmentNames = $segmentNames; // dynamic property
+        }
+
         return view('subscribe.index', [
             'subscribers' => $subscribers,
             'total_subs' => $subscribers->count(),

@@ -126,6 +126,7 @@
                                             <th>Name</th>
                                             <th>Email Address</th>
                                             <th>Subscribe Date</th>
+                                            <th>Segmentation</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -146,6 +147,25 @@
                                                 <td>{{ $subscriber->email }}</td>
                                                 <td>
                                                     {{ $subscriber->subscribe_date ? $subscriber->subscribe_date->format('F d, Y') : '-' }}
+                                                </td>
+                                                <td>
+                                                    @if(!empty($subscriber->segmentNames))
+                                                        @foreach(array_slice($subscriber->segmentNames, 0, 2) as $name)
+                                                            <span class="badge fw-normal bg-white border text-dark rounded-pill">
+                                                                {{ $name }}
+                                                            </span>
+                                                        @endforeach
+
+                                                        @if(count($subscriber->segmentNames) > 2)
+                                                            <span class="badge fw-normal bg-white more-category rounded-pill tooltip-icon"
+                                                                data-bs-toggle="tooltip"
+                                                                title="{{ implode(', ', array_slice($subscriber->segmentNames, 2)) }}">
+                                                                +{{ count($subscriber->segmentNames) - 2 }}
+                                                            </span>
+                                                        @endif
+                                                    @else
+                                                        —
+                                                    @endif
                                                 </td>
 
 
@@ -201,20 +221,25 @@
                                         <option value="">All</option>
                                         <option value="1">Active</option>
                                         <option value="0">Inactive</option>
-                                        <option value="2">Pending</option>
+                                        <option value="2">Draft</option>
                                     </select>
                                 </div>
                             </div>
                             </div>
                             <div class="table-responsive">
-                                <div id="listingSegmentation_wrapper" class="dt-container dt-bootstrap5 dt-empty-footer"><table id="segmentsTable" class="table table-bordered align-middle dataTable" style="width: 100%;"><colgroup><col data-dt-column="0" style="width: 156.646px;"><col data-dt-column="1" style="width: 275.167px;"><col data-dt-column="2" style="width: 229.229px;">
+                                <div id="listingSegmentation_wrapper" class="dt-container dt-bootstrap5 dt-empty-footer"><table id="segmentsTable" class="table table-bordered align-middle dataTable"><colgroup><col data-dt-column="0" style="width: 156.646px;"><col data-dt-column="1" style="width: 275.167px;"><col data-dt-column="2" style="width: 229.229px;">
                                 <!-- <col data-dt-column="3" style="width: 409.896px;"> -->
                                 <col data-dt-column="4" style="width: 112.396px;"></colgroup>
                                     <thead class="table-light">
-                                        <tr><th data-dt-column="0" rowspan="1" colspan="1" class="dt-orderable-asc dt-orderable-desc dt-ordering-asc" aria-sort="ascending"><span class="dt-column-title">Status</span><span class="dt-column-order" role="button" aria-label="Status: Activate to invert sorting" tabindex="0"></span></th><th data-dt-column="1" rowspan="1" colspan="1" class="dt-orderable-asc dt-orderable-desc"><span class="dt-column-title">User Segmentation</span><span class="dt-column-order" role="button" aria-label="User Segmentation: Activate to sort" tabindex="0"></span></th><th data-dt-column="2" rowspan="1" colspan="1" class="dt-orderable-asc dt-orderable-desc"><span class="dt-column-title">Revenue Range</span><span class="dt-column-order" role="button" aria-label="Revenue Range: Activate to sort" tabindex="0"></span></th>
+                                        <tr>
                                         <!-- <th data-dt-column="3" rowspan="1" colspan="1" class="dt-orderable-asc dt-orderable-desc">
                                             <span class="dt-column-title">Segmentation</span><span class="dt-column-order" role="button" aria-label="Segmentation: Activate to sort" tabindex="0"></span></th> -->
-                                            <th data-dt-column="1" rowspan="1" colspan="1" class="dt-orderable-asc dt-orderable-desc"><span class="dt-column-title">Action</span><span class="dt-column-order" role="button" aria-label="Action: Activate to sort" tabindex="0"></span></th></tr>
+                                          
+                                            <th>Status</th>
+                                            <th>User Segmentation</th>
+                                            <th>Revenue Range</th>
+                                            <th>Action</th>
+                                        </tr>
                                     </thead>
                                     <tbody>
                                          @forelse($segments as $segment)
@@ -395,9 +420,14 @@
                                 name="userSegments[]" 
                                 multiple 
                             >
-                                <option value="" disabled>Select</option>
-                                <option value="Premium">Premium health</option>
-                                <option value="General">General</option>
+                                @if($segments->isNotEmpty())
+                                    <option value="" disabled>Select</option>
+                                    @foreach($segments as $segment)
+                                        <option value="{{ $segment->id }}">{{ $segment->name }}</option>
+                                    @endforeach
+                                @else
+                                    <option value="" disabled>No segments available</option>
+                                @endif
                             </select>
                         </div>
                     </div>
@@ -520,7 +550,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="info-card">
+                <!-- <div class="info-card">
                     <div class="row mb-3">
                         <div class="col-12">
                              <div class="info-label">Unsubscribe Date</div>
@@ -529,7 +559,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
                     
                  
