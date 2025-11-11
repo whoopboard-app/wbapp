@@ -91,10 +91,9 @@
                                     </label>
                                     <select id="revenueRange" name="revenueRange" class="input-field w-100 rounded border" required>
                                         <option value="">Select</option>
-                                        <option value="1">0 - 10K</option>
-                                        <option value="2">10K - 50K</option>
-                                        <option value="3">50K - 100K</option>
-                                        <option value="4">100K+</option>
+                                        @foreach($gv_revenuerange as $item)
+                                            <option value="{{ $item->id }}">{{ $item->value }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -117,12 +116,9 @@
                                     </label>
                                     <select id="location" name="location" class="input-field w-100 rounded border" required>
                                         <option value="">Select</option>
-                                        <option value="1">North America</option>
-                                        <option value="2">Europe</option>
-                                        <option value="3">Asia</option>
-                                        <option value="4">Middle East</option>
-                                        <option value="5">Africa</option>
-                                        <option value="6">Australia</option>
+                                        @foreach($gv_location as $item)
+                                            <option value="{{ $item->id }}">{{ $item->value }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class=" mb-3">
@@ -131,11 +127,9 @@
                                     </label>
                                     <select id="age" name="age" class="input-field w-100 rounded border" required>
                                         <option value="">Select</option>
-                                        <option value="1">18 – 24</option>
-                                        <option value="2">25 – 34</option>
-                                        <option value="3">35 – 44</option>
-                                        <option value="4">45 – 54</option>
-                                        <option value="5">55+</option>
+                                        @foreach($gv_agerange as $item)
+                                            <option value="{{ $item->id }}">{{ $item->value }}</option>
+                                        @endforeach
                                     </select>   
                                 </div>
                                 <div class=" mb-3">
@@ -148,9 +142,9 @@
                                     
                                         <select id="gender" name="gender" class="input-field w-100 rounded border">
                                             <option value="">Select</option>
-                                            <option value="1">Male</option>
-                                            <option value="2">Female</option>
-                                            <option value="other">Other</option>
+                                            @foreach($gv_gender as $item)
+                                                <option value="{{ $item->id }}">{{ $item->value }}</option>
+                                            @endforeach
                                         </select>
                                 </div>
                                 <div class="mb-3">
@@ -162,10 +156,9 @@
                                     </div>
                                     <select id="language" name="language" class="input-field w-100 rounded border">
                                         <option value="">Select</option>
-                                        <option value="1">English</option>
-                                        <option value="2">French</option>
-                                        <option value="3">Arabic</option>
-                                        <option value="4">Urdu</option>
+                                        @foreach($gv_language as $item)
+                                            <option value="{{ $item->id }}">{{ $item->value }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
 
@@ -194,24 +187,22 @@
                                 
                                         <select id="role" name="role" class="input-field w-100 rounded border">
                                             <option value="">Select</option>
-                                            <option value="1">Admin</option>
-                                            <option value="2">Editor</option>
-                                            <option value="3">Subscriber</option>
-                                            <option value="4">Guest</option>
+                                            @foreach($gv_usetype as $item)
+                                                <option value="{{ $item->id }}">{{ $item->value }}</option>
+                                            @endforeach
                                         </select>
                                 </div>
                                     </div>
                                     <div class="col-12">
                                         <div class="">
-                                            <label for="tier" class="input-label mb-1 fw-medium">
+                                            <label for="type" class="input-label mb-1 fw-medium">
                                                 Plan Type / Subscription Tier
                                             </label>
-                                            <select id="tier" name="tier[]" class="input-field w-100 rounded border" multiple required>
+                                            <select id="tier" name="plan_type[]" class="input-field w-100 rounded border" multiple required>
                                                 <option value="">Select</option>
-                                                <option value="1">Free</option>
-                                                <option value="2">Basic</option>
-                                                <option value="3">Premium</option>
-                                                <option value="4">Enterprise</option>
+                                                @foreach($gv_plan_type as $item)
+                                                    <option value="{{ $item->id }}">{{ $item->value }}</option>
+                                                @endforeach
                                             </select>
                                                 
                                         </div>
@@ -223,10 +214,9 @@
                                             </label>
                                             <select id="engagement" name="engagement" class="input-field w-100 rounded border" required>
                                                 <option value="" >Select</option>
-                                                <option value="1">Low</option>
-                                                <option value="2">Medium</option>
-                                                <option value="3">High</option>
-                                                <option value="4">Very High</option>
+                                                @foreach($gv_englevel as $item)
+                                                    <option value="{{ $item->id }}">{{ $item->value }}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
@@ -237,10 +227,9 @@
                                             </label>
                                             <select id="frequency" name="frequency" class="input-field w-100 rounded border" required>
                                                 <option value="">Select</option>
-                                                <option value="1">Daily</option>
-                                                <option value="2">Weekly</option>
-                                                <option value="3">Monthly</option>
-                                                <option value="4">Occasionally</option>
+                                                @foreach($gv_usagefre as $item)
+                                                    <option value="{{ $item->id }}">{{ $item->value }}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
