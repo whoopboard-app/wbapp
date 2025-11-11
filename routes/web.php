@@ -241,7 +241,7 @@
 
     $mainDomain = preg_replace('/^.*?([^.]+\.[^.]+)$/', '$1', request()->getHost());
     // Tenant Public Routes
-    Route::domain('{subdomain}.'.$mainDomain)
+    Route::domain('{subdomain}.' . $mainDomain)
         ->where(['subdomain' => '^(?!www$)[a-zA-Z0-9-]+$'])
         ->group(function () {
 
@@ -252,14 +252,14 @@
                 Route::get('confirm/{token}', [SubscribeController::class, 'confirm'])
                     ->name('confirmation');
             });
-
+            Route::get('/', [ComingSoonController::class, 'show'])->name('tenant.home');
             Route::get('/coming-soon', [ComingSoonController::class, 'show'])->name('coming.soon');
             Route::post('/coming-soon', [ComingSoonController::class, 'checkPassword'])->name('coming.soon.check');
             Route::get('/announcementlist/category/{slug?}', [ComingSoonController::class, 'detailsByCategory'])->name('announcement.category');
             Route::get('/announcementlist/{title}', [ComingSoonController::class, 'detailsByTitle'])->name('announcement.details.title');
             Route::get('/announcementlist', [ComingSoonController::class, 'details'])->name('themes.details');
             Route::fallback(function () {
-                abort(404, 'Page not available on tenant site.');
+                return app()->call([ComingSoonController::class, 'show']);
             });
         });
 

@@ -40,25 +40,22 @@ class ComingSoonController extends Controller
             abort(404, 'Tenant not found');
         }
 
-        // fetch theme for this tenant
         $theme = UserTheme::where('tenant_id', $tenant->tenant_id)->first();
 
+        // If theme is not visible, always show coming-soon
         if (!$theme || !$theme->is_visible) {
-            abort(404);
-        }
-
-        // If protection disabled
-        if (!$theme->is_password_protected) {
             return view('coming-soon', compact('theme'));
         }
 
-        // If already allowed in session
-        if (session('theme_access_' . $tenant->tenant_id)) {
-            return redirect()->route('themes.details','tenant');
+        // If theme is visible but password protected and session not allowed
+        if ($theme->is_password_protected && !session('theme_access_' . $tenant->tenant_id)) {
+            return view('coming-soon', compact('theme', 'tenant'));
         }
 
-        return view('coming-soon', compact('theme','tenant'));
+        // Otherwise, theme is visible and not password protected, go to announcements
+        return redirect()->route('themes.details');
     }
+
 
     public function checkPassword(Request $request, $subdomain = null)
     {
@@ -144,12 +141,15 @@ class ComingSoonController extends Controller
     public function details(request $request)
     {
         $tenant = $this->resolveTenantFromHost();
+        $theme = UserTheme::where('tenant_id', $tenant->tenant_id)->first();
+        $tenantId = $tenant->tenant_id;
+        if ($theme->is_password_protected && !session('theme_access_' . $tenant->tenant_id)) {
+            return view('coming-soon', compact('theme', 'tenant'));
+        }
         if (!$tenant) {
             abort(404);
         }
 
-        $theme = UserTheme::where('tenant_id', $tenant->tenant_id)->first();
-        $tenantId = $tenant->tenant_id;
         $categories = SettingCategoryChangelog::where('tenant_id', $tenantId)
             ->where('status', '1')
             ->get();

@@ -44,77 +44,73 @@
                                 @csrf
 
                                 <div class="theme-list">
-                                    @foreach ([$defaultTheme, $userTheme] as $theme)
-                                        @if ($theme)
-                                            @php
-                                                $isDefault = $loop->first; // first one = default theme
-                                                $isDisabled = $isDefault && $userTheme; // disable default if user theme exists
-                                            @endphp
+                                    @php
+                                        // Use userTheme if exists, otherwise defaultTheme
+                                        $themeToShow = $userTheme ?? $defaultTheme;
+                                    @endphp
 
-                                            <div class="theme-card d-flex mb-3 flex-column flex-md-row align-items-start gap-0 rounded border py-2 px-2 {{ $isDisabled ? 'opacity-50 pointer-events-none' : '' }}">
-                                                <!-- Radio for selection -->
-                                                <div class="form-check mt-2 ms-2">
-                                                    <input class="form-check-input"
-                                                           type="radio"
-                                                           name="theme_id"
-                                                           value="{{ $theme->id }}"
-                                                           id="themeSelect_{{ $theme->id }}"
-                                                        {{ $isDisabled ? 'disabled' : '' }}
-                                                        {{ ($userTheme && $userTheme->id === $theme->id) || (!$userTheme && $loop->first) ? 'checked' : '' }}>
-                                                </div>
-
-                                                <!-- Theme Preview -->
-                                                <div class="p-2 flex-shrink-0" style="width: 300px;">
-                                                    <div class="theme-preview position-relative overflow-hidden rounded" style="width:100%; height:150px;">
-                                                        @if(!empty($theme->feature_banner))
-                                                            <img src="{{ asset('storage/' . $theme->feature_banner) }}"
-                                                                 alt="banner"
-                                                                 class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover">
-                                                        @else
-                                                            <img src="{{ asset($theme->theme_image ?? 'assets/img/icon/theme-card-user.svg') }}"
-                                                                 alt="{{ $theme->theme_title }}"
-                                                                 class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover">
-                                                        @endif
-                                                    </div>
-                                                </div>
-
-                                                <!-- Details -->
-                                                <div class="flex-grow-1">
-                                                    <h6 class="fw-bold mb-0 mt-1">{{ $theme->theme_title }}</h6>
-                                                    <p class="text-muted mb-2" style="height: 70px;">
-                                                        {{ $theme->short_description ?? $theme->description }}
-                                                    </p>
-
-                                                    <!-- Trigger Buttons -->
-                                                    <div class="mt-8">
-                                                        <a href="#"
-                                                           class="widget-item-btn mb-1 text-primary bg-white d-inline-block rounded fw-normal font-12"
-                                                           data-bs-toggle="modal"
-                                                           data-bs-target="#contentSettings_{{ $theme->id }}">
-                                                            Content Settings
-                                                        </a>
-                                                        <a href="#"
-                                                           class="widget-item-btn mb-1 text-primary bg-white d-inline-block rounded fw-normal font-12"
-                                                           data-bs-toggle="modal"
-                                                           data-bs-target="#themeSettings_{{ $theme->id }}">
-                                                            Theme Settings
-                                                        </a>
-                                                        <a href="#"
-                                                           class="widget-item-btn mb-1 text-primary bg-white d-inline-block rounded fw-normal font-12"
-                                                           data-bs-toggle="modal"
-                                                           data-bs-target="#analyticsSettings_{{ $theme->id }}">
-                                                            Analytics Settings
-                                                        </a>
-                                                    </div>
-                                                </div>
-
-                                                @include('themes.partials.customize-modal', ['theme' => $theme])
-                                                @include('themes.partials.content-model', ['theme' => $theme])
-                                                @include('themes.partials.analytic-model', ['theme' => $theme])
+                                    @if ($themeToShow)
+                                        <div class="theme-card d-flex mb-3 flex-column flex-md-row align-items-start gap-0 rounded border py-2 px-2">
+                                            <!-- Radio for selection (optional, can remove if only one theme) -->
+                                            <div class="form-check mt-2 ms-2">
+                                                <input class="form-check-input"
+                                                       type="radio"
+                                                       name="theme_id"
+                                                       value="{{ $themeToShow->id }}"
+                                                       id="themeSelect_{{ $themeToShow->id }}"
+                                                       checked>
                                             </div>
-                                        @endif
-                                    @endforeach
 
+                                            <!-- Theme Preview -->
+                                            <div class="p-2 flex-shrink-0" style="width: 300px;">
+                                                <div class="theme-preview position-relative overflow-hidden rounded" style="width:100%; height:150px;">
+                                                    @if(!empty($themeToShow->feature_banner))
+                                                        <img src="{{ asset('storage/' . $themeToShow->feature_banner) }}"
+                                                             alt="banner"
+                                                             class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover">
+                                                    @else
+                                                        <img src="{{ asset($themeToShow->theme_image ?? 'assets/img/icon/theme-card-user.svg') }}"
+                                                             alt="{{ $themeToShow->theme_title }}"
+                                                             class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover">
+                                                    @endif
+                                                </div>
+                                            </div>
+
+                                            <!-- Details -->
+                                            <div class="flex-grow-1">
+                                                <h6 class="fw-bold mb-0 mt-1">{{ $themeToShow->theme_title }}</h6>
+                                                <p class="text-muted mb-2" style="height: 70px;">
+                                                    {{ $themeToShow->short_description ?? $themeToShow->description }}
+                                                </p>
+
+                                                <!-- Trigger Buttons -->
+                                                <div class="mt-8">
+                                                    <a href="#"
+                                                       class="widget-item-btn mb-1 text-primary bg-white d-inline-block rounded fw-normal font-12"
+                                                       data-bs-toggle="modal"
+                                                       data-bs-target="#contentSettings_{{ $themeToShow->id }}">
+                                                        Content Settings
+                                                    </a>
+                                                    <a href="#"
+                                                       class="widget-item-btn mb-1 text-primary bg-white d-inline-block rounded fw-normal font-12"
+                                                       data-bs-toggle="modal"
+                                                       data-bs-target="#themeSettings_{{ $themeToShow->id }}">
+                                                        Theme Settings
+                                                    </a>
+                                                    <a href="#"
+                                                       class="widget-item-btn mb-1 text-primary bg-white d-inline-block rounded fw-normal font-12"
+                                                       data-bs-toggle="modal"
+                                                       data-bs-target="#analyticsSettings_{{ $themeToShow->id }}">
+                                                        Analytics Settings
+                                                    </a>
+                                                </div>
+                                            </div>
+
+                                            @include('themes.partials.customize-modal', ['theme' => $themeToShow])
+                                            @include('themes.partials.content-model', ['theme' => $themeToShow])
+                                            @include('themes.partials.analytic-model', ['theme' => $themeToShow])
+                                        </div>
+                                    @endif
                                 </div>
                                 <div class="basic-information my-2">
                                     <div class="form-condition-container border-bottom-0 mb-0 pb-0">
