@@ -1,6 +1,10 @@
 @php
     $collapseId = 'group' . $category->id;
     $rowClasses = $level > 0 ? "child-row d-none {$parentClass}" : '';
+    $sortedChildren = $category->children
+        ->sortBy(function ($child) {
+            return $child->sort_order == 0 || is_null($child->sort_order) ? PHP_INT_MAX : $child->sort_order;
+        });
 @endphp
 
 <tr class="level-{{ $level }} {{ $rowClasses }}" data-status="{{ strtolower($category->status ?? '') }}" data-id="{{ $category->id }}">
@@ -20,10 +24,9 @@
     </td>
     <td>
         <span class="d-inline-block ms">
-{{ ucfirst($category->status) }}
+            {{ ucfirst($category->status) }}
         </span>
     </td>
-
     <td>{{ $category->all_descendants_count }}</td>
     <td>{{ $category->articles->count() ?? 0 }}</td>
     <td>
@@ -33,8 +36,8 @@
     </td>
 </tr>
 
-@if($category->children && $category->children->count() > 0)
-    @foreach($category->children as $child)
+@if($sortedChildren->count() > 0)
+    @foreach($sortedChildren as $child)
         @include('kbarticle.partials.category_tree', [
             'category' => $child,
             'level' => $level + 1,

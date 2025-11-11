@@ -39,12 +39,13 @@
                         <div class="d-flex align-items-center border-title justify-content-between">
                             <h4 class="fw-medium mb-0">33 Impression</h4>
                              <div class="btn-wrapper d-flex align-items-center justify-content-center gap15 flex-wrap mb-0">
-                                 {{--<a href="{{route('kbcategory.create')}}" class="theme-btn sm fw-semibold rounded d-inline-block">
+                                 <a href="{{ route('kbcategory.create', ['board_id' => $board->id]) }}"
+                                    class="theme-btn sm fw-semibold rounded d-inline-block">
                                      Add Category
                                  </a>
-                                 <a href="{{route('kbarticle.create')}}" class="theme-btn text-primary bg-white sm secondary fw-semibold rounded d-inline-block">
+                                 <a href="{{route('kbarticle.create', ['board_id' => $board->id])}}" class="theme-btn text-primary bg-white sm secondary fw-semibold rounded d-inline-block">
                                      Add Article
-                                 </a>--}}
+                                 </a>
                                 <a href="{{route('board.index')}}" class="theme-btn bg-white sm secondary fw-semibold rounded d-inline-block">Back to Listing</a>
                                  <div class="icon-box">
                                      <a href="{{ route('board.edit', $board->id) }}">
@@ -134,12 +135,6 @@
                                         <div class="d-flex border-title align-items-center justify-content-between">
                                             <h4 class="fw-medium mb-0 ">{{ $totalCount }} Articles</h4>
                                             <div class="btn-wrapper d-flex align-items-center justify-content-center gap15 flex-wrap mb-0">
-                                                <div class="form-check form-switch">
-                                                    <input class="form-check-input" type="checkbox" id="showImg">
-                                                    <label class="form-check-label" for="showImg">
-                                                    Show Image
-                                                    </label>
-                                                </div>
                                                 <div class="position-relative form-group" style="width: 250px;">
                                                     <input type="search" id="searchInput" class="input-field w-100 rounded ps-5" placeholder="Search">
                                                     <img src="{{ asset('assets/img/icon/search.svg') }}" alt="search"
@@ -351,13 +346,11 @@
             const modeLabel = document.getElementById('modeLabel');
 
             if (isChecked) {
-                // Enable buttons and change text to Edit Mode
                 parentBtn.classList.remove('disabled-link');
                 subBtn.classList.remove('disabled-link');
                 label.textContent = 'Edit Mode';
                 modeLabel.textContent = 'Edit Categories & Sub-Categories';
             } else {
-                // Disable buttons and revert to View Mode
                 parentBtn.classList.add('disabled-link');
                 subBtn.classList.add('disabled-link');
                 label.textContent = 'View Mode';
@@ -376,9 +369,6 @@
             modal.show();
         });
         document.addEventListener('DOMContentLoaded', function () {
-            // --------------------------
-            // 1. Expand / Collapse All
-            // --------------------------
             const expandBtn = document.querySelector('#expandAllBtn');
             const collapseBtn = document.querySelector('#collapseAllBtn');
 
@@ -406,10 +396,6 @@
                     toggleAllRows(false);
                 });
             }
-
-            // --------------------------
-            // 2. Row-level expand/collapse
-            // --------------------------
             document.addEventListener('click', function(e) {
                 const button = e.target.closest('.expand-btn');
                 if (!button) return;
@@ -421,8 +407,6 @@
                 rows.forEach(row => {
                     const isHidden = row.classList.contains('d-none');
                     row.classList.toggle('d-none', !isHidden);
-
-                    // If hiding parent row, hide all nested children recursively
                     if (!isHidden) {
                         const nestedButtons = row.querySelectorAll('.expand-btn');
                         nestedButtons.forEach(nBtn => {
@@ -443,11 +427,7 @@
                     icon.classList.toggle('fa-minus-circle');
                 }
             });
-
-            // --------------------------
-            // 3. Articles table search, filter, pagination
-            // --------------------------
-            const searchInput = document.querySelector('#searchInput');
+         const searchInput = document.querySelector('#searchInput');
             const statusFilter = document.querySelector('#statusFilter');
             const tableBody = document.querySelector('#listingArticles tbody');
             const rows = Array.from(tableBody.querySelectorAll('tr'));
@@ -483,8 +463,6 @@
                 } else {
                     filteredRows.slice(start, end).forEach(row => tableBody.appendChild(row));
                 }
-
-                // Render pagination
                 const pageNumbers = document.querySelector('.page-numbers');
                 if(pageNumbers){
                     pageNumbers.innerHTML = '';

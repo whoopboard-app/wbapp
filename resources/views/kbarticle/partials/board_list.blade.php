@@ -48,7 +48,7 @@
                 </td>
                 <td>
                     <span class="badge bg-white border text-dark tooltip-icon" data-bs-toggle="tooltip" title="View Board">
-                        <a href="{{ route('board.categories', $board->id) }}">
+                        <a href="{{ route('board.show', $board->id) }}">
                             <img src="{{ asset('assets/img/icon/eye.svg') }}" alt="view">
                         </a>
                     </span>

@@ -97,12 +97,24 @@
                                             <label for="kboard" class="input-label mb-1 fw-medium">
                                                 Select @customLabel('Knowledge Board')
                                             </label>
-                                            <select class="form-select w-100 rounded text-sm border" id="kboard" name="kboard" required>
+                                            <select class="form-select w-100 rounded text-sm border"
+                                                    id="kboard"
+                                                    name="kboard"
+                                                    {{ isset($boardId) ? 'disabled' : '' }}
+                                                    required>
                                                 <option value="">Select Board</option>
                                                 @foreach($boards as $board)
-                                                    <option value="{{ $board->id }}">{{ $board->name }}</option>
+                                                    <option value="{{ $board->id }}"
+                                                        {{ (isset($boardId) && $boardId == $board->id) ? 'selected' : '' }}>
+                                                        {{ $board->name }}
+                                                    </option>
                                                 @endforeach
                                             </select>
+
+                                            @if(isset($boardId))
+                                                {{-- Include a hidden input to send the boardId since the select is disabled --}}
+                                                <input type="hidden" name="kboard" value="{{ $boardId }}">
+                                            @endif
                                         </div>
                                     </div>
                                     <div class="col-12 mb-3">
@@ -213,8 +225,8 @@
         // Store original optgroups for later
         const originalOptgroups = Array.from(parentCategorySelect.querySelectorAll('optgroup'));
 
-        kboardSelect.addEventListener('change', function() {
-            const selectedBoardText = kboardSelect.options[kboardSelect.selectedIndex].text;
+        function filterParentCategories() {
+            const selectedBoardText = kboardSelect.options[kboardSelect.selectedIndex]?.text || '';
 
             // Clear current options
             parentCategorySelect.innerHTML = '';
@@ -225,7 +237,7 @@
             noneOption.textContent = 'None';
             parentCategorySelect.appendChild(noneOption);
 
-            if(!selectedBoardText) {
+            if (!selectedBoardText) {
                 // No board selected, restore all optgroups
                 originalOptgroups.forEach(og => parentCategorySelect.appendChild(og.cloneNode(true)));
                 return;
@@ -233,12 +245,21 @@
 
             // Filter optgroups: only keep the one matching the selected KB
             originalOptgroups.forEach(og => {
-                if(og.label === selectedBoardText) {
+                if (og.label === selectedBoardText) {
                     parentCategorySelect.appendChild(og.cloneNode(true));
                 }
             });
-        });
+        }
+
+        // Run filter when board changes
+        kboardSelect.addEventListener('change', filterParentCategories);
+
+        // --- New: Run filter on page load if boardId is preselected ---
+        @if(isset($boardId))
+        filterParentCategories();
+        @endif
     });
+
 </script>
 
 @endsection

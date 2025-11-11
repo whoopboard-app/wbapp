@@ -121,7 +121,7 @@
                                         @php
                                             $subdomain = $tenant->custom_url ?? 'mysubdomain';
                                             $domain = $mainDomain ?? 'domainname.com';
-                                            $url = "http://{$subdomain}.{$domain}/coming-soon";
+                                            $url = "http://{$subdomain}.{$domain}/announcementlist";
                                         @endphp
 
                                         @if(isset($userTheme) && $userTheme->is_visible == 1)

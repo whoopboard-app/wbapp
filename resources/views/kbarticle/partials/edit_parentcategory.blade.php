@@ -85,6 +85,9 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+
+        const allCategories = @json($kbcategories->values());
+
         function initSortable(modalId) {
             const container = document.getElementById(`sortable-container-${modalId}`);
             if (container && !container.classList.contains('sortable-initialized')) {
@@ -96,6 +99,7 @@
                 container.classList.add('sortable-initialized');
             }
         }
+
         function handleSave(modalId) {
             const saveBtn = document.getElementById(`saveOrder_${modalId}`);
             const container = document.getElementById(`sortable-container-${modalId}`);
@@ -118,27 +122,7 @@
             });
         }
 
-        // Handle subcategory filtering
-        const parentSelect = document.getElementById('parentCategory_editSubModal');
-        const subSelect = document.getElementById('subCategory_editSubModal');
-        const allSubCategories = @json($kbcategories->where('parent_id', '!=', null)->values());
-
-        if (parentSelect && subSelect) {
-            parentSelect.addEventListener('change', function () {
-                const parentId = this.value;
-                subSelect.innerHTML = '<option value="">Select</option>';
-                const filteredSubs = allSubCategories.filter(cat => cat.parent_id == parentId);
-
-                filteredSubs.forEach(cat => {
-                    const opt = document.createElement('option');
-                    opt.value = cat.id;
-                    opt.textContent = cat.name;
-                    subSelect.appendChild(opt);
-                });
-
-                renderSortableList(filteredSubs);
-            });
-        }
+        // Recursive helper
         function getAllDescendants(categories, parentId) {
             let descendants = [];
 
@@ -152,31 +136,49 @@
             return descendants;
         }
 
-        parentSelect.addEventListener('change', function () {
-            const parentId = this.value;
-            subSelect.innerHTML = '<option value="">Select</option>';
+        // Handle subcategory filtering
+        const parentSelect = document.getElementById('parentCategory_editSubModal');
+        const subSelect = document.getElementById('subCategory_editSubModal');
 
-            if (!parentId) {
-                renderSortableList([]);
-                return;
-            }
+        if (parentSelect && subSelect) {
+            // When a parent is selected
+            parentSelect.addEventListener('change', function () {
+                const parentId = this.value;
+                subSelect.innerHTML = '<option value="">Select</option>';
 
-            const filteredSubs = getAllDescendants(allSubCategories, parentId);
-            allSubCategories
-                .filter(cat => cat.parent_id == parentId)
-                .forEach(cat => {
+                if (!parentId) {
+                    renderSortableList([]);
+                    return;
+                }
+
+                const firstLevelChildren = allCategories.filter(cat => cat.parent_id == parentId);
+                firstLevelChildren.forEach(cat => {
                     const opt = document.createElement('option');
                     opt.value = cat.id;
                     opt.textContent = cat.name;
                     subSelect.appendChild(opt);
                 });
 
-            renderSortableList(filteredSubs);
-        });
+                renderSortableList(firstLevelChildren);
+            });
+
+            // When a subcategory is selected (show deeper descendants)
+            subSelect.addEventListener('change', function () {
+                const subId = this.value;
+
+                if (!subId) {
+                    renderSortableList([]);
+                    return;
+                }
+
+                const subDescendants = getAllDescendants(allCategories, subId);
+                renderSortableList(subDescendants);
+            });
+        }
 
         function renderSortableList(categories) {
             const container = document.getElementById('sortable-container-editSubModal');
-            container.innerHTML = ''; // clear old list
+            container.innerHTML = '';
 
             if (!categories.length) {
                 container.innerHTML = '<p class="text-muted">No subcategories found for this parent.</p>';
@@ -190,20 +192,20 @@
                 card.dataset.parent = category.parent_id;
 
                 card.innerHTML = `
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <h5 class="card-title mb-1">${category.name}</h5>
-                        <span class="card-text label">${category.total_articles_count || 0} Articles</span>
-                    </div>
-                    <div>
-                        <a href="#" class="cursor-grab">
-                            <img src="{{ asset('assets/img/icon/transfer.svg') }}" alt="">
-                        </a>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="card-title mb-1">${category.name}</h5>
+                            <span class="card-text label">${category.total_articles_count || 0} Articles</span>
+                        </div>
+                        <div>
+                            <a href="#" class="cursor-grab">
+                                <img src="{{ asset('assets/img/icon/transfer.svg') }}" alt="">
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </div>
-        `;
+            `;
                 container.appendChild(card);
             });
 
@@ -214,15 +216,14 @@
             });
         }
 
-
         ['editParentModal', 'editSubModal'].forEach(id => {
             const modalEl = document.getElementById(id);
             modalEl.addEventListener('shown.bs.modal', () => initSortable(id));
             handleSave(id);
         });
     });
-
 </script>
+
 
 
 

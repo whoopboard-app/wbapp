@@ -17,7 +17,7 @@
                     <div class="d-flex align-items-center border-title justify-content-between">
                         <h4 class="fw-medium mb-0">33 Impression</h4>
                         <div class="btn-wrapper d-flex align-items-center justify-content-center gap15 flex-wrap mb-0">
-                            <a href="{{ route('board.categories', $article->board->id) }}" class="theme-btn bg-white sm secondary fw-semibold rounded d-inline-block">Back to Listing</a>
+                            <a href="{{ route('board.show', $article->board->id) }}" class="theme-btn bg-white sm secondary fw-semibold rounded d-inline-block">Back to Listing</a>
                             <div class="icon-box">
                                 <a href="{{route('kbarticle.edit', $article->id)}}"><img src="{{ asset('assets/img/icon/edit.svg') }}" alt="Edit"></a>
                                 <div class="divider"></div>

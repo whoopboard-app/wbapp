@@ -66,10 +66,11 @@ class KBBoardController extends Controller
         $board->delete();
         return redirect()->route('board.index')->with('success', 'Board Deleted successfully!');
     }
-    public function categories($boardId)
+    public function show($boardId)
     {
         $board = KBBoard::with('categories.articles')->findOrFail($boardId);
         $kbcategories = $board->categories->sortBy('sort_order')->values();
+        //dd($kbcategories);
         $total_kbcategories = $board->categories->count();
         // dd( $kbcategories);
         $totalCount = $board->categories->sum(function ($category) {

@@ -12,10 +12,10 @@ use App\Models\User;
 
 class KBArticleController extends Controller
 {
-    public function create()
+    public function create(Request $request)
     {
         $tenantId = auth()->user()->tenant_id;
-
+        $boardId = $request->query('board_id');
         $boards = KBBoard::with('categories.articles')
             ->where('tenant_id', $tenantId)
             ->orderByDesc('id')
@@ -28,7 +28,9 @@ class KBArticleController extends Controller
             ->where('status', 1)
             ->orderByDesc('id')
             ->get();
-        $parentCategories = $categories;
+        $parentCategories = $boardId
+            ? $categories->where('board_id', $boardId)
+            : $categories;
 
         $tags = ChangelogTag::where('tenant_id', $tenantId)->pluck('tag_name', 'id');
 
@@ -43,8 +45,7 @@ class KBArticleController extends Controller
         if ($tags->isEmpty()) {
             $tags = collect([null => 'No Data Found']);
         }
-
-        return view('kbarticle.create', compact('parentCategories', 'categories', 'tags', 'boards', 'authors'));
+        return view('kbarticle.create', compact('parentCategories', 'categories', 'tags', 'boards', 'authors','boardId'));
     }
 
 

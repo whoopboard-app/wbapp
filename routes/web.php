@@ -174,8 +174,7 @@
         Route::post('store', [KBArticleController::class, 'store'])->name('kbarticle.store');
         Route::get('edit/{id}', [KBArticleController::class, 'edit'])
             ->name('kbarticle.edit');
-        Route::post('update/{id}', [KBArticleController::class, 'update'])
-            ->name('kbarticle.update');
+        Route::put('update/{id}', [KBArticleController::class, 'update'])->name('kbarticle.update');
         Route::get('{id}', [KBArticleController::class, 'view'])->name('kbarticle.view');
         Route::post('sort', [KBArticleController::class, 'sort'])->name('kbarticle.sort');
         Route::get('search', [KBArticleController::class, 'search'])->name('kbarticle.search');
@@ -185,7 +184,7 @@
         Route::get('/', [KBBoardController::class, 'index'])->name('board.index');
         Route::get('/create', [KBBoardController::class, 'create'])->name('board.create');
         Route::post('store', [KBBoardController::class, 'store'])->name('board.store');
-        Route::get('{board}/categories', [KBBoardController::class, 'categories'])->name('board.categories');
+        Route::get('{board}', [KBBoardController::class, 'show'])->name('board.show');
         Route::delete('{board}', [KBBoardController::class, 'destroy'])->name('board.destroy');
         Route::get('/boards/{id}/edit', [KBBoardController::class, 'edit'])->name('board.edit');
         Route::put('/boards/{id}', [KBBoardController::class, 'update'])->name('board.update');
@@ -245,7 +244,7 @@
     Route::domain('{subdomain}.'.$mainDomain)
         ->where(['subdomain' => '^(?!www$)[a-zA-Z0-9-]+$'])
         ->group(function () {
-           
+
             Route::prefix('subscribe')->name('subscribe.')->group(function () {
                 Route::get('signup', [SubscribeController::class, 'create'])->name('create');
                 Route::post('signup', [SubscribeController::class, 'signup'])

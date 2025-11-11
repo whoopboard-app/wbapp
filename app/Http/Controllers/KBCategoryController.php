@@ -9,12 +9,11 @@ use App\Models\KBBoard;
 
 class KBCategoryController extends Controller
 {
-    public function create()
+    public function create(Request $request)
     {
-        // Optionally, you can fetch the board if you need details
+        $boardId = $request->get('board_id');
         $boards = KBBoard::with('categories')->get()->sortByDesc('id');
-        // dd($board->categories);
-        return view('kbarticle.partials.create_category', compact('boards'));
+        return view('kbarticle.partials.create_category', compact('boards','boardId'));
     }
 
     public function store(Request $request)

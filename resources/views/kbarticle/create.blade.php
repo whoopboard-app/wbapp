@@ -94,11 +94,12 @@
                                             <label for="kboard" class="input-label mb-1 fw-medium">
                                                 Select @customLabel('Knowledge Board')
                                             </label>
-                                            <select class="form-select w-100 rounded border text-sm" id="kboard" name="kboard" required>
+                                            <select class="form-select w-100 rounded border text-sm" id="kboard" name="kboard"
+                                                    {{ isset($boardId) ? 'disabled' : '' }} required>
                                                 <option value="">Select Board</option>
                                                 @foreach($boards as $board)
                                                     <option value="{{ $board->id }}"
-                                                        {{ old('kboard', $article->board_id ?? '') == $board->id ? 'selected' : '' }}>
+                                                        {{ (isset($boardId) && $boardId == $board->id) || old('kboard', $article->board_id ?? '') == $board->id ? 'selected' : '' }}>
                                                         {{ $board->name }}
                                                     </option>
                                                 @endforeach
@@ -106,7 +107,7 @@
                                         </div>
                                     </div>
 
-                                   <div class="col-12 mb-3">
+                                    <div class="col-12 mb-3">
                                         <div class="">
                                             <label for="title" class="input-label mb-1 fw-medium">
                                                 Article Title
