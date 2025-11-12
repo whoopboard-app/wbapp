@@ -118,12 +118,13 @@
                                             $subdomain = $tenant->custom_url ?? 'mysubdomain';
                                             $domain = $mainDomain ?? 'domainname.com';
                                             $url = "http://{$subdomain}.{$domain}/announcementlist";
+                                            $urlroot = "http://{$subdomain}.{$domain}";
                                         @endphp
 
                                         @if(isset($userTheme) && $userTheme->is_visible == 1)
                                             <span class="label fw-medium" style="color: #CBD5E1;">
                                             Subdomain is available at
-                                            <a href="{{ $url }}" target="_blank">{{ $url }}</a>
+                                            <a href="{{ $url }}" target="_blank">{{ $urlroot }}</a>
                                         </span>
                                                                     @else
                                                                         <span class="label fw-medium" style="color: #F87171;"> <!-- red text for not published -->
