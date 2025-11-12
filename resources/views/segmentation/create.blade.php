@@ -22,6 +22,12 @@
     }
 </style>
 <section class="section-content-center view-changelog main-content-wrapper">
+    <div class="btn-wrapper d-flex align-items-center justify-content-center gap-2 flex-wrap mb-2">
+        <a href="{{route('subscribe.index')}}" class="theme-btn bg-white sm secondary fw-semibold rounded d-inline-flex align-items-center gap-2 position-absolute" style="right: 40px;">
+            <img src="{{ asset('assets/img/icon/chevron-left.svg') }}" alt="Back" class="align-text-bottom">
+            Back to Listing 
+        </a>
+    </div>
     <div class="row">
             <div class="col-lg-12 view-changelog-details">
                     <div class="card p-0 bg-white mb-3">
