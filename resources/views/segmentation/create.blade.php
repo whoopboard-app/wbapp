@@ -63,7 +63,7 @@
                                             Status of your Segmentation
                                         </label>
                                         <select class="input-field w-100 rounded border" id="status" name="status" required>
-                                            <option value="">Placeholder</option>
+                                            <option value="">Select</option>
                                             <option value="1">Active</option>
                                             <option value="0">Inactive</option>
                                         </select>

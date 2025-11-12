@@ -230,6 +230,8 @@
             // ->name('confirmation');
         Route::get('index', [SubscribeController::class, 'index'])
             ->name('index');
+        Route::post('update', [SubscribeController::class, 'update'])
+            ->name('update');
         Route::get('unsubscribe/{token}', [SubscribeController::class, 'unsubscribe'])
             ->name('unsubscribe'); 
     });
