@@ -37,4 +37,8 @@ class Tenant extends Model
     {
         return $this->hasMany(PlanTransaction::class, 'tenant_id', 'tenant_id');
     }
+    public function userTheme()
+    {
+        return $this->hasOne(UserTheme::class, 'tenant_id', 'tenant_id');
+    }
 }
