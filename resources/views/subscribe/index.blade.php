@@ -126,6 +126,7 @@
                                             <th>Name</th>
                                             <th>Email Address</th>
                                             <th>Subscribe Date</th>
+                                            <th>Segmentation</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -146,6 +147,25 @@
                                                 <td>{{ $subscriber->email }}</td>
                                                 <td>
                                                     {{ $subscriber->subscribe_date ? $subscriber->subscribe_date->format('F d, Y') : '-' }}
+                                                </td>
+                                                <td>
+                                                    @if(!empty($subscriber->segmentNames))
+                                                        @foreach(array_slice($subscriber->segmentNames, 0, 2) as $name)
+                                                            <span class="badge fw-normal bg-white border text-dark rounded-pill">
+                                                                {{ $name }}
+                                                            </span>
+                                                        @endforeach
+
+                                                        @if(count($subscriber->segmentNames) > 2)
+                                                            <span class="badge fw-normal bg-white more-category rounded-pill tooltip-icon"
+                                                                data-bs-toggle="tooltip"
+                                                                title="{{ implode(', ', array_slice($subscriber->segmentNames, 2)) }}">
+                                                                +{{ count($subscriber->segmentNames) - 2 }}
+                                                            </span>
+                                                        @endif
+                                                    @else
+                                                        —
+                                                    @endif
                                                 </td>
 
 
@@ -186,150 +206,97 @@
                     <div class="col-lg-12 ">
                             <div class="card pt-0 px-0 bg-white mb-3 ">
                             <div class="d-flex border-title align-items-center justify-content-between">
-                            <h4 class="fw-medium mb-0 ">33 Subscriber List</h4>
+                            <h4 class="fw-medium mb-0 ">{{ $total_segments }} Subscriber List</h4>
                             <div class="btn-wrapper d-flex align-items-center justify-content-center gap15 flex-wrap mb-0">
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="showImg">
-                                    <label class="form-check-label" for="showImg">
-                                    Show Image
-                                    </label>
+                                    <input class="form-check-input" type="checkbox" id="showImgSegments">
+                                    <label class="form-check-label" for="showImgSegments">Show Image</label>
                                 </div>
-                                <div class=" position-relative form-group">
-                                    <input type="search" class="input-field w-100 rounded ps-5" placeholder="Search">
+                                 <div class="position-relative form-group">
+                                    <input type="search" class="input-field w-100 rounded ps-5" placeholder="Search" id="searchSegments">
                                     <img src="{{ asset('assets/img/icon/search.svg') }}" class="position-absolute search-icon" alt="">
                                 </div>
                                 <div class="form-group">
-                                <select class="form-select rounded">
-                                            <option value="">Name</option>
-                                            <option value="active">Active</option>
-                                            <option value="inactive">Inactive</option>
-                                            <option value="draft">Draft</option>
-                                </select>
+                                    <select id="segmentStatusFilter" class="form-select rounded">
+                                        <option value="">All</option>
+                                        <option value="1">Active</option>
+                                        <option value="0">Inactive</option>
+                                        <option value="2">Draft</option>
+                                    </select>
                                 </div>
                             </div>
                             </div>
                             <div class="table-responsive">
-                                <div id="listingSegmentation_wrapper" class="dt-container dt-bootstrap5 dt-empty-footer"><table id="listingSegmentation" class="table table-bordered align-middle dataTable" style="width: 100%;"><colgroup><col data-dt-column="0" style="width: 156.646px;"><col data-dt-column="1" style="width: 275.167px;"><col data-dt-column="2" style="width: 229.229px;"><col data-dt-column="3" style="width: 409.896px;"><col data-dt-column="4" style="width: 112.396px;"></colgroup>
+                                <div id="listingSegmentation_wrapper" class="dt-container dt-bootstrap5 dt-empty-footer"><table id="segmentsTable" class="table table-bordered align-middle dataTable"><colgroup><col data-dt-column="0" style="width: 156.646px;"><col data-dt-column="1" style="width: 275.167px;"><col data-dt-column="2" style="width: 229.229px;">
+                                <!-- <col data-dt-column="3" style="width: 409.896px;"> -->
+                                <col data-dt-column="4" style="width: 112.396px;"></colgroup>
                                     <thead class="table-light">
-                                        <tr><th data-dt-column="0" rowspan="1" colspan="1" class="dt-orderable-asc dt-orderable-desc dt-ordering-asc" aria-sort="ascending"><span class="dt-column-title">Status</span><span class="dt-column-order" role="button" aria-label="Status: Activate to invert sorting" tabindex="0"></span></th><th data-dt-column="1" rowspan="1" colspan="1" class="dt-orderable-asc dt-orderable-desc"><span class="dt-column-title">User Segmentation</span><span class="dt-column-order" role="button" aria-label="User Segmentation: Activate to sort" tabindex="0"></span></th><th data-dt-column="2" rowspan="1" colspan="1" class="dt-orderable-asc dt-orderable-desc"><span class="dt-column-title">Revenue Range</span><span class="dt-column-order" role="button" aria-label="Revenue Range: Activate to sort" tabindex="0"></span></th><th data-dt-column="3" rowspan="1" colspan="1" class="dt-orderable-asc dt-orderable-desc"><span class="dt-column-title">Segmentation</span><span class="dt-column-order" role="button" aria-label="Segmentation: Activate to sort" tabindex="0"></span></th><th data-dt-column="4" rowspan="1" colspan="1" class="dt-orderable-asc dt-orderable-desc"><span class="dt-column-title">Action</span><span class="dt-column-order" role="button" aria-label="Action: Activate to sort" tabindex="0"></span></th></tr>
+                                        <tr>
+                                        <!-- <th data-dt-column="3" rowspan="1" colspan="1" class="dt-orderable-asc dt-orderable-desc">
+                                            <span class="dt-column-title">Segmentation</span><span class="dt-column-order" role="button" aria-label="Segmentation: Activate to sort" tabindex="0"></span></th> -->
+                                          
+                                            <th>Status</th>
+                                            <th>User Segmentation</th>
+                                            <th>Revenue Range</th>
+                                            <th>Action</th>
+                                        </tr>
                                     </thead>
-                                    <tbody><tr>
-                                            <td class="sorting_1">
-                                                <span class="badge fw-normal bg-white inactive rounded-pill">Inactive</span>
-                                            </td>
-                                            <td>
-                                                <span>
-                                                    Caroline Hardacre
-                                                </span>
-                                            </td>
+                                    <tbody>
+                                         @forelse($segments as $segment)
+                                            <tr>
+                                                {{-- Status --}}
                                                 <td>
-                                                <span>
-                                                    $101 to $500
-                                                </span>
-                                            </td>
+                                                    @if($segment->status == 1)
+                                                        <span class="badge fw-normal bg-white published rounded-pill">Active</span>
+                                                    @elseif($segment->status == 2)
+                                                        <span class="badge fw-normal bg-white draft rounded-pill">Draft</span>
+                                                    @else
+                                                        <span class="badge fw-normal bg-white inactive rounded-pill">Inactive</span>
+                                                    @endif
+                                                </td>
+
+                                                {{-- Segmentation Name --}}
+                                                <td>{{ $segment->name }}</td>
+
+                                                {{-- Revenue Range --}}
+                                                <td>{{ $segment->revenueRange->value ?? 'N/A' }}</td>
+
+                                                {{-- Plan Types --}}
+                                                <!-- <td>
+                                                    @php $plans = $segment->planTypes(); @endphp
+                                                    @foreach($plans as $plan)
+                                                        <span class="badge fw-normal bg-white published-category border text-dark rounded-pill">{{ $plan->value }}</span>
+                                                    @endforeach
+                                                    @if($plans->count() > 2)
+                                                        <span class="badge fw-normal bg-white more-category rounded-pill tooltip-icon"
+                                                            data-bs-toggle="tooltip"
+                                                            title="Other Plans">
+                                                            +{{ $plans->count() - 2 }}
+                                                        </span>
+                                                    @endif
+                                                </td> -->
+
+                                                {{-- Action --}}
                                                 <td>
-                                                    <span class="badge fw-normal bg-white published-category border text-dark rounded-pill">Published</span>
-                                                <span class="badge fw-normal bg-white published-category border text-dark rounded-pill">Published</span>
-                                                <span class="badge fw-normal bg-white more-category rounded-pill tooltip-icon" data-bs-toggle="tooltip" data-bs-original-title="Others Category">
-                                                    +2
-                                                </span>
-                                            </td>
-                                            
-                                            <td>
-                                            <span class="badge bg-white border text-dark tooltip-icon" data-bs-toggle="tooltip" aria-label="Action" data-bs-original-title="Action">
-                                                <a href="#">  <img src="{{ asset('assets/img/icon/eye.svg') }}" alt=""></a>
-                                                </span>
-                                            </td>
-                                        </tr><tr>
-                                            <td class="sorting_1">
-                                                <span class="badge fw-normal bg-white inactive rounded-pill">Inactive</span>
-                                            </td>
-                                            <td>
-                                                <span>
-                                                    Caroline Hardacre
-                                                </span>
-                                            </td>
-                                                <td>
-                                                <span>
-                                                    $101 to $500
-                                                </span>
-                                            </td>
-                                                <td>
-                                                    <span class="badge fw-normal bg-white published-category border text-dark rounded-pill">Published</span>
-                                                <span class="badge fw-normal bg-white published-category border text-dark rounded-pill">Published</span>
-                                                <span class="badge fw-normal bg-white more-category rounded-pill tooltip-icon" data-bs-toggle="tooltip" data-bs-original-title="Others Category">
-                                                    +2
-                                                </span>
-                                            </td>
-                                            
-                                            <td>
-                                            <span class="badge bg-white border text-dark tooltip-icon" data-bs-toggle="tooltip" aria-label="Action" data-bs-original-title="Action">
-                                                <a href="#">  <img src="{{ asset('assets/img/icon/eye.svg') }}" alt=""></a>
-                                                </span>
-                                            </td>
-                                        </tr><tr>
-                                            <td class="sorting_1">
-                                                <span class="badge fw-normal bg-white inactive rounded-pill">Inactive</span>
-                                            </td>
-                                            <td>
-                                                <span>
-                                                    Caroline Hardacre
-                                                </span>
-                                            </td>
-                                                <td>
-                                                <span>
-                                                    $101 to $500
-                                                </span>
-                                            </td>
-                                                <td>
-                                                    <span class="badge fw-normal bg-white published-category border text-dark rounded-pill">Published</span>
-                                                <span class="badge fw-normal bg-white published-category border text-dark rounded-pill">Published</span>
-                                                <span class="badge fw-normal bg-white more-category rounded-pill tooltip-icon" data-bs-toggle="tooltip" data-bs-original-title="Others Category">
-                                                    +2
-                                                </span>
-                                            </td>
-                                            
-                                            <td>
-                                            <span class="badge bg-white border text-dark tooltip-icon" data-bs-toggle="tooltip" aria-label="Action" data-bs-original-title="Action">
-                                                <a href="#">  <img src="{{ asset('assets/img/icon/eye.svg') }}" alt=""></a>
-                                                </span>
-                                            </td>
-                                        </tr><tr>
-                                            <td class="sorting_1">
-                                                <span class="badge fw-normal bg-white draft rounded-pill">Pending</span>
-                                            </td>
-                                            <td>
-                                                <span>
-                                                    Caroline Hardacre
-                                                </span>
-                                            </td>
-                                                <td>
-                                                <span>
-                                                    $101 to $500
-                                                </span>
-                                            </td>
-                                                <td>
-                                                    <span class="badge fw-normal bg-white published-category border text-dark rounded-pill">Published</span>
-                                                <span class="badge fw-normal bg-white published-category border text-dark rounded-pill">Published</span>
-                                                <span class="badge fw-normal bg-white more-category rounded-pill tooltip-icon" data-bs-toggle="tooltip" data-bs-original-title="Others Category">
-                                                    +2
-                                                </span>
-                                            </td>
-                                            
-                                            <td>
-                                            <span class="badge bg-white border text-dark tooltip-icon" data-bs-toggle="tooltip" aria-label="Action" data-bs-original-title="Action">
-                                                <a href="#">  <img src="{{ asset('assets/img/icon/eye.svg') }}" alt=""></a>
-                                                </span>
-                                            </td>
-                                        </tr></tbody>
+                                                    <a href="#"
+                                                    class="badge bg-white border text-dark tooltip-icon"
+                                                    data-bs-toggle="modal"
+                                                   
+                                                    title="View">
+                                                        <img src="{{ asset('assets/img/icon/eye.svg') }}" alt="">
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="5" class="text-center text-muted py-4">No segments found.</td>
+                                            </tr>
+                                        @endforelse
+                                      
+                                    </tbody>
                                 <tfoot></tfoot></table><div class="dt-autosize" style="width: 100%; height: 0px;"></div></div>
                             </div>
-                            <div class="d-flex align-items-center gap-3 px-3 pagination">
-                                <a href="#" type="button" class="fw-semibold  prev text-dark rounded  sm">&lt; Previous</a>  
-                                <div class="page-numbers d-flex align-items-center gap-2"><a href="#" class="pagination-number">1</a><a href="#" class="pagination-number active">2</a></div>
-                            
-                                <a href="#" type="button" class="next fw-semibold rounded  sm">Next &gt;</a>  
-                            </div>
+                            <div id="segmentsPagination" class="d-flex align-items-center gap-3 px-3 pagination mt-3"></div>
                     </div>
                     </div>
             
@@ -453,9 +420,14 @@
                                 name="userSegments[]" 
                                 multiple 
                             >
-                                <option value="" disabled>Select</option>
-                                <option value="Premium">Premium health</option>
-                                <option value="General">General</option>
+                                @if($segments->isNotEmpty())
+                                    <option value="" disabled>Select</option>
+                                    @foreach($segments as $segment)
+                                        <option value="{{ $segment->id }}">{{ $segment->name }}</option>
+                                    @endforeach
+                                @else
+                                    <option value="" disabled>No segments available</option>
+                                @endif
                             </select>
                         </div>
                     </div>
@@ -578,7 +550,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="info-card">
+                <!-- <div class="info-card">
                     <div class="row mb-3">
                         <div class="col-12">
                              <div class="info-label">Unsubscribe Date</div>
@@ -587,7 +559,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
                     
                  
@@ -621,6 +593,12 @@ document.addEventListener('DOMContentLoaded', function() {
         const pageInfo = table.page.info();
         const currentPage = pageInfo.page + 1;
         const totalPages = pageInfo.pages;
+
+        if (totalPages === 0) {
+            paginationContainer.innerHTML = '';
+            return;
+        }
+
         let html = '';
 
         html += `
@@ -650,6 +628,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
+
 
     renderPagination();
 
@@ -705,6 +684,91 @@ document.addEventListener('DOMContentLoaded', function() {
             statusContainer.innerHTML = statusHtml;
         });
     });
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // ===== Segments Table =====
+    let segTable = $('#segmentsTable').DataTable({
+        ordering: false,
+        pageLength: 5,
+        lengthChange: false,
+        info: false,
+        searching: true,
+        paging: true,
+        dom: 't',
+    });
+
+    const segPagination = document.querySelector('#segmentsPagination');
+
+    function renderSegPagination() {
+        const pageInfo = segTable.page.info();
+        const currentPage = pageInfo.page + 1;
+        const totalPages = pageInfo.pages;
+
+        if (totalPages === 0) {
+            segPagination.innerHTML = '';
+            return;
+        }
+
+        let html = '';
+
+        html += `
+            <a href="#" class="fw-semibold prev text-dark rounded sm ${currentPage === 1 ? 'disabled' : ''}" data-page="${currentPage - 1}">&lt; Previous</a>
+            <div class="page-numbers d-flex align-items-center gap-2">
+        `;
+
+        for (let i = 1; i <= totalPages; i++) {
+            html += `<a href="#" class="pagination-number ${i === currentPage ? 'active' : ''}" data-page="${i}">${i}</a>`;
+        }
+
+        html += `
+            </div>
+            <a href="#" class="next fw-semibold text-dark rounded sm ${currentPage === totalPages ? 'disabled' : ''}" data-page="${currentPage + 1}">Next &gt;</a>
+        `;
+
+        segPagination.innerHTML = html;
+
+        // 🔹 Add click events
+        segPagination.querySelectorAll('a[data-page]').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (this.classList.contains('disabled')) return;
+                const page = parseInt(this.getAttribute('data-page')) - 1;
+                segTable.page(page).draw('page');
+                renderSegPagination();
+            });
+        });
+    }
+
+
+    renderSegPagination();
+
+    // 🔹 Segment Search
+    const segSearch = document.querySelector('#searchSegments');
+    if (segSearch) {
+        segSearch.addEventListener('input', function() {
+            segTable.search(this.value).draw();
+        });
+    }
+
+    // 🔹 Segment Status Filter
+    const segStatus = document.querySelector('#segmentStatusFilter');
+    if (segStatus) {
+        segStatus.addEventListener('change', function() {
+            const value = this.value;
+            let searchValue = '';
+
+            if (value === '') searchValue = '';
+            else if (value === '1') searchValue = '^Active$';
+            else if (value === '2') searchValue = '^Draft$';
+            else if (value === '0') searchValue = '^Inactive$';
+
+            segTable.column(0).search(searchValue, true, false).draw();
+        });
+    }
+
+    segTable.on('draw', renderSegPagination);
+});
 </script>
 
 @endsection

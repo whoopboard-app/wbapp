@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use App\Models\Subscriber;
 use App\Models\Tenant;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Segmentation;
 
 
 class SubscribeController extends Controller
@@ -101,11 +102,23 @@ class SubscribeController extends Controller
 
     public function index()
     {
-        // dd("index");
+        $segments = Segmentation::orderBy('created_at', 'desc')->get();
         $subscribers = Subscriber::orderBy('created_at', 'desc')->get();
+        foreach ($subscribers as $subscriber) {
+            $segmentNames = [];
+            if ($subscriber->userSegments) {
+                $segmentNames = Segmentation::whereIn('id', $subscriber->userSegments)
+                                            ->pluck('name')
+                                            ->toArray();
+            }
+            $subscriber->segmentNames = $segmentNames; // dynamic property
+        }
+
         return view('subscribe.index', [
             'subscribers' => $subscribers,
             'total_subs' => $subscribers->count(),
+            'segments' => $segments,
+            'total_segments' => $segments->count(),
         ]);
     }
 
