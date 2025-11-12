@@ -137,8 +137,34 @@
                 </div>
 
                 <!-- Action icon -->
-                <a href="#"><img src="{{ asset('assets/img/icon/team.svg') }}" alt="team"></a>
-                <a href="#"><img src="{{ asset('assets/img/icon/dashboard.svg') }}" alt="Dashboard"></a>
+                    <div class="form-condition-container border-bottom-0 mb-0 pb-0">
+                        @php
+                            $mainDomain = preg_replace('/^.*?([^.]+\.[^.]+)$/', '$1', request()->getHost());
+                            $subdomain = $tenant->custom_url ?? 'mysubdomain';
+                            $url = "http://{$subdomain}.{$mainDomain}/announcementlist";
+                        @endphp
+                        @if(isset($tenant->userTheme) && $tenant->userTheme->is_visible == 1)
+                            <span class="label fw-medium" style="color: #CBD5E1;">
+                            <a href="{{ $url }}" target="_blank"
+                               data-bs-toggle="tooltip"
+                               data-bs-placement="bottom"
+                               title="Click to Visit Subdomain"
+                            >
+                                <img src="{{ asset('assets/img/icon/window.svg') }}" alt="Subdomain Link">
+                            </a>
+                        </span>
+                        @else
+                            <span class="label fw-medium text-danger">
+                                <img src="{{ asset('assets/img/icon/window.svg') }}"
+                                     alt="Subdomain Link"
+                                     style="cursor: not-allowed;"
+                                     data-bs-toggle="tooltip"
+                                     data-bs-placement="bottom"
+                                     title="Subdomain not available yet">
+                            </span>
+                        @endif
+                    </div>
+                    <a href="#"><img src="{{ asset('assets/img/icon/dashboard.svg') }}" alt="Dashboard"></a>
 
 
 
@@ -148,8 +174,7 @@
                                data-bs-toggle="tooltip"
                                data-bs-placement="bottom"
                                title="Settings"
-                               class="sidebar-menu-link d-flex align-items-center
-                           {{ $isGuideSetup ? 'text-gray-400 pointer-events-none' : (request()->routeIs('app.settings') ? 'active text-blue-600' : 'text-gray-600') }}">
+                               class="{{ $isGuideSetup ? 'text-gray-400 pointer-events-none' : (request()->routeIs('app.settings') ? 'active text-blue-600' : 'text-gray-600') }}">
                                 <img src="{{ asset('assets/img/icon/gear.svg') }}" alt="Settings" class="sidebar-menu-link-icon flex-shrink-0">
                             </a>
                         </li>
