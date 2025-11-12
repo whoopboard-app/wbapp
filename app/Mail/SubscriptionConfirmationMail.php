@@ -26,11 +26,15 @@ class SubscriptionConfirmationMail extends Mailable
             'token' => $this->token,
         ]);
         // dd($url);
+        $unsubscribeUrl = route('subscribe.unsubscribe', [
+            'token' => $this->token,
+        ]);
         return $this->subject('Confirm Your Subscription')
                     ->markdown('emails.subscription_confirmation')
                     ->with([
                         'name' => $this->name,
                         'confirmationUrl' => $url,
+                        'unsubscribeUrl' => $unsubscribeUrl,
                     ]);
     }
 }
