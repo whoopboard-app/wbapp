@@ -50,7 +50,12 @@
     .info-card {
         border-bottom: 0.5px solid #969695;
     }
-   
+   .info-card .info-tag {
+        background-color: #E1E1E0;
+        border: 1px solid #E1E1E0;
+        padding: 6px 8px;
+        border-radius: 6px;
+    }
 </style>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
 <section class=" main-content-wrapper">
@@ -178,7 +183,7 @@
                                                    
                                                     data-email="{{ $subscriber->email }}"
                                                     data-subscribe_date="{{ $subscriber->subscribe_date ? $subscriber->subscribe_date->format('F d, Y') : '-' }}"
-                                                    data-user_segments="{{ implode(', ', $subscriber->userSegments ?? []) }}"
+                                                    data-user_segments="{{ implode(', ', $subscriber->segmentNames ?? []) }}"
                                                     data-status="{{ $subscriber->status }}"
                                                     data-about="{{ $subscriber->short_desc }}"
                                                     title="View">
@@ -521,9 +526,7 @@
                     <div class="row mb-3">
                         <div class="col-12">
                              <div class="info-label">User Segmentation</div>
-                            <div class="d-flex justify-content-start gap-2">
-                                <span class="info-tag">General Subscribe</span>
-                                <span class="info-tag">General Subscribe</span>
+                            <div class="d-flex justify-content-start gap-2 mt-1" id="modalUserSegments">
                             </div>
                         </div>
                     </div>
@@ -532,7 +535,7 @@
                     <div class="row mb-3">
                         <div class="col-12">
                              <div class="info-label">Status</div>
-                            <div class="d-flex justify-content-start gap-2" id="modalStatus">
+                            <div class="d-flex justify-content-start gap-2 mt-1" id="modalStatus">
                                
                             </div>
                         </div>
@@ -673,6 +676,11 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('modalSubscribeDate').textContent = this.dataset.subscribe_date;
             document.getElementById('modalEmail').textContent = this.dataset.email;
             document.getElementById('modalAbout').textContent = this.dataset.about || '-';
+            const segmentContainer = document.getElementById('modalUserSegments');
+            const segments = this.dataset.user_segments ? this.dataset.user_segments.split(', ') : [];
+            segmentContainer.innerHTML = segments.length 
+                ? segments.map(name => `<span class="info-tag">${name}</span>`).join(' ')
+                : '<span class="text-muted">No Segments</span>';
             // Status badges
             const status = this.dataset.status;
             const statusContainer = document.getElementById('modalStatus');
