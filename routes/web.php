@@ -230,6 +230,8 @@
             // ->name('confirmation');
         Route::get('index', [SubscribeController::class, 'index'])
             ->name('index');
+        Route::get('unsubscribe/{token}', [SubscribeController::class, 'unsubscribe'])
+            ->name('unsubscribe'); 
     });
 
     Route::prefix('segmentation')->name('segmentation.')->group(function () {
