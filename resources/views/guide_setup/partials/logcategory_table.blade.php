@@ -11,27 +11,27 @@
             <td class="py-2">
                 @php
                     $statusClasses = [
-                        'inactive' => 'status-inactive',
-                        'active'   => 'status-active',
-                        'draft'    => 'status-draft',
-                        'schedule' => 'status-schedule',
+                        0 => 'status-inactive',
+                        1 => 'status-active',
+                        2 => 'status-draft',
+                        3 => 'status-schedule', // if you use schedule as 3
                     ];
 
                     $statusLabels = [
-                        'inactive' => 'Inactive',
-                        'active'   => 'Active',
-                        'draft'    => 'Draft',
-                        'schedule' => 'Scheduled',
+                        0 => 'Inactive',
+                        1 => 'Active',
+                        2 => 'Draft',
+                        3 => 'Scheduled',
                     ];
 
-                    $status = strtolower($category->status); // make sure it's lowercase
+                    $status = $category->status; // integer value: 0,1,2
                     $badgeClass = $statusClasses[$status] ?? 'status-inactive';
-                    $badgeLabel = $statusLabels[$status] ?? ucfirst($status);
+                    $badgeLabel = $statusLabels[$status] ?? 'Unknown';
                 @endphp
 
                 <span class="badge fw-normal bg-white {{ $badgeClass }} rounded-pill border-1">
-        {{ $badgeLabel }}
-    </span>
+            {{ $badgeLabel }}
+        </span>
             </td>
             <!-- Category Name -->
             <td class="py-2">{{ $category->category_name }}</td>
