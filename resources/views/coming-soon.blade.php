@@ -43,9 +43,17 @@
                     <img src="{{ asset('assets/img/logo.svg') }}" alt="Railway" class="img-fluid">
                 @endif
             </div>
+            @if(!empty($theme->is_visible == 0))
             <div class="Coming-soon-text">
                 <h5 class="fw-semibold text-primary">Coming Soon</h5>
             </div>
+            @endif
+            @if(!empty($theme->is_visible == 1))
+                <div class="Coming-soon-text">
+                    <h5 class="fw-semibold text-primary">Password Protected</h5>
+                </div>
+            @endif
+
         </div>
 
         <div class="card theme-card mt-3">

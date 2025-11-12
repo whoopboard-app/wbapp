@@ -24,7 +24,7 @@
                         'schedule' => 'Scheduled',
                     ];
 
-                    $status = strtolower($announcement->status); // make sure it's lowercase
+                    $status = strtolower($category->status); // make sure it's lowercase
                     $badgeClass = $statusClasses[$status] ?? 'status-inactive';
                     $badgeLabel = $statusLabels[$status] ?? ucfirst($status);
                 @endphp
