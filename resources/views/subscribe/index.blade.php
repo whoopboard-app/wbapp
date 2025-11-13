@@ -829,6 +829,11 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('modalFirstName').textContent = firstName;
             document.getElementById('modalLastName').textContent = lastName;
             document.getElementById('modalEmail').textContent = this.dataset.email;
+             const segmentContainer = document.getElementById('modalUserSegments');
+            const segments = this.dataset.user_segments ? this.dataset.user_segments.split(', ') : [];
+            segmentContainer.innerHTML = segments.length 
+                ? segments.map(name => `<span class="info-tag">${name}</span>`).join(' ')
+                : '<span class="text-muted">No Segments</span>';
             const status = this.dataset.status;
             const statusContainer = document.getElementById('modalStatus');
             let statusHtml = '';
