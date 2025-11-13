@@ -547,6 +547,9 @@
                </form>
             </div>
             <div class="modal-footer justify-content-start border-top-0">
+                <button type="button" class="theme-btn fw-semibold rounded" id="openEditFromView">
+                    Edit
+                </button>
                <button type="button" class="theme-btn secondary bg-white fw-semibold rounded" data-bs-dismiss="modal">Close</button> 
             </div>
           </div>
@@ -725,37 +728,6 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <script>
-    document.querySelectorAll('.view-subscriber').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const fullName = this.dataset.full_name;
-            const [firstName, ...lastNameParts] = fullName.split(' ');
-            const lastName = lastNameParts.join(' ');
-
-        
-            document.getElementById('modalFirstName').textContent = firstName || '';
-            document.getElementById('modalLastName').textContent = lastName || '';
-            document.getElementById('modalSubscribeDate').textContent = this.dataset.subscribe_date;
-            document.getElementById('modalEmail').textContent = this.dataset.email;
-            document.getElementById('modalAbout').textContent = this.dataset.about || '-';
-            const segmentContainer = document.getElementById('modalUserSegments');
-            const segments = this.dataset.user_segments ? this.dataset.user_segments.split(', ') : [];
-            segmentContainer.innerHTML = segments.length 
-                ? segments.map(name => `<span class="info-tag">${name}</span>`).join(' ')
-                : '<span class="text-muted">No Segments</span>';
-            // Status badges
-            const status = this.dataset.status;
-            const statusContainer = document.getElementById('modalStatus');
-            let statusHtml = '';
-            if (status == 1) statusHtml = '<span class="badge fw-normal bg-white published rounded-pill">Subscribe</span>';
-            else if (status == 2) statusHtml = '<span class="badge fw-normal bg-white draft rounded-pill">Pending</span>';
-            else statusHtml = '<span class="badge fw-normal bg-white inactive rounded-pill">Inactive</span>';
-
-            statusContainer.innerHTML = statusHtml;
-        });
-    });
-</script>
-
-<script>
 document.addEventListener('DOMContentLoaded', function() {
     // ===== Segments Table =====
     let segTable = $('#segmentsTable').DataTable({
@@ -845,23 +817,84 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
+
+    // ✅ Handle View button clicks
+    document.querySelectorAll('.view-subscriber').forEach(button => {
+        button.addEventListener('click', function () {
+            const fullName = this.dataset.full_name || '';
+            const [firstName, ...lastNameParts] = fullName.split(' ');
+            const lastName = lastNameParts.join(' ');
+
+            // Fill view modal fields
+            document.getElementById('modalFirstName').textContent = firstName;
+            document.getElementById('modalLastName').textContent = lastName;
+            document.getElementById('modalEmail').textContent = this.dataset.email;
+            document.getElementById('modalStatus').textContent =
+                this.dataset.status == 1 ? 'Active' :
+                this.dataset.status == 0 ? 'Inactive' : 'Pending';
+            document.getElementById('modalSubscribeDate').textContent = this.dataset.subscribe_date;
+            document.getElementById('modalAbout').textContent = this.dataset.about;
+
+            // ✅ Store data temporarily so Edit Modal can use same info later
+            const viewModal = document.getElementById('viewSegmentation');
+            viewModal.dataset.id = this.dataset.id;
+            viewModal.dataset.full_name = fullName;
+            viewModal.dataset.email = this.dataset.email;
+            viewModal.dataset.status = this.dataset.status;
+            viewModal.dataset.about = this.dataset.about;
+            viewModal.dataset.subscribe_date = this.dataset.subscribe_date;
+        });
+    });
+
+    // ✅ Handle Edit button clicks (in list)
     document.querySelectorAll('.edit-subscriber').forEach(button => {
         button.addEventListener('click', function () {
             const fullName = this.dataset.full_name || '';
             const [firstName, ...lastNameParts] = fullName.split(' ');
             const lastName = lastNameParts.join(' ');
 
-            // ✅ Use .value instead of .textContent
+            // Fill edit modal fields
             document.getElementById('editFirstName').value = firstName || '';
             document.getElementById('editLastName').value = lastName || '';
             document.getElementById('editSubscriberId').value = this.dataset.id;
-            document.getElementById('editSubscribeDate').value = this.dataset.subscribe_date || '-';    
             document.getElementById('editEmail').value = this.dataset.email;
             document.getElementById('editStatusSelect').value = this.dataset.status;
             document.getElementById('editAbout').value = this.dataset.about;
+            document.getElementById('editSubscribeDate').value = this.dataset.subscribe_date;
         });
+    });
+
+    // ✅ Handle transition from View → Edit modal
+    document.getElementById('openEditFromView').addEventListener('click', function () {
+        const viewModalElement = document.getElementById('viewSegmentation');
+        const viewModal = bootstrap.Modal.getInstance(viewModalElement);
+
+        // Retrieve stored data from view modal
+        const fullName = viewModalElement.dataset.full_name || '';
+        const [firstName, ...lastNameParts] = fullName.split(' ');
+        const lastName = lastNameParts.join(' ');
+
+        // Fill edit modal with same data
+        document.getElementById('editFirstName').value = firstName;
+        document.getElementById('editLastName').value = lastName;
+        document.getElementById('editSubscriberId').value = viewModalElement.dataset.id;
+        document.getElementById('editEmail').value = viewModalElement.dataset.email;
+        document.getElementById('editStatusSelect').value = viewModalElement.dataset.status;
+        document.getElementById('editAbout').value = viewModalElement.dataset.about;
+        document.getElementById('editSubscribeDate').value = viewModalElement.dataset.subscribe_date;
+
+        // Hide view modal
+        viewModal.hide();
+
+        // Show edit modal after short delay for smooth transition
+        setTimeout(() => {
+            const editModal = new bootstrap.Modal(document.getElementById('editSegmentation'));
+            editModal.show();
+        }, 400);
     });
 });
 </script>
+
+
 
 @endsection
