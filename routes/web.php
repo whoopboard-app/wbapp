@@ -233,15 +233,22 @@
         Route::post('update', [SubscribeController::class, 'update'])
             ->name('update');
         Route::get('unsubscribe/{token}', [SubscribeController::class, 'unsubscribe'])
-            ->name('unsubscribe'); 
+            ->name('unsubscribe');
     });
 
     Route::prefix('segmentation')->name('segmentation.')->group(function () {
         Route::get('create', [SegmentationController::class, 'create'])->name('create');
         Route::post('store', [SegmentationController::class, 'store'])->name('store');
     });
-    Route::get('/app-settings', [App\Http\Controllers\AppSettingsController::class, 'index'])
+    Route::get('/app-settings', [AppSettingsController::class, 'index'])
         ->name('app.settings');
+    //tenant segment fields routes
+    Route::get('/segments', [AppSettingsController::class, 'segmentIndex'])->name('segment.view');
+    Route::post('/segments', [AppSettingsController::class, 'storeSegmentOption'])->name('segments.store');
+    Route::put('/segments/{id}', [AppSettingsController::class, 'updateSegmentOption'])->name('segments.update');
+    Route::get('/segments/check-name', [AppSettingsController::class, 'checkName'])->name('segments.checkName');
+    Route::get('/segments/{segmentOption}/edit', [AppSettingsController::class, 'editSegment'])->name('segments.edit');
+    Route::put('/segments/{segmentOption}', [AppSettingsController::class, 'updateSegmentOption'])->name('segments.update');
 
     $mainDomain = preg_replace('/^.*?([^.]+\.[^.]+)$/', '$1', request()->getHost());
     // Tenant Public Routes
