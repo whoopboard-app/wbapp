@@ -153,6 +153,7 @@ class SubscribeController extends Controller
             'status'     => 'required|in:0,1,2',
             'about'      => 'nullable|string',
         ]);
+
         $subscriber = Subscriber::findOrFail($request->id);
      
         $subscriber->update([
