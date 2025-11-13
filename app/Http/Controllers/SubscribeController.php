@@ -142,4 +142,40 @@ class SubscribeController extends Controller
         Subscriber::create($validated);
         return redirect()->route('subscribe.index')->with('success', 'Success! Subscribe created.');
     }
+
+    public function update(Request $request)
+    {
+        $validated = $request->validate([
+            'id' => 'required|exists:subscribers,id',
+            'first_name' => 'required|string|max:255',
+            'last_name'  => 'required|string|max:255',
+            'email'      => 'required|email|max:255',
+            'status'     => 'required|in:0,1,2',
+            'about'      => 'nullable|string',
+        ]);
+        $subscriber = Subscriber::findOrFail($request->id);
+     
+        $subscriber->update([
+            'full_name' => $validated['first_name'] . ' ' . $validated['last_name'],
+            'status' => $validated['status'],
+            'short_desc' => $validated['about'],
+        ]);
+        
+        return redirect()->back()->with('success', 'Subscriber updated successfully!');
+    }
+
+    public function unsubscribe( Request $token)
+    {
+        $subscriber = Subscriber::where('token', $token)->first();
+        // dd($subscriber);
+        if (!$subscriber) {
+            return redirect()->route('login')
+                            ->with('error', 'Invalid or expired unsubscribe link.');
+        }
+        
+        $subscriber->update(['status' => 5]);
+        // session()->flash('success', 'You have been unsubscribed successfully.');
+        return redirect()->route('login')
+                         ->with('success', 'You have been unsubscribed successfully.');
+    }
 }

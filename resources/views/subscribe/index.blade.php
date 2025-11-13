@@ -136,7 +136,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @forelse($subscribers as $subscriber)
+                                        @foreach($subscribers as $subscriber)
                                             <tr>
                                                 <td>
                                                     @if($subscriber->status == 1)
@@ -179,8 +179,8 @@
                                                     class="badge bg-white border text-dark tooltip-icon view-subscriber"
                                                     data-bs-toggle="modal"
                                                     data-bs-target="#viewSegmentation"
+                                                    data-id="{{ $subscriber->id }}"
                                                     data-full_name="{{ $subscriber->full_name }}"
-                                                   
                                                     data-email="{{ $subscriber->email }}"
                                                     data-subscribe_date="{{ $subscriber->subscribe_date ? $subscriber->subscribe_date->format('F d, Y') : '-' }}"
                                                     data-user_segments="{{ implode(', ', $subscriber->segmentNames ?? []) }}"
@@ -191,11 +191,7 @@
                                                     </a>
                                                 </td>
                                             </tr>
-                                        @empty
-                                            <tr>
-                                                <td colspan="5" class="text-center text-muted py-4">No subscribers found.</td>
-                                            </tr>
-                                        @endforelse
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -211,7 +207,7 @@
                     <div class="col-lg-12 ">
                             <div class="card pt-0 px-0 bg-white mb-3 ">
                             <div class="d-flex border-title align-items-center justify-content-between">
-                            <h4 class="fw-medium mb-0 ">{{ $total_segments }} Subscriber List</h4>
+                            <h4 class="fw-medium mb-0 ">{{ $total_segments }} Segmentation List</h4>
                             <div class="btn-wrapper d-flex align-items-center justify-content-center gap15 flex-wrap mb-0">
                                 <div class="form-check form-switch">
                                     <input class="form-check-input" type="checkbox" id="showImgSegments">
@@ -232,14 +228,10 @@
                             </div>
                             </div>
                             <div class="table-responsive">
-                                <div id="listingSegmentation_wrapper" class="dt-container dt-bootstrap5 dt-empty-footer"><table id="segmentsTable" class="table table-bordered align-middle dataTable"><colgroup><col data-dt-column="0" style="width: 156.646px;"><col data-dt-column="1" style="width: 275.167px;"><col data-dt-column="2" style="width: 229.229px;">
-                                <!-- <col data-dt-column="3" style="width: 409.896px;"> -->
-                                <col data-dt-column="4" style="width: 112.396px;"></colgroup>
+                                <div id="listingSegmentation_wrapper" class="dt-container dt-bootstrap5 dt-empty-footer">
+                                    <table id="segmentsTable" class="table table-bordered align-middle dataTable">
                                     <thead class="table-light">
                                         <tr>
-                                        <!-- <th data-dt-column="3" rowspan="1" colspan="1" class="dt-orderable-asc dt-orderable-desc">
-                                            <span class="dt-column-title">Segmentation</span><span class="dt-column-order" role="button" aria-label="Segmentation: Activate to sort" tabindex="0"></span></th> -->
-                                          
                                             <th>Status</th>
                                             <th>User Segmentation</th>
                                             <th>Revenue Range</th>
@@ -247,9 +239,8 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                         @forelse($segments as $segment)
+                                        @foreach($segments as $segment)
                                             <tr>
-                                                {{-- Status --}}
                                                 <td>
                                                     @if($segment->status == 1)
                                                         <span class="badge fw-normal bg-white published rounded-pill">Active</span>
@@ -259,47 +250,21 @@
                                                         <span class="badge fw-normal bg-white inactive rounded-pill">Inactive</span>
                                                     @endif
                                                 </td>
-
-                                                {{-- Segmentation Name --}}
                                                 <td>{{ $segment->name }}</td>
-
-                                                {{-- Revenue Range --}}
                                                 <td>{{ $segment->revenueRange->value ?? 'N/A' }}</td>
-
-                                                {{-- Plan Types --}}
-                                                <!-- <td>
-                                                    @php $plans = $segment->planTypes(); @endphp
-                                                    @foreach($plans as $plan)
-                                                        <span class="badge fw-normal bg-white published-category border text-dark rounded-pill">{{ $plan->value }}</span>
-                                                    @endforeach
-                                                    @if($plans->count() > 2)
-                                                        <span class="badge fw-normal bg-white more-category rounded-pill tooltip-icon"
-                                                            data-bs-toggle="tooltip"
-                                                            title="Other Plans">
-                                                            +{{ $plans->count() - 2 }}
-                                                        </span>
-                                                    @endif
-                                                </td> -->
-
-                                                {{-- Action --}}
                                                 <td>
                                                     <a href="#"
                                                     class="badge bg-white border text-dark tooltip-icon"
                                                     data-bs-toggle="modal"
-                                                   
                                                     title="View">
                                                         <img src="{{ asset('assets/img/icon/eye.svg') }}" alt="">
                                                     </a>
                                                 </td>
                                             </tr>
-                                        @empty
-                                            <tr>
-                                                <td colspan="5" class="text-center text-muted py-4">No segments found.</td>
-                                            </tr>
-                                        @endforelse
-                                      
+                                        @endforeach
                                     </tbody>
-                                <tfoot></tfoot></table><div class="dt-autosize" style="width: 100%; height: 0px;"></div></div>
+                                </table>
+                            </div>
                             </div>
                             <div id="segmentsPagination" class="d-flex align-items-center gap-3 px-3 pagination mt-3"></div>
                     </div>
@@ -479,101 +444,90 @@
           </div>
         </div>
     </div>
-    <div class=" modal fade" id="viewSegmentation" tabindex="-1" aria-labelledby="viewSegmentationLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
-         <div class="modal-content border-0">
-            <div class="modal-header">
-               <div class="mb-0">
-                  <h3 class="fw-semibold mb-0 fs-5">Subscribe View</h3>
-               </div>
-               <button type="button" class="modal-close bg-transparent border-0 ms-auto d-flex align-items-center justify-content-center" data-bs-dismiss="modal" aria-label="Close">
-                <img src="{{ asset('assets/img/icon/modal-exit.svg') }}" alt="">
-            </button>
-            </div>
-           <div class="modal-body">
-             
-               <form action="#" class="d-flex flex-column gap-3">
-                  <div class="info-card">
-                    <div class="row mb-3 mt-3">
-                   
-                    <div class="col-md-6">
-                        <div class="info-label">First Name</div>
-                        <div class="info-value fw-bold" id="modalFirstName"></div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="info-label">Last Name</div>
-                        <div class="info-value fw-bold" id="modalLastName"></div>
-                    </div>
-                    </div>
-                </div>
-                <div class="info-card">
-                    <div class="row mb-3">
-                        <div class="col-12">
-                             <div class="info-label">Email Address</div>
-                            <div class="info-value fw-bold" id="modalEmail"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="info-card">
-                    <div class="row mb-3">
-                        <div class="col-12">
-                             <div class="info-label">Subscribe Date</div>
-                            <div class="info-value fw-bold" id="modalSubscribeDate"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="info-card">
-                    <div class="row mb-3">
-                        <div class="col-12">
-                             <div class="info-label">User Segmentation</div>
-                            <div class="d-flex justify-content-start gap-2 mt-1" id="modalUserSegments">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="info-card">
-                    <div class="row mb-3">
-                        <div class="col-12">
-                             <div class="info-label">Status</div>
-                            <div class="d-flex justify-content-start gap-2 mt-1" id="modalStatus">
-                               
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="info-card">
-                    <div class="row mb-3">
-                        <div class="col-12">
-                             <div class="info-label">About Us</div>
-                            <div class="info-value" id="modalAbout">
-                               <i>
-                                
-                               </i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- <div class="info-card">
-                    <div class="row mb-3">
-                        <div class="col-12">
-                             <div class="info-label">Unsubscribe Date</div>
-                            <div class="info-value fw-bold text-danger">
-                              April 10, 2025 
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
+    <div class="modal fade" id="viewSegmentation" tabindex="-1" aria-labelledby="viewSegmentationLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+    <div class="modal-content border-0">
+      <div class="modal-header">
+        <h3 class="fw-semibold mb-0 fs-5">View Subscriber</h3>
+        <button type="button" class="modal-close bg-transparent border-0 ms-auto d-flex align-items-center justify-content-center" 
+                data-bs-dismiss="modal" aria-label="Close">
+          <img src="{{ asset('assets/img/icon/modal-exit.svg') }}" alt="">
+        </button>
+      </div>
 
-                    
-                 
-               </form>
-            </div>
-            <div class="modal-footer justify-content-start border-top-0">
-               <button type="button" class="theme-btn secondary bg-white fw-semibold rounded" data-bs-dismiss="modal">Close</button> 
+      <div class="modal-body">
+        <form id="editSubscriberForm" class="d-flex flex-column gap-3" method="POST" action="{{ route('subscribe.update') }}">
+          @csrf
+          <input type="hidden" id="modalSubscriberId" name="id">
+
+          <!-- Name -->
+          <div class="info-card">
+            <div class="row mb-3 mt-3">
+              <div class="col-md-6">
+                <label class="info-label">First Name</label>
+                <input type="text" class="input-field w-100 rounded" id="modalFirstName" name="first_name">
+              </div>
+              <div class="col-md-6">
+                <label class="info-label">Last Name</label>
+                <input type="text" class="input-field w-100 rounded" id="modalLastName" name="last_name">
+              </div>
             </div>
           </div>
-        </div>
+
+          <!-- Email -->
+          <div class="info-card">
+            <div class="mb-3">
+              <label class="info-label">Email Address</label>
+              <input type="email" class="input-field w-100 rounded" id="modalEmail" name="email" readonly>
+            </div>
+          </div>
+
+          <!-- Subscribe Date -->
+          <div class="info-card">
+            <div class="mb-3">
+              <label class="info-label">Subscribe Date</label>
+              <input type="text" class="input-field w-100 rounded" id="modalSubscribeDate" name="subscribe_date" readonly>
+            </div>
+          </div>
+
+          <!-- Segments -->
+          <div class="info-card">
+            <div class="mb-3">
+              <label class="info-label">User Segmentation</label>
+              <div id="modalUserSegments" class="d-flex flex-wrap gap-2"></div>
+            </div>
+          </div>
+
+          <!-- Status -->
+          <div class="info-card">
+            <div class="mb-3">
+              <label class="info-label">Status</label>
+              <select class="form-select input-field rounded" id="modalStatusSelect" name="status">
+                <option value="1">Subscribe</option>
+                <option value="2">Pending</option>
+                <option value="0">Inactive</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- About -->
+          <div class="info-card">
+            <div class="mb-3">
+              <label class="info-label">About</label>
+              <textarea class="input-field w-100 rounded" id="modalAbout" name="about" rows="3"></textarea>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-footer justify-content-start border-top-0">
+        <button type="submit" form="editSubscriberForm" class="theme-btn fw-semibold rounded">Update</button>
+        <button type="button" class="theme-btn secondary bg-white fw-semibold rounded" data-bs-dismiss="modal">Close</button>
+      </div>
     </div>
+  </div>
+</div>
+
 </section>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
@@ -587,6 +541,9 @@ document.addEventListener('DOMContentLoaded', function() {
         searching: true,
         paging: true,
         dom: 't',
+        language: {
+            emptyTable: "No subscriber found." 
+        }
     });
 
     const paginationContainer = document.querySelector('#customPagination');
@@ -664,35 +621,35 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <script>
-    document.querySelectorAll('.view-subscriber').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const fullName = this.dataset.full_name;
-            const [firstName, ...lastNameParts] = fullName.split(' ');
-            const lastName = lastNameParts.join(' ');
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.view-subscriber').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const fullName = this.dataset.full_name || '';
+      const [firstName, ...lastNameParts] = fullName.split(' ');
+      const lastName = lastNameParts.join(' ');
 
-        
-            document.getElementById('modalFirstName').textContent = firstName || '';
-            document.getElementById('modalLastName').textContent = lastName || '';
-            document.getElementById('modalSubscribeDate').textContent = this.dataset.subscribe_date;
-            document.getElementById('modalEmail').textContent = this.dataset.email;
-            document.getElementById('modalAbout').textContent = this.dataset.about || '-';
-            const segmentContainer = document.getElementById('modalUserSegments');
-            const segments = this.dataset.user_segments ? this.dataset.user_segments.split(', ') : [];
-            segmentContainer.innerHTML = segments.length 
-                ? segments.map(name => `<span class="info-tag">${name}</span>`).join(' ')
-                : '<span class="text-muted">No Segments</span>';
-            // Status badges
-            const status = this.dataset.status;
-            const statusContainer = document.getElementById('modalStatus');
-            let statusHtml = '';
-            if (status == 1) statusHtml = '<span class="badge fw-normal bg-white published rounded-pill">Subscribe</span>';
-            else if (status == 2) statusHtml = '<span class="badge fw-normal bg-white draft rounded-pill">Pending</span>';
-            else statusHtml = '<span class="badge fw-normal bg-white inactive rounded-pill">Inactive</span>';
+      // Fill form fields
+      document.getElementById('modalSubscriberId').value = this.dataset.id || '';
+      document.getElementById('modalFirstName').value = firstName || '';
+      document.getElementById('modalLastName').value = lastName || '';
+      document.getElementById('modalEmail').value = this.dataset.email || '';
+      document.getElementById('modalSubscribeDate').value = this.dataset.subscribe_date || '';
+      document.getElementById('modalAbout').value = this.dataset.about || '';
 
-            statusContainer.innerHTML = statusHtml;
-        });
+      // Handle Segments
+      const segmentContainer = document.getElementById('modalUserSegments');
+      const segments = this.dataset.user_segments ? this.dataset.user_segments.split(', ') : [];
+      segmentContainer.innerHTML = segments.length 
+        ? segments.map(name => `<span class="info-tag">${name}</span>`).join(' ')
+        : '<span class="text-muted">No Segments</span>';
+
+      // Set Status
+      document.getElementById('modalStatusSelect').value = this.dataset.status;
     });
+  });
+});
 </script>
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // ===== Segments Table =====
@@ -704,6 +661,9 @@ document.addEventListener('DOMContentLoaded', function() {
         searching: true,
         paging: true,
         dom: 't',
+        language: {
+            emptyTable: "No segment found."
+        }
     });
 
     const segPagination = document.querySelector('#segmentsPagination');
