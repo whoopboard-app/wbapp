@@ -184,6 +184,7 @@
                                                         data-email="{{ $subscriber->email }}"
                                                         data-subscribe_date="{{ $subscriber->subscribe_date ? $subscriber->subscribe_date->format('F d, Y') : '-' }}"
                                                         data-user_segments="{{ implode(', ', $subscriber->segmentNames ?? []) }}"
+                                                        data-user_segment_ids="{{ implode(',', $subscriber->userSegments ?? []) }}"
                                                         data-status="{{ $subscriber->status }}"
                                                         data-about="{{ $subscriber->short_desc }}"
                                                         title="View">
@@ -199,6 +200,7 @@
                                                         data-subscribe_date="{{ $subscriber->subscribe_date ? $subscriber->subscribe_date->format('F d, Y') : '-' }}"
                                                         data-status="{{ $subscriber->status }}"
                                                         data-about="{{ $subscriber->short_desc }}"
+                                                        data-user_segment_ids="{{ implode(',', $subscriber->userSegments ?? []) }}"
                                                         title="Edit">
                                                         <img src="{{ asset('assets/img/icon/edit.svg') }}" alt="">
                                                     </a>
@@ -595,12 +597,33 @@
                 </div>
             </div>
 
-             <div class="info-card">
+            <div class="info-card">
                 <div class="row mb-3">
                     <div class="col-12">
                             <div class="info-label">Subscribe Date</div>
                         <input type="email" class="input-field w-100 rounded" id="editSubscribeDate" name="date" readonly>
                     </div>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <div class="mb-3">
+                    <label class="info-label">User Segmentation</label>
+                    <select 
+                        class="form-select w-100 rounded" 
+                        id="editUserSegments" 
+                        name="user_segments[]" 
+                        multiple
+                    >
+                        @if($segments->isNotEmpty())
+                            <option value="" disabled>Select</option>
+                            @foreach($segments as $segment)
+                                <option value="{{ $segment->id }}">{{ $segment->name }}</option>
+                            @endforeach
+                        @else
+                            <option value="" disabled>No segments available</option>
+                        @endif
+                    </select>
                 </div>
             </div>
 
@@ -829,7 +852,7 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('modalFirstName').textContent = firstName;
             document.getElementById('modalLastName').textContent = lastName;
             document.getElementById('modalEmail').textContent = this.dataset.email;
-             const segmentContainer = document.getElementById('modalUserSegments');
+            const segmentContainer = document.getElementById('modalUserSegments');
             const segments = this.dataset.user_segments ? this.dataset.user_segments.split(', ') : [];
             segmentContainer.innerHTML = segments.length 
                 ? segments.map(name => `<span class="info-tag">${name}</span>`).join(' ')
@@ -853,6 +876,7 @@ document.addEventListener('DOMContentLoaded', function () {
             viewModal.dataset.status = this.dataset.status;
             viewModal.dataset.about = this.dataset.about;
             viewModal.dataset.subscribe_date = this.dataset.subscribe_date;
+            viewModal.dataset.user_segment_ids = this.dataset.user_segment_ids || '';
         });
     });
 
@@ -871,6 +895,19 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('editStatusSelect').value = this.dataset.status;
             document.getElementById('editAbout').value = this.dataset.about;
             document.getElementById('editSubscribeDate').value = this.dataset.subscribe_date;
+            const segmentIds = (this.dataset.user_segment_ids || '').split(',').map(id => id.trim());
+            const select = document.getElementById('editUserSegments');
+
+            if (select) {
+                Array.from(select.options).forEach(opt => {
+                    opt.selected = segmentIds.includes(opt.value);
+                });
+
+                // ✅ If you're using TomSelect, refresh it manually
+                if (select.tomselect) {
+                    select.tomselect.setValue(segmentIds);
+                }
+            }
         });
     });
 
@@ -892,6 +929,19 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('editStatusSelect').value = viewModalElement.dataset.status;
         document.getElementById('editAbout').value = viewModalElement.dataset.about;
         document.getElementById('editSubscribeDate').value = viewModalElement.dataset.subscribe_date;
+
+        const segmentIds = (viewModalElement.dataset.user_segment_ids || '').split(',').map(id => id.trim());
+        const select = document.getElementById('editUserSegments');
+
+        if (select) {
+            Array.from(select.options).forEach(opt => {
+                opt.selected = segmentIds.includes(opt.value);
+            });
+
+            if (select.tomselect) {
+                select.tomselect.setValue(segmentIds);
+            }
+        }
 
         // Hide view modal
         viewModal.hide();

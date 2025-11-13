@@ -125,6 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "#linkchangelog",
         "#userSegments",
         "#tier",
+        "#editUserSegments",
     ];
 
     const config = {
