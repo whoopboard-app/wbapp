@@ -88,8 +88,28 @@
                         <h5 class="fw-normal label mt-1">Billings / Subscriptions</h5>
                             <p class="card-desc mb-2">Track all your payment, subscriptions plan.</p>
                             <a href="{{ route('billing.index') }}" class="widget-item-btn mb-1 text-primary bg-white d-inline-block rounded fw-normal font-12">Billing History</a>
-                            <a href="{{ route('billing.index') }}" class="widget-item-btn mb-1 text-primary bg-white d-inline-block rounded fw-normal font-12">My Subscription</a>
+                                <a href="{{ route('billing.index') }}" class="widget-item-btn mb-1 text-primary bg-white d-inline-block rounded fw-normal font-12">My Subscription</a>
                             <a href="{{ route('billing.index') }}" class="widget-item-btn mb-1 text-primary bg-white d-inline-block rounded fw-normal font-12">Delete Account</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 mb-3" style="width:30%;">
+                <div class="get-started-card card p-0 align-items-start bg-white h-100">
+                    <div class="border-title w-100">
+                        <h5 class="card-title my-0 fw-medium text-black">Plan / Subscription Tier</h5>
+                    </div>
+                    <div class="content-body">
+                        <span class="badge fw-normal bg-white rounded-pill {{ $planTransaction->status == 1 ? 'active' : ($planTransaction->status == 2 ? 'Unknown' : '') }}">
+                                {{ $planTransaction->status == 1 ? 'Paid' : ($planTransaction->status == 2 ? 'Pending' : 'Unknown') }}
+                            </span>
+                        <h5 class="fw-normal label mt-1">{{ $planTransaction->membershipPlan->name ?? '-' }}
+                        </h5>
+                        <p class="card-desc mb-2">Plan Cost( {{ $planTransaction->amount  }}$ )</p>
+                        <a href="{{ route('billing.index') }}"
+                           class="widget-item-btn mb-1 text-primary bg-white d-inline-block rounded fw-normal font-12">
+                            Change Plan
+                        </a>
+
                     </div>
                 </div>
             </div>
