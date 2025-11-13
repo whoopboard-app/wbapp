@@ -829,9 +829,14 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('modalFirstName').textContent = firstName;
             document.getElementById('modalLastName').textContent = lastName;
             document.getElementById('modalEmail').textContent = this.dataset.email;
-            document.getElementById('modalStatus').textContent =
-                this.dataset.status == 1 ? 'Active' :
-                this.dataset.status == 0 ? 'Inactive' : 'Pending';
+            const status = this.dataset.status;
+            const statusContainer = document.getElementById('modalStatus');
+            let statusHtml = '';
+            if (status == 1) statusHtml = '<span class="badge fw-normal bg-white published rounded-pill">Subscribe</span>';
+            else if (status == 2) statusHtml = '<span class="badge fw-normal bg-white draft rounded-pill">Pending</span>';
+            else statusHtml = '<span class="badge fw-normal bg-white inactive rounded-pill">Inactive</span>';
+
+            statusContainer.innerHTML = statusHtml;
             document.getElementById('modalSubscribeDate').textContent = this.dataset.subscribe_date;
             document.getElementById('modalAbout').textContent = this.dataset.about;
 
