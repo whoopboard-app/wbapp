@@ -10,7 +10,7 @@ use App\Models\Subscriber;
 use App\Models\Tenant;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Segmentation;
-
+use App\Models\GenericValue;
 
 class SubscribeController extends Controller
 {
@@ -102,8 +102,12 @@ class SubscribeController extends Controller
 
     public function index()
     {
+        $tenant = Tenant::find(auth()->user()->tenant_id);
+
+        $segmentFields = $tenant ? $tenant->tenantSegmentFields : collect();
+        // dd($segmentFields);
         $segments = Segmentation::orderBy('created_at', 'desc')->get();
-        $subscribers = Subscriber::orderBy('created_at', 'desc')->get();
+        $subscribers = Subscriber::orderBy('created_at','desc')->get();
         foreach ($subscribers as $subscriber) {
             $segmentNames = [];
             if ($subscriber->userSegments) {
@@ -119,6 +123,7 @@ class SubscribeController extends Controller
             'total_subs' => $subscribers->count(),
             'segments' => $segments,
             'total_segments' => $segments->count(),
+            'segmentFields' => $segmentFields
         ]);
     }
 

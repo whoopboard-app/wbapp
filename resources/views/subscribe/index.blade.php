@@ -266,7 +266,20 @@
                                                     @endif
                                                 </td>
                                                 <td>{{ $segment->name }}</td>
-                                                <td>{{ $segment->revenueRange->value ?? 'N/A' }}</td>
+                                                <td>
+                                                    @if($segmentFields->isNotEmpty())
+                                                        {{-- Tenant custom Revenue Range --}}
+                                                        @php
+                                                            $tenantRevenue = $segmentFields
+                                                                        ->where('segment_field_id', 1) // Revenue Range
+                                                                        ->where('id', $segment->revenue_range_id) // match the segment
+                                                                        ->first();
+                                                        @endphp
+
+                                                        {{ $tenantRevenue->option_name ?? $segment->revenueRange->value ?? 'N/A' }}
+                                                
+                                                    @endif
+                                                </td>
                                                 <td>
                                                     <a href="#"
                                                     class="badge bg-white border text-dark tooltip-icon"
