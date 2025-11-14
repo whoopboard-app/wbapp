@@ -8,12 +8,12 @@
                     <a href="{{ route('board.create') }}" class="theme-btn sm fw-semibold rounded d-inline-block">
                         Add @customLabel('Knowledge Board')
                     </a>
-                    <a href="{{route('kbarticle.create')}}" class="theme-btn text-primary bg-white sm secondary fw-semibold rounded d-inline-block">
+{{--                    <a href="{{route('kbarticle.create')}}" class="theme-btn text-primary bg-white sm secondary fw-semibold rounded d-inline-block">
                         Add Article
                     </a>
                     <a href="{{route('kbcategory.create')}}" class="theme-btn text-primary bg-white sm secondary fw-semibold rounded d-inline-block">
                         Add Category
-                    </a>
+                    </a>--}}
 
                 </div>
             </div>

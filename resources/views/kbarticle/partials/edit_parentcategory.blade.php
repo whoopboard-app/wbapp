@@ -102,8 +102,21 @@
 
         function handleSave(modalId) {
             const saveBtn = document.getElementById(`saveOrder_${modalId}`);
-            const container = document.getElementById(`sortable-container-${modalId}`);
+            const modalEl = document.getElementById(modalId);
+            let showToastAfterHide = false; // flag
+
+            if (!modalEl.dataset.listenerAttached) {
+                modalEl.addEventListener('hidden.bs.modal', function () {
+                    if (showToastAfterHide) {
+                        showAlert('success', 'Parent categories reordered successfully!');
+                        setTimeout(() => window.location.reload(), 1500);
+                        showToastAfterHide = false;
+                    }
+                });
+                modalEl.dataset.listenerAttached = 'true';
+            }
             saveBtn.addEventListener('click', function () {
+                const container = document.getElementById(`sortable-container-${modalId}`);
                 const order = Array.from(container.querySelectorAll('.kb-card'))
                     .map((el, idx) => ({ id: el.dataset.id, position: idx + 1 }));
 
@@ -117,10 +130,21 @@
                 })
                     .then(res => res.json())
                     .then(data => {
-                        if (data.redirect) window.location.href = data.redirect;
+                        if (data.success) {
+                            showToastAfterHide = true;
+                            const modal = bootstrap.Modal.getInstance(modalEl);
+                            modal.hide();
+                        } else {
+                            showAlert('error', data.message || 'Something went wrong!');
+                        }
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        showAlert('error', 'An error occurred!');
                     });
             });
         }
+
 
         // Recursive helper
         function getAllDescendants(categories, parentId) {
@@ -215,7 +239,6 @@
                 ghostClass: 'drag-ghost'
             });
         }
-
         ['editParentModal', 'editSubModal'].forEach(id => {
             const modalEl = document.getElementById(id);
             modalEl.addEventListener('shown.bs.modal', () => initSortable(id));

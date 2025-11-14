@@ -33,6 +33,7 @@
 
     </style>
         <section class=" main-content-wrapper">
+            <div id="toast-container" style="position: fixed; top: 80px; right: 20px; z-index: 9999;"></div>
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card  p-0 bg-white mb-3">
@@ -338,6 +339,16 @@
         </div>
         </section>
     <script>
+        function showAlert(type, message) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `alert alert-${type} shadow-sm mb-2`;
+            toast.style.minWidth = '250px';
+            toast.textContent = message;
+            container.appendChild(toast);
+
+            setTimeout(() => toast.remove(), 2000);
+        }
         document.getElementById('editModeToggle').addEventListener('change', function() {
             const isChecked = this.checked;
             const parentBtn = document.getElementById('editParent');

@@ -11,9 +11,9 @@ class KBCategoryController extends Controller
 {
     public function create(Request $request)
     {
-        $boardId = $request->get('board_id');
+        $selectedBoard = KBBoard::with('categories')->find($request->get('board_id'));
         $boards = KBBoard::with('categories')->get()->sortByDesc('id');
-        return view('kbarticle.partials.create_category', compact('boards','boardId'));
+        return view('kbarticle.partials.create_category', compact('boards','selectedBoard'));
     }
 
     public function store(Request $request)
@@ -43,8 +43,9 @@ class KBCategoryController extends Controller
         }
 
         $category->save();
-        return redirect()->route('board.index', ['board' => $request->board_id])
-                 ->with('success', 'Category created successfully!');
+        return redirect()->route('board.show', $validatedData['kboard'])
+            ->with('success', 'Board Updated successfully!');
+
     }
 
     public function articles($categoryId)
@@ -85,9 +86,7 @@ class KBCategoryController extends Controller
             KBCategory::where('id', $id)->update(['sort_order' => $index + 1]);
         }
         return response()->json([
-            'success' => true,
-            'message' => 'Parent categories reordered successfully!',
-            'redirect' => url()->previous()
+            'success' => true
         ]);
     }
 }

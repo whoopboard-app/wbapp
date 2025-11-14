@@ -100,20 +100,19 @@
                                             <select class="form-select w-100 rounded text-sm border"
                                                     id="kboard"
                                                     name="kboard"
-                                                    {{ isset($boardId) ? 'disabled' : '' }}
+                                                    {{ isset($selectedBoard->id) ? 'disabled' : '' }}
                                                     required>
                                                 <option value="">Select Board</option>
                                                 @foreach($boards as $board)
                                                     <option value="{{ $board->id }}"
-                                                        {{ (isset($boardId) && $boardId == $board->id) ? 'selected' : '' }}>
+                                                        {{ (isset($selectedBoard->id) && $selectedBoard->id == $board->id) ? 'selected' : '' }}>
                                                         {{ $board->name }}
                                                     </option>
                                                 @endforeach
                                             </select>
 
-                                            @if(isset($boardId))
-                                                {{-- Include a hidden input to send the boardId since the select is disabled --}}
-                                                <input type="hidden" name="kboard" value="{{ $boardId }}">
+                                            @if(isset($selectedBoard->id))
+                                                <input type="hidden" name="kboard" value="{{ $selectedBoard->id }}">
                                             @endif
                                         </div>
                                     </div>
@@ -137,34 +136,20 @@
                                             <textarea rows="3" id="shortDesc" name="short_desc" maxlength="190" class="input-field w-100 rounded" placeholder="Placeholder"></textarea>
                                         </div>
                                     </div>
-                                    <div class="col-12 mb-3">
-                                        <div class="">
-                                            <label for="parentCategory" class="input-label mb-1 fw-medium">
-                                                Select Parent Category
-
-                                            </label>
-                                            <select class="input-field w-100 rounded border" id="parentCategory" name="parent_id">
-                                            <option value="">None</option>
-                                            @if($boards->isNotEmpty())
-                                                @foreach($boards as $board)
-                                                    @if($board->categories->isNotEmpty())
-                                                            <optgroup label="{{ $board->name }}">
-                                                            @foreach($board->categories as $category)
-                                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                                            @endforeach
-                                                    </optgroup>
-                                                    @else
-                                                    <optgroup label="{{ $board->name }}">
-                                                            <option disabled>No categories available</option>
-                                                    </optgroup>
-                                                    @endif
-                                                @endforeach
-                                            @else
-                                                <option disabled>No boards available</option>
-                                            @endif
-                                        </select>
+                                    @if($selectedBoard && $selectedBoard->categories->isNotEmpty())
+                                        <div class="col-12 mb-3">
+                                            <div class="">
+                                                <label for="parentCategory" class="input-label mb-1 fw-medium">
+                                                    Select Parent Category
+                                                </label>
+                                                <select class="input-field w-100 rounded border" id="parentCategory" name="parent_id">
+                                                    <option value="">None</option>
+                                                        @foreach($selectedBoard->categories as $category)
+                                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                                        @endforeach
+                                                </select>
+                                            </div>
                                         </div>
-                                    </div>
                                     <div class="col-12 mb-3">
                                         <div class="">
                                             <label for="sub_category" class="input-label mb-1 fw-medium">
@@ -176,6 +161,7 @@
                                             </select>
                                         </div>
                                     </div>
+                                    @endif
                                     <div class="col-12 mb-3">
                                         <div>
                                             <div class="form-check form-switch">
@@ -219,47 +205,55 @@
 </section>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const kboardSelect = document.getElementById('kboard');
         const parentCategorySelect = document.getElementById('parentCategory');
+        const subCategorySelect = document.getElementById('sub_category');
 
-        // Store original optgroups for later
-        const originalOptgroups = Array.from(parentCategorySelect.querySelectorAll('optgroup'));
+        // Store all subcategories in a JS object for quick lookup
+        // Format: { parentId: [ {id, name}, ... ] }
+        const subCategories = {
+            @foreach($selectedBoard->categories as $parent)
+                @if($parent->children->isNotEmpty())
+                {{ $parent->id }}: [
+                    @foreach($parent->children as $child)
+                { id: {{ $child->id }}, name: "{{ $child->name }}" },
+                @endforeach
+            ],
+            @endif
+            @endforeach
+        };
 
-        function filterParentCategories() {
-            const selectedBoardText = kboardSelect.options[kboardSelect.selectedIndex]?.text || '';
+        function filterSubCategories() {
+            const parentId = parentCategorySelect.value;
 
-            // Clear current options
-            parentCategorySelect.innerHTML = '';
+            // Clear existing options
+            subCategorySelect.innerHTML = '';
 
             // Always add "None" option
             const noneOption = document.createElement('option');
             noneOption.value = '';
             noneOption.textContent = 'None';
-            parentCategorySelect.appendChild(noneOption);
+            subCategorySelect.appendChild(noneOption);
 
-            if (!selectedBoardText) {
-                // No board selected, restore all optgroups
-                originalOptgroups.forEach(og => parentCategorySelect.appendChild(og.cloneNode(true)));
-                return;
-            }
+            if (!parentId || !subCategories[parentId]) return;
 
-            // Filter optgroups: only keep the one matching the selected KB
-            originalOptgroups.forEach(og => {
-                if (og.label === selectedBoardText) {
-                    parentCategorySelect.appendChild(og.cloneNode(true));
-                }
+            // Add subcategories of the selected parent
+            subCategories[parentId].forEach(sub => {
+                const option = document.createElement('option');
+                option.value = sub.id;
+                option.textContent = sub.name;
+                subCategorySelect.appendChild(option);
             });
         }
 
-        // Run filter when board changes
-        kboardSelect.addEventListener('change', filterParentCategories);
+        // Run filter when parent category changes
+        parentCategorySelect.addEventListener('change', filterSubCategories);
 
-        // --- New: Run filter on page load if boardId is preselected ---
-        @if(isset($boardId))
-        filterParentCategories();
+        // Optionally: run filter on page load if a parent category is preselected
+        @if(old('parent_id') || isset($selectedBoard->categories))
+        filterSubCategories();
         @endif
     });
-
 </script>
+
 
 @endsection
