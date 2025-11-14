@@ -249,7 +249,11 @@
                                         <tr>
                                             <th>Status</th>
                                             <th>User Segmentation</th>
-                                            <th>Revenue Range</th>
+                                            @if($segmentFields->isNotEmpty())
+                                                <th>Revenue Range</th>
+                                            @endif
+
+                                            <th>Total Subscribers</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -266,20 +270,23 @@
                                                     @endif
                                                 </td>
                                                 <td>{{ $segment->name }}</td>
-                                                <td>
-                                                    @if($segmentFields->isNotEmpty())
-                                                        {{-- Tenant custom Revenue Range --}}
-                                                        @php
-                                                            $tenantRevenue = $segmentFields
-                                                                        ->where('segment_field_id', 1) // Revenue Range
-                                                                        ->where('id', $segment->revenue_range_id) // match the segment
-                                                                        ->first();
-                                                        @endphp
+                                                @if($segmentFields->isNotEmpty())
+                                                    <td>
+                                                        @if($segmentFields->isNotEmpty())
+                                                            {{-- Tenant custom Revenue Range --}}
+                                                            @php
+                                                                $tenantRevenue = $segmentFields
+                                                                            ->where('segment_field_id', 1) // Revenue Range
+                                                                            ->where('id', $segment->revenue_range_id) // match the segment
+                                                                            ->first();
+                                                            @endphp
 
-                                                        {{ $tenantRevenue->option_name ?? $segment->revenueRange->value ?? 'N/A' }}
-                                                
-                                                    @endif
-                                                </td>
+                                                            {{ $tenantRevenue->option_name ?? $segment->revenueRange->value ?? 'N/A' }}
+                                                    
+                                                        @endif
+                                                    </td>
+                                                @endif
+                                                <td>{{ $segment->sub_count }}</td>
                                                 <td>
                                                     <a href="#"
                                                     class="badge bg-white border text-dark tooltip-icon"

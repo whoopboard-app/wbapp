@@ -118,6 +118,12 @@ class SubscribeController extends Controller
             $subscriber->segmentNames = $segmentNames; // dynamic property
         }
 
+        foreach ($segments as $segment) {
+            $segment->sub_count = $subscribers->filter(function ($sub) use ($segment) {
+                return is_array($sub->userSegments) && in_array($segment->id, $sub->userSegments);
+            })->count();
+        }
+        
         return view('subscribe.index', [
             'subscribers' => $subscribers,
             'total_subs' => $subscribers->count(),
