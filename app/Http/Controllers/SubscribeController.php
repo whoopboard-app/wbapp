@@ -152,6 +152,8 @@ class SubscribeController extends Controller
             'email'      => 'required|email|max:255',
             'status'     => 'required|in:0,1,2',
             'about'      => 'nullable|string',
+            'user_segments' => 'nullable|array',
+            'user_segments.*' => 'integer|exists:segmentations,id',
         ]);
 
         $subscriber = Subscriber::findOrFail($request->id);
@@ -160,6 +162,7 @@ class SubscribeController extends Controller
             'full_name' => $validated['first_name'] . ' ' . $validated['last_name'],
             'status' => $validated['status'],
             'short_desc' => $validated['about'],
+            'userSegments' => $validated['user_segments'] ?? [],
         ]);
         
         return redirect()->back()->with('success', 'Subscriber updated successfully!');
