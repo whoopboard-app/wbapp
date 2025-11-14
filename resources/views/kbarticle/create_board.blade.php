@@ -116,7 +116,7 @@
                                                     <label for="bublicURL" class="input-label mb-1 fw-medium">Your Knowledge Path URL</label>
                                                     <div class="form-input-group d-flex">
                                                         <input type="button" class="input-field input-btn rounded rounded-end-0 flex-grow-1 text-start"
-                                                               value="{{ $tenant->custom_url }}.insighthq.app" readonly>
+                                                               value="{{ $tenant->custom_url }}.{{$mainDomain}}" readonly>
                                                         <input type="text" id="bublicURL" name="bublicURL"
                                                                class="input-field w-100 flex-shrink-1 rounded rounded-start-0 border-start-0 bg-white"
                                                                placeholder=""
@@ -137,20 +137,6 @@
                                                     <a href="#" onclick="embedCodeFunction(event)" class="fw-medium label" id="copyBtn">Copy Embed Code</a>
                                                 </div>
                                             </div>
-
-                                            <!-- Visibility -->
-                                            <div class="col-12 mb-3">
-                                                <div class="form-input">
-                                                    <div class="form-check form-switch">
-                                                        <input class="form-check-input" type="checkbox" id="visibility1" name="visibility"
-                                                            {{ old('visibility', $board->is_hidden ?? 0) ? 'checked' : '' }}>
-                                                        <label class="form-check-label" for="visibility1" id="visibilityLabel">
-                                                            Private (Hidden from structure)
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-
                                             <!-- Status -->
                                             <div class="col-12 mb-3">
                                                 <div class="form-input">

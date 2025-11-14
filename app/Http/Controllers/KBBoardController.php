@@ -10,6 +10,13 @@ use App\Models\KBBoard;
 
 class KBBoardController extends Controller
 {
+    protected $mainDomain;
+
+    public function __construct()
+    {
+        $this->mainDomain = preg_replace('/^.*?([^.]+\.[^.]+)$/', '$1', request()->getHost());
+        view()->share('mainDomain', $this->mainDomain);
+    }
     public function index(Request $request)
     {
         $user = auth()->user();
@@ -29,8 +36,9 @@ class KBBoardController extends Controller
     }
     public function create()
     {
+        $mainDomain = $this->mainDomain;
         $tenant = auth()->user()->tenant;
-        return view('kbarticle.create_board', compact('tenant'));
+        return view('kbarticle.create_board', compact('tenant','mainDomain'));
     }
     public function store(Request $request)
     {
@@ -57,7 +65,8 @@ class KBBoardController extends Controller
             'embed_code'  => $request->embedCode,
         ]);
 
-        return redirect()->route('board.index')->with('success', 'Board created successfully!');
+        return redirect()->route('board.show', $board->id)
+            ->with('success', 'Board created successfully!');
     }
 
     public function destroy($id)
@@ -80,10 +89,11 @@ class KBBoardController extends Controller
     }
     public function edit($id)
     {
+        $mainDomain = $this->mainDomain;
         $tenant = auth()->user()->tenant;
         $board = KBBoard::findOrFail($id);
 
-        return view('kbarticle.create_board', compact('tenant', 'board'));
+        return view('kbarticle.create_board', compact('tenant', 'board','mainDomain'));
     }
     public function update(Request $request, $boardId)
     {
@@ -100,7 +110,8 @@ class KBBoardController extends Controller
         ]);
         $board->is_hidden = $request->has('visibility') ? 1 : 0;
         $board->save();
-        return redirect()->route('board.index')->with('success', 'Board updated successfully!');
+        return redirect()->route('board.show', $board->id)
+            ->with('success', 'Board Updated successfully!');
     }
 
     public function search(Request $request)
