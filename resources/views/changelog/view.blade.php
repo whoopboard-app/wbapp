@@ -39,7 +39,7 @@
                             </div>
                         </div>
                 </div>
-                    <div class="mx-auto p-3">
+                    <div class="p-3">
                 <div class="d-flex justify-content-start">
                         <div class="d-inline-block">
                              <a href="#">
@@ -52,9 +52,11 @@
 
 
                 <div class="section-title mb-4 mt-12">
-                        <h2 class="fw-semibold mb-2 pb-1">
-                            {{ $changelog->title }}
-                        </h2>
+                    <h2 style="font-size:32px;" class="fw-semibold mb-2 pb-1">
+                        {{ $changelog->title }}
+                    </h2>
+
+
                         <div class="tags-wrapper d-flex flex-wrap">
                             @foreach($changelog->tag_names as $tag)
                                 <span class="tag d-inline-flex align-items-center rounded-pill fw-semibold">
@@ -79,8 +81,11 @@
                             @endif
                             <div class="changelog-detail-item-content text-black">
 
-                                <p class="label">
+                                <p class="label pb-2 border-bottom">
                                     {!! nl2br(e($changelog->description)) !!}
+                                </p>
+                                <p class="label pt-2">
+                                    {!! nl2br(e($changelog->long_description)) !!}
                                 </p>
                         </div>
                     </div>

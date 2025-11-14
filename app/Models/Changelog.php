@@ -13,6 +13,7 @@ class Changelog extends Model
         'tenant_id',
         'title',
         'description',
+        'long_description',
         'category',
         'feedback_request',
         'tags',

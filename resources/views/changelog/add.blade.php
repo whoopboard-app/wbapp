@@ -197,9 +197,6 @@
                             <div>
                                 <label for="desc" class="input-label mb-1 fw-medium">
                                     Short Description
-                                    <span class="tooltip-icon" data-bs-toggle="tooltip" title="Add description">
-                                            <i class="fa fa-question-circle hover-blue"></i>
-                                    </span>
                                 </label>
 
                                 <textarea
@@ -217,6 +214,23 @@
                                 </small>
                             </div>
                         </div>
+                        <div class="col-12 mt-3">
+                            <div>
+                                <label for="long_desc" class="input-label mb-1 fw-medium">
+                                    Long Description
+                                </label>
+                                <textarea
+                                    id="long_desc"
+                                    name="long_description"
+                                    rows="4"
+                                    class="long-desc input-field w-100 rounded text-sm"
+                                    placeholder="Write your detailed description here..."
+                                    maxlength="2000"
+                                >{{ old('long_description', $announcement->long_description ?? '') }}</textarea>
+
+                            </div>
+                        </div>
+
 
                     </div>
                 </div>

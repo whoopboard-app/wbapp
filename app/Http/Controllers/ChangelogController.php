@@ -97,6 +97,7 @@ class ChangelogController extends Controller
         $validatedData = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
+            'long_description' => 'required|string',
             'categorySelect' => 'required|array|min:1',
             // 'feedbackRequest' => 'required|string',
             'tagsSelect' => 'required|array|min:1',
@@ -124,21 +125,25 @@ class ChangelogController extends Controller
             $path = $request->file('feature_banner')->store('feature-banners', 'public');
             $validatedData['feature_banner'] = $path; // DB me save karne ke liye
         }
-
         $action = $validatedData['action'];
+
         if ($action === 'publish') {
             $changelog = Changelog::create($validatedData);
-            return redirect()->route('announcement.list')->with('success', 'Announcement saved and published successfully!');
-        } elseif ($action === 'draft') {
+            return redirect()->route('announcement.show', $changelog->id)
+                ->with('success', 'Announcement saved and published successfully!');
+        }
+        elseif ($action === 'draft') {
             $validatedData['status'] = 'draft';
             $changelog = Changelog::create($validatedData);
-            return redirect()->route('announcement.list')->with('success', 'Announcement saved as draft successfully!');
-        } elseif ($action === 'schedule') {
+            return redirect()->route('announcement.show', $changelog->id)
+                ->with('success', 'Announcement saved as draft successfully!');
+        }
+        elseif ($action === 'schedule') {
             $validatedData['status'] = 'schedule';
             $changelog = Changelog::create($validatedData);
-            return redirect()->route('announcement.list')->with('success', 'Announcement scheduled for publishing successfully!');
+            return redirect()->route('announcement.show', $changelog->id)
+                ->with('success', 'Announcement scheduled successfully!');
         }
-
     }
     public function edit($id)
     {
@@ -205,9 +210,8 @@ class ChangelogController extends Controller
                 $validatedData['status'] = 'schedule';
             }
             $announcement->update($validatedData);
-
-            return redirect()->route('announcement.list')
-                ->with('success', 'Announcement updated successfully!');
+        return redirect()->route('announcement.show', $announcement->id)
+            ->with('success', 'Announcement scheduled successfully!');
     }
 
     public function show($id)
