@@ -92,15 +92,25 @@
                                 <div class="form-condition-container border-bottom-0 mb-0 pb-0">
                             
                                 <div class="">
-                                     <label for="revenueRange" class="input-label mb-1 fw-medium">
-                                        Revenue Range
-                                    </label>
-                                    <select id="revenueRange" name="revenueRange" class="input-field w-100 rounded border" required>
-                                        <option value="">Select</option>
-                                        @foreach($gv_revenuerange as $item)
-                                            <option value="{{ $item->id }}">{{ $item->value }}</option>
-                                        @endforeach
-                                    </select>
+                                    <label for="revenueRange" class="input-label mb-1 fw-medium">Revenue Range</label>
+                                    @if($segmentFields->isNotEmpty())
+                                        {{-- Tenant custom data --}}
+                                        <select id="revenueRange" name="revenueRange" class="input-field w-100 rounded border" required>
+                                            <option value="">Select</option>
+                                            @foreach($segmentFields->where('segment_field_id', 1) as $field)
+                                                <option value="{{ $field->id }}">{{ $field->option_name }}</option>
+                                            @endforeach
+                                        </select>
+                                    @else
+                                        {{-- Generic values --}}
+                                        <select id="revenueRange" name="revenueRange" class="input-field w-100 rounded border" required>
+                                            <option value="">Select</option>
+                                            @foreach($gv_revenuerange as $item)
+                                                <option value="{{ $item->id }}">{{ $item->value }}</option>
+                                            @endforeach
+                                        </select>
+                                    @endif
+
                                 </div>
                             </div>
                             </div>
@@ -191,12 +201,24 @@
                                         <h6 class="color-support fw-normal label">[Optional]</h6>
                                     </div>
                                 
-                                        <select id="role" name="role" class="input-field w-100 rounded border">
+                                    @if($segmentFields->isNotEmpty())
+                                        {{-- Tenant custom values --}}
+                                        <select id="role" name="role" class="input-field w-100 rounded border" required>
+                                            <option value="">Select</option>
+                                            @foreach($segmentFields->where('segment_field_id', 2) as $field)
+                                                <option value="{{ $field->id }}">{{ $field->option_name }}</option>
+                                            @endforeach
+                                        </select>
+                                    @else
+                                        {{-- Generic values --}}
+                                        <select id="role" name="role" class="input-field w-100 rounded border" required>
                                             <option value="">Select</option>
                                             @foreach($gv_usetype as $item)
                                                 <option value="{{ $item->id }}">{{ $item->value }}</option>
                                             @endforeach
                                         </select>
+                                    @endif
+
                                 </div>
                                     </div>
                                     <div class="col-12">
@@ -204,12 +226,23 @@
                                             <label for="type" class="input-label mb-1 fw-medium">
                                                 Plan Type / Subscription Tier
                                             </label>
-                                            <select id="tier" name="plan_type[]" class="input-field w-100 rounded border" multiple required>
-                                                <option value="">Select</option>
-                                                @foreach($gv_plan_type as $item)
-                                                    <option value="{{ $item->id }}">{{ $item->value }}</option>
-                                                @endforeach
-                                            </select>
+                                            @if($segmentFields->isNotEmpty())
+                                                {{-- Tenant custom values --}}
+                                                <select id="tier" name="plan_type[]" class="input-field w-100 rounded border" multiple required>
+                                                    <option value="">Select</option>
+                                                    @foreach($segmentFields->where('segment_field_id', 3) as $field)
+                                                        <option value="{{ $field->id }}">{{ $field->option_name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            @else
+                                                {{-- Generic values --}}
+                                                <select id="tier" name="plan_type[]" class="input-field w-100 rounded border" multiple required>
+                                                    <option value="">Select</option>
+                                                    @foreach($gv_plan_type as $item)
+                                                        <option value="{{ $item->id }}">{{ $item->value }}</option>
+                                                    @endforeach
+                                                </select>
+                                            @endif
                                                 
                                         </div>
                                     </div>

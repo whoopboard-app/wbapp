@@ -5,11 +5,18 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\GenericValue;
 use App\Models\Segmentation;
+use App\Models\Tenant;
+
+
 
 class SegmentationController extends Controller
 {
     public function create()
     {
+        $tenant = Tenant::find(auth()->user()->tenant_id);
+
+        $segmentFields = $tenant ? $tenant->tenantSegmentFields : collect();
+
         $gv_revenuerange = GenericValue::where('type', 'gv_revenuerange')->where('status', 1)->get();
         $gv_location = GenericValue::where('type', 'gv_location')->where('status', 1)->get();
         $gv_agerange = GenericValue::where('type', 'gv_agerange')->where('status', 1)->get();
@@ -20,6 +27,7 @@ class SegmentationController extends Controller
         $gv_usagefre = GenericValue::where('type', 'gv_usagefre')->where('status', 1)->get();
         $gv_plan_type = GenericValue::where('type', 'gv_plan_type')->where('status', 1)->get();
         return view('segmentation.create', compact(
+            'segmentFields',
             'gv_revenuerange',
             'gv_location',
             'gv_agerange',

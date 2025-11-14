@@ -41,4 +41,9 @@ class Tenant extends Model
     {
         return $this->hasOne(UserTheme::class, 'tenant_id', 'tenant_id');
     }
+
+    public function tenantSegmentFields()
+    {
+        return $this->hasMany(TenantSegmentField::class, 'tenant_id', 'tenant_id');
+    }
 }
