@@ -58,7 +58,10 @@ class SegmentationController extends Controller
             'signup_date' => 'nullable|date',
         ]);
 
+        $tenantId = auth()->user()->tenant_id;
+        
         Segmentation::create([
+            'tenant_id' => $tenantId,
             'name' => $request->name,
             'short_desc' => $request->{'short-desc'},
             'status' => $request->status,
@@ -73,7 +76,7 @@ class SegmentationController extends Controller
             'frequency_id' => $request->frequency,
             'signup_date' => $request->signup_date,
         ]);
-        // dd($validated);
+
         return redirect()->route('subscribe.index')->with('success', 'Segmentation created successfully!');
     }
 }

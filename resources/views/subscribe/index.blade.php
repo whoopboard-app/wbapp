@@ -271,20 +271,18 @@
                                                 </td>
                                                 <td>{{ $segment->name }}</td>
                                                 @if($segmentFields->isNotEmpty())
-                                                    <td>
-                                                        @if($segmentFields->isNotEmpty())
-                                                            {{-- Tenant custom Revenue Range --}}
-                                                            @php
-                                                                $tenantRevenue = $segmentFields
-                                                                            ->where('segment_field_id', 1) // Revenue Range
-                                                                            ->where('id', $segment->revenue_range_id) // match the segment
-                                                                            ->first();
-                                                            @endphp
+                                                   <td>
+                                                        @php
+                                                            // Match only the fields that belong to this segment's tenant
+                                                            $tenantRevenue = $segmentFields
+                                                                ->where('segment_field_id', 1)    
+                                                                ->where('id', $segment->revenue_range_id)  
+                                                                ->first();
+                                                        @endphp
 
-                                                            {{ $tenantRevenue->option_name ?? $segment->revenueRange->value ?? 'N/A' }}
-                                                    
-                                                        @endif
+                                                        {{ $tenantRevenue->option_name ?? $segment->revenueRange->value ?? 'N/A' }}
                                                     </td>
+
                                                 @endif
                                                 <td>{{ $segment->sub_count }}</td>
                                                 <td>

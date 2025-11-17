@@ -104,10 +104,15 @@ class SubscribeController extends Controller
     {
         $tenant = Tenant::find(auth()->user()->tenant_id);
 
+        $tenantId = auth()->user()->tenant_id;
         $segmentFields = $tenant ? $tenant->tenantSegmentFields : collect();
         // dd($segmentFields);
-        $segments = Segmentation::orderBy('created_at', 'desc')->get();
-        $subscribers = Subscriber::orderBy('created_at','desc')->get();
+        $segments = Segmentation::where('tenant_id', $tenantId)
+            ->orderBy('created_at', 'desc')
+            ->get();
+        $subscribers =  Subscriber::where('tenant_id', $tenantId)
+                ->orderBy('created_at','desc')
+                ->get();
         foreach ($subscribers as $subscriber) {
             $segmentNames = [];
             if ($subscriber->userSegments) {

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Segmentation extends Model
 {
     protected $fillable = [
+        'tenant_id',
         'name',
         'short_desc',
         'status',
