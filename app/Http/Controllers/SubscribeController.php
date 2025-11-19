@@ -41,6 +41,7 @@ class SubscribeController extends Controller
     }
     public function create()
     {
+        // dd($this->tenant->tenant_id);
         return view('subscribe.signup', [
             'tenant' => $this->tenant
         ]); 
@@ -184,18 +185,23 @@ class SubscribeController extends Controller
         return redirect()->back()->with('success', 'Subscriber updated successfully!');
     }
 
-    public function unsubscribe( Request $token)
+    public function unsubscribe(Request $request, $token)
     {
         $subscriber = Subscriber::where('token', $token)->first();
-        // dd($subscriber);
-        if (!$subscriber) {
-            return redirect()->route('login')
+            // dd($subscriber);
+         if (!$subscriber) {
+            // Redirect to coming soon page with tenant's subdomain
+            session()->flash('error', 'Invalid or expired unsubscribe link.');
+            return redirect()->route('coming.soon', ['subdomain' => $this->tenant->custom_url])
                             ->with('error', 'Invalid or expired unsubscribe link.');
         }
         
-        $subscriber->update(['status' => 5]);
-        // session()->flash('success', 'You have been unsubscribed successfully.');
-        return redirect()->route('login')
+        $subscriber->update([
+            'status' => 5,
+            'unsubscribe_at' => now()
+        ]);
+        session()->flash('success', 'You have been unsubscribed successfully.');
+        return redirect()->route('coming.soon', ['subdomain' => $this->tenant->custom_url])
                          ->with('success', 'You have been unsubscribed successfully.');
     }
 }

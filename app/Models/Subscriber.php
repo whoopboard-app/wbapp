@@ -21,6 +21,7 @@ class Subscriber extends Model
         'userSegments',
         'addType',
         'status',
+        'unsubscribe_at'
     ];
 
     protected $casts = [

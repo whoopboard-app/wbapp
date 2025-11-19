@@ -56,6 +56,10 @@
         padding: 6px 8px;
         border-radius: 6px;
     }
+    .badge.unsub {
+        border: 1px solid #af0303ff;
+        color: #af0303ff;
+    }
 </style>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
 <section class=" main-content-wrapper">
@@ -143,6 +147,8 @@
                                                         <span class="badge fw-normal bg-white published rounded-pill">Subscribe</span>
                                                     @elseif ($subscriber->status == 2)
                                                         <span class="badge fw-normal bg-white draft rounded-pill">Pending</span>
+                                                    @elseif ($subscriber->status == 5)
+                                                        <span class="badge fw-normal bg-white unsub rounded-pill">Unsub</span>
                                                     @else
                                                         <span class="badge fw-normal bg-white inactive rounded-pill">Inactive</span>
                                                     @endif
@@ -187,6 +193,7 @@
                                                         data-user_segment_ids="{{ implode(',', $subscriber->userSegments ?? []) }}"
                                                         data-status="{{ $subscriber->status }}"
                                                         data-about="{{ $subscriber->short_desc }}"
+                                                        data-unsubscribe_at="{{ $subscriber->unsubscribe_at }}"
                                                         title="View">
                                                         <img src="{{ asset('assets/img/icon/eye.svg') }}" alt="">
                                                     </a>
@@ -551,18 +558,15 @@
                         </div>
                     </div>
                 </div>
-                <!-- <div class="info-card">
+                
+                <div class="info-card" id="unsubscribeDateCard" style="display: none;">
                     <div class="row mb-3">
                         <div class="col-12">
-                             <div class="info-label">Unsubscribe Date</div>
-                            <div class="info-value fw-bold text-danger">
-                              April 10, 2025 
-                            </div>
+                            <div class="info-label">Unsubscribe Date</div>
+                            <div class="info-value fw-bold text-danger" id="modalUnsubscribeDate"></div>
                         </div>
                     </div>
-                </div> -->
-
-                    
+                </div>
                  
                </form>
             </div>
@@ -865,7 +869,8 @@ document.addEventListener('DOMContentLoaded', function () {
             const fullName = this.dataset.full_name || '';
             const [firstName, ...lastNameParts] = fullName.split(' ');
             const lastName = lastNameParts.join(' ');
-
+            const unsubCard = document.getElementById('unsubscribeDateCard');
+            const unsubDateElem = document.getElementById('modalUnsubscribeDate');
             // Fill view modal fields
             document.getElementById('modalFirstName').textContent = firstName;
             document.getElementById('modalLastName').textContent = lastName;
@@ -875,17 +880,33 @@ document.addEventListener('DOMContentLoaded', function () {
             segmentContainer.innerHTML = segments.length 
                 ? segments.map(name => `<span class="info-tag">${name}</span>`).join(' ')
                 : '<span class="text-muted">No Segments</span>';
-            const status = this.dataset.status;
+            const status = parseInt(this.dataset.status, 10);
             const statusContainer = document.getElementById('modalStatus');
             let statusHtml = '';
-            if (status == 1) statusHtml = '<span class="badge fw-normal bg-white published rounded-pill">Subscribe</span>';
-            else if (status == 2) statusHtml = '<span class="badge fw-normal bg-white draft rounded-pill">Pending</span>';
+            if (status === 1) statusHtml = '<span class="badge fw-normal bg-white published rounded-pill">Subscribe</span>';
+            else if (status === 2) statusHtml = '<span class="badge fw-normal bg-white draft rounded-pill">Pending</span>';
+            else if (status === 5) statusHtml = '<span class="badge fw-normal bg-white unsub rounded-pill">Unsub</span>';
             else statusHtml = '<span class="badge fw-normal bg-white inactive rounded-pill">Inactive</span>';
 
             statusContainer.innerHTML = statusHtml;
             document.getElementById('modalSubscribeDate').textContent = this.dataset.subscribe_date;
             document.getElementById('modalAbout').textContent = this.dataset.about;
 
+            const unsubscribeAt = this.dataset.unsubscribe_at;
+            console.log('Unsubscribe At:', status);
+            // Show/hide Unsubscribe Date card
+            if (status === 5 && unsubscribeAt) {
+                unsubCard.style.display = 'block';
+                const date = new Date(unsubscribeAt);
+                unsubDateElem.textContent = date.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+            } else {
+                unsubCard.style.display = 'none';
+                unsubDateElem.textContent = '';
+            }
             // ✅ Store data temporarily so Edit Modal can use same info later
             const viewModal = document.getElementById('viewSegmentation');
             viewModal.dataset.id = this.dataset.id;
@@ -895,6 +916,7 @@ document.addEventListener('DOMContentLoaded', function () {
             viewModal.dataset.about = this.dataset.about;
             viewModal.dataset.subscribe_date = this.dataset.subscribe_date;
             viewModal.dataset.user_segment_ids = this.dataset.user_segment_ids || '';
+            
         });
     });
 
